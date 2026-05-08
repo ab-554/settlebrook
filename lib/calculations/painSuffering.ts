@@ -64,6 +64,11 @@ export const SEVERITY_LEVELS_ORDERED: SeverityLevel[] = [
   'catastrophic',
 ]
 
+/**
+ * Total of all five economic damage fields (used as the final economic base).
+ * Includes propertyDamage — but propertyDamage must NOT be fed into the
+ * pain-and-suffering multiplier.  Use sumMultiplierBase() for that.
+ */
 export function sumSpecialDamages(damages: EconomicDamages): number {
   return (
     Math.max(0, damages.medicalBills) +
@@ -74,19 +79,41 @@ export function sumSpecialDamages(damages: EconomicDamages): number {
   )
 }
 
+/**
+ * The four fields that legally form the base for a pain-and-suffering
+ * multiplier: medical bills, future medical, lost wages, future lost wages.
+ * Property damage is intentionally excluded — it is an economic loss but
+ * should not be amplified by the severity multiplier.
+ */
+export function sumMultiplierBase(damages: EconomicDamages): number {
+  return (
+    Math.max(0, damages.medicalBills) +
+    Math.max(0, damages.futureMedical) +
+    Math.max(0, damages.lostWages) +
+    Math.max(0, damages.futureLostWages)
+  )
+}
+
 export function clampMultiplier(value: number): number {
   return Math.min(MULTIPLIER_MAX, Math.max(MULTIPLIER_MIN, value))
 }
 
 export function calculateMultiplierMethod(inputs: MultiplierMethodInputs): MultiplierResult {
+  // BUG 1 FIX: multiply only the four medical/wage fields, not propertyDamage.
+  const multiplierBase = sumMultiplierBase(inputs)
+  // specialDamages = full economic total (all five fields) used in totalEstimate.
   const specialDamages = sumSpecialDamages(inputs)
   const multiplierUsed = clampMultiplier(inputs.multiplier)
-  const painAndSuffering = specialDamages * multiplierUsed
+  const painAndSuffering = multiplierBase * multiplierUsed
   const totalEstimate = specialDamages + painAndSuffering
-  const lowMultiplier = clampMultiplier(multiplierUsed - 0.5)
-  const rangeLow = specialDamages + specialDamages * lowMultiplier
-  const highMultiplier = clampMultiplier(multiplierUsed + 0.5)
-  const rangeHigh = specialDamages + specialDamages * highMultiplier
+
+  // BUG 2 FIX: use absolute floor (1.0) / ceiling (6.0) for range boundaries
+  // so that rangeLow < totalEstimate and rangeHigh > totalEstimate even when
+  // the chosen multiplier is already at MULTIPLIER_MIN (1.5) or MULTIPLIER_MAX (5.0).
+  const lowMultiplier = Math.max(1.0, multiplierUsed - 0.5)
+  const rangeLow = specialDamages + multiplierBase * lowMultiplier
+  const highMultiplier = Math.min(6.0, multiplierUsed + 0.5)
+  const rangeHigh = specialDamages + multiplierBase * highMultiplier
 
   return {
     method: 'multiplier',
