@@ -87,6 +87,9 @@ export default function PrivacyPolicyPage() {
 
         {/* Header */}
         <header>
+          <p className="text-sm mb-4" style={{ color: "#64748B" }}>
+            Last updated: <time dateTime="2025-01-01">{LAST_UPDATED}</time>
+          </p>
           <p className="mt-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
             This Privacy Policy describes how SettleBrook (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;),
             operated at{" "}

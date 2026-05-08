@@ -73,7 +73,7 @@ export default function ContactForm() {
                 </svg>
                 <h3 className="text-lg font-bold text-white">Your email client should have opened</h3>
                 <p className="text-gray-300 text-sm leading-relaxed">
-                    If it didn't open automatically, please email us directly at{" "}
+                    If it didn&apos;t open automatically, please email us directly at{" "}
                     <a href="mailto:hello@settlebrook.com" className="text-blue-400 hover:underline">
                         hello@settlebrook.com
                     </a>
