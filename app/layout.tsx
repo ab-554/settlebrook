@@ -8,6 +8,7 @@ import Script from 'next/script'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import './globals.css'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -87,6 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#050A18" />
+        <meta name="google-site-verification" content="cGsiOQ_EMINsvgTrz-26yjwmn03QBNsuYxVK5cJrPzQ" />
         {/* FIX C1: Organization JSON-LD on every page for E-E-A-T signals */}
         <script
           type="application/ld+json"
@@ -113,6 +115,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           strategy="afterInteractive"
           crossOrigin="anonymous"
         />
+     <GoogleAnalytics gaId="G-K3PV0YLHFG" />
       </body>
     </html>
   )
