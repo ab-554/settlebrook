@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /_next/
+Disallow: /api/
+Disallow: /*?*
+
+Sitemap: https://settlebrook.com/sitemap.xml
