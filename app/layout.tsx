@@ -9,7 +9,6 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import './globals.css'
-import { GoogleAnalytics } from '@next/third-parties/google'
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -117,7 +116,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           strategy="afterInteractive"
           crossOrigin="anonymous"
         />
-     <GoogleAnalytics gaId="G-K3PV0YLHFG" />
       </body>
     </html>
   )
