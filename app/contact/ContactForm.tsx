@@ -2,14 +2,7 @@
 // Isolated "use client" component so the parent page stays a Server Component.
 "use client";
 
-import { useState } from "react";
-
-type FormState = {
-    name: string;
-    email: string;
-    subject: string;
-    message: string;
-};
+import { useForm, ValidationError } from '@formspree/react';
 
 const SUBJECTS = [
     "General Question",
@@ -21,56 +14,13 @@ const SUBJECTS = [
 ];
 
 export default function ContactForm() {
-    const [formData, setFormData] = useState<FormState>({
-        name: "",
-        email: "",
-        subject: SUBJECTS[0],
-        message: "",
-    });
-    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [state, handleSubmit] = useForm('xykoldyq');
 
-    function handleChange(
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-    ) {
-        setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    }
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        try {
-            const response = await fetch('https://formspree.io/f/xykoldyq', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            });
-            if (response.ok) {
-                setSubmitStatus('success');
-                setFormData({ name: '', email: '', subject: SUBJECTS[0], message: '' });
-            } else {
-                setSubmitStatus('error');
-            }
-        } catch {
-            setSubmitStatus('error');
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
-    if (submitStatus === 'success') {
+    if (state.succeeded) {
         return (
-            <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-6 text-center space-y-3">
-                <svg className="w-10 h-10 text-green-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <h3 className="text-lg font-bold text-white">Message sent successfully. We&apos;ll respond within 48 hours.</h3>
-                <button
-                    onClick={() => { setSubmitStatus('idle'); }}
-                    className="mt-4 text-sm text-gray-400 hover:text-white underline"
-                >
-                    Send another message
-                </button>
+            <div style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '12px', padding: '24px', textAlign: 'center', color: '#34D399' }}>
+                <p style={{ fontSize: '18px', fontWeight: 600 }}>Message sent successfully!</p>
+                <p style={{ color: '#94A3B8', marginTop: '8px' }}>We'll respond within 48 hours.</p>
             </div>
         );
     }
@@ -81,16 +31,7 @@ export default function ContactForm() {
             noValidate
             className="space-y-5"
             aria-label="Contact form"
-            action="https://formspree.io/f/xykoldyq"
-            method="POST"
         >
-            {/* Error banner */}
-            {submitStatus === 'error' && (
-                <div role="alert" className="bg-red-500/10 border border-red-500/30 text-red-300 text-sm rounded-xl px-4 py-3">
-                    Something went wrong. Please email us directly at contact.ab554@gmail.com
-                </div>
-            )}
-
             {/* Name */}
             <div>
                 <label htmlFor="contact-name" className="block text-sm font-medium text-gray-300 mb-1.5">
@@ -102,8 +43,6 @@ export default function ContactForm() {
                     type="text"
                     autoComplete="name"
                     required
-                    value={formData.name}
-                    onChange={handleChange}
                     placeholder="Jane Smith"
                     className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-transparent transition-colors text-sm"
                 />
@@ -120,11 +59,10 @@ export default function ContactForm() {
                     type="email"
                     autoComplete="email"
                     required
-                    value={formData.email}
-                    onChange={handleChange}
                     placeholder="jane@example.com"
                     className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-transparent transition-colors text-sm"
                 />
+                <ValidationError field='email' prefix='Email' errors={state.errors} style={{color: '#F87171', fontSize: '12px'}} />
             </div>
 
             {/* Subject */}
@@ -135,8 +73,7 @@ export default function ContactForm() {
                 <select
                     id="contact-subject"
                     name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
+                    defaultValue={SUBJECTS[0]}
                     className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-transparent transition-colors text-sm appearance-none cursor-pointer"
                     style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E\")", backgroundRepeat: "no-repeat", backgroundPosition: "right 1rem center" }}
                 >
@@ -158,11 +95,10 @@ export default function ContactForm() {
                     name="message"
                     required
                     rows={6}
-                    value={formData.message}
-                    onChange={handleChange}
                     placeholder="Tell us what's on your mind..."
                     className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-transparent transition-colors text-sm resize-y"
                 />
+                <ValidationError field='message' prefix='Message' errors={state.errors} style={{color: '#F87171', fontSize: '12px'}} />
             </div>
 
             {/* Disclaimer */}
@@ -174,10 +110,10 @@ export default function ContactForm() {
             {/* Submit */}
             <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={state.submitting}
                 className="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
             >
-                {isSubmitting ? "Sending..." : "Send Message"}
+                {state.submitting ? "Sending..." : "Send Message"}
             </button>
         </form>
     );
