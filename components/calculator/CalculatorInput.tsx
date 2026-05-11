@@ -37,22 +37,21 @@ export default function CalculatorInput({
   }
 
   return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="calc-label leading-tight">
+    <div className="mb-4">
+      <label htmlFor={id} className="block text-sm font-medium mb-1.5" style={{ color: '#94A3B8' }}>
         {label}
+        {helpText && (
+          <span id={helpId} className="block text-xs mt-0.5" style={{ color: '#64748B' }}>
+            {helpText}
+          </span>
+        )}
       </label>
-
-      {helpText && (
-        <p id={helpId} className="text-xs leading-snug" style={{ color: '#64748B' }}>
-          {helpText}
-        </p>
-      )}
 
       <div className="relative flex items-center">
         {prefix && (
           <span
             aria-hidden="true"
-            className="absolute left-3 text-sm font-medium select-none pointer-events-none"
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-medium select-none pointer-events-none"
             style={{ color: error ? '#F87171' : '#64748B' }}
           >
             {prefix}
@@ -72,14 +71,14 @@ export default function CalculatorInput({
           max={max}
           aria-describedby={describedBy || undefined}
           aria-invalid={error ? 'true' : 'false'}
-          className={`dark-input ${prefix ? 'has-prefix' : ''} ${suffix ? 'has-suffix' : ''} ${error ? 'error' : ''} disabled:opacity-40 disabled:cursor-not-allowed`}
-          style={prefix ? { paddingLeft: '1.75rem' } : suffix ? { paddingRight: '3rem' } : {}}
+          className={`dark-input px-4 py-3 rounded-xl ${error ? 'error' : ''} disabled:opacity-40 disabled:cursor-not-allowed`}
+          style={prefix ? { paddingLeft: '2.5rem' } : suffix ? { paddingRight: '3.5rem' } : {}}
         />
 
         {suffix && (
           <span
             aria-hidden="true"
-            className="absolute right-3 text-xs select-none pointer-events-none"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-xs select-none pointer-events-none"
             style={{ color: '#64748B' }}
           >
             {suffix}
@@ -88,7 +87,7 @@ export default function CalculatorInput({
       </div>
 
       {error && (
-        <p id={errorId} role="alert" className="text-xs font-medium leading-snug" style={{ color: '#F87171' }}>
+        <p id={errorId} role="alert" className="text-xs font-medium leading-snug mt-1.5" style={{ color: '#F87171' }}>
           {error}
         </p>
       )}

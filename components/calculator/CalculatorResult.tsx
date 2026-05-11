@@ -27,11 +27,20 @@ export default function CalculatorResult({ result, activeMethod }: CalculatorRes
 
   if (!primaryResult) return null
 
-  const totalEstimate   = primaryResult.totalEstimate
-  const painAndSuffering = primaryResult.painAndSuffering
-  const isMultiplier    = primaryResult.method === 'multiplier'
-  const rangeLow  = isMultiplier ? (primaryResult as MultiplierResult).rangeLow  : null
-  const rangeHigh = isMultiplier ? (primaryResult as MultiplierResult).rangeHigh : null
+  const isMultiplier      = primaryResult.method === 'multiplier'
+  const painAndSuffering  = primaryResult.painAndSuffering
+
+  // For multiplier method use adjustedTotal (post-fault) as the hero number;
+  // for per-diem we keep totalEstimate as-is (no fault reduction implemented there).
+  const mResult       = isMultiplier ? (primaryResult as MultiplierResult) : null
+  const faultPct      = mResult?.plaintiffFaultPercent ?? 0
+  const faultReduction = mResult?.faultReduction ?? 0
+  const totalEstimate = isMultiplier
+    ? (mResult!.adjustedTotal)
+    : primaryResult.totalEstimate
+
+  const rangeLow  = mResult?.rangeLow  ?? null
+  const rangeHigh = mResult?.rangeHigh ?? null
 
   return (
     <div className="flex flex-col gap-4" aria-live="polite" aria-label="Settlement estimate results">
@@ -140,6 +149,25 @@ export default function CalculatorResult({ result, activeMethod }: CalculatorRes
                 percentage={totalEstimate > 0 ? (painAndSuffering / totalEstimate) * 100 : 0}
                 highlight
               />
+
+              {/* Fault reduction line — only shown when plaintiff has some fault */}
+              {isMultiplier && faultPct > 0 && faultReduction > 0 && (
+                <div className="flex items-center justify-between gap-2 mt-1 pt-2" style={{ borderTop: '1px solid rgba(99,179,237,0.10)' }}>
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span
+                      className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: '#F87171' }}
+                      aria-hidden="true"
+                    />
+                    <span className="text-xs leading-snug" style={{ color: '#F87171' }}>
+                      Fault Reduction ({faultPct}%)
+                    </span>
+                  </div>
+                  <span className="text-sm tabular-nums font-semibold flex-shrink-0" style={{ color: '#F87171' }}>
+                    -{formatCurrency(faultReduction)}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>

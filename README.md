@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Settlebrook
+
+Free legal settlement calculators for USA personal injury victims.
+Live at: https://settlebrook.com
+
+## What This Is
+A calculator hub targeting USA adults researching personal injury
+settlements. Three tools planned:
+
+- Tool #1: Pain & Suffering Calculator — LIVE
+- Tool #2: Car Accident Settlement Calculator — coming month 2
+- Tool #3: Workers Comp Settlement Calculator — coming month 3
+
+Monetized through Google AdSense and legal affiliate links.
+
+## Tech Stack
+- Framework:  Next.js 14 (App Router)
+- Styling:    Tailwind CSS
+- Language:   TypeScript
+- Hosting:    Vercel (free tier)
+- Analytics:  Google Analytics 4
+- Fonts:      Playfair Display (headings) + Inter (body)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js 18+
+- npm
 
-```bash
+### Installation
+cd settlebrook
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Deploy
+Push to main branch on GitHub.
+Vercel auto-deploys on every push.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
+See AGENTS.md for complete file structure and AI agent instructions.
 
-## Learn More
+## Environment Variables
+No environment variables required for current build.
+AdSense publisher ID is a placeholder in app/layout.tsx —
+replace ca-pub-ADSENSE_PUBLISHER_ID with real ID after approval.
 
-To learn more about Next.js, take a look at the following resources:
+## SEO Strategy
+Primary keyword: "pain and suffering calculator" (KD 3%)
+State pages: /pain-and-suffering-calculator/[state]/ for all 50 states
+Supporting content: Blog posts targeting long-tail legal keywords
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Revenue Model
+- Google AdSense (primary — pending approval)
+- Legal affiliate links (secondary — planned month 3+)
+- Target: $500/mo by month 12
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Calculator Formula
+See lib/calculations/painSuffering.ts and AGENTS.md for formula details.
+Do not modify formula logic without reading AGENTS.md first.
 
-## Deploy on Vercel
+## AI Agents
+This project uses multiple AI agents (Claude, Gemini, Antigravity).
+All agents must read AGENTS.md before making any changes.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Legal
+All calculator results are estimates only — not legal advice.
+See /terms-of-use and /privacy-policy for full disclaimers.

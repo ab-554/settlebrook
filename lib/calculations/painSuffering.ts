@@ -107,13 +107,21 @@ export function calculateMultiplierMethod(inputs: MultiplierMethodInputs): Multi
   const painAndSuffering = multiplierBase * multiplierUsed
   const totalEstimate = specialDamages + painAndSuffering
 
+  // Plaintiff fault reduction — clamp to 0–99 (100% bars recovery entirely,
+  // which the UI surfaces via a contributory-negligence warning instead).
+  const plaintiffFaultPercent = Math.max(0, Math.min(99, inputs.plaintiffFaultPercent ?? 0))
+  const faultMultiplier = (100 - plaintiffFaultPercent) / 100
+  const faultReduction = totalEstimate - totalEstimate * faultMultiplier
+  const adjustedTotal = totalEstimate * faultMultiplier
+
   // BUG 2 FIX: use absolute floor (1.0) / ceiling (6.0) for range boundaries
   // so that rangeLow < totalEstimate and rangeHigh > totalEstimate even when
   // the chosen multiplier is already at MULTIPLIER_MIN (1.5) or MULTIPLIER_MAX (5.0).
+  // Range is also reduced by the same fault multiplier.
   const lowMultiplier = Math.max(1.0, multiplierUsed - 0.5)
-  const rangeLow = specialDamages + multiplierBase * lowMultiplier
+  const rangeLow = (specialDamages + multiplierBase * lowMultiplier) * faultMultiplier
   const highMultiplier = Math.min(6.0, multiplierUsed + 0.5)
-  const rangeHigh = specialDamages + multiplierBase * highMultiplier
+  const rangeHigh = (specialDamages + multiplierBase * highMultiplier) * faultMultiplier
 
   return {
     method: 'multiplier',
@@ -121,6 +129,9 @@ export function calculateMultiplierMethod(inputs: MultiplierMethodInputs): Multi
     multiplierUsed,
     painAndSuffering,
     totalEstimate,
+    plaintiffFaultPercent,
+    faultReduction,
+    adjustedTotal,
     rangeLow,
     rangeHigh,
   }

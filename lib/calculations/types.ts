@@ -13,6 +13,10 @@ export interface EconomicDamages {
 
 export interface MultiplierMethodInputs extends EconomicDamages {
   multiplier: number
+  /** Plaintiff's share of fault, 0–99. Defaults to 0 (other party fully at fault).
+   *  Property damage intentionally excluded from the multiplier base but still
+   *  included in specialDamages / totalEstimate before fault reduction. */
+  plaintiffFaultPercent?: number
 }
 
 export interface PerDiemMethodInputs extends EconomicDamages {
@@ -39,7 +43,14 @@ export interface MultiplierResult {
   specialDamages: number
   multiplierUsed: number
   painAndSuffering: number
+  /** Pre-fault-reduction total (specialDamages + painAndSuffering) */
   totalEstimate: number
+  /** Plaintiff fault percentage actually applied (0–99, clamped) */
+  plaintiffFaultPercent: number
+  /** Dollar amount removed due to plaintiff fault */
+  faultReduction: number
+  /** Final total after fault reduction applied — use this as the displayed total */
+  adjustedTotal: number
   rangeLow: number
   rangeHigh: number
 }

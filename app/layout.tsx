@@ -3,17 +3,17 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata } from 'next'
-import { Bitter, Inter } from 'next/font/google'
+import { Playfair_Display, Inter } from 'next/font/google'
 import Script from 'next/script'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import './globals.css'
 
-const bitter = Bitter({
+const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-display',
-  weight: ['600', '700'],
+  weight: ['600', '700', '800'],
   display: 'swap',
 })
 
@@ -38,7 +38,7 @@ const organizationSchema = {
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'Customer Support',
-    email: 'hello@settlebrook.com',
+    email: 'contact.ab554@gmail.com',
     url: 'https://settlebrook.com/contact/',
   },
 }
@@ -84,7 +84,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${bitter.variable} ${inter.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#050A18" />

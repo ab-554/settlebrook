@@ -37,7 +37,7 @@ const jsonLd = {
   mainEntity: {
     "@type": "Organization",
     name: "SettleBrook",
-    email: "hello@settlebrook.com",
+    email: "contact.ab554@gmail.com",
     url: "https://settlebrook.com",
   },
 };
@@ -65,7 +65,7 @@ const FAQS = [
   },
   {
     q: "Can I share or embed your calculators on my website?",
-    a: "You may link to any SettleBrook page. Embedding via iframe or reproducing calculator logic in a competing tool is not permitted without written license. Contact us at hello@settlebrook.com to discuss licensing arrangements.",
+    a: "You may link to any SettleBrook page. Embedding via iframe or reproducing calculator logic in a competing tool is not permitted without written license. Contact us at contact.ab554@gmail.com to discuss licensing arrangements.",
   },
   {
     q: "Do you recommend specific attorneys or legal services?",
@@ -191,32 +191,15 @@ export default function ContactPage() {
                     <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "#64748B" }}>
                       Email
                     </p>
-                    <a href="mailto:hello@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
-                      hello@settlebrook.com
+                    <a href="mailto:contact.ab554@gmail.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+                      contact.ab554@gmail.com
                     </a>
                   </div>
                   <div>
                     <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "#64748B" }}>
                       Response Time
                     </p>
-                    <p>Within 2 business days</p>
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "#64748B" }}>
-                      Office Address
-                    </p>
-                    <address className="not-italic leading-relaxed">
-                      SettleBrook<br />
-                      1201 N. Market Street, Suite 111<br />
-                      Wilmington, DE 19801<br />
-                      United States
-                    </address>
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "#64748B" }}>
-                      Business Hours
-                    </p>
-                    <p>Monday – Friday, 9 AM – 5 PM ET</p>
+                    <p>Within 48 hours</p>
                   </div>
                 </div>
               </div>

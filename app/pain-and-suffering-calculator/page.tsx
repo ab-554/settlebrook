@@ -175,7 +175,7 @@ export default function PainSufferingCalculatorPage() {
             <aside aria-label="Related information" className="w-full lg:w-72 flex-shrink-0 flex flex-col gap-5">
 
               <SideCard>
-                <h2 className="text-sm font-bold mb-4" style={{ color: '#F1F5F9' }}>How This Calculator Works</h2>
+                <h2 className="font-display text-sm font-bold mb-4" style={{ color: '#F1F5F9' }}>How This Calculator Works</h2>
                 <div className="flex flex-col gap-3" style={{ color: '#94A3B8' }}>
                   {[
                     'Enter your medical bills, lost wages, and other economic damages.',
@@ -203,7 +203,7 @@ export default function PainSufferingCalculatorPage() {
                   backdropFilter: 'blur(16px)',
                 }}
               >
-                <h2 className="text-sm font-bold mb-1.5" style={{ color: '#93C5FD' }}>Get a Free Case Review</h2>
+                <h2 className="font-display text-sm font-bold mb-1.5" style={{ color: '#93C5FD' }}>Get a Free Case Review</h2>
                 <p className="text-xs leading-snug mb-4" style={{ color: '#60A5FA' }}>
                   Estimates are a starting point. A personal injury attorney can evaluate your actual
                   claim — most work on contingency (no fee unless you win).
@@ -218,7 +218,7 @@ export default function PainSufferingCalculatorPage() {
 
               <nav aria-label="State-specific pain and suffering calculators">
                 <SideCard>
-                  <h2 className="text-sm font-bold mb-4" style={{ color: '#F1F5F9' }}>Calculator by State</h2>
+                  <h2 className="font-display text-sm font-bold mb-4" style={{ color: '#F1F5F9' }}>Calculator by State</h2>
                   <ul className="flex flex-col gap-2">
                     {priorityStates.map((state) => (
                       <li key={state.slug}>
@@ -232,22 +232,14 @@ export default function PainSufferingCalculatorPage() {
                         </Link>
                       </li>
                     ))}
-                    <li className="pt-2 mt-1" style={{ borderTop: '1px solid rgba(99,179,237,0.10)' }}>
-                      <Link
-                        href="/pain-and-suffering-calculator/states/"
-                        className="text-xs transition-colors hover:opacity-80"
-                        style={{ color: '#94A3B8' }}
-                      >
-                        View all 50 states →
-                      </Link>
-                    </li>
+
                   </ul>
                 </SideCard>
               </nav>
 
               <nav aria-label="Other settlement calculators">
                 <SideCard>
-                  <h2 className="text-sm font-bold mb-4" style={{ color: '#F1F5F9' }}>Other Free Calculators</h2>
+                  <h2 className="font-display text-sm font-bold mb-4" style={{ color: '#F1F5F9' }}>Other Free Calculators</h2>
                   <ul className="flex flex-col gap-3">
                     <li>
                       <Link href="/car-accident-settlement-calculator/" className="flex flex-col gap-0.5 group">

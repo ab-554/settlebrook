@@ -24,24 +24,30 @@ import type { SeverityLevel, PainSufferingCalculationResult, ValidationError } f
 interface PainSufferingCalculatorProps {
   stateSlug?: string
   stateName?: string
+  faultRule?: string
 }
 interface FormState {
   medicalBills: string; futureMedical: string; lostWages: string
   futureLostWages: string; propertyDamage: string; severity: SeverityLevel
   dailyRate: string; recoveryDays: string; annualSalary: string
+  plaintiffFaultPercent: string
 }
 
 const INITIAL_FORM: FormState = {
   medicalBills: '', futureMedical: '', lostWages: '', futureLostWages: '',
   propertyDamage: '', severity: 'moderate', dailyRate: '', recoveryDays: '', annualSalary: '',
+  plaintiffFaultPercent: '0',
 }
 
-export default function PainSufferingCalculator({ stateSlug, stateName }: PainSufferingCalculatorProps) {
+export default function PainSufferingCalculator({ stateSlug, stateName, faultRule }: PainSufferingCalculatorProps) {
   const [form, setForm] = useState<FormState>(INITIAL_FORM)
   const [activeMethod, setActiveMethod] = useState<CalculationMethod>('multiplier')
   const [errors, setErrors]  = useState<Record<string, string>>({})
   const [result, setResult]  = useState<PainSufferingCalculationResult | null>(null)
   const [hasCalc, setHasCalc] = useState(false)
+
+  const faultPct = Math.max(0, Math.min(99, parseFloat(form.plaintiffFaultPercent) || 0))
+  const isContributory = faultRule === 'contributory'
 
   function updateField(field: keyof FormState, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -54,14 +60,15 @@ export default function PainSufferingCalculator({ stateSlug, stateName }: PainSu
   }
   function parseNums() {
     return {
-      medicalBills:   parseFloat(form.medicalBills)   || 0,
-      futureMedical:  parseFloat(form.futureMedical)  || 0,
-      lostWages:      parseFloat(form.lostWages)      || 0,
-      futureLostWages:parseFloat(form.futureLostWages)|| 0,
-      propertyDamage: parseFloat(form.propertyDamage) || 0,
-      multiplier:     SEVERITY_CONFIGS[form.severity].multiplier,
-      dailyRate:      parseFloat(form.dailyRate)      || 0,
-      recoveryDays:   parseFloat(form.recoveryDays)   || 0,
+      medicalBills:          parseFloat(form.medicalBills)         || 0,
+      futureMedical:         parseFloat(form.futureMedical)        || 0,
+      lostWages:             parseFloat(form.lostWages)            || 0,
+      futureLostWages:       parseFloat(form.futureLostWages)      || 0,
+      propertyDamage:        parseFloat(form.propertyDamage)       || 0,
+      multiplier:            SEVERITY_CONFIGS[form.severity].multiplier,
+      dailyRate:             parseFloat(form.dailyRate)            || 0,
+      recoveryDays:          parseFloat(form.recoveryDays)         || 0,
+      plaintiffFaultPercent: faultPct,
     }
   }
   function toRecord(errs: ValidationError[]) {
@@ -71,18 +78,26 @@ export default function PainSufferingCalculator({ stateSlug, stateName }: PainSu
   function handleCalculate(e: React.FormEvent) {
     e.preventDefault()
     const p = parseNums()
-    const eco = { medicalBills: p.medicalBills, futureMedical: p.futureMedical, lostWages: p.lostWages, futureLostWages: p.futureLostWages, propertyDamage: p.propertyDamage }
+    const eco = {
+      medicalBills: p.medicalBills, futureMedical: p.futureMedical,
+      lostWages: p.lostWages, futureLostWages: p.futureLostWages,
+      propertyDamage: p.propertyDamage,
+    }
     let allErrors = toRecord(validateEconomicDamages(eco).errors)
-    if (activeMethod === 'multiplier') allErrors = { ...allErrors, ...toRecord(validateMultiplierInputs({ multiplier: p.multiplier }).errors) }
-    else allErrors = { ...allErrors, ...toRecord(validatePerDiemInputs({ dailyRate: p.dailyRate, recoveryDays: p.recoveryDays }).errors) }
+    if (activeMethod === 'multiplier')
+      allErrors = { ...allErrors, ...toRecord(validateMultiplierInputs({ multiplier: p.multiplier }).errors) }
+    else
+      allErrors = { ...allErrors, ...toRecord(validatePerDiemInputs({ dailyRate: p.dailyRate, recoveryDays: p.recoveryDays }).errors) }
     if (Object.keys(allErrors).length) {
       setErrors(allErrors)
       document.querySelector('[aria-invalid="true"]')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
       return
     }
     const calc = calculatePainAndSuffering({
-      multiplierInputs: { ...eco, multiplier: p.multiplier },
-      perDiemInputs: p.dailyRate > 0 && p.recoveryDays > 0 ? { ...eco, dailyRate: p.dailyRate, recoveryDays: p.recoveryDays } : null,
+      multiplierInputs: { ...eco, multiplier: p.multiplier, plaintiffFaultPercent: p.plaintiffFaultPercent },
+      perDiemInputs: p.dailyRate > 0 && p.recoveryDays > 0
+        ? { ...eco, dailyRate: p.dailyRate, recoveryDays: p.recoveryDays }
+        : null,
       stateSlug: stateSlug ?? null,
     })
     setResult(calc)
@@ -95,7 +110,6 @@ export default function PainSufferingCalculator({ stateSlug, stateName }: PainSu
     setForm(INITIAL_FORM); setErrors({}); setResult(null); setHasCalc(false)
   }
 
-  /* ── AD SLOT helper ── */
   const AdSlot = ({ id }: { id: string }) => (
     <div
       id={id}
@@ -113,29 +127,22 @@ export default function PainSufferingCalculator({ stateSlug, stateName }: PainSu
       <DisclaimerBanner variant="banner" stateName={stateName} />
       <AdSlot id="AD_SLOT_TOP" />
 
-      {/* Calculator panel */}
       <section aria-label="Pain and suffering calculator" className="calc-panel">
 
-        {/* Header */}
         <div className="calc-panel-header">
-          {/* FIX H13: On state pages, the old h2 duplicated the page H1 almost exactly.
-              Now shows a distinct, action-oriented heading when stateName is set. */}
           <h2 className="text-lg font-bold leading-tight" style={{ color: '#F1F5F9' }}>
-            {stateName
-              ? `Enter Your ${stateName} Damages Below`
-              : 'Enter Your Damages Below'
-            }
+            {stateName ? `Enter Your ${stateName} Damages Below` : 'Enter Your Damages Below'}
           </h2>
           <p className="text-sm mt-1" style={{ color: '#94A3B8' }}>
             Enter your damages below to estimate your settlement
           </p>
         </div>
 
-        <form onSubmit={handleCalculate} noValidate className="px-6 py-6 flex flex-col gap-6">
+        <form onSubmit={handleCalculate} noValidate className="px-6 py-6 flex flex-col">
 
           {/* ── Step 1: Economic damages ── */}
-          <fieldset className="flex flex-col gap-4">
-            <legend className="text-sm font-bold flex items-center gap-2.5" style={{ color: '#E2E8F0' }}>
+          <fieldset>
+            <legend className="text-sm font-bold flex items-center gap-2.5 mb-3" style={{ color: '#E2E8F0' }}>
               <span className="calc-step-badge">1</span>
               Your Economic Damages
             </legend>
@@ -147,36 +154,134 @@ export default function PainSufferingCalculator({ stateSlug, stateName }: PainSu
             </div>
           </fieldset>
 
-          <hr style={{ borderColor: 'rgba(99,179,237,0.10)' }} />
+          <hr className="my-5" style={{ borderColor: 'rgba(99,179,237,0.10)' }} />
 
           {/* ── Step 2: Method ── */}
-          <fieldset className="flex flex-col gap-4">
-            <legend className="text-sm font-bold flex items-center gap-2.5" style={{ color: '#E2E8F0' }}>
+          <fieldset className="mt-6">
+            <legend className="text-sm font-bold flex items-center gap-2.5 mb-3" style={{ color: '#E2E8F0' }}>
               <span className="calc-step-badge">2</span>
               Choose Calculation Method
             </legend>
 
             <MethodToggle active={activeMethod} onChange={setActiveMethod} />
 
-            {activeMethod === 'multiplier' && (
-              <MultiplierSelector selected={form.severity} onSelect={(level: SeverityLevel) => updateField('severity', level)} />
+            <div className="mt-4">
+              {activeMethod === 'multiplier' && (
+                <MultiplierSelector selected={form.severity} onSelect={(level: SeverityLevel) => updateField('severity', level)} />
+              )}
+
+              {activeMethod === 'per-diem' && (
+                <div className="flex flex-col gap-4">
+                  <div
+                    className="rounded-xl px-4 py-3 flex flex-col gap-3"
+                    style={{ background: 'rgba(96,165,250,0.07)', border: '1px solid rgba(96,165,250,0.18)' }}
+                  >
+                    <p className="text-xs font-medium" style={{ color: '#60A5FA' }}>
+                      💡 Enter your annual salary to auto-calculate your daily rate
+                    </p>
+                    <CalculatorInput label="Annual Salary (optional helper)" name="annualSalary" value={form.annualSalary} onChange={handleSalaryHelper} prefix="$" placeholder="65000" helpText="We'll divide by 365 to get your daily rate" />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <CalculatorInput label="Daily Rate" name="dailyRate" value={form.dailyRate} onChange={(v) => updateField('dailyRate', v)} prefix="$" placeholder="200" helpText="Dollar value per day of suffering ($100–$500 typical)" error={errors.dailyRate} />
+                    <CalculatorInput label="Recovery Days" name="recoveryDays" value={form.recoveryDays} onChange={(v) => updateField('recoveryDays', v)} suffix="days" placeholder="90" helpText="Days from injury to maximum medical improvement" error={errors.recoveryDays} />
+                  </div>
+                </div>
+              )}
+            </div>
+          </fieldset>
+
+          <hr className="my-5" style={{ borderColor: 'rgba(99,179,237,0.10)' }} />
+
+          {/* ── Step 3: Plaintiff fault ── */}
+          <fieldset className="mt-6 mb-6">
+            <legend className="text-sm font-bold flex items-center gap-2.5 mb-3" style={{ color: '#E2E8F0' }}>
+              <span className="calc-step-badge">3</span>
+              Your Share of Fault (if any)
+            </legend>
+
+            <p className="text-xs mb-3" style={{ color: '#94A3B8' }}>
+              Enter 0 if the other party was fully at fault
+            </p>
+
+            {/* Slider + numeric input */}
+            <div className="flex items-center gap-3 mb-4">
+              <input
+                id="plaintiffFaultPercent"
+                type="range"
+                min={0}
+                max={99}
+                step={1}
+                value={faultPct}
+                onChange={(e) => updateField('plaintiffFaultPercent', e.target.value)}
+                onInput={(e) => e.currentTarget.style.setProperty('--val', `${e.currentTarget.value}%`)}
+                className="fault-slider flex-1"
+                style={{
+                  appearance: 'none',
+                  height: '6px',
+                  borderRadius: '9999px',
+                  background: `linear-gradient(to right, #3B82F6 var(--val, 0%), rgba(255,255,255,0.1) var(--val, 0%))`,
+                  cursor: 'pointer',
+                  '--val': `${faultPct}%`
+                } as React.CSSProperties}
+                aria-label="Your share of fault percentage"
+              />
+              <div className="relative flex-shrink-0 w-20">
+                <input
+                  type="number"
+                  min={0}
+                  max={99}
+                  step={1}
+                  value={form.plaintiffFaultPercent}
+                  onChange={(e) => updateField('plaintiffFaultPercent', e.target.value)}
+                  className="w-full text-center font-bold text-sm rounded-lg py-2 pr-6 tabular-nums focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  style={{
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(99,179,237,0.22)',
+                    color: '#F1F5F9',
+                  }}
+                  aria-label="Your share of fault percentage"
+                />
+                <span
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-semibold pointer-events-none"
+                  style={{ color: '#60A5FA' }}
+                >
+                  %
+                </span>
+              </div>
+            </div>
+
+            {/* Comparative negligence info note */}
+            {faultPct > 0 && !isContributory && (
+              <div
+                className="rounded-xl px-4 py-3 flex items-start gap-2.5 text-xs leading-snug"
+                style={{ background: 'rgba(251,191,36,0.07)', border: '1px solid rgba(251,191,36,0.20)' }}
+              >
+                <svg className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#FBBF24' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" />
+                </svg>
+                <p style={{ color: '#A8843A' }}>
+                  Your estimate is reduced by{' '}
+                  <span className="font-semibold" style={{ color: '#FBBF24' }}>{faultPct}%</span>{' '}
+                  based on your share of fault.
+                </p>
+              </div>
             )}
 
-            {activeMethod === 'per-diem' && (
-              <div className="flex flex-col gap-4">
-                <div
-                  className="rounded-xl px-4 py-3 flex flex-col gap-3"
-                  style={{ background: 'rgba(96,165,250,0.07)', border: '1px solid rgba(96,165,250,0.18)' }}
-                >
-                  <p className="text-xs font-medium" style={{ color: '#60A5FA' }}>
-                    💡 Enter your annual salary to auto-calculate your daily rate
-                  </p>
-                  <CalculatorInput label="Annual Salary (optional helper)" name="annualSalary" value={form.annualSalary} onChange={handleSalaryHelper} prefix="$" placeholder="65000" helpText="We'll divide by 365 to get your daily rate" />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <CalculatorInput label="Daily Rate" name="dailyRate" value={form.dailyRate} onChange={(v) => updateField('dailyRate', v)} prefix="$" placeholder="200" helpText="Dollar value per day of suffering ($100–$500 typical)" error={errors.dailyRate} />
-                  <CalculatorInput label="Recovery Days" name="recoveryDays" value={form.recoveryDays} onChange={(v) => updateField('recoveryDays', v)} suffix="days" placeholder="90" helpText="Days from injury to maximum medical improvement" error={errors.recoveryDays} />
-                </div>
+            {/* Contributory negligence hard warning */}
+            {faultPct > 0 && isContributory && (
+              <div
+                className="rounded-xl px-4 py-3 flex items-start gap-2.5 text-xs leading-snug mt-3"
+                style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.30)' }}
+              >
+                <svg className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#F87171' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                </svg>
+                <p style={{ color: '#FCA5A5' }}>
+                  <span className="font-semibold" style={{ color: '#F87171' }}>Warning:</span>{' '}
+                  In {stateName ?? 'this state'}, any fault on your part may{' '}
+                  <span className="font-semibold">bar recovery entirely</span> under contributory negligence rules.
+                  Consult an attorney before assuming you can recover.
+                </p>
               </div>
             )}
           </fieldset>
