@@ -10,41 +10,33 @@ export const PRIORITY_STATES: StateData[] = [
     slug: 'california',
     name: 'California',
     abbreviation: 'CA',
-    hasDamageCap: false,
+    hasDamageCap: true,
     damageCap: null,
-    damageCapNotes:
-      'No cap on non-economic damages for general personal injury cases. A $350,000 cap applies to medical malpractice only (MICRA, raised from $250k in 2023).',
+    damageCapNotes: 'Med mal only: $470k injury/$650k death, no general PI cap',
     isNoFaultState: false,
     faultRule: 'pure-comparative',
     faultRuleLabel: 'Pure Comparative Fault',
-    faultRuleExplanation:
-      'California follows pure comparative fault — you can recover damages even if you were 99% at fault, though your award is reduced by your percentage of fault.',
+    faultRuleExplanation: 'California follows pure comparative fault — you can recover damages even if you were 99% at fault, though your award is reduced by your percentage of fault.',
     statuteOfLimitations: 2,
-    solNotes:
-      'Generally 2 years from the date of injury. Discovery rule may extend this if the injury was not immediately apparent.',
+    solNotes: 'Generally 2 years from the date of injury. Discovery rule may extend this if the injury was not immediately apparent.',
     cpcMultiplier: 3.21,
-    metaDescription:
-      'California pain and suffering calculator — estimate your damages under CA pure comparative fault rules. No cap on general injury claims. Free tool, instant results.',
+    metaDescription: 'California pain and suffering calculator — estimate your damages under CA pure comparative fault rules. Free tool, instant results.',
   },
   {
     slug: 'texas',
     name: 'Texas',
     abbreviation: 'TX',
-    hasDamageCap: false,
+    hasDamageCap: true,
     damageCap: null,
-    damageCapNotes:
-      'No cap on non-economic damages for general personal injury cases. Medical malpractice non-economic damages are capped at $250,000 per defendant.',
+    damageCapNotes: 'Med mal: $250k-$750k; punitive: 2x econ+$750k or $200k',
     isNoFaultState: false,
     faultRule: 'modified-comparative-51',
     faultRuleLabel: 'Modified Comparative Fault (51% Bar)',
-    faultRuleExplanation:
-      'Texas uses the 51% bar rule — if you are found 51% or more at fault, you recover nothing. If 50% or less at fault, your award is reduced proportionally.',
+    faultRuleExplanation: 'Texas uses the 51% bar rule — if you are found 51% or more at fault, you recover nothing. If 50% or less at fault, your award is reduced proportionally.',
     statuteOfLimitations: 2,
-    solNotes:
-      '2 years from the date of injury. Minors have until age 20 (2 years after turning 18) to file.',
+    solNotes: '2 years from the date of injury. Minors have until age 20 (2 years after turning 18) to file.',
     cpcMultiplier: 1.97,
-    metaDescription:
-      'Texas pain and suffering calculator — estimate your damages under TX modified comparative fault rules. Free tool for personal injury victims. Instant results.',
+    metaDescription: 'Texas pain and suffering calculator — estimate your damages under TX modified comparative fault rules. Free tool for personal injury victims. Instant results.',
   },
   {
     slug: 'florida',
@@ -52,19 +44,15 @@ export const PRIORITY_STATES: StateData[] = [
     abbreviation: 'FL',
     hasDamageCap: false,
     damageCap: null,
-    damageCapNotes:
-      'No cap on non-economic damages for general personal injury. Note: Florida eliminated its medical malpractice non-economic damage caps in 2017.',
+    damageCapNotes: 'General PI caps unconstitutional; punitive caps apply',
     isNoFaultState: true,
     faultRule: 'modified-comparative-51',
-    faultRuleLabel: 'Modified Comparative Fault (51% Bar) — Changed March 2023',
-    faultRuleExplanation:
-      'Florida changed from pure to modified comparative fault in March 2023 (HB 837). You are now barred from recovery if found 51% or more at fault — previously you could recover at any fault percentage.',
+    faultRuleLabel: 'Modified Comparative Fault (51% Bar)',
+    faultRuleExplanation: 'Florida changed from pure to modified comparative fault in March 2023 (HB 837). You are now barred from recovery if found 51% or more at fault.',
     statuteOfLimitations: 2,
-    solNotes:
-      'Florida reduced its statute of limitations from 4 years to 2 years for negligence claims effective March 2023 (HB 837). Claims arising before March 24, 2023 may still have 4 years.',
+    solNotes: 'Changed from 4 years to 2 years in 2023 via HB837. No-fault PIP $10,000 minimum required.',
     cpcMultiplier: 1.4,
-    metaDescription:
-      'Florida pain and suffering calculator — updated for 2023 law changes. FL now uses modified comparative fault (51% bar). Free personal injury estimate tool.',
+    metaDescription: 'Florida pain and suffering calculator — updated for 2023 law changes. FL now uses modified comparative fault (51% bar). Free personal injury estimate tool.',
   },
   {
     slug: 'new-york',
@@ -72,19 +60,15 @@ export const PRIORITY_STATES: StateData[] = [
     abbreviation: 'NY',
     hasDamageCap: false,
     damageCap: null,
-    damageCapNotes:
-      'No statutory cap on non-economic damages for personal injury in New York. Juries have broad discretion, though courts may reduce excessive awards.',
+    damageCapNotes: 'No statutory cap on non-economic damages for personal injury in New York. Juries have broad discretion, though courts may reduce excessive awards.',
     isNoFaultState: true,
     faultRule: 'pure-comparative',
     faultRuleLabel: 'Pure Comparative Fault',
-    faultRuleExplanation:
-      'New York follows pure comparative fault — your damages are reduced by your percentage of fault, but you can still recover even if you were mostly at fault.',
+    faultRuleExplanation: 'New York follows pure comparative fault — your damages are reduced by your percentage of fault, but you can still recover even if you were mostly at fault.',
     statuteOfLimitations: 3,
-    solNotes:
-      '3 years from the date of injury for most personal injury claims. Medical malpractice is 2.5 years. Claims against NYC or NYS government require a notice of claim within 90 days.',
+    solNotes: '3 years from the date of injury for most personal injury claims. Medical malpractice is 2.5 years. Claims against NYC or NYS government require a notice of claim within 90 days.',
     cpcMultiplier: 1.5,
-    metaDescription:
-      'New York pain and suffering calculator — estimate your NY personal injury damages. Pure comparative fault state, no damage caps. Free tool, instant results.',
+    metaDescription: 'New York pain and suffering calculator — estimate your NY personal injury damages. Pure comparative fault state, no damage caps. Free tool, instant results.',
   },
 ]
 
@@ -95,17 +79,15 @@ export const SECONDARY_STATES: StateData[] = [
     abbreviation: 'PA',
     hasDamageCap: false,
     damageCap: null,
-    damageCapNotes: 'No cap on non-economic damages for general personal injury.',
+    damageCapNotes: 'Constitutional prohibition on compensatory caps',
     isNoFaultState: true,
     faultRule: 'modified-comparative-51',
     faultRuleLabel: 'Modified Comparative Fault (51% Bar)',
-    faultRuleExplanation:
-      'Pennsylvania bars recovery if you are 51% or more at fault. Below that threshold, your award is reduced by your percentage of fault.',
+    faultRuleExplanation: 'Pennsylvania bars recovery if you are 51% or more at fault. Below that threshold, your award is reduced by your percentage of fault.',
     statuteOfLimitations: 2,
-    solNotes: '2 years from the date of injury.',
+    solNotes: 'Choice no-fault state — limited tort vs full tort election at policy purchase affects right to sue for pain and suffering',
     cpcMultiplier: 1.0,
-    metaDescription:
-      'Pennsylvania pain and suffering calculator — estimate PA personal injury damages. Modified comparative fault state. Free tool, instant estimate.',
+    metaDescription: 'Pennsylvania pain and suffering calculator — estimate PA personal injury damages. Modified comparative fault state. Free tool, instant estimate.',
   },
   {
     slug: 'illinois',
@@ -113,37 +95,31 @@ export const SECONDARY_STATES: StateData[] = [
     abbreviation: 'IL',
     hasDamageCap: false,
     damageCap: null,
-    damageCapNotes:
-      'Illinois Supreme Court struck down non-economic damage caps as unconstitutional in 2010.',
+    damageCapNotes: 'Previous caps ruled unconstitutional',
     isNoFaultState: false,
     faultRule: 'modified-comparative-51',
     faultRuleLabel: 'Modified Comparative Fault (51% Bar)',
-    faultRuleExplanation:
-      'Illinois uses the 51% bar — you cannot recover if you are 51% or more at fault. Awards are reduced proportionally at lower fault percentages.',
+    faultRuleExplanation: 'Illinois uses the 51% bar — you cannot recover if you are 51% or more at fault. Awards are reduced proportionally at lower fault percentages.',
     statuteOfLimitations: 2,
-    solNotes: '2 years from the date of injury for most personal injury claims.',
+    solNotes: '4-year absolute statute of repose for medical malpractice regardless of discovery. Wrongful death SOL runs from date of death not injury.',
     cpcMultiplier: 1.0,
-    metaDescription:
-      'Illinois pain and suffering calculator — no damage caps after 2010 ruling. Estimate your IL personal injury damages free.',
+    metaDescription: 'Illinois pain and suffering calculator — no damage caps after 2010 ruling. Estimate your IL personal injury damages free.',
   },
   {
     slug: 'ohio',
     name: 'Ohio',
     abbreviation: 'OH',
     hasDamageCap: true,
-    damageCap: 350_000,
-    damageCapNotes:
-      'Ohio caps non-economic (pain & suffering) damages at $250,000 or 3× economic damages (whichever is greater), up to a maximum of $350,000 per plaintiff or $500,000 per occurrence for most cases.',
+    damageCap: 350000,
+    damageCapNotes: 'Greater of $250,000 or 3x economic damages, maximum $350,000 per plaintiff or $500,000 per occurrence. Cap does not apply to catastrophic injuries (permanent deformity, loss of limb, inability to care for self).',
     isNoFaultState: false,
     faultRule: 'modified-comparative-51',
     faultRuleLabel: 'Modified Comparative Fault (51% Bar)',
-    faultRuleExplanation:
-      'Ohio bars recovery at 51% or greater fault. At 50% or less, your award is reduced by your fault percentage.',
+    faultRuleExplanation: 'Ohio bars recovery at 51% or greater fault. At 50% or less, your award is reduced by your fault percentage.',
     statuteOfLimitations: 2,
     solNotes: '2 years from the date of injury.',
     cpcMultiplier: 0.9,
-    metaDescription:
-      'Ohio pain and suffering calculator — OH caps non-economic damages at $250,000–$350,000 for most cases. Free personal injury estimate tool.',
+    metaDescription: 'Ohio pain and suffering calculator — OH caps non-economic damages at $250,000–$350,000 for most cases. Free personal injury estimate tool.',
   },
   {
     slug: 'georgia',
@@ -151,18 +127,15 @@ export const SECONDARY_STATES: StateData[] = [
     abbreviation: 'GA',
     hasDamageCap: false,
     damageCap: null,
-    damageCapNotes:
-      'Georgia Supreme Court struck down non-economic damage caps as unconstitutional in 2010.',
+    damageCapNotes: 'Previous caps ruled unconstitutional',
     isNoFaultState: false,
     faultRule: 'modified-comparative-50',
     faultRuleLabel: 'Modified Comparative Fault (50% Bar)',
-    faultRuleExplanation:
-      'Georgia uses the 50% bar — if you are found 50% or more at fault, you cannot recover damages. Below 50%, your award is reduced by your fault percentage.',
+    faultRuleExplanation: 'Georgia uses a 50% bar — if you are 50% or more at fault you recover nothing. If you are 49% at fault you recover 51% of damages.',
     statuteOfLimitations: 2,
     solNotes: '2 years from the date of injury for personal injury claims.',
     cpcMultiplier: 0.9,
-    metaDescription:
-      'Georgia pain and suffering calculator — no damage caps since 2010. GA uses 50% comparative fault bar. Free personal injury estimate.',
+    metaDescription: 'Georgia pain and suffering calculator — no damage caps since 2010. GA uses 50% comparative fault bar. Free personal injury estimate.',
   },
   {
     slug: 'arizona',
@@ -170,17 +143,15 @@ export const SECONDARY_STATES: StateData[] = [
     abbreviation: 'AZ',
     hasDamageCap: false,
     damageCap: null,
-    damageCapNotes: 'No cap on non-economic damages for personal injury in Arizona.',
+    damageCapNotes: 'Constitutional prohibition against damage limits',
     isNoFaultState: false,
     faultRule: 'pure-comparative',
     faultRuleLabel: 'Pure Comparative Fault',
-    faultRuleExplanation:
-      'Arizona follows pure comparative fault — you can recover damages at any level of fault, with your award reduced proportionally.',
+    faultRuleExplanation: 'Arizona follows pure comparative fault — you can recover damages at any level of fault, with your award reduced proportionally.',
     statuteOfLimitations: 2,
     solNotes: '2 years from the date of injury.',
     cpcMultiplier: 1.0,
-    metaDescription:
-      'Arizona pain and suffering calculator — pure comparative fault state, no damage caps. Free AZ personal injury estimate tool.',
+    metaDescription: 'Arizona pain and suffering calculator — pure comparative fault state, no damage caps. Free AZ personal injury estimate tool.',
   },
   {
     slug: 'washington',
@@ -188,92 +159,79 @@ export const SECONDARY_STATES: StateData[] = [
     abbreviation: 'WA',
     hasDamageCap: false,
     damageCap: null,
-    damageCapNotes: 'No cap on non-economic damages for personal injury in Washington State.',
+    damageCapNotes: 'Previous caps ruled unconstitutional',
     isNoFaultState: false,
     faultRule: 'pure-comparative',
     faultRuleLabel: 'Pure Comparative Fault',
-    faultRuleExplanation:
-      'Washington follows pure comparative fault — damages are reduced by your fault percentage but recovery is not barred at any level.',
+    faultRuleExplanation: 'Washington follows pure comparative fault — damages are reduced by your fault percentage but recovery is not barred at any level.',
     statuteOfLimitations: 3,
     solNotes: '3 years from the date of injury.',
     cpcMultiplier: 1.0,
-    metaDescription:
-      'Washington State pain and suffering calculator — pure comparative fault, no damage caps. Free WA personal injury estimate.',
+    metaDescription: 'Washington State pain and suffering calculator — pure comparative fault, no damage caps. Free WA personal injury estimate.',
   },
   {
     slug: 'colorado',
     name: 'Colorado',
     abbreviation: 'CO',
     hasDamageCap: true,
-    damageCap: 642_180,
-    damageCapNotes:
-      'Colorado caps non-economic damages at $642,180 (inflation-adjusted annually — verify current figure). The cap can be exceeded with clear and convincing evidence.',
+    damageCap: 1500000,
+    damageCapNotes: 'General PI noneconomic cap raised to $1.5M in 2025-2026 (massive increase). Med mal noneconomic cap $415,000 for 2026, scaling to $875,000 by 2029. Cap indexed to inflation from 2028.',
     isNoFaultState: false,
-    faultRule: 'modified-comparative-51',
-    faultRuleLabel: 'Modified Comparative Fault (51% Bar)',
-    faultRuleExplanation:
-      'Colorado bars recovery at 51% or more fault. Awards are reduced proportionally for fault below 51%.',
+    faultRule: 'modified-comparative-50',
+    faultRuleLabel: 'Modified Comparative Fault (50% Bar)',
+    faultRuleExplanation: 'Colorado bars recovery at 50% or more fault. Awards are reduced proportionally for fault below 50%.',
     statuteOfLimitations: 2,
-    solNotes: '2 years from the date of injury.',
+    solNotes: '2 years for general negligence. 3 years for motor vehicle accidents specifically.',
     cpcMultiplier: 1.0,
-    metaDescription:
-      'Colorado pain and suffering calculator — CO caps non-economic damages (inflation-adjusted). Free personal injury estimate tool for CO residents.',
+    metaDescription: 'Colorado pain and suffering calculator — CO caps non-economic damages (inflation-adjusted). Free personal injury estimate tool for CO residents.',
   },
   {
     slug: 'michigan',
     name: 'Michigan',
     abbreviation: 'MI',
-    hasDamageCap: false,
-    damageCap: null,
-    damageCapNotes:
-      'No general cap on non-economic damages for most personal injury cases. Auto accident claims are subject to no-fault thresholds.',
+    hasDamageCap: true,
+    damageCap: 596400,
+    damageCapNotes: 'Standard noneconomic cap $596,400 for 2026 (CPI-adjusted annually). Elevated cap $1,065,000 for catastrophic injuries (paraplegia, quadriplegia, permanent cognitive incapacity, loss of reproductive organ). Product liability unascertainable economic damages capped at $97,770.',
     isNoFaultState: true,
     faultRule: 'modified-comparative-51',
     faultRuleLabel: 'Modified Comparative Fault (51% Bar)',
-    faultRuleExplanation:
-      'Michigan bars recovery at 51% or more fault for most personal injury claims.',
+    faultRuleExplanation: 'Michigan bars recovery at 51% or more fault for most personal injury claims.',
     statuteOfLimitations: 3,
-    solNotes:
-      '3 years from the date of injury. Auto accident claims follow no-fault rules with different thresholds.',
+    solNotes: 'No-fault state with tiered PIP options. Pedestrians/cyclists limited to $250,000 via Michigan Assigned Claims Plan.',
     cpcMultiplier: 0.9,
-    metaDescription:
-      'Michigan pain and suffering calculator — no-fault auto state with 3-year SOL. Free MI personal injury estimate tool.',
+    metaDescription: 'Michigan pain and suffering calculator — no-fault auto state with 3-year SOL. Free MI personal injury estimate tool.',
   },
   {
     slug: 'nevada',
     name: 'Nevada',
     abbreviation: 'NV',
-    hasDamageCap: false,
-    damageCap: null,
-    damageCapNotes: 'No cap on non-economic damages for general personal injury in Nevada.',
+    hasDamageCap: true,
+    damageCap: 590000,
+    damageCapNotes: 'Med mal noneconomic cap $590,000 for 2026, increasing $80,000 annually until reaching $750,000 in 2028, then indexed at 2.1% annually. No cap on general PI noneconomic damages. Punitive damages capped at 3x compensatory if over $100,000 or flat $300,000 if lower.',
     isNoFaultState: false,
     faultRule: 'modified-comparative-51',
     faultRuleLabel: 'Modified Comparative Fault (51% Bar)',
-    faultRuleExplanation:
-      'Nevada bars recovery at 51% or more fault. Awards are reduced by your fault percentage below that threshold.',
+    faultRuleExplanation: 'Nevada bars recovery at 51% or more fault. Awards are reduced by your fault percentage below that threshold.',
     statuteOfLimitations: 2,
-    solNotes: '2 years from the date of injury.',
+    solNotes: '6-month notice deadline for claims against public/government entities.',
     cpcMultiplier: 1.0,
-    metaDescription:
-      'Nevada pain and suffering calculator — no damage caps, modified comparative fault. Free NV personal injury estimate.',
+    metaDescription: 'Nevada pain and suffering calculator — NV personal injury estimate.',
   },
   {
     slug: 'north-carolina',
     name: 'North Carolina',
     abbreviation: 'NC',
-    hasDamageCap: false,
-    damageCap: null,
-    damageCapNotes: 'No cap on non-economic damages for personal injury.',
+    hasDamageCap: true,
+    damageCap: 712847,
+    damageCapNotes: 'Med mal noneconomic cap $712,847 for 2026 (adjusted every 3 years by NC OSBM). General PI punitive damages capped at 3x compensatory or $250,000 whichever is greater. Cap lifted only for reckless disregard/gross negligence with permanent disfigurement or death.',
     isNoFaultState: false,
     faultRule: 'contributory',
     faultRuleLabel: 'Contributory Negligence',
-    faultRuleExplanation:
-      'North Carolina is one of four contributory negligence states — if you are found even 1% at fault, you are completely barred from recovering any damages.',
+    faultRuleExplanation: 'North Carolina uses pure contributory negligence — if you are even 1% at fault you cannot recover any damages regardless of how negligent the other party was. This is one of the strictest fault rules in the USA.',
     statuteOfLimitations: 3,
     solNotes: '3 years from the date of injury.',
     cpcMultiplier: 0.9,
-    metaDescription:
-      'North Carolina pain and suffering calculator — NC uses contributory negligence (any fault bars recovery). Free personal injury estimate tool.',
+    metaDescription: 'North Carolina pain and suffering calculator — NC uses contributory negligence (any fault bars recovery). Free personal injury estimate tool.',
   },
 ]
 
