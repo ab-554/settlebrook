@@ -20,7 +20,7 @@ export default function ContactForm() {
         return (
             <div style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '12px', padding: '24px', textAlign: 'center', color: '#34D399' }}>
                 <p style={{ fontSize: '18px', fontWeight: 600 }}>Message sent successfully!</p>
-                <p style={{ color: '#94A3B8', marginTop: '8px' }}>We'll respond within 48 hours.</p>
+                <p style={{ color: '#94A3B8', marginTop: '8px' }}>We&apos;ll respond within 48 hours.</p>
             </div>
         );
     }
