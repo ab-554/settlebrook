@@ -112,7 +112,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <GoogleAnalytics gaId="G-K3PV0YLHFG" />
         <Script
           id="adsense-init"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-ADSENSE_PUBLISHER_ID"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9642525412838279"
           strategy="afterInteractive"
           crossOrigin="anonymous"
         />
