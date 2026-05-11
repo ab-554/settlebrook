@@ -6,6 +6,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { formatCurrency, formatMultiplier } from '@/lib/calculations/painSuffering'
+import { getStateBySlug } from '@/lib/data/states'
 import type {
   PainSufferingCalculationResult,
   MultiplierResult,
@@ -18,7 +19,7 @@ interface CalculatorResultProps {
 }
 
 export default function CalculatorResult({ result, activeMethod }: CalculatorResultProps) {
-  const { multiplierResult, perDiemResult, specialDamages } = result
+  const { multiplierResult, perDiemResult, specialDamages, stateSlug } = result
 
   const primaryResult: MultiplierResult | PerDiemResult | null =
     activeMethod === 'multiplier' ? multiplierResult : perDiemResult
@@ -41,6 +42,16 @@ export default function CalculatorResult({ result, activeMethod }: CalculatorRes
 
   const rangeLow  = mResult?.rangeLow  ?? null
   const rangeHigh = mResult?.rangeHigh ?? null
+
+  const stateData = stateSlug ? getStateBySlug(stateSlug) : null
+
+  const showDamageCapWarning = stateData?.hasDamageCap && stateData.damageCap !== null && totalEstimate > stateData.damageCap
+  const showContributoryWarning = stateData?.faultRule === 'contributory' && faultPct > 0
+  const showModifiedComparativeWarning = 
+    (stateData?.faultRule === 'modified-comparative-50' && faultPct >= 50) ||
+    (stateData?.faultRule === 'modified-comparative-51' && faultPct > 50)
+  const showNoFaultNotice = stateData?.isNoFaultState === true
+  const showFloridaNotice = stateData?.slug === 'florida'
 
   return (
     <div className="flex flex-col gap-4" aria-live="polite" aria-label="Settlement estimate results">
@@ -172,6 +183,44 @@ export default function CalculatorResult({ result, activeMethod }: CalculatorRes
           </div>
         </div>
       </div>
+
+      {/* State-specific warnings */}
+      {stateData && (
+        <div className="flex flex-col gap-3">
+          {showDamageCapWarning && (
+            <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.3)' }}>
+              <p className="text-sm font-semibold mb-1" style={{ color: '#FCD34D' }}>{stateData.name} Damage Cap Notice:</p>
+              <p className="text-xs leading-relaxed" style={{ color: '#FCD34D' }}>{stateData.name} limits pain & suffering damages to {formatCurrency(stateData.damageCap!)}. Your estimate exceeds this limit. Actual recovery may be reduced. {stateData.damageCapNotes}</p>
+            </div>
+          )}
+
+          {showContributoryWarning && (
+            <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)' }}>
+              <p className="text-sm font-semibold mb-1" style={{ color: '#FCA5A5' }}>⚠️ Critical:</p>
+              <p className="text-xs leading-relaxed" style={{ color: '#FCA5A5' }}>North Carolina follows pure contributory negligence. Any fault on your part — even 1% — completely bars recovery. Your estimate above assumes zero fault on your part.</p>
+            </div>
+          )}
+
+          {showModifiedComparativeWarning && (
+            <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)' }}>
+              <p className="text-sm font-semibold mb-1" style={{ color: '#FCA5A5' }}>⚠️ Recovery Barred:</p>
+              <p className="text-xs leading-relaxed" style={{ color: '#FCA5A5' }}>In {stateData.name}, being {faultPct}% at fault exceeds the {stateData.faultRule === 'modified-comparative-50' ? '50' : '51'}% threshold. You would not be able to recover damages under {stateData.name} law.</p>
+            </div>
+          )}
+
+          {showNoFaultNotice && (
+            <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.3)' }}>
+              <p className="text-xs leading-relaxed" style={{ color: '#93C5FD' }}><strong>{stateData.name} is a no-fault state.</strong> You must first file with your own insurance under PIP coverage. You can only sue for pain & suffering if your injuries exceed your state&apos;s serious injury threshold.</p>
+            </div>
+          )}
+
+          {showFloridaNotice && (
+            <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.3)' }}>
+              <p className="text-xs leading-relaxed" style={{ color: '#93C5FD' }}><strong>Florida Note:</strong> Since 2023 (HB837), Florida limits evidence of medical bills to amounts actually paid by insurance — not billed amounts. Insurance adjusters may calculate your economic damages lower than your total medical bills.</p>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Secondary comparison */}
       {secondaryResult && (
