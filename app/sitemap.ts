@@ -26,6 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${BASE_URL}/pain-and-suffering-calculator/guide/`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
       // FIX H14: was 0.5 — bumped to 0.75 (core commercial page, even as stub)
       url: `${BASE_URL}/car-accident-settlement-calculator/`,
       lastModified: new Date(),
