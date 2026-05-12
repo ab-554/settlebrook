@@ -428,6 +428,126 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you&apos;re also researching how fault rules and caps apply in another state, see the <Link href="/pain-and-suffering-calculator/texas/" style={{ color: '#60A5FA' }}>Texas pain and suffering calculator</Link> for a direct comparison with California&apos;s pure comparative fault approach.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><em>This calculator provides an estimate for informational purposes only. It is not legal advice. Consult a licensed California personal injury attorney before making decisions about your claim.</em></p>
             </article>
+          ) : stateData.slug === 'texas' ? (
+            <article style={{ margin: '0 auto' }}>
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Introduction</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you were injured in Texas — whether in a car accident on I-35, a slip and fall at a Houston strip mall, or a workplace incident in Dallas — you are probably dealing with medical bills, missed work, and an insurance adjuster who has already called you twice. That adjuster&apos;s job is to close your claim fast and cheap. Your job is to understand what your case is actually worth before you sign anything.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Pain and suffering damages are the part of your settlement that compensates you for the physical pain, emotional distress, and reduced quality of life your injury caused. They are separate from your medical bills and lost wages. In Texas, these damages are called non-economic damages, and calculating them correctly can be the difference between a fair settlement and leaving tens of thousands of dollars on the table.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Use the <Link href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</Link> above to estimate your damages, then read through this page to understand exactly how Texas law affects your number.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Pain and Suffering Damages Under Texas Law</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Texas law allows injured people to recover two broad categories of damages in a personal injury claim.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Economic damages</strong> are the easy ones to quantify: your ER bill, follow-up appointments, physical therapy, prescription costs, lost wages while you recovered, and future medical expenses if your injury is permanent.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Non-economic damages</strong> — what most people call pain and suffering — cover everything that does not come with a receipt. Under the Texas Civil Practice and Remedies Code, non-economic damages include physical pain and suffering, mental anguish, physical impairment, disfigurement, and loss of consortium (the impact on your relationship with a spouse).</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Texas does <strong style={{ color: '#E2E8F0' }}>not</strong> cap non-economic damages in standard personal injury cases. A jury can award whatever it finds reasonable. The only meaningful cap applies to medical malpractice cases: $250,000 against an individual healthcare provider, with an aggregate cap of $750,000 across all defendants. If your injury came from a car accident, a defective product, or a premises liability incident, no statutory ceiling limits your non-economic recovery.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Texas Tort Reform in 2003 changed the landscape significantly — it tightened expert witness standards, capped med mal damages, and made it harder to join multiple defendants — but it did not eliminate pain and suffering recovery for standard personal injury claims.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>How Pain and Suffering Is Calculated in Texas</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Texas courts and insurance companies use two primary methods to calculate pain and suffering. Neither is written into Texas law — they are industry standards used in negotiation and presented to juries as frameworks.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>The Multiplier Method</strong></p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>You add up all your economic damages (medical bills plus lost wages) and multiply by a number between 1.5 and 5. The multiplier reflects injury severity.</p>
+              <ul style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', paddingLeft: '24px', listStyleType: 'disc' }}>
+                <li>Minor soft-tissue injury, full recovery in 8 weeks: multiplier of 1.5 to 2</li>
+                <li>Moderate injury requiring surgery, 6-month recovery: multiplier of 2.5 to 3.5</li>
+                <li>Permanent injury, chronic pain, or significant disability: multiplier of 4 to 5</li>
+              </ul>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Texas example:</strong> You suffer a herniated disc in a rear-end collision on I-10 in Houston. Your medical bills total $28,000 and you missed six weeks of work, losing $9,000 in wages. Total economic damages: $37,000. At a 3x multiplier for a moderate injury requiring an epidural injection and physical therapy, your pain and suffering estimate is $111,000, bringing the total claim to $148,000.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>The Per Diem Method</strong></p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>You assign a daily dollar value to your pain — often your daily wage — and multiply by the number of days you suffered. If you earn $200 per day and suffered for 180 days, your per diem pain and suffering estimate is $36,000.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Texas juries respond to both methods. Your attorney will typically use whichever produces the stronger number and is easier to justify with your medical records.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Texas Modified Comparative Fault — The 51% Rule</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Texas follows a modified comparative fault system under Chapter 33 of the Texas Civil Practice and Remedies Code. This rule directly affects how much you can recover, and insurance adjusters use it aggressively to reduce settlements.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Here is how it works: if you are found partially at fault for your own injury, your damages are reduced by your percentage of fault. If you are found 51% or more at fault, you recover <strong style={{ color: '#E2E8F0' }}>nothing</strong>.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Example:</strong> You are hit by a driver running a red light, but you were also slightly speeding. A jury finds you 20% at fault and the other driver 80% at fault. If your total damages are $100,000, you recover $80,000.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Now change the facts: the other driver argues you were actually 55% responsible for the accident because you failed to brake in time. Under Texas law, that finding eliminates your entire recovery.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Insurance adjusters know this rule and will try to assign you partial fault in their initial liability evaluation — sometimes inflating your fault percentage to pressure you into a low settlement. If an adjuster tells you that you were partially at fault, do not accept that characterization without speaking to an attorney. Fault allocation is negotiable, and in litigation, it is a question for the jury.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Dallas and Houston claims are particularly affected by this dynamic. Texas juries in large metro areas tend to be more conservative than California or New York juries, and insurance companies price offers accordingly.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Factors That Affect Texas Pain and Suffering Settlements</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Beyond the formula, these factors move the number up or down in real Texas negotiations.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Injury documentation.</strong> Texas adjusters and defense attorneys scrutinize gaps in treatment. If you waited two weeks after the accident to see a doctor, expect the defense to argue your injuries were not serious or were caused by something else. Consistent, well-documented medical treatment is the single strongest factor in your favor.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Type of injury.</strong> Herniated discs, traumatic brain injuries, spinal cord injuries, and burns produce higher multipliers than soft-tissue injuries like whiplash. Permanent injuries command the highest settlements because future suffering is compensable.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Venue.</strong> Harris County (Houston) and Dallas County juries are conservative relative to national averages. A case worth $500,000 in Los Angeles may settle for $300,000 in Dallas. Travis County (Austin) trends slightly more plaintiff-friendly.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Insurance policy limits.</strong> Texas requires minimum auto liability coverage of $30,000 per person. Many at-fault drivers carry only the minimum. If your damages exceed the policy limit, your practical recovery may be capped by the defendant&apos;s coverage unless they have significant personal assets or you have underinsured motorist coverage.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Expert witnesses.</strong> In high-value Texas cases, medical experts who can testify about the permanence and severity of your injuries significantly strengthen your position at trial and in pre-trial negotiations.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Texas Statute of Limitations</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>In Texas, you have <strong style={{ color: '#E2E8F0' }}>two years</strong> from the date of your injury to file a personal injury lawsuit. This deadline is set by Section 16.003 of the Texas Civil Practice and Remedies Code. Miss it, and the court will almost certainly dismiss your case — no matter how strong your claim is.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Two years sounds like a long time. It is not, once you account for medical treatment, gathering records, expert evaluations, and pre-suit negotiations.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Key exceptions to know:</strong></p>
+              <ul style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', paddingLeft: '24px', listStyleType: 'disc' }}>
+                <li><strong style={{ color: '#E2E8F0' }}>Minors.</strong> If the injured person is under 18, the two-year clock does not start until they turn 18. A child injured at age 10 has until age 20 to file.</li>
+                <li><strong style={{ color: '#E2E8F0' }}>Discovery rule.</strong> In cases where the injury was not immediately apparent — certain toxic exposure or medical negligence cases — the clock may start when you discovered or should have discovered the injury.</li>
+                <li><strong style={{ color: '#E2E8F0' }}>Government defendants.</strong> If your claim is against a Texas government entity (a city bus, a county-maintained road), you must file a formal notice of claim within <strong style={{ color: '#E2E8F0' }}>six months</strong> of the incident. This is a much shorter deadline and a common trap.</li>
+                <li><strong style={{ color: '#E2E8F0' }}>Wrongful death.</strong> The two-year limitation also applies, running from the date of death.</li>
+              </ul>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Do not wait until month 23 to consult an attorney. Evidence disappears, witnesses move, and surveillance footage gets overwritten.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in Texas</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>There is no honest way to give you a precise average — settlement data is largely private, and the range is enormous based on injury type, fault allocation, and insurance coverage. That said, here is a realistic picture based on claim types.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Minor soft-tissue injuries (whiplash, bruising, strains) with full recovery typically settle in the $8,000 to $25,000 range in Texas, with pain and suffering representing 50 to 60% of that figure.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Moderate injuries requiring surgery — a knee scope, disc surgery, or rotator cuff repair — commonly settle between $75,000 and $250,000 depending on recovery outcomes and fault allocation.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Severe injuries involving permanent impairment, traumatic brain injury, or spinal damage can produce settlements and verdicts from $300,000 into the millions, though Texas jury conservatism means these cases often settle below what comparable cases would fetch in California. See our <Link href="/pain-and-suffering-calculator/california/" style={{ color: '#60A5FA' }}>California pain and suffering calculator</Link> if you are comparing jurisdictions.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The calculator above gives you a data-anchored starting estimate. Treat it as a floor for negotiation, not a final number.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
+              <FAQAccordion faqs={[
+                {
+                  id: 'tx-faq-1',
+                  question: 'How is pain and suffering calculated in Texas?',
+                  answer: 'Texas does not prescribe a formula by statute. In practice, attorneys and insurance companies use the multiplier method — adding your medical bills and lost wages, then multiplying by 1.5 to 5 based on injury severity — or the per diem method, which assigns a daily dollar value to your suffering and multiplies it by the duration. Juries hear both approaches and decide what is reasonable. The multiplier method is more common in Texas insurance negotiations.',
+                  schemaAnswer: 'Texas does not prescribe a formula by statute. In practice, attorneys and insurance companies use the multiplier method — adding your medical bills and lost wages, then multiplying by 1.5 to 5 based on injury severity — or the per diem method, which assigns a daily dollar value to your suffering and multiplies it by the duration. Juries hear both approaches and decide what is reasonable. The multiplier method is more common in Texas insurance negotiations.'
+                },
+                {
+                  id: 'tx-faq-2',
+                  question: 'Is there a cap on pain and suffering in Texas?',
+                  answer: 'For standard personal injury claims — car accidents, slip and falls, product liability — there is no cap on non-economic damages in Texas. A jury can award any amount it finds fair. The cap only applies to medical malpractice: $250,000 against an individual provider and $750,000 aggregate. If a doctor or hospital caused your injury, those limits apply. If another driver or property owner caused it, they do not.',
+                  schemaAnswer: 'For standard personal injury claims — car accidents, slip and falls, product liability — there is no cap on non-economic damages in Texas. A jury can award any amount it finds fair. The cap only applies to medical malpractice: $250,000 against an individual provider and $750,000 aggregate. If a doctor or hospital caused your injury, those limits apply. If another driver or property owner caused it, they do not.'
+                },
+                {
+                  id: 'tx-faq-3',
+                  question: 'What is the 51% rule in Texas personal injury cases?',
+                  answer: 'Under Texas modified comparative fault law (Chapter 33, Texas Civil Practice and Remedies Code), you can only recover damages if you are found 50% or less at fault for your own injury. Your damages are reduced proportionally by your fault percentage. If you are assigned 51% or more of the fault, you are completely barred from recovery. Insurance adjusters routinely use this rule as leverage — if they can argue you were primarily responsible, your claim becomes worthless.',
+                  schemaAnswer: 'Under Texas modified comparative fault law (Chapter 33, Texas Civil Practice and Remedies Code), you can only recover damages if you are found 50% or less at fault for your own injury. Your damages are reduced proportionally by your fault percentage. If you are assigned 51% or more of the fault, you are completely barred from recovery. Insurance adjusters routinely use this rule as leverage — if they can argue you were primarily responsible, your claim becomes worthless.'
+                },
+                {
+                  id: 'tx-faq-4',
+                  question: 'What is the statute of limitations for personal injury in Texas?',
+                  answer: 'Two years from the date of the injury, under Section 16.003 of the Texas Civil Practice and Remedies Code. For claims against government entities, a notice of claim must be filed within six months. For injured minors, the clock starts at age 18. Missing the deadline almost always results in complete dismissal of your claim regardless of merit.',
+                  schemaAnswer: 'Two years from the date of the injury, under Section 16.003 of the Texas Civil Practice and Remedies Code. For claims against government entities, a notice of claim must be filed within six months. For injured minors, the clock starts at age 18. Missing the deadline almost always results in complete dismissal of your claim regardless of merit.'
+                },
+                {
+                  id: 'tx-faq-5',
+                  question: 'What are average pain and suffering settlements in Texas?',
+                  answer: 'Ranges vary widely by injury severity. Minor injuries typically produce total settlements of $8,000 to $25,000. Moderate surgical injuries commonly settle in the $75,000 to $250,000 range. Catastrophic or permanent injuries can reach seven figures, though Texas juries are notably conservative compared to other large states. Policy limits, fault allocation, and documentation quality are the primary variables that move your number within those ranges.',
+                  schemaAnswer: 'Ranges vary widely by injury severity. Minor injuries typically produce total settlements of $8,000 to $25,000. Moderate surgical injuries commonly settle in the $75,000 to $250,000 range. Catastrophic or permanent injuries can reach seven figures, though Texas juries are notably conservative compared to other large states. Policy limits, fault allocation, and documentation quality are the primary variables that move your number within those ranges.'
+                }
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Use the Calculator — Then Talk to an Attorney</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>You have been injured. Texas law gives you real rights, but it also has real traps — a 51% fault bar that can erase your entire claim, a two-year deadline that moves faster than it feels, and insurance adjusters trained to minimize what they pay you.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The <Link href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</Link> gives you a data-based estimate grounded in the multiplier and per diem methods used in actual Texas negotiations. Run your numbers, save your estimate, and walk into any conversation with an insurance company or attorney knowing your baseline.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Your estimate is a starting point. For injuries involving surgery, permanent impairment, disputed fault, or any claim above $25,000, consult a licensed Texas personal injury attorney. Most work on contingency — no fee unless you recover — so the consultation costs you nothing.</p>
+            </article>
           ) : (
             <>
               {/* ── EDITORIAL ── */}
