@@ -391,7 +391,7 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
               <FAQAccordion faqs={[
                 {
                   question: 'How is pain and suffering calculated in California?',
-                  answer: <>California uses two methods: the multiplier method (your total medical bills and economic losses multiplied by 1.5 to 5, based on injury severity) and the per diem method (a daily dollar rate multiplied by your recovery days). Neither is legally mandated — they&apos;re the standard industry approach used by both plaintiffs&apos; attorneys and insurance adjusters. Our <Link href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>how pain and suffering is calculated</Link> guide covers both methods in full detail.</>
+                  answer: 'California uses two methods: the multiplier method (your total medical bills and economic losses multiplied by 1.5 to 5, based on injury severity) and the per diem method (a daily dollar rate multiplied by your recovery days). Neither is legally mandated — they\'re the standard industry approach used by both plaintiffs\' attorneys and insurance adjusters. Our how pain and suffering is calculated guide covers both methods in full detail.'
                 },
                 {
                   question: 'Is there a cap on pain and suffering in California?',
