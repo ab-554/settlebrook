@@ -122,7 +122,7 @@ export default function PainSufferingCalculator({ stateSlug, stateName, faultRul
   )
 
   return (
-    <div className="w-full max-w-2xl mx-auto flex flex-col gap-5">
+    <div className="mx-auto flex flex-col gap-5" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
 
       <DisclaimerBanner variant="banner" stateName={stateName} />
       <AdSlot id="AD_SLOT_TOP" />

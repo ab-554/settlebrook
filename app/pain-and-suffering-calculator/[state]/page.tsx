@@ -173,7 +173,7 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
           <div className="flex flex-col lg:flex-row gap-8 items-start">
 
             {/* Left: state law callout + calculator */}
-            <div className="w-full lg:flex-1 min-w-0 flex flex-col gap-5">
+            <div className="w-full lg:flex-1 min-w-0 flex flex-col gap-5 overflow-hidden" style={{ minWidth: 0, overflow: 'hidden' }}>
 
               {/* State law facts */}
               <div
@@ -351,7 +351,7 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
             <FAQAccordion faqs={faqs} />
           </section>
 
-          <div className="mt-12 max-w-3xl">
+          <div className="w-full">
             <DisclaimerBanner variant="footer" stateName={stateData.name} />
           </div>
         </div>

@@ -46,22 +46,25 @@ export default function DisclaimerBanner({ variant = 'banner', stateName }: Disc
       aria-label="Legal disclaimer"
       className="rounded-2xl px-6 py-6 flex flex-col gap-4"
       style={{
+        width: '100%',
+        maxWidth: '900px',
+        margin: '60px auto',
         background: 'rgba(255,255,255,0.04)',
         border: '1px solid rgba(99,179,237,0.15)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
       }}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center justify-center gap-2">
         <svg className="w-4 h-4 flex-shrink-0" style={{ color: '#60A5FA' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
         </svg>
-        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#94A3B8' }}>
+        <span className="font-bold uppercase tracking-widest" style={{ color: '#94A3B8', fontSize: '16px', fontWeight: 700 }}>
           Important Disclaimer
         </span>
       </div>
 
-      <div className="flex flex-col gap-2 text-xs leading-relaxed" style={{ color: '#64748B' }}>
+      <div className="flex flex-col gap-2" style={{ color: '#64748B', textAlign: 'center', fontSize: '15px', lineHeight: '1.8' }}>
         <p>
           The settlement estimates produced by this calculator are for{' '}
           <strong style={{ color: '#94A3B8', fontWeight: 600 }}>informational purposes only</strong>{' '}
@@ -81,7 +84,7 @@ export default function DisclaimerBanner({ variant = 'banner', stateName }: Disc
         </p>
       </div>
 
-      <div className="flex flex-wrap gap-4 pt-2" style={{ borderTop: '1px solid rgba(99,179,237,0.10)' }}>
+      <div className="flex flex-wrap justify-center gap-4 pt-2" style={{ borderTop: '1px solid rgba(99,179,237,0.10)' }}>
         <TrustBadge icon="shield" text="No personal data collected" />
         <TrustBadge icon="lock"   text="Free to use — no signup" />
         <TrustBadge icon="check"  text="Updated for 2025 state laws" />

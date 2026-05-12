@@ -167,7 +167,7 @@ export default function PainSufferingCalculatorPage() {
           <div className="flex flex-col lg:flex-row gap-8 items-start">
 
             {/* Calculator */}
-            <div className="w-full lg:flex-1 min-w-0">
+            <div className="w-full lg:flex-1 min-w-0 overflow-hidden" style={{ minWidth: 0, overflow: 'hidden' }}>
               <PainSufferingCalculator />
             </div>
 
@@ -265,89 +265,81 @@ export default function PainSufferingCalculatorPage() {
           </div>
 
           {/* ── EDITORIAL ── */}
-          <article className="mt-14 max-w-3xl" aria-label="Guide to pain and suffering damages">
+          <article style={{ margin: '0 auto' }}>
+            <h2 className="heading-gradient" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}>When Everything Feels Uncertain After an Injury</h2>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Getting hurt changes everything — and fast. One day you're fine, and the next you're dealing with doctor visits, missed work, and a stack of bills while an insurance adjuster is already calling you. It's overwhelming, and if you're wondering what your pain and suffering is actually <strong style={{ color: '#E2E8F0' }}>worth</strong>, you're not alone. That's exactly what this pain and suffering calculator is built for — to give you a real, grounded estimate of your non-economic damages before you sign anything or accept a lowball offer.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Pain and suffering is real money. It's not a vague bonus tacked onto your claim — it's often the largest part of a personal injury settlement. And yet most injury victims have no idea how it's calculated, which means they have no idea when they're being underpaid.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>This tool uses the same formulas insurance companies use internally. It won't replace an attorney, and it won't give you a guaranteed number — no calculator can do that. But it will give you a defensible starting point, so you walk into negotiations knowing your range, not guessing at it.</p>
 
-            <section className="mb-10">
-              <h2 className="heading-gradient mb-4" style={{ fontSize: 24, fontWeight: 700 }}>
-                How to Calculate Pain and Suffering Using the Multiplier Method
-              </h2>
-              <p className="text-base leading-relaxed mb-3" style={{ color: '#94A3B8' }}>
-                The multiplier method is the most widely used approach. Insurance companies base their
-                offers largely on this formula — multiplying your total{' '}
-                <strong style={{ color: '#E2E8F0' }}>economic damages</strong> (medical bills, lost wages,
-                future treatment costs) by a number between 1.5 and 5.
-              </p>
-              <p className="text-base leading-relaxed mb-4" style={{ color: '#94A3B8' }}>
-                The multiplier reflects the severity of your injury. A minor whiplash injury with full
-                recovery might warrant a 1.5× multiplier. A serious injury requiring surgery with permanent
-                effects might justify 4× or 5×.
-              </p>
-              <div
-                className="rounded-xl p-5 text-sm leading-relaxed"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.12)', color: '#94A3B8' }}
-              >
-                <strong style={{ color: '#E2E8F0' }}>Example:</strong> $20,000 medical bills + $5,000 lost
-                wages = $25,000 economic damages. At a 3× multiplier, pain and suffering = $75,000. Total
-                = <strong style={{ color: '#FBBF24' }}>$100,000</strong>.
-              </div>
-            </section>
+            <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
 
-            <section className="mb-10">
-              <h2 className="heading-gradient mb-4" style={{ fontSize: 24, fontWeight: 700 }}>
-                How to Calculate Pain and Suffering Using the Per Diem Method
-              </h2>
-              <p className="text-base leading-relaxed mb-3" style={{ color: '#94A3B8' }}>
-                The per diem method assigns a dollar value to each day you suffered and multiplies it by
-                your total recovery days — from injury to{' '}
-                <strong style={{ color: '#E2E8F0' }}>maximum medical improvement (MMI)</strong>.
-              </p>
-              <p className="text-base leading-relaxed mb-4" style={{ color: '#94A3B8' }}>
-                The most defensible daily rate is your actual daily wage (annual salary ÷ 365). For those
-                who are unemployed, $100–$300 per day is commonly used.
-              </p>
-              <div
-                className="rounded-xl p-5 text-sm leading-relaxed"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.12)', color: '#94A3B8' }}
-              >
-                <strong style={{ color: '#E2E8F0' }}>Example:</strong> $180/day × 120 recovery days =
-                $21,600 pain and suffering + $25,000 economic damages ={' '}
-                <strong style={{ color: '#FBBF24' }}>$46,600</strong> total.
-              </div>
-            </section>
+            <h2 className="heading-gradient" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}>What Are Pain and Suffering Damages?</h2>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>When you're injured because of someone else's negligence, your losses fall into two buckets.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>The first bucket is economic damages — the stuff with receipts. Medical bills, lost wages, physical therapy costs, prescription expenses, future medical treatment. These are concrete, documentable, and relatively straightforward to calculate.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>The second bucket is non-economic damages, and this is where pain and suffering lives. It covers the losses that don't come with an invoice: the physical pain you wake up with every morning, the anxiety of not knowing if you'll fully recover, the hobbies you can't do anymore, the way your relationships have changed, the sleep you've lost. These are sometimes called general damages or bodily injury damages, and they're entirely real even though there's no line item for them.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Courts and insurance companies alike recognize that your suffering has monetary value. The law doesn't require you to prove it with a receipt — it requires you to show it's real, connected to the accident, and consistent with your medical treatment.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Here's what most people don't realize: in many personal injury claims, pain and suffering compensation <strong style={{ color: '#E2E8F0' }}>exceeds</strong> the economic damages. A $20,000 medical bill might anchor a settlement closer to $60,000 or $80,000 once non-economic damages are properly accounted for. That gap is why understanding this calculation matters so much.</p>
 
-            <section className="mb-10">
-              <h2 className="heading-gradient mb-5" style={{ fontSize: 24, fontWeight: 700 }}>
-                Factors That Affect Your Actual Pain and Suffering Settlement
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  { title: 'Comparative Fault', body: "If you were partially at fault, your recovery is reduced — or eliminated — depending on your state's fault rules." },
-                  { title: 'Insurance Policy Limits', body: "Even a $500,000 estimate is only collectible up to the at-fault party's policy limits." },
-                  { title: 'Medical Documentation', body: 'Consistent treatment records and specialist notes dramatically strengthen your claim.' },
-                  { title: 'Liability Clarity', body: 'Clear-cut liability cases settle faster and higher. Disputed fault cases settle lower.' },
-                  { title: 'State Damage Caps', body: 'Some states cap non-economic damages. Ohio and Colorado cap pain and suffering in most cases.' },
-                  { title: 'Attorney Representation', body: 'Represented plaintiffs consistently recover 3–4× more even after attorney fees.' },
-                ].map((item) => (
-                  <div
-                    key={item.title}
-                    className="rounded-xl p-4 transition-all duration-300 hover:border-blue-400"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.12)' }}
-                  >
-                    <h3 className="text-sm font-bold mb-1.5" style={{ color: '#F1F5F9', fontSize: 14 }}>{item.title}</h3>
-                    <p className="text-xs leading-snug" style={{ color: '#94A3B8' }}>{item.body}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </article>
+            <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
 
-          {/* ── FAQ ── */}
-          <section className="mt-4 max-w-3xl" aria-label="Frequently asked questions about pain and suffering calculators">
-            <h2 className="heading-gradient mb-6" style={{ fontSize: 28, fontWeight: 700 }}>
-              Pain &amp; Suffering Calculator — FAQs
-            </h2>
+            <h2 className="heading-gradient" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}>How to Calculate Pain and Suffering</h2>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>The most widely used method is called the multiplier method, and it's straightforward once you see it in action.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>You start with your total economic damages — add up every medical bill, every lost paycheck, every out-of-pocket expense tied to your injury. That number becomes your base. Then you multiply it by a number between 1.5 and 5, depending on how severe and lasting your injuries are. The result is your estimated pain and suffering damages.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Here's how that plays out with real numbers:</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Say you broke your wrist in a car accident. Your medical bills total $12,000 and you missed two weeks of work, losing $3,200 in wages. Your total economic damages are $15,200. A moderate injury like a fracture that heals fully might warrant a multiplier of 2.0. That puts your pain and suffering estimate at $30,400 — and your total claim value at roughly $45,600.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Now take a more serious scenario. A herniated disc from the same type of accident. Medical costs run $38,000, and you're out of work for three months — $14,500 in lost wages. Economic damages: $52,500. Because the injury is severe, requires surgery, and leaves you with chronic pain, the multiplier rises to 3.5. Pain and suffering: $183,750. Total claim: over $236,000.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>What moves the multiplier up? Severity of the injury, whether it's permanent or temporary, how much your daily life has been disrupted, and how consistent and well-documented your medical treatment is. A minor soft tissue injury that resolves in six weeks typically lands at 1.5 to 2. Permanent injuries, surgeries, and long-term disability push toward 4 or 5.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>What moves it down? Gaps in treatment, pre-existing conditions in the same body part, and any evidence that you contributed to the accident.</p>
+
+            <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
+
+            <h2 className="heading-gradient" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}>The Per Diem Method</h2>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>The per diem method takes a different approach. Instead of multiplying your economic damages, it assigns a daily dollar value to your pain — and then multiplies that by the number of days you suffered.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>The daily rate is usually tied to your actual daily earnings. If you make $200 a day, the argument is that your pain is worth at least that much per day, since you'd reasonably trade a day's pay to not experience it.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>So if you earned $200/day and your recovery took 180 days of real, documented pain, your per diem calculation yields $36,000 in pain and suffering.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>This method works best when your recovery has a clear endpoint — a fracture that healed, a surgery with a defined recovery window. It's harder to apply when injuries are ongoing or permanent, because multiplying a daily rate by an indefinite number of future days becomes speculative.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Some personal injury attorneys use per diem specifically to counter lowball multiplier offers from insurance companies. If the per diem number comes out higher, it gives you a stronger argument in negotiation. Our <Link href='/pain-and-suffering-calculator/' style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</Link> runs both methods so you can see which one produces a stronger estimate for your specific situation.</p>
+
+            <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
+
+            <h2 className="heading-gradient" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}>How Insurance Companies Calculate Pain and Suffering</h2>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Here's something most injury victims never find out until it's too late: insurance companies don't sit down and thoughtfully consider your suffering. They run it through software.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>The dominant program in the industry is called Colossus, and it's used by many of the largest insurers in the country. An insurance adjuster enters your medical codes, treatment history, injury type, and claim details — and the software spits out a settlement range. The adjuster then works from that range, typically starting at the low end.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Colossus weighs certain factors heavily. Documented treatment from a licensed physician counts for more than chiropractic-only care. Consistent, uninterrupted treatment strengthens your value. Objective findings — an MRI showing a herniated disc, an X-ray confirming a fracture — carry more weight than pain complaints alone.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>What hurts your value in the system? Gaps in treatment longer than 30 days (the software reads these as evidence you weren't really that hurt). Treatment from providers the system doesn't weight highly. Injuries that don't match the accident mechanism. And any documented pre-existing condition in the same area.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Adjusters are also trained to ask you recorded questions early — before you've fully treated — specifically to lock in statements that minimize your claim. The number they first offer you is not their honest assessment. It's their opening bid in a negotiation, anchored to a software output designed to protect their bottom line.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Knowing how the calculation works is your first line of defense.</p>
+
+            <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
+
+            <h2 className="heading-gradient" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}>Factors That Affect Your Settlement Value</h2>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Several things directly influence where your pain and suffering estimate lands — and some of them are within your control.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Medical documentation</strong> is the single biggest factor. Every symptom, every limitation, every bad night of sleep should be in your medical records. Judges and adjusters can only value what's documented. If you told your doctor your back hurts but you didn't mention the headaches, the insomnia, or the fact that you can't pick up your kids — those losses effectively don't exist in your claim.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Treatment consistency</strong> matters almost as much. If you went to three appointments and then stopped for two months, the insurance company will argue the gap means you recovered. Even if you stopped because you couldn't afford more visits, or because life got in the way, the gap will be used against you. Treat consistently until your doctor releases you.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Injury severity and permanence</strong> drive the multiplier higher than anything else. A torn rotator cuff that requires surgery and leaves you with a 15% permanent impairment is worth dramatically more than the same shoulder injury that heals completely. If your doctor has given you a permanent impairment rating, that number is significant — document it and make sure it's in your records.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Your credibility</strong> affects settlement value in ways that aren't always obvious. Social media posts showing you at a barbecue two weeks after claiming you can barely walk will crater your claim. Inconsistencies between what you tell doctors and what you tell the insurance company will be flagged.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Attorney representation</strong> consistently produces higher settlements. Studies have found that represented claimants receive settlements three to four times higher on average than unrepresented ones — even after attorney fees. This doesn't mean you must hire an attorney, but it means the decision deserves serious thought before you negotiate alone.</p>
+
+            <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
+
+            <h2 className="heading-gradient" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}>Pain and Suffering Settlement Examples</h2>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>These examples are illustrative — every claim is different, and these numbers are not guarantees. They're meant to show you what the math looks like in real personal injury claims.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Scenario 1 — Rear-end collision, soft tissue injuries.</strong> You're hit from behind at a stoplight. Whiplash, cervical strain, six weeks of physical therapy. Medical bills: $6,800. Lost wages: $1,400. Economic damages: $8,200. Multiplier: 1.8 (moderate soft tissue, full recovery). Pain and suffering estimate: $14,760. Total claim range: $20,000–$26,000.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Scenario 2 — Slip and fall, knee surgery.</strong> You fall on a wet floor at a retail store. Torn meniscus, arthroscopic surgery, four months of recovery. Medical bills: $31,500. Lost wages: $9,200. Economic damages: $40,700. Multiplier: 3.0 (surgery, significant recovery period). Pain and suffering estimate: $122,100. Total claim range: $140,000–$175,000.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Scenario 3 — T-bone collision, spinal injury.</strong> Another driver runs a red light and hits your door. Herniated disc at L4-L5, nerve damage, permanent 12% whole-body impairment. Medical bills: $67,000. Lost wages: $28,000. Economic damages: $95,000. Multiplier: 4.5 (permanent injury, surgical intervention, lasting disability). Pain and suffering estimate: $427,500. Total claim value: well over $500,000 — and likely subject to policy limits.</p>
+
+            <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
+
+            <h2 className="heading-gradient" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}>Frequently Asked Questions</h2>
             <FAQAccordion faqs={faqs} />
-          </section>
+
+            <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
+
+            <h2 className="heading-gradient" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}>Get Your Estimate Now</h2>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>You deserve to know what your claim is worth before anyone asks you to sign anything. The insurance company already has software running numbers on your case — you should have one too.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Use our free Pain and Suffering Calculator above to estimate your settlement value in under 2 minutes.</p>
+
+          </article>
 
           {/* ── STATE GRID ── */}
           <section className="mt-14 max-w-3xl" aria-label="Pain and suffering calculator by state">
@@ -374,7 +366,7 @@ export default function PainSufferingCalculatorPage() {
             </ul>
           </section>
 
-          <div className="mt-14 max-w-3xl">
+          <div className="w-full">
             <DisclaimerBanner variant="footer" />
           </div>
         </div>
