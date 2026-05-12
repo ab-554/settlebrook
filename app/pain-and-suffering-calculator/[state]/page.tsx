@@ -237,26 +237,16 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
             <aside aria-label="Related state information" className="w-full lg:w-72 flex-shrink-0 flex flex-col gap-5">
 
               {/* Attorney CTA */}
-              <div
-                className="rounded-2xl p-5"
-                style={{
-                  background: 'rgba(96,165,250,0.07)',
-                  border: '1px solid rgba(96,165,250,0.22)',
-                  backdropFilter: 'blur(16px)',
-                }}
-              >
-                <h2 className="text-sm font-bold mb-1.5" style={{ color: '#93C5FD' }}>
-                  Free {stateData.name} Case Review
-                </h2>
-                <p className="text-xs leading-snug mb-4" style={{ color: '#60A5FA' }}>
-                  {stateData.name} personal injury attorneys work on contingency — no fees unless you win.
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '16px', padding: '20px' }}>
+                <h3 style={{ color: '#F1F5F9', fontSize: '16px', fontWeight: 700, marginBottom: '8px' }}>
+                  How Is Pain and Suffering Calculated?
+                </h3>
+                <p style={{ color: '#94A3B8', fontSize: '13px', lineHeight: '1.6', marginBottom: '16px' }}>
+                  Learn the multiplier method, per diem method, and what insurance companies actually look at when valuing your claim.
                 </p>
-                <div
-                  id="AFFILIATE_CTA_SIDEBAR"
-                  className="btn-primary w-full rounded-xl text-xs font-semibold py-2.5 px-4 text-center cursor-default"
-                >
-                  Find a {stateData.name} Attorney →
-                </div>
+                <Link href="/pain-and-suffering-calculator/guide/" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', borderRadius: '10px', fontSize: '13px', fontWeight: 600, background: 'linear-gradient(135deg, #3B82F6, #06B6D4)', color: '#FFFFFF', textDecoration: 'none' }}>
+                  Read the Complete Guide →
+                </Link>
               </div>
 
               {/* Other states */}

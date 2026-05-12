@@ -195,25 +195,16 @@ export default function PainSufferingCalculatorPage() {
                 </div>
               </SideCard>
 
-              <div
-                className="rounded-2xl p-5"
-                style={{
-                  background: 'rgba(96,165,250,0.07)',
-                  border: '1px solid rgba(96,165,250,0.22)',
-                  backdropFilter: 'blur(16px)',
-                }}
-              >
-                <h2 className="font-display text-sm font-bold mb-1.5" style={{ color: '#93C5FD' }}>Get a Free Case Review</h2>
-                <p className="text-xs leading-snug mb-4" style={{ color: '#60A5FA' }}>
-                  Estimates are a starting point. A personal injury attorney can evaluate your actual
-                  claim — most work on contingency (no fee unless you win).
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '16px', padding: '20px' }}>
+                <h3 style={{ color: '#F1F5F9', fontSize: '16px', fontWeight: 700, marginBottom: '8px' }}>
+                  How Is Pain and Suffering Calculated?
+                </h3>
+                <p style={{ color: '#94A3B8', fontSize: '13px', lineHeight: '1.6', marginBottom: '16px' }}>
+                  Learn exactly how insurance companies calculate your damages — multiplier method, per diem method, and what raises or lowers your number.
                 </p>
-                <div
-                  id="AFFILIATE_CTA_SIDEBAR"
-                  className="btn-primary w-full rounded-xl text-xs font-semibold py-2.5 px-4 text-center cursor-default"
-                >
-                  Find a Free Consultation →
-                </div>
+                <Link href="/pain-and-suffering-calculator/guide/" className="btn-primary" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', borderRadius: '10px', fontSize: '13px', fontWeight: 600, background: 'linear-gradient(135deg, #3B82F6, #06B6D4)', color: '#FFFFFF', textDecoration: 'none' }}>
+                  Read the Complete Guide →
+                </Link>
               </div>
 
               <nav aria-label="State-specific pain and suffering calculators">
