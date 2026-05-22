@@ -772,6 +772,236 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Use the Calculator to Estimate Your New York Settlement</h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you were injured in New York and your injuries meet the serious injury threshold, your pain and suffering damages can be substantial — especially if your accident happened in New York City. Use the <Link href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</Link> to run both the multiplier and per diem methods with your actual numbers. The calculator is free, takes two minutes, and gives you a defensible starting estimate before you speak to an attorney. No personal information required.</p>
             </article>
+          ) : stateData.slug === 'pennsylvania' ? (
+            <article style={{ margin: '0 auto' }}>
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Introduction</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you were injured in a car accident in Pennsylvania and you are trying to figure out whether you can even sue for pain and suffering, you are not alone in that confusion. Pennsylvania is one of a small number of states that operates a &quot;choice no-fault&quot; system, which means your right to recover pain and suffering damages depends almost entirely on a decision you made when you bought your auto insurance policy — a decision most people do not remember making. This guide explains how that system works, how pain and suffering is calculated under Pennsylvania law, what your claim may actually be worth, and what deadlines you cannot afford to miss.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Pain and Suffering Damages Under Pennsylvania Law</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Pain and suffering is a category of non-economic damages — compensation for the physical pain, emotional distress, anxiety, loss of enjoyment of life, and diminished quality of living caused by someone else&apos;s negligence. Unlike medical bills or lost wages, there is no invoice for pain and suffering. Its value is argued, not calculated on a spreadsheet.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Pennsylvania places no statutory cap on compensatory damages, including pain and suffering. The Pennsylvania Constitution prohibits the legislature from limiting jury awards in personal injury cases. That means there is no ceiling on what a jury can award you — your recovery is bounded only by what the evidence supports and what a jury finds credible.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Punitive damages are available in Pennsylvania for conduct that is outrageous or shows a reckless indifference to the interests of others, but they require a higher evidentiary burden and are not available in routine negligence cases. For most personal injury claimants, the focus is entirely on compensatory non-economic damages: pain, suffering, and their ongoing consequences in your daily life.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Pennsylvania Choice No-Fault — Limited Tort vs Full Tort</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>This is the most important section on this page. Read it carefully before you use any calculator.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Pennsylvania&apos;s choice no-fault system means that when you purchased your auto insurance policy, you were required to elect either <strong style={{ color: '#E2E8F0' }}>limited tort</strong> or <strong style={{ color: '#E2E8F0' }}>full tort</strong> coverage. That single election determines whether you can sue for pain and suffering after a car accident.</p>
+
+              <h3 className="heading-gradient" style={{ fontSize: '20px', fontWeight: 600 }}>Full Tort</h3>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you elected full tort, you have an unrestricted right to sue the at-fault driver for all damages, including pain and suffering, regardless of how severe your injuries are. Full tort costs more in premiums, but it preserves your full legal rights. If you have full tort and you suffered a soft-tissue injury, a herniated disc, or any other injury caused by someone else, you can pursue pain and suffering damages without clearing any legal threshold.</p>
+
+              <h3 className="heading-gradient" style={{ fontSize: '20px', fontWeight: 600 }}>Limited Tort</h3>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you elected limited tort — which many drivers chose because it lowers premiums — you gave up your right to sue for pain and suffering unless your injuries meet the &quot;serious injury&quot; threshold defined by Pennsylvania statute. Under 75 Pa. C.S. Section 1705, a serious injury is one of three things: death, serious impairment of a body function, or permanent serious disfigurement.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>What that means in practice: if you have limited tort and you suffered whiplash, a sprain, or a soft-tissue injury that is genuinely painful but does not seriously impair a body function or permanently disfigure you, a Pennsylvania court will likely bar your pain and suffering claim entirely.</p>
+
+              <h3 className="heading-gradient" style={{ fontSize: '20px', fontWeight: 600 }}>Exceptions to Limited Tort</h3>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Limited tort is not absolute. You may still pursue full pain and suffering damages under a limited tort policy if the at-fault driver was uninsured, if the at-fault driver was convicted of DUI in connection with the accident, if the at-fault driver was operating a vehicle registered out of state, or if you were a pedestrian or bicyclist at the time of the crash.</p>
+
+              <h3 className="heading-gradient" style={{ fontSize: '20px', fontWeight: 600 }}>Why This Matters for Your Calculation</h3>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Before you estimate a pain and suffering figure, you need to know your tort election. If you do not know, call your insurance agent and ask. That answer changes everything about the value of your claim.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>How Pain and Suffering Is Calculated in Pennsylvania</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Once you have confirmed you can pursue pain and suffering — either through full tort or by meeting the serious injury threshold under limited tort — Pennsylvania courts and insurers use two primary methods to calculate non-economic damages.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>The multiplier method</strong> is the most common. An adjuster or attorney takes your total economic damages (medical bills, lost wages, out-of-pocket costs) and multiplies them by a number between 1.5 and 5 to arrive at a pain and suffering figure. The multiplier depends on injury severity, treatment duration, whether surgery was required, and the permanence of your injuries.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>A real example: you suffered a herniated disc in a rear-end collision in Philadelphia. Your medical bills total $28,000 and you lost $6,000 in wages during your recovery. Your total economic damages are $34,000. A moderate multiplier of 3 produces a pain and suffering estimate of $102,000, for a total claim value of $136,000.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>The per diem method</strong> assigns a daily dollar value to your pain and suffering — often your daily wage — and multiplies it by the number of days you experienced pain. If you earned $250 per day and suffered for 180 days, the per diem calculation yields $45,000 in pain and suffering.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Use our <a href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</a> to run both methods with your own numbers. For a deeper explanation of how the math works, read <a href="/pain-and-suffering-calculator/guide/" style={{ color: '#60A5FA' }}>how pain and suffering is calculated</a>.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Pennsylvania Modified Comparative Fault</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Pennsylvania follows a modified comparative fault rule with a 51% bar. If you were partially at fault for the accident, your damages are reduced by your percentage of fault. If you were 25% at fault, you recover 75% of your total damages. If you were 51% or more at fault, you are completely barred from recovering anything.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Insurance adjusters use comparative fault aggressively during negotiations. If you made a lane change without signaling, if you were slightly speeding, or if any contributing factor can be attributed to your conduct, expect the adjuster to assign you fault and reduce the offer accordingly. An attorney can challenge those assignments, and juries can reject them — but you need to anticipate this argument before you accept any settlement.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Pennsylvania&apos;s 51% bar is the same threshold used in Texas and most other comparative fault states. It is more favorable to plaintiffs than states with a 50% bar, but only marginally so.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Factors That Affect Pennsylvania Settlements</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Several factors beyond injury severity drive settlement value in Pennsylvania.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Venue matters enormously.</strong> Philadelphia County produces some of the highest plaintiff jury verdict averages in the United States. Philadelphia juries are urban, plaintiff-sympathetic, and familiar with the real cost of medical care in a major city. A herniated disc case that settles for $85,000 in rural Centre County may command a $200,000 offer in Philadelphia simply because the defendant&apos;s attorney knows what a Philadelphia jury is likely to award.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Pittsburgh and Allegheny County produce strong plaintiff verdicts as well, though typically lower than Philadelphia. Cases in suburban counties like Chester, Montgomery, and Bucks County tend to land in the middle range.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Other settlement factors include: how clearly liability is established, the at-fault driver&apos;s insurance policy limits, whether you treated with a specialist versus a primary care physician, the consistency of your treatment record, the permanence of your injuries, and your age and occupation. A permanent injury to a 35-year-old surgeon has a different damages profile than the same injury to a retired individual, even if the diagnosis is identical.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Pennsylvania Statute of Limitations</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>In Pennsylvania, you have <strong style={{ color: '#E2E8F0' }}>two years</strong> from the date of the accident to file a personal injury lawsuit. This deadline is set by 42 Pa. C.S. Section 5524 and it is nearly absolute.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you miss the two-year deadline, the defendant&apos;s attorney will file a motion to dismiss, the court will grant it, and your claim will be extinguished regardless of how strong it was on the merits. There is no second chance.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Limited exceptions exist. The discovery rule may toll the statute in cases where injuries were not immediately apparent. The minority tolling rule pauses the statute for injured plaintiffs who were under 18 at the time of the accident — the clock starts running on their 18th birthday. Fraudulent concealment by the defendant can also toll the statute in rare circumstances.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Do not rely on exceptions. If you have a viable claim, consult an attorney well before the two-year mark. Insurance negotiations that drag past the deadline leave you with no leverage and no claim.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in Pennsylvania</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Pennsylvania does not publish statewide settlement data, and published verdict databases reflect only cases that went to trial — a small fraction of all resolved claims. With that caveat, published verdict research and attorney survey data suggest the following general ranges for Pennsylvania.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Soft-tissue injuries (sprains, strains) in full tort cases: $15,000 to $60,000. Disc injuries without surgery: $40,000 to $150,000. Disc injuries with surgery: $100,000 to $400,000. Traumatic brain injuries: $200,000 to several million dollars depending on severity. Wrongful death cases in Philadelphia: often seven figures before punitive damages.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>These are ranges, not guarantees. Your specific facts — venue, liability clarity, treatment quality, and the at-fault driver&apos;s policy limits — will determine where your case falls within or outside any range. Policy limits are a practical ceiling in most cases; a $25,000 bodily injury policy is the most you will recover from that insurer regardless of what a jury would award.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
+              <FAQAccordion faqs={[
+                {
+                  id: 'pa-faq-1',
+                  question: 'How is pain and suffering calculated in Pennsylvania?',
+                  answer: 'Pennsylvania insurers and courts use the multiplier method most frequently. Your total economic damages (medical bills plus lost wages) are multiplied by a factor of 1.5 to 5 depending on injury severity. A serious injury with surgery and long-term impairment may command a multiplier of 4 or 5. A soft-tissue injury with a clean recovery may receive 1.5 to 2. The per diem method is an alternative that assigns a daily dollar value to your pain and assigns it across the days of your suffering.',
+                  schemaAnswer: 'Pennsylvania insurers and courts use the multiplier method most frequently. Your total economic damages (medical bills plus lost wages) are multiplied by a factor of 1.5 to 5 depending on injury severity. A serious injury with surgery and long-term impairment may command a multiplier of 4 or 5. A soft-tissue injury with a clean recovery may receive 1.5 to 2. The per diem method is an alternative that assigns a daily dollar value to your pain and assigns it across the days of your suffering.'
+                },
+                {
+                  id: 'pa-faq-2',
+                  question: 'What is limited tort in Pennsylvania?',
+                  answer: 'Limited tort is an auto insurance election that reduces your premiums in exchange for surrendering your right to sue for pain and suffering after a car accident, unless your injuries meet the serious injury threshold (death, serious impairment of a body function, or permanent serious disfigurement). If your injuries do not meet that threshold, you can recover medical bills and lost wages but not pain and suffering.',
+                  schemaAnswer: 'Limited tort is an auto insurance election that reduces your premiums in exchange for surrendering your right to sue for pain and suffering after a car accident, unless your injuries meet the serious injury threshold (death, serious impairment of a body function, or permanent serious disfigurement). If your injuries do not meet that threshold, you can recover medical bills and lost wages but not pain and suffering.'
+                },
+                {
+                  id: 'pa-faq-3',
+                  question: 'Does Pennsylvania limit pain and suffering damages?',
+                  answer: 'No. Pennsylvania has no statutory cap on compensatory damages, including pain and suffering. The Pennsylvania Constitution prohibits such a cap. Your recovery is limited only by the evidence, the jury, and practically speaking, the at-fault driver\'s insurance policy limits.',
+                  schemaAnswer: 'No. Pennsylvania has no statutory cap on compensatory damages, including pain and suffering. The Pennsylvania Constitution prohibits such a cap. Your recovery is limited only by the evidence, the jury, and practically speaking, the at-fault driver\'s insurance policy limits.'
+                },
+                {
+                  id: 'pa-faq-4',
+                  question: 'What is the statute of limitations for personal injury in Pennsylvania?',
+                  answer: 'Two years from the date of the accident under 42 Pa. C.S. Section 5524. Limited exceptions apply for minors and delayed injury discovery, but do not rely on them. File or retain counsel well before the deadline.',
+                  schemaAnswer: 'Two years from the date of the accident under 42 Pa. C.S. Section 5524. Limited exceptions apply for minors and delayed injury discovery, but do not rely on them. File or retain counsel well before the deadline.'
+                },
+                {
+                  id: 'pa-faq-5',
+                  question: 'What is the difference between limited tort and full tort in Pennsylvania?',
+                  answer: 'Full tort preserves your unrestricted right to sue for pain and suffering after any auto accident. Limited tort surrenders that right unless your injury is classified as serious under Pennsylvania law. Full tort costs more in premiums. If you were not offered a choice or do not know your election, contact your insurer immediately — it is printed on your declarations page.',
+                  schemaAnswer: 'Full tort preserves your unrestricted right to sue for pain and suffering after any auto accident. Limited tort surrenders that right unless your injury is classified as serious under Pennsylvania law. Full tort costs more in premiums. If you were not offered a choice or do not know your election, contact your insurer immediately — it is printed on your declarations page.'
+                },
+                {
+                  id: 'pa-faq-6',
+                  question: 'Can I still recover pain and suffering if I was partly at fault in Pennsylvania?',
+                  answer: 'Yes, as long as your share of fault is 50% or less. Pennsylvania uses modified comparative fault with a 51% bar. Your damages are reduced proportionally by your fault percentage. At 51% or more, you recover nothing.',
+                  schemaAnswer: 'Yes, as long as your share of fault is 50% or less. Pennsylvania uses modified comparative fault with a 51% bar. Your damages are reduced proportionally by your fault percentage. At 51% or more, you recover nothing.'
+                }
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Use the Pennsylvania Pain and Suffering Calculator</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Pennsylvania&apos;s choice no-fault system is genuinely complicated, and whether you have full tort or limited tort changes the entire value of your claim. Before you negotiate with an insurance adjuster or accept any settlement offer, run your numbers.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Use our <a href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</a> to estimate both the multiplier method and per diem method with your actual medical expenses and income. If you are also researching how other states handle non-economic damages, compare with the <a href="/pain-and-suffering-calculator/new-york/" style={{ color: '#60A5FA' }}>New York pain and suffering calculator</a>. The calculator is free, takes under two minutes, and gives you a baseline to evaluate whatever the insurer puts on the table.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>An estimate is not legal advice. For a claim involving serious injuries, surgery, or long-term impairment, consult a Pennsylvania personal injury attorney. Most take cases on contingency and charge nothing unless you recover.</p>
+            </article>
+          ) : stateData.slug === 'illinois' ? (
+            <article style={{ margin: '0 auto' }}>
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Introduction</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you were injured in Illinois — whether in a car accident on the Eisenhower Expressway, a slip and fall in a Chicago storefront, or a workplace injury downstate — you&apos;re probably asking the same question most injured people ask: what is my case actually worth?</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Pain and suffering damages are typically the largest part of any personal injury settlement. In Illinois, those damages are uncapped, meaning there is no legal ceiling on how much you can recover for your physical pain, emotional distress, and loss of enjoyment of life. Illinois courts struck down attempts to limit those damages over a decade ago, and the law has remained strongly favorable to injured plaintiffs ever since.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>This page explains how pain and suffering is calculated in Illinois, what the 51% comparative fault rule means for your case, what deadlines apply to your claim, and what real Illinois settlements look like. Use the <a href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</a> above to run your own estimate.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Pain and Suffering Damages Under Illinois Law</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Illinois law divides personal injury damages into two categories. Economic damages cover what you lost financially — medical bills, lost wages, future medical costs, and property damage. Non-economic damages cover everything else: the physical pain you endured, the emotional trauma, the anxiety, the depression, the loss of your ability to do things you used to do.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>There is no cap on non-economic damages in Illinois for personal injury, car accident, or wrongful death cases. This was not always the case. In 2005, the Illinois legislature passed tort reform legislation that capped non-economic damages at $500,000 against individual defendants and $1,000,000 against hospitals. The Illinois Supreme Court struck down those caps in <em>Lebron v. Gottlieb Memorial Hospital</em> (2010), ruling they violated the separation of powers doctrine under the Illinois Constitution. Attempts to reinstate caps have failed since.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>What this means for you: unlike injured plaintiffs in states like California or Texas — where soft caps or advisory limits can compress settlement values — Illinois gives juries and insurers no legal ceiling to hide behind. A serious injury with strong documentation can command a genuinely proportional recovery.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>How Pain and Suffering Is Calculated in Illinois</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Illinois insurers and attorneys use two standard methods to calculate pain and suffering. Understanding both helps you evaluate whether an offer is fair.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>The Multiplier Method</strong></p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The most common approach multiplies your total economic damages by a number between 1.5 and 5, depending on injury severity. A multiplier of 1.5 typically applies to soft tissue injuries with a short recovery. A multiplier of 4 or 5 applies to permanent injuries, surgeries, or significant long-term limitations.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Example: You were rear-ended on I-90 near Chicago. Your medical bills total $22,000, and you missed six weeks of work worth $9,000. Your total economic damages are $31,000. At a multiplier of 3 — reasonable for a herniated disc requiring physical therapy — your pain and suffering estimate comes to $93,000, and your total settlement estimate is $124,000.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>At a multiplier of 4, the same facts produce $155,000 total. The multiplier is where negotiation actually happens.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>The Per Diem Method</strong></p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The per diem method assigns a daily dollar value to your pain — often your daily wage — and multiplies it by the number of days you suffered. If you earn $200 per day and suffered for 300 days, your pain and suffering figure is $60,000. This method works well when recovery was prolonged but injury severity was moderate.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>For a deeper look at how these formulas are applied, read <a href="/pain-and-suffering-calculator/guide/" style={{ color: '#60A5FA' }}>how pain and suffering is calculated</a>.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Illinois Modified Comparative Fault — The 51% Rule</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Illinois follows a modified comparative fault system under 735 ILCS 5/2-1116. This rule matters significantly to your recovery.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Here is how it works. If you are found partially at fault for your own injury, your damages are reduced by your percentage of fault. If you are 20% at fault for a car accident, you recover 80% of your total damages. That is true in most comparative fault states.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The critical Illinois rule is the 51% bar: if you are found 51% or more at fault, you recover nothing. You are completely barred from any recovery. At exactly 50% fault, you can still recover half. At 51%, you collect zero.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>This matters most in cases involving disputed liability — intersection accidents, premises liability where you may have ignored a warning, or workplace accidents where your employer claims you violated a safety procedure. Insurance adjusters frequently inflate your percentage of fault during initial negotiations specifically to justify lower offers or denials. If an adjuster claims you were 40% at fault, that is almost always a negotiating position, not a legal determination.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Illinois courts apportion fault to the jury. The jury&apos;s finding is what controls. An attorney can push back on inflated fault assignments that adjusters have no legal authority to impose unilaterally.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Factors That Affect Illinois Pain and Suffering Settlements</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Where your case is venued matters enormously in Illinois, and this is not a minor point.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Cook County — Chicago — consistently produces among the highest jury verdict averages in the country. Juries in Cook County are experienced with serious injury cases and tend to award substantial non-economic damages. If your case goes to trial in Cook County and your injuries are well-documented, your exposure numbers are materially higher than the same case tried downstate.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Collar counties like DuPage, Lake, and Will tend to produce more moderate verdicts. Downstate venues — Sangamon, Madison, St. Clair counties — vary significantly. Madison and St. Clair counties have historically been plaintiff-friendly venues.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Beyond venue, Illinois-specific factors that influence pain and suffering value include:</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The length and consistency of your medical treatment matters more than almost anything else. Gaps in treatment — periods where you stopped seeing doctors — are used aggressively by defense attorneys to argue your injuries resolved. Treat continuously, follow your doctor&apos;s instructions, and document everything.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Permanent injuries, surgeries, hardware implants, and lasting functional limitations command higher multipliers. Soft tissue injuries that resolve within 90 days carry lower ones.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Pre-existing conditions complicate but do not eliminate your claim. Illinois follows the eggshell plaintiff rule — a defendant takes you as they find you. If a prior back condition was asymptomatic and the accident aggravated it, you can still recover for the aggravation.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Illinois Statute of Limitations</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Missing a filing deadline in Illinois ends your case regardless of how strong it is. These deadlines are hard cutoffs.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Personal injury (car accidents, slip and fall, general negligence):</strong> 2 years from the date of injury. 735 ILCS 5/13-202.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Medical malpractice:</strong> 2 years from the date you discovered, or reasonably should have discovered, the injury — but subject to a 4-year absolute statute of repose from the date of the negligent act. Whichever expires first controls. If a surgeon made an error in 2021 and you discovered it in 2024, you have until 2025 (2 years from discovery) — unless the 4-year repose period from the act has already expired, in which case you are barred entirely. 735 ILCS 5/13-212.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Wrongful death:</strong> 2 years from the date of death. 740 ILCS 180/2.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Minors:</strong> The statute of limitations is tolled — paused — until the minor reaches age 18. A child injured at age 10 has until age 20 to file. Medical malpractice cases involving minors have a separate rule and are more complex; consult an attorney.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Do not wait.</strong> Evidence degrades, witnesses become unavailable, and insurance companies use delay against you. Two years sounds like a long time until it is not.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in Illinois</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Giving a single average number for Illinois pain and suffering settlements is not meaningful because settlement values vary by three to four orders of magnitude depending on injury type, venue, and liability clarity. A soft tissue car accident case in a suburban county might settle for $15,000 to $40,000. A spinal cord injury case tried in Cook County can produce a jury verdict in the millions.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>What the data does show: Cook County jury verdicts in personal injury cases consistently rank among the top 10 in national surveys. Illinois plaintiffs with permanent injuries, strong medical documentation, and clear liability tend to receive higher offers than comparable plaintiffs in capped states, precisely because insurers cannot point to a statutory ceiling.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Real examples from public Illinois verdict and settlement data: a Chicago pedestrian struck by a rideshare vehicle recovered $1.2 million for a torn labrum and PTSD; a construction worker with a crush injury settled for $875,000 before trial in Cook County; a rear-end accident causing a cervical fusion settled for $340,000 in Lake County.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Your case is individual. Use the <a href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</a> to build a personalized estimate based on your actual damages.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
+              <FAQAccordion faqs={[
+                {
+                  id: 'il-faq-1',
+                  question: 'Is there a cap on pain and suffering in Illinois?',
+                  answer: 'No. Illinois has no statutory cap on non-economic damages for personal injury, car accident, or wrongful death cases. The Illinois Supreme Court struck down prior caps in Lebron v. Gottlieb Memorial Hospital in 2010, holding that caps on damages violated the separation of powers under the Illinois Constitution. There is no legislative cap currently in effect.',
+                  schemaAnswer: 'No. Illinois has no statutory cap on non-economic damages for personal injury, car accident, or wrongful death cases. The Illinois Supreme Court struck down prior caps in Lebron v. Gottlieb Memorial Hospital in 2010, holding that caps on damages violated the separation of powers under the Illinois Constitution. There is no legislative cap currently in effect.'
+                },
+                {
+                  id: 'il-faq-2',
+                  question: 'How is pain and suffering calculated in Illinois?',
+                  answer: 'Illinois attorneys and insurers use two methods. The multiplier method takes your total economic damages and multiplies them by a factor between 1.5 and 5 based on injury severity. The per diem method assigns a daily dollar value — often your daily wage — and multiplies it by recovery days. Multipliers above 3 typically require surgical intervention, permanent limitations, or documented psychological harm.',
+                  schemaAnswer: 'Illinois attorneys and insurers use two methods. The multiplier method takes your total economic damages and multiplies them by a factor between 1.5 and 5 based on injury severity. The per diem method assigns a daily dollar value — often your daily wage — and multiplies it by recovery days. Multipliers above 3 typically require surgical intervention, permanent limitations, or documented psychological harm.'
+                },
+                {
+                  id: 'il-faq-3',
+                  question: 'What is the statute of limitations for personal injury in Illinois?',
+                  answer: 'Two years from the date of injury for most personal injury claims, including car accidents and premises liability. Medical malpractice has a 2-year discovery rule subject to a 4-year absolute statute of repose. Wrongful death is 2 years from the date of death. Minors have until age 18 plus two years.',
+                  schemaAnswer: 'Two years from the date of injury for most personal injury claims, including car accidents and premises liability. Medical malpractice has a 2-year discovery rule subject to a 4-year absolute statute of repose. Wrongful death is 2 years from the date of death. Minors have until age 18 plus two years.'
+                },
+                {
+                  id: 'il-faq-4',
+                  question: 'Does Illinois use no-fault auto insurance?',
+                  answer: 'No. Illinois is an at-fault state. You pursue damages against the at-fault driver\'s liability insurance, not your own policy. Illinois does not require personal injury protection (PIP) coverage. You can sue the at-fault driver directly and recover pain and suffering damages without the PIP limitations that apply in no-fault states like Michigan or Florida.',
+                  schemaAnswer: 'No. Illinois is an at-fault state. You pursue damages against the at-fault driver\'s liability insurance, not your own policy. Illinois does not require personal injury protection (PIP) coverage. You can sue the at-fault driver directly and recover pain and suffering damages without the PIP limitations that apply in no-fault states like Michigan or Florida.'
+                },
+                {
+                  id: 'il-faq-5',
+                  question: 'How much is a pain and suffering settlement worth in Chicago?',
+                  answer: 'Chicago — Cook County — produces the highest average verdicts in Illinois and among the highest nationally. The same injury that might settle for $80,000 downstate might realistically command $150,000 to $200,000 with strong documentation in Cook County, purely because of jury exposure. Insurers price Chicago cases differently. This is a legitimate factor your attorney should be accounting for in negotiations.',
+                  schemaAnswer: 'Chicago — Cook County — produces the highest average verdicts in Illinois and among the highest nationally. The same injury that might settle for $80,000 downstate might realistically command $150,000 to $200,000 with strong documentation in Cook County, purely because of jury exposure. Insurers price Chicago cases differently. This is a legitimate factor your attorney should be accounting for in negotiations.'
+                }
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Use the Illinois Pain and Suffering Calculator</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you were injured in Illinois, you deserve an accurate picture of what your claim is worth before you speak with an insurance adjuster or accept any offer. Adjusters make first offers based on what they think you will accept, not on what your case is worth.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Use the <a href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</a> to enter your medical expenses, lost wages, and injury details. The calculator applies both the multiplier and per diem methods and gives you an Illinois-specific estimate in under two minutes.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you want to understand how the numbers are built, read our guide on <a href="/pain-and-suffering-calculator/guide/" style={{ color: '#60A5FA' }}>how pain and suffering is calculated</a>. If you were injured in another state, see the <a href="/pain-and-suffering-calculator/california/" style={{ color: '#60A5FA' }}>California pain and suffering calculator</a> for a comparison of how capped states handle the same calculation differently.</p>
+            </article>
           ) : (
             <>
               {/* ── EDITORIAL ── */}
