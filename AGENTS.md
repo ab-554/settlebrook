@@ -44,7 +44,7 @@ app/
   sitemap.ts                               Auto-generated sitemap
   pain-and-suffering-calculator/
     page.tsx                               Main calculator (Tool #1 — LIVE)
-    [state]/page.tsx                       State landing pages (14 states active)
+    [state]/page.tsx                       State landing pages — all active states carry full editorial content
   car-accident-settlement-calculator/
     page.tsx                               Stub page (Tool #2 — coming soon)
   workers-comp-settlement-calculator/
@@ -102,14 +102,11 @@ Multiplier ranges:
   Catastrophic 5.0x
 
 ## Pending Tasks — Complete In This Order
-1. Swap Bitter → Playfair Display in app/layout.tsx and tailwind.config.ts
-2. Fix fault percentage slider styling in PainSufferingCalculator.tsx
-3. Fix spacing between Step 2 and Step 3 in calculator form
-4. Remove ALL links to /pain-and-suffering-calculator/states/ sitewide
-5. Update Header.tsx — use logo.png replacing current text/emoji
-6. Content rewrite — landing page copy (1200+ words, empathetic tone)
-7. Blog posts — 4 foundation SEO posts
-8. Expand states.ts from 14 to all 50 states
+1. Tool #2 — Car Accident Settlement Calculator architecture and build
+2. Tool #3 — Workers Comp Settlement Calculator architecture and build
+3. Blog posts — 4 foundation posts targeting long-tail keywords
+4. Internal linking audit — ensure all state pages link to each other correctly
+5. AdSense — replace placeholder divs with real ad units after approval
 
 ## SEO Keywords
 Tool #1: "pain and suffering calculator"        KD 3%,  1.9K/mo, $7.37 CPC
