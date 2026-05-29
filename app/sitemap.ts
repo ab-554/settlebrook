@@ -1,15 +1,20 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // app/sitemap.ts
-// FIX H14: car-accident and workers-comp stub pages bumped from 0.5 → 0.75
-//          These are core commercial pages. Priority 0.5 is for tag/category
-//          pages. Even as stubs they're your #2 and #3 revenue targets.
+// Updates:
+//   • /car-accident-settlement-calculator/ bumped to priority 0.9 (full production
+//     page, same tier as /pain-and-suffering-calculator/)
+//   • All 14 car accident state pages added (0.8 for CA/TX, 0.7 for all others)
+//   • workers-comp stub stays at 0.75 until Tool #3 is built
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { MetadataRoute } from 'next'
 import { ALL_STATES, PRIORITY_STATES } from '@/lib/data/states'
+import { CAR_ACCIDENT_STATES } from '@/lib/data/carAccidentStates'
 
 const BASE_URL = 'https://settlebrook.com'
 const PRIORITY_STATE_SLUGS = new Set(PRIORITY_STATES.map((s) => s.slug))
+// Tier 1 car accident states (CA, TX) get 0.8 — same as priority pain & suffering states
+const CAR_ACCIDENT_TIER1_SLUGS = new Set(['california', 'texas'])
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
@@ -32,11 +37,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     },
     {
-      // FIX H14: was 0.5 — bumped to 0.75 (core commercial page, even as stub)
+      // Full production page — same priority tier as Tool #1
       url: `${BASE_URL}/car-accident-settlement-calculator/`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.75,
+      changeFrequency: 'weekly',
+      priority: 0.9,
     },
     {
       // FIX H14: was 0.5 — bumped to 0.75 (core commercial page, even as stub)
@@ -79,5 +84,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: PRIORITY_STATE_SLUGS.has(state.slug) ? 0.8 : 0.7,
   }))
 
-  return [...staticPages, ...statePages]
+  // Car accident state pages — Tier 1 (CA, TX) at 0.8, all others at 0.7
+  const carAccidentStatePages: MetadataRoute.Sitemap = CAR_ACCIDENT_STATES.map((state) => ({
+    url: `${BASE_URL}/car-accident-settlement-calculator/${state.slug}/`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: CAR_ACCIDENT_TIER1_SLUGS.has(state.slug) ? 0.8 : 0.7,
+  }))
+
+  return [...staticPages, ...statePages, ...carAccidentStatePages]
 }

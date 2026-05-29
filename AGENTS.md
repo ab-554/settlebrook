@@ -101,6 +101,27 @@ Multiplier ranges:
   Severe       4.5x
   Catastrophic 5.0x
 
+## Tool #2 Architecture — Car Accident Settlement Calculator
+URL: /car-accident-settlement-calculator/
+Status: Building
+New inputs vs Tool #1:
+- propertyDamage — vehicle repair or total loss (already in formula)
+- insurancePolicyLimit — advisory display field, triggers warning if estimate exceeds it
+New files:
+- lib/calculations/carAccident.ts — thin wrapper around painSuffering.ts
+- lib/data/carAccidentStates.ts — car-accident-specific state data
+- lib/data/carAccidentFaqs.ts — FAQ content
+- components/calculator/CarAccidentCalculator.tsx
+- components/calculator/CarAccidentResult.tsx
+- components/calculator/PolicyLimitInput.tsx
+Reused from Tool #1 unchanged:
+CalculatorInput, MultiplierSelector, MethodToggle, DisclaimerBanner, FAQAccordion, BreadcrumbNav
+State page priority:
+Tier 1 (launch): California ($23.67 CPC), Texas ($14.50 CPC)
+Tier 2 (30 days after): Florida, New York
+Tier 3 (90 days after): Illinois, Pennsylvania, Georgia, Ohio, Arizona
+Schema: WebApplication + FAQPage on main page. FAQPage + BreadcrumbList + WebPage with areaServed on state pages.
+
 ## Pending Tasks — Complete In This Order
 1. Tool #2 — Car Accident Settlement Calculator architecture and build
 2. Tool #3 — Workers Comp Settlement Calculator architecture and build

@@ -104,3 +104,32 @@ export interface StateData {
   cpcMultiplier: number
   metaDescription: string
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Tool #2 — Car Accident Calculator types
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface CarAccidentInputs extends EconomicDamages {
+  multiplier: number
+  /** Plaintiff's share of fault, 0–99. Mirrors MultiplierMethodInputs.plaintiffFaultPercent. */
+  plaintiffFaultPercent?: number
+  /** Advisory only — triggers a warning in the UI when the estimate exceeds this value. */
+  insurancePolicyLimit?: number
+}
+
+export interface CarAccidentPerDiemInputs extends EconomicDamages {
+  dailyRate: number
+  recoveryDays: number
+  /** Advisory only — passed through for policyLimitWarning check. */
+  insurancePolicyLimit?: number
+}
+
+export interface CarAccidentResult {
+  multiplierResult: MultiplierResult | null
+  perDiemResult: PerDiemResult | null
+  specialDamages: number
+  /** Null when no policy limit supplied or estimate is within the limit. */
+  policyLimitWarning: string | null
+  stateSlug: string | null
+  calculatedAt: string
+}
