@@ -134,7 +134,7 @@ export default function CarAccidentCalculatorPage() {
       <main className="min-h-screen" style={{ backgroundColor: '#050A18' }}>
 
         {/* ── PAGE HEADER ── */}
-        <header style={{ backgroundColor: '#0D1526', borderBottom: '1px solid rgba(99,179,237,0.10)' }}>
+        <header style={{ background: 'linear-gradient(180deg, #0D1B3E 0%, #091426 35%, #060C1A 70%, #050A14 100%)', borderBottom: '1px solid rgba(99,179,237,0.10)' }}>
           <div className="max-w-7xl mx-auto px-6 sm:px-8 py-7 sm:py-9">
             <BreadcrumbNav items={[
               { label: 'Home', href: '/' },

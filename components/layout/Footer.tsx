@@ -14,7 +14,7 @@ export default function Footer() {
     <footer
       className="mt-auto"
       style={{
-        backgroundColor: '#050A18',
+        backgroundColor: '#060B18',
         borderTop: '1px solid rgba(99,179,237,0.10)',
       }}
     >
@@ -27,7 +27,29 @@ export default function Footer() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 mb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-10">
+
+          {/* Site */}
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#60A5FA' }}>
+              Site
+            </h3>
+            <ul className="flex flex-col gap-2.5">
+              {[
+                { href: '/', label: 'Home' },
+                { href: '/about/', label: 'About' },
+                { href: '/contact/', label: 'Contact' },
+                { href: '/privacy-policy/', label: 'Privacy Policy' },
+                { href: '/terms-of-use/', label: 'Terms of Use' },
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           {/* Pain & Suffering */}
           <div>
@@ -61,45 +83,48 @@ export default function Footer() {
                   Calculator (All States)
                 </Link>
               </li>
-              {priorityStates.slice(0, 2).map((state) => (
-                <li key={state.slug}>
-                  <span className="text-sm" style={{ color: 'rgba(148,163,184,0.35)' }}>{state.name} (coming soon)</span>
-                </li>
-              ))}
+              <li>
+                <Link href="/car-accident-settlement-calculator/california/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
+                  California
+                </Link>
+              </li>
+              <li>
+                <Link href="/car-accident-settlement-calculator/texas/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
+                  Texas
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Workers Comp + Site */}
+          {/* Workers Comp */}
           <div>
             <h3 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#60A5FA' }}>
               Workers Comp
             </h3>
-            <ul className="flex flex-col gap-2.5 mb-7">
+            <ul className="flex flex-col gap-2.5">
               <li>
                 <Link href="/workers-comp-settlement-calculator/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
                   Calculator (All States)
                 </Link>
               </li>
-            </ul>
-            <h3 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#60A5FA' }}>
-              Site
-            </h3>
-            <ul className="flex flex-col gap-2.5">
-              {[
-                { href: '/', label: 'Home' },
-                { href: '/about/', label: 'About' },
-                { href: '/contact/', label: 'Contact' },
-                { href: '/privacy-policy/', label: 'Privacy Policy' },
-                { href: '/terms-of-use/', label: 'Terms of Use' },
-              ].map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href="/workers-comp-settlement-calculator/california/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
+                  California
+                </Link>
+              </li>
+              <li>
+                <Link href="/workers-comp-settlement-calculator/texas/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
+                  Texas
+                </Link>
+              </li>
+              <li>
+                <Link href="/workers-comp-settlement-calculator/florida/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
+                  Florida
+                </Link>
+              </li>
             </ul>
           </div>
+
         </div>
 
         {/* Disclaimer */}

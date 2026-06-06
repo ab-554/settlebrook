@@ -97,7 +97,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body
         className="antialiased min-h-screen flex flex-col"
-        style={{ backgroundColor: '#050A18', color: '#E2E8F0', fontFamily: 'var(--font-body)' }}
+        style={{ backgroundColor: '#080D1A', color: '#E2E8F0', fontFamily: 'var(--font-body)' }}
       >
         <a
           href="#main-content"

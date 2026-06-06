@@ -32,8 +32,8 @@ const TOOLS = [
     title: 'Car Accident Settlement Calculator',
     description: 'Estimate your total car accident settlement including vehicle damage, medical bills, lost wages, and pain and suffering. Covers all 50 states.',
     stats: 'Economic + non-economic damages',
-    badge: 'Coming Soon',
-    available: false,
+    badge: 'Live',
+    available: true,
     icon: '🚗',
   },
   {
@@ -41,8 +41,8 @@ const TOOLS = [
     title: 'Workers Comp Settlement Calculator',
     description: 'Estimate your workers compensation settlement based on injury type, wage loss, and permanent impairment rating. State benefit schedules included.',
     stats: 'PPD, PTD, and wage loss benefits',
-    badge: 'Coming Soon',
-    available: false,
+    badge: 'Live',
+    available: true,
     icon: '🏗️',
   },
 ]
@@ -50,7 +50,7 @@ const TOOLS = [
 const TRUST_BADGES = [
   { icon: '🛡️', label: 'No Signup Required' },
   { icon: '🔒', label: 'No Personal Data Collected' },
-  { icon: '✅', label: 'Updated for 2025 State Laws' },
+  { icon: '✅', label: 'Updated for 2026 State Laws' },
   { icon: '⚡', label: 'Instant Results' },
 ]
 
@@ -92,7 +92,7 @@ export default function HomePage() {
           className="relative overflow-hidden flex flex-col items-center justify-center text-center px-4"
           style={{
             minHeight: '100vh',
-            background: 'radial-gradient(ellipse at top, #1E3A5F 0%, #050A18 70%)',
+            background: 'linear-gradient(180deg, #0D1B3E 0%, #091426 35%, #060C1A 70%, #050A14 100%)',
           }}
         >
           {/* Orbs */}
@@ -148,9 +148,9 @@ export default function HomePage() {
             {/* H1 */}
             <h1
               className="animate-fade-in-up-d1 heading-gradient"
-              style={{ fontSize: 'clamp(36px, 6vw, 60px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em' }}
+              style={{ fontSize: 'clamp(38px, 5.5vw, 64px)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.02em' }}
             >
-              Free Personal Injury<br />Settlement Calculators
+              Know what your injury claim<br />is really worth
             </h1>
 
             {/* Sub */}
@@ -158,8 +158,7 @@ export default function HomePage() {
               className="animate-fade-in-up-d2 max-w-2xl text-lg leading-relaxed"
               style={{ color: '#94A3B8' }}
             >
-              Estimate your injury settlement using the same formulas used by insurance adjusters
-              and plaintiff attorneys. Free, instant, and covers all 50 states.
+              Get a calm, data-backed estimate of your settlement in minutes — built from real personal injury outcomes. No pressure, no spam.
             </p>
 
             {/* Trust badges */}
