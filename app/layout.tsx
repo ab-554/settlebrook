@@ -29,8 +29,8 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Settlebrook',
-  url: 'https://settlebrook.com',
-  logo: 'https://settlebrook.com/logo.png',
+  url: 'https://www.settlebrook.com',
+  logo: 'https://www.settlebrook.com/logo.png',
   description:
     'Free legal settlement calculators for personal injury and workplace injury claims in the United States.',
   foundingDate: '2024',
@@ -39,12 +39,12 @@ const organizationSchema = {
     '@type': 'ContactPoint',
     contactType: 'Customer Support',
     email: 'contact.ab554@gmail.com',
-    url: 'https://settlebrook.com/contact/',
+    url: 'https://www.settlebrook.com/contact/',
   },
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://settlebrook.com'),
+  metadataBase: new URL('https://www.settlebrook.com'),
   title: {
     default: 'Settlebrook — Free Legal Settlement Calculators',
     template: '%s | Settlebrook',
