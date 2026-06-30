@@ -48,7 +48,7 @@ export async function generateMetadata({
   const stateData = getCarAccidentStateBySlug(params.state)
   if (!stateData) return { title: 'Page Not Found', robots: { index: false, follow: false } }
 
-  const canonicalUrl = `https://settlebrook.com/car-accident-settlement-calculator/${stateData.slug}/`
+  const canonicalUrl = `/car-accident-settlement-calculator/${stateData.slug}/`
 
   // Title: "{State} Car Accident Settlement Calculator — Free Tool"
   // Longest state = "North Carolina" (14 chars) → 62 chars → 76 total with template — acceptable ✓
@@ -252,7 +252,7 @@ export default function StateCarAccidentPage({ params }: { params: { state: stri
         ? TX_CAR_FAQS
         : getCarAccidentFAQs()
 
-  const canonicalUrl = `https://settlebrook.com/car-accident-settlement-calculator/${stateData.slug}/`
+  const canonicalUrl = `/car-accident-settlement-calculator/${stateData.slug}/`
 
   // State-specific description for schema (mirrors generateMetadata logic)
   const noFaultSuffix = stateData.isNoFaultState

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: 'Free Personal Injury Settlement Calculators — Settlebrook',
   description:
     'Free personal injury settlement calculators for USA accident victims. Estimate pain and suffering damages, car accident settlements, and workers comp settlements instantly.',
-  alternates: { canonical: 'https://settlebrook.com/' },
+  alternates: { canonical: '/' },
   openGraph: {
     title: 'Free Personal Injury Settlement Calculators — Settlebrook',
     description: 'Estimate your injury settlement in seconds. Free tools for pain and suffering, car accident, and workers comp claims across all 50 states.',

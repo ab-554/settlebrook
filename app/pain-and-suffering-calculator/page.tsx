@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   description:
     'Use our free pain and suffering calculator to estimate your damages. Enter medical bills and lost wages for an instant multiplier or per diem estimate. Updated for 2025 USA laws.',
   // FIX M8: keywords array removed — Google ignores this meta tag entirely
-  alternates: { canonical: 'https://settlebrook.com/pain-and-suffering-calculator/' },
+  alternates: { canonical: '/pain-and-suffering-calculator/' },
   openGraph: {
     // FIX C3: OG title and description fully populated
     title: 'Pain & Suffering Calculator — Free Estimate | Settlebrook',

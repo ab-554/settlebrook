@@ -45,7 +45,7 @@ export async function generateMetadata({
   const stateData = getWorkersCompStateBySlug(params.state)
   if (!stateData) return { title: 'Page Not Found', robots: { index: false, follow: false } }
 
-  const canonicalUrl = `https://settlebrook.com/workers-comp-settlement-calculator/${stateData.slug}/`
+  const canonicalUrl = `/workers-comp-settlement-calculator/${stateData.slug}/`
 
   // Title: "[State] Workers Comp Settlement Calculator — Free Tool"
   const pageTitle = `${stateData.name} Workers Comp Settlement Calculator — Free Tool`
@@ -135,7 +135,7 @@ export default function StateWorkersCompPage({ params }: { params: { state: stri
   const stateData = getWorkersCompStateBySlug(params.state)
   if (!stateData) notFound()
 
-  const canonicalUrl = `https://settlebrook.com/workers-comp-settlement-calculator/${stateData.slug}/`
+  const canonicalUrl = `/workers-comp-settlement-calculator/${stateData.slug}/`
 
   // ── JSON-LD schemas ──
 

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   title: 'Car Accident Settlement Calculator — Free Tool',
   description:
     'Free car accident settlement calculator for USA victims. Estimate economic damages, pain and suffering, and total settlement value instantly.',
-  alternates: { canonical: 'https://settlebrook.com/car-accident-settlement-calculator/' },
+  alternates: { canonical: '/car-accident-settlement-calculator/' },
   openGraph: {
     title: 'Car Accident Settlement Calculator — Free Tool | Settlebrook',
     description:

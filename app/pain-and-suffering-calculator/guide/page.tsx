@@ -6,7 +6,7 @@ import FAQAccordion from '@/components/seo/FAQAccordion'
 export const metadata: Metadata = {
   title: 'How Is Pain and Suffering Calculated? Complete Guide',
   description: 'Learn exactly how pain and suffering is calculated using the multiplier and per diem methods. Includes real examples, state rules, and a free calculator tool.',
-  alternates: { canonical: 'https://settlebrook.com/pain-and-suffering-calculator/guide/' },
+  alternates: { canonical: '/pain-and-suffering-calculator/guide/' },
   openGraph: {
     title: 'How Is Pain and Suffering Calculated? Complete Guide',
     description: 'Learn exactly how pain and suffering is calculated using the multiplier and per diem methods. Includes real examples, state rules, and a free calculator tool.',

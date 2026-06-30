@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   title: 'Workers Comp Settlement Calculator — Free Tool',
   description:
     'Free workers compensation settlement calculator. Estimate TTD, PPD, and PTD benefits by state. Enter your weekly wage and impairment rating for an instant estimate.',
-  alternates: { canonical: 'https://settlebrook.com/workers-comp-settlement-calculator/' },
+  alternates: { canonical: '/workers-comp-settlement-calculator/' },
   openGraph: {
     title: 'Workers Comp Settlement Calculator — Free Tool | Settlebrook',
     description:

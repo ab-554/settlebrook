@@ -25,7 +25,7 @@ export async function generateMetadata({
   const stateData = getStateBySlug(params.state)
   if (!stateData) return { title: 'Page Not Found', robots: { index: false, follow: false } }
 
-  const canonicalUrl = `https://settlebrook.com/pain-and-suffering-calculator/${stateData.slug}/`
+  const canonicalUrl = `/pain-and-suffering-calculator/${stateData.slug}/`
 
   // FIX H8: Title pattern — longest US state name is "North Carolina" (14 chars)
   // Pattern: "{State} Pain & Suffering Calculator" = max 14 + 27 = 41 chars → 54 with template ✓
@@ -92,7 +92,7 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
   })
 
   const priorityStates = getPriorityStates()
-  const canonicalUrl   = `https://settlebrook.com/pain-and-suffering-calculator/${stateData.slug}/`
+  const canonicalUrl   = `/pain-and-suffering-calculator/${stateData.slug}/`
 
   // FIX M5: datePublished + dateModified added to WebApplication schema
   const webApplicationSchema = {
