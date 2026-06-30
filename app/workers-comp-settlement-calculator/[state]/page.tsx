@@ -529,33 +529,416 @@ export default function StateWorkersCompPage({ params }: { params: { state: stri
             </article>
           ) : stateData.slug === 'texas' ? (
             <article style={{ margin: '0 auto' }}>
+
+              {/* ── Introduction ── */}
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
+                Imagine you are working a shift on a Dallas loading dock. A defective pallet snaps, dropping six hundred pounds of industrial supplies onto your shoulder. You hear the bone crunch, and within hours, an orthopedic surgeon is explaining that you need a complex rotator cuff reconstruction. Suddenly, you are staring down $65,000 in hospital bills and facing six months of zero income. The human resources manager hands you a stack of paperwork and tells you that the company will &quot;take care of it.&quot;
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If you just sign whatever the insurance adjuster puts in front of you, you are flying blind. You might be leaving tens of thousands of dollars on the table, or worse, signing away your right to file a massive civil lawsuit. Texas is completely unique when it comes to workplace injuries. We operate under a dual system that drastically changes the value of your case depending on one single piece of paper: whether your employer purchased official workers&apos; compensation insurance or opted out.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Before you accept any offer, you need to understand the exact statutory math that governs your payout. Running your numbers through a{' '}
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: '#60A5FA' }}>workers comp settlement calculator</Link>
+                {' '}is a smart first step, but to truly protect your financial future, you have to understand the hard rules of the Texas Labor Code.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── How Texas Workers Comp Works ── */}
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                How Texas Workers&apos; Comp Settlements Work
+                How Texas Workers&apos; Comp Works
               </h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Texas is unique because it is the only state in the country that does not mandate private employers to carry workers&apos; compensation insurance. Employers who choose to opt out of the state system are known as &quot;non-subscribers.&quot;
+                The most crucial fact about the Texas system is that it is the ONLY state in the entire country where private employers are not legally required to carry workers&apos; compensation insurance. The Texas Department of Insurance oversees the Texas Division of Workers Compensation, which regulates this incredibly complex framework.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                If your employer carries standard workers&apos; compensation, Texas pays up to 70% of your Average Weekly Wage (AWW) for TTD benefits, capped at a maximum weekly amount of $1,066 for 2026. If your employer is a non-subscriber, you cannot file a standard workers&apos; comp claim. Instead, you have the right to file a personal injury lawsuit against your employer in civil court where you can recover full damages, including pain and suffering, with no statutory caps.
+                When you get hurt on the job, your employer falls into one of two distinct categories. Employers who purchase state-approved insurance are called <strong style={{ color: '#E2E8F0' }}>subscribers</strong>. If you work for a subscriber, you are funneled into the traditional administrative system. Your medical bills are covered, and you receive formula-based wage replacement. However, you are entirely barred from suing your employer for negligence.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                For subscribers, permanent benefits are paid as Impairment Income Benefits (IIBs) once you reach Maximum Medical Improvement (MMI). You receive three weeks of benefits for every percentage point of impairment assigned by your doctor.
+                Employers who choose to opt out of this system are called <strong style={{ color: '#E2E8F0' }}>non-subscribers</strong>. If you work for a Texas non-subscriber employer, the entire playbook flips. You are no longer trapped by the administrative caps of the state system, and you gain the powerful right to drag your employer into civil court.
               </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Texas TTD Benefits ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Texas TTD Benefits
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If your employer is a subscriber, your immediate financial lifeline is Temporary Income Benefits, commonly referred to as TTD (Temporary Total Disability). These benefits kick in when your injury forces you to miss more than seven days of work.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The state strictly limits what you can recover. Your TTD benefit rate is <strong style={{ color: '#E2E8F0' }}>70 percent</strong> of your Average Weekly Wage (AWW) for the first 26 weeks of your disability. If your lost wages extend beyond that six-month mark, your benefit shifts to 75 percent of your spendable income.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Let&apos;s put concrete math to this statute. Suppose you are an electrician earning $1,400 a week. For the first 26 weeks of your recovery, the insurance company will pay you 70 percent of that wage, which equals <strong style={{ color: '#FBBF24' }}>$980 per week</strong>. You must also factor in the state-mandated caps. For injuries occurring in 2026, the maximum weekly benefit is <strong style={{ color: '#FBBF24' }}>$1,066</strong>. Because your $980 calculation falls below the maximum cap, you receive your full calculated rate. If you were earning $2,000 a week, your 70 percent calculation would be $1,400, but the insurance company would legally cap your checks at exactly $1,066 per week.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Impairment Income Benefits ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Impairment Income Benefits (IIBs)
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The most important phase of a subscriber claim begins when your treating physician determines that your condition is as good as it is going to get. This milestone is legally defined as Texas Maximum Medical Improvement (MMI). Reaching MMI triggers the permanent disability phase of your claim, shifting your payments from temporary wage replacement to Texas Impairment Income Benefits.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Once you reach MMI, a certified doctor will evaluate your permanent physical damage using the AMA Guides to the Evaluation of Permanent Impairment. The doctor assigns you an impairment rating, represented as a strict percentage. This single number dictates the entire value of your Texas workers&apos; comp permanent disability settlement.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Texas law mandates that you receive exactly <strong style={{ color: '#E2E8F0' }}>three weeks</strong> of Texas IIB benefits for every single percentage point of your impairment rating. These benefits are paid at 70 percent of your Average Weekly Wage, strictly capped at $1,066 per week.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Let&apos;s look at how a seemingly small rating translates into concrete settlement dollars. Imagine you suffered a severe back injury, and your pre-injury AWW was $1,500. Your IIB rate is 70 percent of your AWW, which equals <strong style={{ color: '#FBBF24' }}>$1,050 per week</strong>. After a spinal fusion surgery, the doctor assigns you a 15 percent impairment rating.
+              </p>
+
+              {/* IIB calculation table */}
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Settlement Variable</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Statutory Calculation</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Impairment Rating</td>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>15 percent</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Duration Formula</td>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>3 weeks per percentage point</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Total Weeks Paid</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>45 weeks</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Weekly IIB Rate</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$1,050</td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: '14px 16px', color: '#E2E8F0', fontSize: '14px', fontWeight: 600 }}>Total IIB Payout</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$47,250</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                In this scenario, the insurance company owes you a guaranteed <strong style={{ color: '#FBBF24' }}>$47,250</strong> for the permanent damage to your spine. If your injury is so severe that you cannot return to work even after your IIBs run out, you may qualify for Supplemental Income Benefits (SIBs) to cover ongoing wage loss. For the most catastrophic, life-altering injuries — such as paralysis or severe brain trauma — the state provides Lifetime Income Benefits (LIBs) to ensure you are never left destitute.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Non-Subscriber System ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Non-Subscriber System
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If you discover that your company is a Texas workers&apos; comp non-subscriber, you are stepping into an entirely different legal arena. Many massive corporations, big-box retailers, and regional hospital networks choose to opt out of the state system to save on premium costs. While they often set up their own internal injury benefit plans, these plans do not provide the legal protections of the official state system.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Because your employer opted out, they forfeit the legal shield that protects subscriber employers from lawsuits. You have the right to file a civil personal injury lawsuit directly against your company for negligence.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Texas Labor Code Section 406.033 makes this exceptionally dangerous for the employer. This statute actively strips the non-subscriber of their common law defenses. They cannot argue that you were partially responsible for your own injury, they cannot blame a coworker, and they cannot claim you assumed the risk of a dangerous job. If they are even one percent at fault for an unsafe working condition, they are fully liable for your damages.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Most importantly, civil lawsuits allow you to recover damages that the DWC administrative system outright bans. Workers&apos; comp does NOT cover pain and suffering for subscribers. If you lose a limb in a subscriber factory, you get your medical bills paid and a formulaic IIB check. If you lose a limb in a non-subscriber factory, a jury can award you millions of dollars for the sheer physical agony and emotional devastation of the accident. Evaluating this massive difference is why many injured workers utilize a{' '}
+                <Link href="/pain-and-suffering-calculator/texas/" style={{ color: '#60A5FA' }}>Texas pain and suffering calculator</Link>
+                {' '}to understand their true civil case value.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Factors Affecting Settlement Value ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Factors Affecting Your Settlement Value
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Your final take-home amount depends on several interlocking variables that attorneys and adjusters negotiate aggressively.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Your pre-injury wages</strong> form the baseline for everything. A worker earning $20 an hour will simply mathematically receive a smaller settlement than a worker earning $40 an hour, because all state benefits are calculated as a percentage of your Average Weekly Wage.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Your impairment rating</strong> is the primary battleground in a subscriber case. The insurance company will frequently send you to their own doctors, who have a notorious habit of assigning artificially low impairment ratings. A single percentage point drop costs you exactly three weeks of income. Fighting a low rating by requesting a Designated Doctor exam is often the most lucrative move you can make.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If you need legal help, the state heavily regulates <strong style={{ color: '#E2E8F0' }}>Texas workers&apos; comp attorney fees</strong>. By law, an attorney handling a subscriber claim cannot charge you by the hour or take a massive chunk of your medical benefits. They are limited to a maximum of 25 percent of your income benefits recovered, and the DWC must approve their fees. This ensures that you can afford top-tier representation without going out of pocket.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Statute of Limitations ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Texas Workers&apos; Comp Statute of Limitations
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Time is the ultimate enemy of an injured worker. The Texas workers&apos; comp statute of limitations is completely unforgiving. You must report your injury to your employer within <strong style={{ color: '#E2E8F0' }}>30 days</strong> of the accident.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                More critically, you have exactly <strong style={{ color: '#E2E8F0' }}>one year</strong> from the date of injury to officially file your claim with the Texas Division of Workers Compensation. This is accomplished by filing DWC Form-041. Do not rely on your employer or the old TWCC Texas legacy systems to do this for you. If your HR department promises they filed the paperwork but fails to submit the official DWC form within that one-year window, your claim will be permanently barred. You will lose all rights to medical care and wage replacement, no matter how catastrophic your injuries are.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Average Settlements ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Average Settlements
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Because of the dual system, average settlement values look wildly different depending on your employer&apos;s insurance status.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                For <strong style={{ color: '#E2E8F0' }}>subscribers</strong>, the system is designed to be a rigid math equation rather than a windfall. A moderate injury like a torn meniscus or a simple fracture usually results in a Texas workers&apos; comp settlement ranging from <strong style={{ color: '#FBBF24' }}>$15,000 to $35,000</strong> in IIB payouts, plus the coverage of the surgery. Severe injuries involving spinal fusions or joint replacements can push IIB settlements into the <strong style={{ color: '#FBBF24' }}>$60,000 to $90,000</strong> range.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                For <strong style={{ color: '#E2E8F0' }}>non-subscribers</strong>, the sky is the limit. Because civil juries can award massive pain and suffering damages, non-subscriber settlements frequently exceed <strong style={{ color: '#FBBF24' }}>$100,000</strong> for moderate injuries and regularly cross the million-dollar threshold for severe, life-altering negligence cases.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── FAQ ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Frequently Asked Questions
+              </h2>
+              <FAQAccordion faqs={[
+                {
+                  id: 'wc-tx-faq-1',
+                  question: 'Does a Texas workers comp settlement cover pain and suffering?',
+                  answer: 'If your employer is a subscriber to the state system, absolutely not. The administrative system strictly forbids payouts for physical pain or emotional distress. You are limited purely to medical bill coverage and wage replacement formulas. However, if your employer is a non-subscriber, you can sue in civil court and recover full pain and suffering damages.',
+                  schemaAnswer: 'If your employer is a subscriber to the state system, absolutely not. The administrative system strictly forbids payouts for physical pain or emotional distress. You are limited purely to medical bill coverage and wage replacement formulas. However, if your employer is a non-subscriber, you can sue in civil court and recover full pain and suffering damages.',
+                },
+                {
+                  id: 'wc-tx-faq-2',
+                  question: 'What does Maximum Medical Improvement mean in Texas?',
+                  answer: 'Maximum Medical Improvement (MMI) is the specific medical and legal point where your doctor determines that your work-related injury has healed as much as it possibly can. Reaching this point means your condition is stable and further medical treatment will not substantially improve your physical recovery. This milestone stops your temporary benefits and triggers your permanent impairment rating.',
+                  schemaAnswer: 'Maximum Medical Improvement (MMI) is the specific medical and legal point where your doctor determines that your work-related injury has healed as much as it possibly can. Reaching this point means your condition is stable and further medical treatment will not substantially improve your physical recovery. This milestone stops your temporary benefits and triggers your permanent impairment rating.',
+                },
+                {
+                  id: 'wc-tx-faq-3',
+                  question: 'How do I know if my employer is a non-subscriber?',
+                  answer: "Texas employers are required by law to post a notice in the workplace, usually in a breakroom or near the time clock, explicitly stating whether they carry workers' compensation coverage. Additionally, you can verify their coverage status directly on the Texas Department of Insurance website using their employer search tool.",
+                  schemaAnswer: "Texas employers are required by law to post a notice in the workplace, usually in a breakroom or near the time clock, explicitly stating whether they carry workers' compensation coverage. Additionally, you can verify their coverage status directly on the Texas Department of Insurance website using their employer search tool.",
+                },
+                {
+                  id: 'wc-tx-faq-4',
+                  question: 'What happens if I miss the statute of limitations deadline?',
+                  answer: 'If you fail to file DWC Form-041 within one year of your injury date, you will almost certainly forfeit your right to claim any benefits. There are incredibly rare exceptions for workers who are physically or mentally incapable of filing, but for the vast majority of cases, missing the one-year deadline destroys your case entirely.',
+                  schemaAnswer: 'If you fail to file DWC Form-041 within one year of your injury date, you will almost certainly forfeit your right to claim any benefits. There are incredibly rare exceptions for workers who are physically or mentally incapable of filing, but for the vast majority of cases, missing the one-year deadline destroys your case entirely.',
+                },
+                {
+                  id: 'wc-tx-faq-5',
+                  question: 'How much will a lawyer take from my settlement?',
+                  answer: "Under the subscriber system, Texas law protects injured workers by capping attorney fees. A lawyer can only take up to 25 percent of the income benefits they help you recover, and their fees must be actively approved by the Division of Workers Compensation. In a non-subscriber civil lawsuit, attorneys typically charge a standard personal injury contingency fee, which usually ranges from 33 to 40 percent of the total civil settlement.",
+                  schemaAnswer: "Under the subscriber system, Texas law protects injured workers by capping attorney fees. A lawyer can only take up to 25 percent of the income benefits they help you recover, and their fees must be actively approved by the Division of Workers Compensation. In a non-subscriber civil lawsuit, attorneys typically charge a standard personal injury contingency fee, which usually ranges from 33 to 40 percent of the total civil settlement.",
+                },
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── CTA ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Maximize Your Texas Injury Claim Today
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                You cannot afford to guess when dealing with the complexities of subscriber caps and non-subscriber civil lawsuits. One missed deadline or one accepted lowball impairment rating can cost you tens of thousands of dollars. Use our{' '}
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: '#60A5FA' }}>workers comp settlement calculator</Link>
+                {' '}to establish a baseline for your potential IIB payout, and then seek aggressive legal representation to hold the insurance company accountable for every single dollar you are legally owed.
+              </p>
+
             </article>
           ) : stateData.slug === 'florida' ? (
             <article style={{ margin: '0 auto' }}>
+
+              {/* ── Introduction ── */}
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
+                When you suffer a devastating injury on the job in the Sunshine State, the physical pain is quickly overshadowed by a tidal wave of financial anxiety. You are suddenly unable to work, the medical bills are piling up, and the insurance adjuster treating your claim acts like every authorized treatment is coming out of their own pocket. You need to know exactly how much your case is worth, but the insurance company is using complex statutory formulas to minimize their payout. By utilizing a reliable{' '}
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: '#60A5FA' }}>workers comp settlement calculator</Link>
+                {', '}you can strip away the adjuster&apos;s advantage and gain a clear, mathematical understanding of the dollars you are legally owed.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Florida labor laws are notoriously strict and heavily favor the insurance industry, meaning you cannot rely on goodwill to get a fair payout. Your financial survival depends on understanding the exact mechanics of lost wage benefits, impairment ratings, and the rigid caps placed on your recovery. This guide will walk you through the precise calculations governing your claim, empowering you to negotiate a settlement that actually covers the true cost of your injury.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── How FL System Works ── */}
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                How Florida Workers&apos; Comp Settlements Work
+                How the Florida Workers&apos; Comp System Actually Works
               </h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Florida&apos;s workers&apos; compensation system requires employers with four or more employees (or one or more in construction) to carry insurance. The Division of Workers&apos; Compensation oversees claims state-wide.
+                Before you can calculate your potential payout, you have to understand the specific rules of the playing field. Under Chapter 440 of the Florida Statutes, the state mandates that most employers with four or more employees must carry workers&apos; compensation coverage. If you work in the construction industry, that threshold drops dramatically — construction companies must provide coverage if they have even one employee.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Florida pays 66.67% of your Average Weekly Wage (AWW) for temporary total disability (TTD), capped at a maximum weekly rate of $1,197 for 2026. TTD is limited to a maximum of 104 weeks. PPD benefits are calculated based on your physical impairment rating using the Florida Impairment Rating Guide. Note that Florida severely restricts permanent total disability (PTD) benefits for most workplace injuries unless they fall under very specific catastrophic exceptions.
+                The entire system is administered by the Florida Division of Workers&apos; Compensation, often referred to as the Florida DWC. This agency monitors employer compliance and tracks injury data, but they do not act as your personal advocate. When the insurance company inevitably denies a crucial surgery or attempts to cut off your weekly checks prematurely, your dispute will be heard by the Office of Judges of Compensation Claims. The Florida OJCC operates as a specialized administrative court system strictly for workplace injuries. You will not stand before a traditional civil jury; instead, an administrative judge will hear your medical evidence and issue binding rulings based purely on the text of the Florida statutes.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── TTD Benefits ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Calculating Your Temporary Total Disability (TTD) Benefits
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                In the immediate aftermath of your accident, your primary concern is replacing your missing paycheck. If your authorized treating physician states you cannot perform any work whatsoever while you heal, you are entitled to Temporary Total Disability benefits. The math here is strictly defined by statute: your TTD checks will equal <strong style={{ color: '#E2E8F0' }}>66.67 percent</strong> of your Average Weekly Wage.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Lump-sum settlements in Florida are negotiated agreements that release the employer and insurer from any future liability for medical care and lost wages. These are typically finalized before a judge of compensation claims.
+                Let&apos;s look at a concrete example. If you earn an average of $1,200 per week as a heavy machinery operator in Jacksonville, your weekly TTD check will be <strong style={{ color: '#FBBF24' }}>$800</strong>. The state does impose a hard ceiling on these wages. For injuries occurring in 2026, the absolute maximum weekly TTD rate is <strong style={{ color: '#FBBF24' }}>$1,197</strong>. Even if you are a high-earning executive making $4,000 a week, your weekly workers&apos; comp check cannot exceed that statutory $1,197 cap. Furthermore, the insurance company will not pay you these temporary benefits forever. Florida law strictly limits TTD payments to a maximum of <strong style={{ color: '#E2E8F0' }}>104 weeks</strong>. Once you hit that two-year mark of temporary benefits, the checks stop, regardless of whether you have fully recovered.
               </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Impairment Income Benefits and MMI ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Navigating Florida Impairment Income Benefits and MMI
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Eventually, your medical recovery will plateau. Your doctor will declare that you have reached Florida Maximum Medical Improvement, commonly known as MMI. Reaching MMI does not mean you are completely healed or pain-free; it simply means that further medical intervention is not expected to significantly improve your underlying condition. At this critical juncture, your temporary wage replacement checks stop, and the focus shifts to compensating you for any lasting physical damage.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                When you reach MMI, your doctor will evaluate your residual bodily damage using the AMA Guides to the Evaluation of Permanent Impairment. Based on this evaluation, you will receive a specific Florida workers&apos; comp impairment rating. This percentage is the most important number in your entire claim, as it dictates exactly how much money you will receive in Florida impairment income benefits.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The statutory math for these impairment benefits is precise. You are entitled to <strong style={{ color: '#E2E8F0' }}>two weeks of benefits for every single percentage point</strong> of your assigned impairment rating. Furthermore, these specific checks are paid at <strong style={{ color: '#E2E8F0' }}>75 percent of your average weekly wage</strong>. Imagine you are a nurse in Orlando earning an average weekly wage of $1,000. You suffer a severe spinal injury lifting a patient. At MMI, your doctor assigns you a 15 percent impairment rating. Because you receive two weeks of pay per percentage point, you are entitled to 30 weeks of impairment checks. Since your average weekly wage was $1,000, your impairment benefit rate is <strong style={{ color: '#FBBF24' }}>$750 per week</strong>. Over those 30 weeks, you will receive a total of <strong style={{ color: '#FBBF24' }}>$22,500</strong> in impairment income benefits.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Permanent Total Disability ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Harsh Reality of Florida Permanent Total Disability
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Many severely injured workers assume that if they can never return to their old profession, they will automatically qualify for lifetime wage replacement. This is a dangerous misconception. Under current statutes, securing Florida permanent disability workers&apos; comp is incredibly difficult. Florida severely restricts permanent total disability benefits, reserving them only for the most catastrophic, life-altering injuries.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                To qualify for Florida permanent total disability, your condition must fit into a highly restricted, scheduled list of catastrophic injuries. You essentially must prove you have suffered the amputation or functional loss of both hands, both feet, both eyes, or a combination thereof. Total paraplegia, severe traumatic brain injuries resulting in severe sensory or motor disturbances, and second or third-degree burns over 25 percent of your body also make the list.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If you do not fit cleanly into one of these catastrophic categories, your path to lifetime benefits is nearly impossible. A massive herniated disc requiring a three-level spinal fusion might leave you in chronic pain and permanently unable to do heavy labor, but under Florida law, it rarely qualifies for permanent total disability. You will likely be restricted to your standard impairment rating payout and whatever temporary benefits you already exhausted. This incredibly strict standard is why accurately calculating the future cost of your medical care during settlement negotiations is absolutely vital.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Key Factors ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Key Factors Driving Your Florida Workers&apos; Comp Settlement
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                When you and the insurance company finally decide to close out your case, you will negotiate a lump-sum Florida workers&apos; comp settlement. This settlement completely buys out your future rights to wage replacement and, usually, your right to future medical care on the insurance company&apos;s dime. A baseline{' '}
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: '#60A5FA' }}>workers comp settlement calculator</Link>
+                {' '}will look at two main buckets of money: your projected future wage loss and the projected cost of your future medical treatment.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Future medical costs often represent the largest portion of your payout. If your doctor states you will need joint replacement surgery in ten years, the projected cost of that surgery, the hospital stay, and the subsequent physical therapy must be calculated and added to your settlement total. If you are eligible for Medicare, federal law requires the creation of a Medicare Set-Aside account to ensure Medicare does not get billed for your work-related injury. The insurance company will fund this account as part of your settlement, which can significantly drive up the total dollar amount.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                It is absolutely crucial to understand that the workers&apos; comp system does not care about your emotional trauma. Workers&apos; comp explicitly does <strong style={{ color: '#E2E8F0' }}>not</strong> cover pain and suffering. If you lose a finger in a machine press, you are compensated for the anatomical loss and the medical bills, but you receive zero dollars for the sheer agony of the experience.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                However, there is a major exception. If your workplace injury was caused by the negligence of a third party — such as a reckless delivery driver who rear-ended your company truck, or the manufacturer of a defective power tool — you possess the right to file a separate civil personal injury lawsuit against that specific third party. In that civil lawsuit, you can demand massive financial compensation for your physical agony, emotional distress, and loss of enjoyment of life. To see how a third-party civil claim could drastically expand your overall financial recovery, you can run your scenario through a specialized{' '}
+                <Link href="/pain-and-suffering-calculator/florida/" style={{ color: '#60A5FA' }}>Florida pain and suffering calculator</Link>.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Attorney Fees ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Understanding Statutory Attorney Fee Caps
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Do not let the fear of expensive legal bills intimidate you into facing a multi-billion dollar insurance carrier alone. To protect injured workers from price gouging, Florida workers&apos; comp attorney fees are strictly regulated and capped by state statute. You do not hand a lawyer a retainer fee, and you never pay out of pocket. Instead, your attorney is paid a percentage of the settlement they secure for you, and that percentage is locked into a rigid sliding scale.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                By law, an attorney can charge <strong style={{ color: '#E2E8F0' }}>20 percent of the first $5,000</strong> in benefits secured, <strong style={{ color: '#E2E8F0' }}>15 percent of the next $5,000</strong>, and <strong style={{ color: '#E2E8F0' }}>10 percent of any remaining settlement amount</strong>. If your lawyer aggressively negotiates a $100,000 settlement on your behalf, their fee is mathematically limited to <strong style={{ color: '#FBBF24' }}>$10,750</strong>. You walk away with the vast majority of the funds. Because lawyers operate on this contingency fee basis, they are financially motivated to maximize your exact settlement amount.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Statute of Limitations ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Unforgiving Florida Workers&apos; Comp Statute of Limitations
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                In the realm of personal injury law, missing a deadline is fatal to your case. The Florida workers&apos; comp statute of limitations dictates that you have exactly <strong style={{ color: '#E2E8F0' }}>two years</strong> from the specific date of your workplace accident to file a formal Petition for Benefits.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If you fall off scaffolding on October 10, 2024, your absolute deadline to formally file is October 10, 2026. If you file on October 11, the judge will dismiss your claim entirely, and the insurance company will legally owe you nothing. There is a slight exception if the insurance company has been actively providing authorized medical treatment or paying out wage benefits; in those scenarios, the statute of limitations is generally extended to one year from the date of your last authorized medical appointment or your last compensation check. Regardless, playing games with these deadlines is a guaranteed way to lose your financial rights.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Average Settlements ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Real-World Average Settlement Examples
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                While every spinal cord and torn rotator cuff heals differently, analyzing real-world examples helps set your expectations. Settlement values hinge entirely on your pre-injury wages and the severity of your medical prognosis.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Consider a 45-year-old construction worker making $900 a week who suffers a torn meniscus requiring arthroscopic surgery. He receives his temporary benefits for three months, undergoes physical therapy, and reaches MMI with a 3 percent impairment rating. Because he can return to light-duty work, his future wage loss is minimal. A fair settlement to close out his future medical rights and pay his impairment benefits might land around <strong style={{ color: '#FBBF24' }}>$18,000 to $25,000</strong>.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Conversely, look at a 55-year-old commercial truck driver making $1,500 a week who suffers a crushed lumbar spine requiring a complex multi-level fusion. He requires lifelong pain management, physical therapy, and will never drive a commercial rig again. Even if he does not meet the strict statutory definition for permanent total disability, the massive cost of his future medical care and his high impairment rating drastically inflate his case value. A settlement to close out his medical care and buy out his impairment benefits could easily range from <strong style={{ color: '#FBBF24' }}>$150,000 to $275,000</strong> or more, depending heavily on the projected costs locked inside his Medicare Set-Aside.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── FAQ ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Frequently Asked Questions
+              </h2>
+              <FAQAccordion faqs={[
+                {
+                  id: 'wc-fl-faq-1',
+                  question: 'Can my employer fire me for filing a workers compensation claim in Florida?',
+                  answer: "Florida law strictly prohibits employers from firing, demoting, or retaliating against an employee simply because they filed a valid workers' compensation claim. However, Florida is an at-will employment state. Your employer can still legally terminate you if you are entirely unable to perform the core duties of your job, or if they are laying off a larger group of employees for separate financial reasons. If you believe your termination was direct retaliation for reporting your injury, you may have grounds for a separate civil wrongful termination lawsuit against your former employer.",
+                  schemaAnswer: "Florida law strictly prohibits employers from firing, demoting, or retaliating against an employee simply because they filed a valid workers' compensation claim. However, Florida is an at-will employment state, so termination for inability to perform job duties or business-wide layoffs is still permitted.",
+                },
+                {
+                  id: 'wc-fl-faq-2',
+                  question: 'Will I have to pay taxes on my Florida workers comp settlement?',
+                  answer: 'No, the money you receive from a standard workers compensation settlement is entirely tax-free at both the state and federal levels. You do not have to report your settlement payout or your weekly wage replacement checks as gross income to the IRS. The only time taxes become complicated is if you are simultaneously receiving Social Security Disability benefits, as a large workers comp settlement can occasionally reduce your allowable Social Security payments if the settlement is not drafted correctly by an attorney.',
+                  schemaAnswer: 'No, standard workers compensation settlements are entirely tax-free at both the state and federal levels. Complications can arise if you also receive Social Security Disability benefits, as a large settlement may reduce your SSDI payments if not structured correctly.',
+                },
+                {
+                  id: 'wc-fl-faq-3',
+                  question: "What happens if I refuse the insurance company's settlement offer?",
+                  answer: "You are never legally required to settle your workers' compensation case. If the adjuster offers you a lowball sum that does not cover your future medical needs, you can reject it and simply keep your medical claim open indefinitely. By keeping the case open, the insurance carrier remains legally obligated to pay for your authorized medical care related to the injury for the rest of your life, provided you seek authorized treatment at least once a year to keep the statute of limitations from expiring.",
+                  schemaAnswer: "You are never legally required to settle. By rejecting the offer and keeping your claim open, the insurance carrier remains obligated to pay for your authorized medical care for life, provided you seek authorized treatment at least once a year.",
+                },
+                {
+                  id: 'wc-fl-faq-4',
+                  question: 'Can I choose my own doctor under the Florida system?',
+                  answer: 'Unfortunately, the Florida system gives the insurance company near-total control over your medical care. You cannot simply walk into your private primary care physician\'s office and demand the insurance company foot the bill. You must treat exclusively with the physicians specifically authorized by the workers comp carrier. If you absolutely despise the doctor the insurance company selects, Florida law grants you the right to request a one-time change of physician. However, the insurance company still gets to pick the replacement doctor.',
+                  schemaAnswer: "The Florida system gives the insurance company near-total control over your medical care. You must treat with their authorized physicians. Florida law grants you one-time right to request a physician change, but the insurer still selects the replacement.",
+                },
+                {
+                  id: 'wc-fl-faq-5',
+                  question: 'How long does it take for a judge to approve a settlement?',
+                  answer: "Unlike standard civil lawsuits that require lengthy court hearings for approval, Florida workers' comp settlements are generally private contracts. If you are represented by a lawyer, the settlement typically does not even need to be formally approved by an OJCC judge unless it involves complex child support arrears or an unrepresented claimant. Once you sign the final settlement paperwork, the insurance carrier is legally required to mail your settlement check within a strict timeframe, usually just a matter of weeks.",
+                  schemaAnswer: "Florida workers' comp settlements are generally private contracts and typically do not require OJCC judge approval if you have an attorney. Once paperwork is signed, the insurer must mail your check within a strict statutory timeframe, usually weeks.",
+                },
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── CTA ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Take Control of Your Financial Future Today
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The insurance adjuster analyzing your file has an entire team of actuaries and corporate lawyers dedicated to minimizing your payout. You cannot afford to guess at the value of your shattered knee or your spinal fusion. You need concrete numbers. Use our{' '}
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: '#60A5FA' }}>workers comp settlement calculator</Link>
+                {' '}to establish your baseline worth, document every single medical bill, and never let the insurance company bully you into accepting a fraction of what Florida law mandates you are owed. Protect your rights, demand total financial accountability, and secure the capital you need to rebuild your life.
+              </p>
+
             </article>
           ) : stateData.slug === 'new-york' ? (
             /* ─────────────────────────────────────────────────────────────────
