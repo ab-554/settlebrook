@@ -1753,6 +1753,323 @@ export default function StateWorkersCompPage({ params }: { params: { state: stri
 
             </article>
 
+          ) : stateData.slug === 'north-carolina' ? (
+            /* ─────────────────────────────────────────────────────────────────
+               NORTH CAROLINA — converted from public/wc-north-carolina-content.md
+            ───────────────────────────────────────────────────────────────── */
+            <article style={{ margin: '0 auto' }}>
+
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
+                Getting hurt on the job in North Carolina flips your financial world upside down in an instant. One moment you are pulling a shift at a manufacturing plant in Charlotte or framing a house in Raleigh, and the next, you are facing mounting medical bills and a sudden halt to your weekly paycheck. When the dust settles and you reach the point of maximum medical recovery, you are left staring at a complicated legal landscape administered by the North Carolina Industrial Commission, commonly referred to as the NC IC. You need to know exactly what your claim is worth, how the insurance company is valuing your physical permanent damage, and whether you should accept a lump sum payout to close your case forever.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                While a baseline north carolina workers comp settlement calculator can give you a rough estimate of your potential payout, the actual math dictating your financial recovery is strictly controlled by state statutes. The insurance adjuster is not pulling numbers out of thin air. They are using a rigid formula based on your pre-injury wages, the specific body part you injured, and the exact percentage of permanent impairment assigned by your doctor. Understanding how this statutory math works is the only way to protect yourself from accepting a lowball offer that leaves you financially exposed down the road.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                How the North Carolina Workers Comp System Operates
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                North Carolina workers compensation is fundamentally a grand compromise between labor and management. When you are injured in the scope of your employment, you do not have to prove that your boss was negligent, careless, or at fault. Even if you tripped over your own two feet while carrying a box of supplies, your injuries are covered. In exchange for this no-fault coverage, you give up the right to sue your employer directly in civil court for personal injury damages.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Because you cannot file a traditional personal injury lawsuit against your boss, the workers comp system entirely excludes compensation for your emotional distress and physical agony. Workers comp does not cover pain and suffering. If your workplace injury was caused by a negligent third party, such as an outside delivery driver who backed into you on the loading dock or a subcontractor who dropped a tool on your head, you can step outside the workers comp system and file a third-party lawsuit against that specific person or company. In those specific third-party scenarios, you can pursue damages for your physical agony, and running your numbers through a{' '}
+                <Link href="/pain-and-suffering-calculator/north-carolina/" style={{ color: '#60A5FA' }}>North Carolina pain and suffering calculator</Link>
+                {' '}becomes highly relevant. But if your claim is strictly against your employer, your financial recovery is limited to medical coverage and wage replacement.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                A major concern for many injured workers is the fear of losing their livelihood. North Carolina is notoriously an at-will employment state, meaning an employer can generally terminate an employee for almost any reason. However, state law draws a hard line when it comes to workplace injuries. Firing you in retaliation for filing a workers compensation claim is strictly illegal. If your employer terminates you simply because you exercised your right to seek medical treatment and wage replacement under the NC IC rules, you have grounds for a separate retaliatory employment discrimination lawsuit.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Calculating Your Temporary Total Disability (TTD) Benefits
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                When the doctor writes you completely out of work to heal, you are entitled to Temporary Total Disability benefits, known as TTD. Under North Carolina law, your TTD rate is strictly set at <strong style={{ color: '#E2E8F0' }}>66.67 percent</strong> of your Average Weekly Wage. To find your Average Weekly Wage, the insurance company will look at your gross earnings over the 52 weeks immediately preceding your injury, including overtime and bonuses, and divide that total by 52.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Consider a concrete mathematical scenario. Imagine you work as a heavy equipment operator making a gross average of <strong style={{ color: '#FBBF24' }}>$1,200 per week</strong>. If you suffer a severe herniated disc and require spinal fusion surgery, your TTD compensation rate will be exactly <strong style={{ color: '#FBBF24' }}>$800 per week</strong>. These checks are completely tax-free. However, North Carolina law imposes a cap on these wage replacement benefits to protect the insurance system from astronomical payouts to high-income earners. For the year 2026, the maximum weekly benefit is capped at approximately <strong style={{ color: '#FBBF24' }}>$1,254</strong>, though this specific figure is subject to slight annual adjustments by the state. If you are an executive making <strong style={{ color: '#FBBF24' }}>$4,000 a week</strong>, you will not receive two-thirds of your actual wage; you will hit that statutory ceiling and receive the maximum allowable weekly rate.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Your North Carolina PPD Rating and the Body Part Schedule
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The most critical phase of a North Carolina workers comp settlement occurs when your treating physician declares that you have reached Maximum Medical Improvement. This simply means your healing has plateaued. You are as good as you are going to get with medical intervention. If you are not completely back to your pre-injury physical baseline, the doctor will assign you a North Carolina workers comp rating, officially known as a Permanent Partial Disability rating.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                North Carolina uses the AMA Guides to the Evaluation of Permanent Impairment to determine this percentage. This rating represents the permanent loss of use of a specific body part. To translate this medical percentage into actual dollars, the state utilizes a strict schedule of injuries that assigns a maximum number of weeks of compensation to every major body part. Under this schedule, your back is worth <strong style={{ color: '#E2E8F0' }}>300 weeks</strong>. Your arm is valued at <strong style={{ color: '#E2E8F0' }}>240 weeks</strong>. Your leg is worth <strong style={{ color: '#E2E8F0' }}>200 weeks</strong>, your hand is worth <strong style={{ color: '#E2E8F0' }}>200 weeks</strong>, and your thumb alone represents <strong style={{ color: '#E2E8F0' }}>75 weeks</strong> of compensation.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Let us run the concrete math on a North Carolina workers comp permanent partial disability payout. We will return to our heavy equipment operator making an Average Weekly Wage of $1,200, which results in a TTD compensation rate of $800 per week. Imagine his spinal fusion is successful, but he is left with chronic stiffness. His doctor assigns a 15 percent North Carolina PPD rating to his back. The law states the back is worth 300 weeks. We multiply those 300 weeks by the 15 percent impairment rating, which results in 45 weeks of owed compensation. We then multiply those 45 weeks by his $800 weekly compensation rate. The insurance company owes him exactly <strong style={{ color: '#FBBF24' }}>$36,000</strong> for his permanent physical damage.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                When the insurance company agrees to pay out this specific rating, the transaction is typically formalized using a North Carolina Form 26A. This specific document is the Agreement to Compensation. Signing a Form 26A means you agree with the impairment rating and accept the corresponding payout, but importantly, it usually leaves your right to future medical treatment open for a specified period, typically two years from your last medical payment. It is a structured payout for your impairment, not a final closure of your entire file.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                North Carolina Clincher Agreements for a Full Lump Sum
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Many injured workers do not want to keep dealing with the workers comp insurance adjuster for years to come. They want to settle everything, close the medical coverage, and walk away with a single, large check. In this state, a full and final North Carolina workers comp lump sum settlement is known as a clincher agreement.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                A clincher agreement completely severs your relationship with the workers comp insurance company. You are cashing out your permanent partial disability rating, plus the estimated cost of all your future medical care, plus any potential future wage loss, in exchange for closing the claim forever. If your surgically repaired back fails three years down the road and requires another operation, the insurance company will not pay a single dime if you have signed a clincher. You bear the future risk entirely.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Because you are signing away your right to future medical care, every single North Carolina clincher agreement must be heavily scrutinized and formally approved by the NC IC. The Commission acts as a safeguard to ensure the insurance company is not taking advantage of a desperate worker by offering pennies on the dollar for a severe injury.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                To visualize a clincher calculation, let us look at our equipment operator with the <strong style={{ color: '#FBBF24' }}>$36,000</strong> impairment rating on his back. If his doctor estimates he will need <strong style={{ color: '#FBBF24' }}>$15,000</strong> in medication and physical therapy over the next ten years, and perhaps another <strong style={{ color: '#FBBF24' }}>$30,000</strong> for a potential hardware removal surgery, his attorney might negotiate a final clincher agreement of <strong style={{ color: '#FBBF24' }}>$81,000</strong>. This single check pays for the permanent damage and transfers the burden of funding his future medical needs directly to him.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Strict North Carolina Workers Comp Statute of Limitations
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Time is the ultimate enemy in the legal world. The North Carolina workers comp statute of limitations requires you to formally file your claim within exactly <strong style={{ color: '#E2E8F0' }}>two years</strong> from the date of your injury. Many workers make the tragic mistake of assuming their claim is officially filed just because they told their supervisor about the accident or because the company doctor treated them at the occupational health clinic. Reporting the injury to your boss does not stop the legal clock.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                To protect your rights, you or your attorney must file a Form 18 Notice of Accident directly with the North Carolina Industrial Commission. If you simply treat conservatively through the company clinic for two and a half years, and then your knee suddenly gives out requiring major surgery, you will discover that your claim is entirely barred. The insurance company will legally deny the surgery, and the NC IC will uphold that denial because you missed the two-year statutory window to lock in your jurisdiction.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Navigating Attorney Fees and Average Settlements
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If you are negotiating a six-figure clincher agreement involving future surgical risks, handling the adjuster alone is incredibly dangerous. Hiring a legal professional levels the playing field, but you need to understand how the money works. A North Carolina workers comp attorney operates on a strict contingency fee basis, meaning they only get paid if they secure a settlement or a beneficial ruling for you. State law strictly caps these attorney fees at a maximum of <strong style={{ color: '#E2E8F0' }}>25 percent</strong> of your recovery. Furthermore, the NC IC must independently review and approve all attorney fees to ensure they are fair and legally compliant. If your attorney negotiates an <strong style={{ color: '#FBBF24' }}>$80,000</strong> clincher agreement, the maximum fee they can collect is <strong style={{ color: '#FBBF24' }}>$20,000</strong>, leaving you with a net recovery of <strong style={{ color: '#FBBF24' }}>$60,000</strong>. You never pay hourly rates out of your own pocket.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Because every single body part has a different statutory value, and every worker has a different Average Weekly Wage, it is impossible to state a generic average settlement amount. A general{' '}
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: '#60A5FA' }}>workers comp settlement calculator</Link>
+                {' '}helps aggregate these variables, but the reality is heavily nuanced. A mild carpal tunnel release surgery with a 5 percent impairment rating might yield a final clincher of <strong style={{ color: '#FBBF24' }}>$12,000 to $18,000</strong>. Conversely, a catastrophic crush injury to the dominant hand resulting in complex regional pain syndrome, permanent work restrictions, and a lifetime need for pain management could easily push a clincher agreement well past <strong style={{ color: '#FBBF24' }}>$250,000</strong>. The dollar figures are always driven by your pre-injury earning power and the severity of the permanent anatomical damage.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Frequently Asked Questions
+              </h2>
+              <FAQAccordion faqs={[
+                {
+                  id: 'wc-nc-faq-1',
+                  question: 'Does North Carolina workers comp pay for my pain and suffering?',
+                  answer: 'No, the workers compensation system completely prohibits financial recovery for physical pain, emotional trauma, or diminished quality of life. The system strictly pays for your authorized medical treatment and a portion of your lost wages. The only way to recover pain and suffering damages for an on-the-job injury is if you can prove a negligent third party, such as an independent contractor or a defective product manufacturer, caused your accident, allowing you to file a separate civil lawsuit outside the workers comp system.',
+                  schemaAnswer: 'No. Workers comp prohibits recovery for pain and suffering. It covers authorized medical treatment and lost wages only. Pain and suffering is only recoverable via a separate civil lawsuit against a negligent third party who caused the workplace injury.',
+                },
+                {
+                  id: 'wc-nc-faq-2',
+                  question: 'Can my employer legally fire me for reporting my workplace injury?',
+                  answer: 'North Carolina is an at-will employment state, but terminating your employment in retaliation for asserting your workers compensation rights is a direct violation of state law. The Retaliatory Employment Discrimination Act protects you from being fired or demoted simply because you reported an injury or hired an attorney to file a claim with the North Carolina Industrial Commission.',
+                  schemaAnswer: 'No. While North Carolina is at-will, the Retaliatory Employment Discrimination Act prohibits firing or demoting an employee for reporting a workplace injury or filing a claim with the NC Industrial Commission.',
+                },
+                {
+                  id: 'wc-nc-faq-3',
+                  question: 'Who actually decides what my permanent impairment rating will be?',
+                  answer: 'Your authorized treating physician is responsible for assigning your permanent partial disability rating once you reach Maximum Medical Improvement. The doctor must calculate this percentage using the specific guidelines established by the state. If you feel the company-chosen doctor gave you an artificially low impairment rating to save the insurance company money, you have the legal right to request a second opinion regarding your rating from a physician of your own choosing.',
+                  schemaAnswer: 'Your authorized treating physician assigns your permanent partial disability rating at Maximum Medical Improvement using state guidelines. If you believe the rating is artificially low, you have the legal right to seek a second opinion from a physician of your own choosing.',
+                },
+                {
+                  id: 'wc-nc-faq-4',
+                  question: 'Do I have to sign a clincher agreement if the insurance adjuster offers one?',
+                  answer: 'No, a clincher agreement is an entirely voluntary legal contract. The insurance company cannot force you to accept a lump sum settlement, and you cannot force the insurance company to offer one. If you prefer to keep your right to future medical treatment open, you can simply accept payment for your PPD rating through a Form 26A and decline the final clincher.',
+                  schemaAnswer: 'No. A clincher agreement is entirely voluntary. Neither side can force the other to sign. If you prefer to preserve future medical coverage, you can accept PPD payment via Form 26A without signing a final clincher.',
+                },
+                {
+                  id: 'wc-nc-faq-5',
+                  question: 'How much will it cost me to hire a lawyer for my North Carolina claim?',
+                  answer: 'You will not pay any upfront costs or hourly billing fees. Attorneys practicing before the North Carolina Industrial Commission work on a strict contingency fee basis that is capped by law at 25 percent of your financial recovery. The Commission must review and formally approve the lawyer\'s fee before any money is deducted from your final settlement check.',
+                  schemaAnswer: 'No upfront costs or hourly fees. NC workers comp attorneys work on contingency, capped by law at 25% of your recovery. The NC Industrial Commission must review and approve the attorney fee before any deduction from your settlement.',
+                },
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Take the Next Step in Your Claim
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The insurance adjuster is already calculating the absolute minimum they have to pay to close your file. You cannot afford to guess about the statutory value of your body parts or the long-term cost of your future medical care. Leverage the{' '}
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: '#60A5FA' }}>North Carolina workers comp settlement calculator</Link>
+                {' '}to establish your baseline, review your Average Weekly Wage documentation, and ensure your PPD rating accurately reflects the physical damage you have suffered. If you are facing a permanent injury, reaching out for a professional legal consultation is the safest way to ensure the North Carolina Industrial Commission approves a clincher agreement that truly protects your financial future.
+              </p>
+
+            </article>
+
+          ) : stateData.slug === 'arizona' ? (
+            /* ─────────────────────────────────────────────────────────────────
+               ARIZONA — converted from public/wc-arizona-content.md
+            ───────────────────────────────────────────────────────────────── */
+            <article style={{ margin: '0 auto' }}>
+
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
+                When you get hurt on the job in the Grand Canyon State, you quickly learn that the Arizona workers compensation system speaks its entirely own language. Suddenly, you are navigating complex bureaucratic formulas, fighting for proper medical care, and dealing with an alphabet soup of state agencies. If your injury is severe enough to leave you with permanent physical limitations, you are likely trying to figure out how much your case is actually worth. You are probably looking for an Arizona workers comp settlement calculator to give you a straightforward number. But in Arizona, your eventual payout depends on an incredibly specific set of statutory rules that categorize your injury based on the specific body part affected.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                To protect your financial future, you must understand exactly how the state values your lost earning capacity, how your wage replacement is calculated, and what it legally takes to secure a full Arizona workers comp lump sum. We are going to break down the exact math and legal strategy you need to evaluate your claim like an attorney.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                How Arizona Workers Comp Works
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The Arizona Industrial Commission, commonly referred to as the Arizona ICA, is the state agency responsible for overseeing all work injury claims. Under state law, this operates as a strict no-fault system. You do not have to prove that your employer was negligent, reckless, or malicious to get your medical bills covered. Even if you made a careless mistake that caused your own injury, you are generally fully covered. In exchange for this guaranteed medical safety net, the law prevents you from suing your employer for non-economic damages like pain and suffering.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                However, the entire financial side of your recovery revolves around one vital administrative metric: your <strong style={{ color: '#E2E8F0' }}>average monthly wage</strong>. Shortly after your workplace accident, the insurance carrier and the Arizona ICA will review your payroll records from the thirty days immediately prior to your injury to lock in this number. Once the Industrial Commission issues a formal notice setting your average monthly wage, that specific dollar amount dictates every single financial benefit you receive for the life of your claim. If the insurance adjuster miscalculates your bonuses or overtime during this window, your settlement will be permanently undervalued.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Temporary Total Disability Benefits and the Wage Cap
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                While you are actively recovering and your doctor says you cannot work at all, you are entitled to Temporary Total Disability benefits. Arizona law mandates that your temporary disability rate is exactly <strong style={{ color: '#E2E8F0' }}>66.67%</strong> of your established average monthly wage. If you are married or have dependents, the state adds a nominal extra <strong style={{ color: '#FBBF24' }}>$25</strong> per month to your check.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Let us look at the concrete dollar math. If you earned <strong style={{ color: '#FBBF24' }}>$3,000</strong> a month before your accident, your temporary disability checks will total roughly <strong style={{ color: '#FBBF24' }}>$2,000</strong> a month, paid out bi-weekly. But what happens if you are a high earner? Arizona actually utilizes a very high maximum average monthly wage limit, which is subject to annual adjustment by the ICA based on inflation and economic indexes.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                For workplace injuries occurring in 2026, the ICA capped the maximum average monthly wage at <strong style={{ color: '#FBBF24' }}>$6,131.00</strong>. This means that even if you earn <strong style={{ color: '#FBBF24' }}>$12,000</strong> a month as an executive or a specialized union contractor, the state system calculates your 66.67% rate using that $6,131.00 ceiling. Therefore, your absolute maximum monthly temporary benefit tops out at approximately <strong style={{ color: '#FBBF24' }}>$4,087</strong>. If your doctor clears you to return to work on light duty but you are earning less than your pre-injury wage, you shift to Temporary Partial Disability, where the insurance company pays 66.67% of the difference between your old wage and your new light-duty pay.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Scheduled vs. Unscheduled Injuries: The Core of Arizona Value
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Once you complete your surgeries and physical therapy, your primary treating physician will place you at Maximum Medical Improvement. If you do not make a 100% full recovery, your doctor will assign you an Arizona workers comp impairment rating. This is where you encounter the most critical legal concept in Arizona permanent disability workers comp: the strict dividing line between <strong style={{ color: '#E2E8F0' }}>scheduled</strong> and <strong style={{ color: '#E2E8F0' }}>unscheduled injuries</strong>. Your financial future depends entirely on which side of this line your injury falls.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If you injure a specific extremity — like your arm, hand, leg, foot, or your vision or hearing — Arizona treats this as a scheduled injury. The state legislature has pre-assigned a rigid maximum number of months of compensation for each of these body parts under the law. For example, a total loss of use of a major dominant arm entitles you to <strong style={{ color: '#E2E8F0' }}>60 months</strong> of compensation. A minor hand entitles you to <strong style={{ color: '#E2E8F0' }}>40 months</strong>. If your doctor gives you a 10% impairment rating on your dominant arm, you receive 10% of those 60 months, which equals six months of Arizona PPD checks. These scheduled permanent partial disability payments are typically paid out at <strong style={{ color: '#E2E8F0' }}>55%</strong> of your average monthly wage.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Conversely, if you injure your spine, neck, head, hips, or if you injure multiple scheduled body parts in the same accident, you have what is called an <strong style={{ color: '#E2E8F0' }}>unscheduled injury</strong>. Unscheduled injuries are not paid based on a rigid chart of body parts. Instead, they are compensated based on your <strong style={{ color: '#E2E8F0' }}>Loss of Earning Capacity</strong>. The Industrial Commission will look at your physical restrictions and determine how much less money you are capable of earning in the open labor market compared to before your accident.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Proving this loss requires aggressive legal work, often involving functional capacity evaluations and vocational experts. If your pre-injury average monthly wage was <strong style={{ color: '#FBBF24' }}>$4,000</strong>, but your permanent lumbar fusion restricts you to a desk job paying only <strong style={{ color: '#FBBF24' }}>$2,500</strong> a month, your loss of earning capacity is <strong style={{ color: '#FBBF24' }}>$1,500</strong>. You will generally receive 55% of that $1,500 difference every single month. Because unscheduled benefits can theoretically be awarded for the rest of your life, these cases almost always result in the largest Arizona workers comp settlement payouts.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Securing an Arizona Workers Comp Lump Sum Settlement
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Instead of dealing with the insurance company for decades and receiving small monthly checks, many injured workers prefer to negotiate an Arizona workers comp lump sum settlement. In the local legal community, this is typically referred to as a <strong style={{ color: '#E2E8F0' }}>Full and Final Settlement under A.R.S. § 23-1067</strong>. In this scenario, you agree to close out your entire workers compensation claim — including your right to any future medical care — in exchange for a single, tax-free check.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                However, you cannot just sign a piece of paper with the insurance adjuster and walk away with your money. Every single full and final settlement requires formal approval from the Industrial Commission of Arizona. An administrative law judge must review the settlement documents to ensure the financial deal is genuinely in your best interest and that you fully comprehend that you are permanently abandoning your medical safety net. If your injury will require future joint replacements or expensive lifelong pain management, you must mathematically project those future medical costs and demand the insurance company include them in your lump sum before you ever consider signing. Furthermore, if you are a Medicare beneficiary, federal law requires you to establish a Medicare Set-Aside account to ensure the federal government does not end up paying for your future work-related medical treatment.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Key Factors That Alter Your Claim&apos;s Value
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Several external legal elements will drive the final output of any accurate settlement valuation. First, you must account for Arizona workers comp attorney fees. The ICA heavily regulates what lawyers can charge injured workers to prevent price gouging. Under A.R.S. § 23-1069, your attorney generally cannot take more than <strong style={{ color: '#E2E8F0' }}>25%</strong> of your settlement or award. This fee cap ensures that the vast majority of the settlement money stays directly in your pocket to fund your long-term recovery.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Second, you must look beyond the workers compensation system to maximize your financial outcome. While the ICA system absolutely does not cover pain and suffering, you might have strong legal grounds for a third-party lawsuit. If an outside vendor, a negligent delivery driver, or the manufacturer of a defective piece of heavy machinery caused your workplace accident, you can sue that specific entity directly in civil court. Arizona is a pure comparative fault state, which means you can successfully recover civil damages even if you were 90% to blame for your own accident, though your final jury award will simply be reduced by your percentage of fault. A third-party civil claim is the only legal avenue where you can demand massive compensation for your physical agony and mental trauma — and running your numbers through an{' '}
+                <Link href="/pain-and-suffering-calculator/arizona/" style={{ color: '#60A5FA' }}>Arizona pain and suffering calculator</Link>
+                {' '}becomes highly relevant in those scenarios.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Unforgiving Arizona Workers Comp Statute of Limitations
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Time is the biggest threat to your financial recovery. The Arizona workers comp statute of limitations is remarkably strict. You must file a formal Worker&apos;s and Physician&apos;s Report of Injury directly with the Industrial Commission within <strong style={{ color: '#E2E8F0' }}>one year</strong> from the date your workplace accident occurred, or within one year from the date you first became aware of an occupational illness.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Simply telling your manager about your bad back or filling out an internal HR incident report does not satisfy this legal requirement. It does not stop the clock. If you fail to ensure your official claim paperwork is filed with the Arizona ICA within that one-year statutory window, you will permanently lose your right to claim any medical benefits, wage replacement, or a future settlement.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Concrete Average Settlement Scenarios
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Because the state relies on rigid formulas rather than jury sympathy, settlement values vary wildly based on the exact injury classification. Imagine you suffer a scheduled injury, such as a severe knee meniscus tear resulting in a 10% permanent impairment to your leg. The law grants 50 months for a total leg loss, so you are awarded 5 months of compensation. If your average monthly wage was locked in at <strong style={{ color: '#FBBF24' }}>$4,000</strong>, your payout is mathematically capped. You receive 55% of your wage, which is <strong style={{ color: '#FBBF24' }}>$2,200</strong>, multiplied by those five months, yielding a permanent disability payout of exactly <strong style={{ color: '#FBBF24' }}>$11,000</strong>.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Now contrast that with an unscheduled injury scenario. You suffer a severe traumatic brain injury from a scaffolding fall. Your neurologist permanently restricts you to simple, low-stress, part-time work, reducing your earning capacity by <strong style={{ color: '#FBBF24' }}>$3,000</strong> a month. Because unscheduled injuries pay 55% of that lost capacity indefinitely, you are owed <strong style={{ color: '#FBBF24' }}>$1,650</strong> every month for the rest of your working life. An insurance company looking to eliminate the risk of paying you that monthly stipend for the next thirty years might offer an Arizona workers comp lump sum settlement well over <strong style={{ color: '#FBBF24' }}>$300,000</strong> to finalize the claim and close their books.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Frequently Asked Questions
+              </h2>
+              <FAQAccordion faqs={[
+                {
+                  id: 'wc-az-faq-1',
+                  question: 'What exactly is the role of an impairment rating?',
+                  answer: 'Your impairment rating translates your physical, anatomical damage into a hard percentage. For scheduled injuries like arms and legs, this percentage dictates the exact number of months you will receive permanent partial disability checks. For unscheduled injuries like spine trauma, the rating is simply one piece of medical evidence used by the judge to help determine your overall loss of earning capacity.',
+                  schemaAnswer: 'An impairment rating converts physical damage into a percentage. For scheduled injuries it dictates the exact number of PPD benefit months. For unscheduled injuries it is one piece of evidence the judge uses to calculate your overall loss of earning capacity.',
+                },
+                {
+                  id: 'wc-az-faq-2',
+                  question: 'Can I get paid for my pain and suffering in an ICA claim?',
+                  answer: 'No, the Arizona workers compensation system is an exclusive remedy that strictly covers your authorized medical bills and a portion of your lost wages. To obtain non-economic damages, you must pursue a separate third-party civil lawsuit against a negligent outside party. You can explore those potential civil values using an Arizona pain and suffering calculator.',
+                  schemaAnswer: 'No. The Arizona ICA system covers only authorized medical bills and a portion of lost wages. To recover non-economic pain and suffering damages you must file a separate third-party civil lawsuit against a negligent outside party.',
+                },
+                {
+                  id: 'wc-az-faq-3',
+                  question: 'Will a full and final settlement end my medical coverage?',
+                  answer: 'Yes. If you negotiate a Full and Final Settlement under A.R.S. § 23-1067 and it is approved by the administrative law judge, the insurance carrier\'s obligation to pay for your medical care ends permanently. You must use your lump sum settlement funds to pay out of pocket for any future doctor visits, physical therapy, or revision surgeries related to your workplace accident.',
+                  schemaAnswer: 'Yes. A Full and Final Settlement approved under A.R.S. § 23-1067 permanently ends the carrier\'s medical coverage obligation. All future work-related medical costs must be paid from your lump sum funds.',
+                },
+                {
+                  id: 'wc-az-faq-4',
+                  question: 'How long does it take the ICA to approve a lump sum?',
+                  answer: 'Once you and the insurance company successfully negotiate a settlement amount and sign the required legal documents, it typically takes the Industrial Commission roughly thirty to forty-five days to review the file, ensure the math is fair, and issue the formal approval order releasing your funds.',
+                  schemaAnswer: 'After both parties sign the settlement documents, the Industrial Commission of Arizona typically takes 30 to 45 days to review the file and issue the formal approval order releasing settlement funds.',
+                },
+                {
+                  id: 'wc-az-faq-5',
+                  question: 'What happens if my boss illegally failed to buy workers comp insurance?',
+                  answer: 'If your employer failed to carry mandatory coverage, you are not out of luck. You can file your claim directly with the No Insurance Section of the ICA\'s Special Fund Division. The state will step in, investigate the claim, pay your medical bills and wage replacement directly, and then aggressively pursue your employer for full reimbursement alongside massive financial penalties.',
+                  schemaAnswer: 'File your claim with the No Insurance Section of the ICA Special Fund Division. The state pays your medical bills and wage replacement directly, then pursues your uninsured employer for full reimbursement and financial penalties.',
+                },
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Take Control of Your Work Injury Claim
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Valuing a catastrophic work injury in the Grand Canyon State requires far more than basic guesswork. It requires a deep, tactical understanding of the Arizona ICA statutes, complex earning capacity formulas, and long-term medical inflation projections. Before you ever consider signing away your right to lifetime medical care, you need to know exactly what your permanent physical limitations are worth under the law.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Use a dedicated{' '}
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: '#60A5FA' }}>workers comp settlement calculator</Link>
+                {' '}to estimate your baseline numbers and understand your worst-case scenario. However, always consult with an ICA-regulated legal professional to ensure the insurance carrier is correctly calculating your average monthly wage and accurately classifying your injury as unscheduled whenever possible. Fighting for your financial future means demanding every single dollar the statutes allow.
+              </p>
+
+            </article>
+
           ) : (
             <article style={{ margin: '0 auto' }}>
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
