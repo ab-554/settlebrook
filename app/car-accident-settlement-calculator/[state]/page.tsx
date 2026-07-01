@@ -1957,6 +1957,642 @@ export default function StateCarAccidentPage({ params }: { params: { state: stri
 
             </article>
 
+          ) : stateData.slug === 'colorado' ? (
+            /* ─────────────────────────────────────────────────────────────────
+               COLORADO — converted from public/ca-colorado-content.md
+            ───────────────────────────────────────────────────────────────── */
+            <article style={{ margin: '0 auto' }}>
+
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
+                Calculating the potential value of your recovery after a collision on I-25 or a side street in Denver is never as simple as inputting numbers into a generic form. While you may be looking for a{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: '#60A5FA' }}>car accident settlement calculator</Link>
+                {' '}Colorado specific, true case valuation requires an understanding of how Colorado&apos;s unique statutes — from the state&apos;s modified comparative fault rules to the recent, significant adjustments in damage caps — interact with the specific facts of your crash.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                When you are injured, the financial impact extends far beyond your immediate medical bills. You are navigating a complex intersection of insurance requirements, liability thresholds, and evolving state law. Knowing how these pieces fit together is the first step in protecting your claim.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                What Your Colorado Car Accident Settlement Covers
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                In Colorado, an at-fault state, your recovery is designed to make you whole by addressing both the objective financial losses you have incurred and the subjective, life-altering impact of your injuries. Under the principles of tort law, your settlement should ideally cover the full spectrum of your damages.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Economic damages</strong> represent the tangible, out-of-pocket costs tied to your accident. This includes every dollar spent on emergency room visits, physical therapy, diagnostic imaging, and future surgical needs. It also encompasses your lost wages — not just for the time you missed while hospitalized, but for the income you will lose as you undergo long-term recovery. If your vehicle was damaged, the cost of repairs or the fair market value of a total loss also falls under this category.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Noneconomic damages</strong> address the human cost. These are the aspects of your life that do not come with a receipt: the chronic pain that keeps you awake, the anxiety that now accompanies your commute, the inability to participate in hobbies you once loved, and the loss of consortium in your personal relationships. Unlike medical bills, these damages are quantified based on the severity, permanence, and overall impact of the injury on your daily existence.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Calculating Your Claim: The Multiplier Method
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Insurance adjusters often use a multiplier method to arrive at an initial settlement offer. They take your total economic damages — your medical bills and lost earnings — and multiply that figure by a number, typically between 1.5 and 5, to account for your pain and suffering.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Imagine you are in a collision in Denver, a venue known for producing some of the highest plaintiff verdicts in the state. You suffer a fractured femur requiring surgery and rehabilitation, resulting in <strong style={{ color: '#FBBF24' }}>$100,000</strong> in medical expenses and <strong style={{ color: '#FBBF24' }}>$20,000</strong> in lost wages. Your total economic damage is <strong style={{ color: '#FBBF24' }}>$120,000</strong>. If an adjuster applies a 3x multiplier due to the severity of your injury and the recovery timeline, they arrive at a total claim value of <strong style={{ color: '#FBBF24' }}>$480,000</strong>.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This is merely a starting point for negotiation, not a final verdict. If your case is strong, it may be worth using a{' '}
+                <Link href="/pain-and-suffering-calculator/colorado/" style={{ color: '#60A5FA' }}>Colorado pain and suffering calculator</Link>
+                {' '}to better understand how these qualitative factors might increase that multiplier. A skilled attorney will challenge a lowball multiplier by presenting evidence of the long-term, irreversible changes to your quality of life, effectively pushing that number toward the upper limit.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Navigating the Colorado 50% Comparative Fault Bar
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Colorado operates under a modified comparative fault system, codified in C.R.S. 13-21-111. This statute fundamentally changes how recovery is handled when more than one person bears responsibility for an accident. Under this rule, you can only recover damages if your percentage of fault is 49% or less.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If an investigation determines that you are 50% or more at fault for the accident, your claim is barred entirely. You recover nothing. If you are found to be 20% at fault, your total settlement is reduced by 20%. For example, if your total damages are calculated at <strong style={{ color: '#FBBF24' }}>$100,000</strong> but a jury finds you 20% responsible for the crash, your final payout is limited to <strong style={{ color: '#FBBF24' }}>$80,000</strong>.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This creates a high-stakes environment where every detail of the accident — the traffic signals, the weather conditions, the speed of both vehicles — matters immensely. Insurance companies will aggressively look for evidence to push your fault percentage higher, knowing that reaching the 50% threshold completely eliminates their financial obligation to you.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The New $1.5 Million Noneconomic Damage Cap
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                For years, Colorado&apos;s noneconomic damage caps were a significant hurdle for plaintiffs with life-altering injuries. However, the legal landscape shifted dramatically with the passage of HB 24-1472. For all personal injury claims arising on or after January 1, 2025, the cap on noneconomic damages has been raised to <strong style={{ color: '#FBBF24' }}>$1.5 million</strong>.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This is a profound change from the previous <strong style={{ color: '#FBBF24' }}>$250,000</strong> and <strong style={{ color: '#FBBF24' }}>$500,000</strong> limitations that often left victims with permanent, catastrophic injuries undercompensated. This update recognizes that in cases of extreme pain, disability, or significant loss of function, the human cost of the injury can far exceed what was previously allowed under state law.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                When you are assessing the value of your case, this new cap allows for a much more accurate reflection of your damages in catastrophic injury claims. It also creates a higher ceiling for settlement negotiations, as insurance companies must now contend with the risk of significantly higher jury awards if your case proceeds to trial.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Venue Matters: Denver vs. Rural Colorado
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Where your case is litigated can have a surprising impact on your settlement value. Denver County consistently produces the highest plaintiff verdicts in the state. Juries in urban centers like Denver are often more willing to award substantial noneconomic damages compared to juries in smaller, rural jurisdictions.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This reality plays a strategic role in negotiations. If your accident occurred in a rural county, the defense may be more confident in their ability to minimize your verdict at trial. If your accident occurred in Denver, the insurance company faces a greater incentive to settle for a fair amount rather than risking a verdict from a jury that has historically shown a willingness to hold negligent parties fully accountable.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Protecting Your Right to Claim
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Colorado law is strict regarding the timeline for filing a lawsuit. Under C.R.S. 13-80-101, you have three years from the date of the accident to file a lawsuit for an auto accident. While three years may sound like plenty of time, the investigative process, negotiations with insurance companies, and the eventual filing of a complaint require a significant amount of work.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If you miss this three-year window, you lose your legal right to pursue compensation entirely. It is also important to remember that insurance companies rarely make their best offers in the first few months after a crash. They will look for any reason to delay, hoping you will accept a quick, insufficient settlement or, worse, let the statute of limitations expire.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Furthermore, because Colorado requires UM/UIM (uninsured/underinsured motorist) coverage to be offered, you may have additional avenues of recovery if the at-fault driver has insufficient insurance or no insurance at all. Navigating these claims requires the same rigorous documentation as a primary claim, and waiting too long to initiate this process can complicate your ability to secure the full amount you are owed.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Frequently Asked Questions
+              </h2>
+              <FAQAccordion faqs={[
+                {
+                  id: 'ca-co-faq-1',
+                  question: 'How long does it typically take to reach a car accident settlement in Colorado?',
+                  answer: 'Every case is different, but simple claims with minor injuries might resolve in a few months, while complex cases involving severe injuries or disputes over fault can take one to three years. Patience is often the best strategy for maximizing your total recovery.',
+                  schemaAnswer: 'Simple claims with minor injuries might resolve in a few months, while complex cases involving severe injuries or disputes over fault can take one to three years.',
+                },
+                {
+                  id: 'ca-co-faq-2',
+                  question: 'If I was not wearing a seatbelt, does it affect my settlement?',
+                  answer: 'Yes, it can. While C.R.S. 42-4-237 allows for evidence of seatbelt non-use to be introduced, it generally does not bar recovery. It may, however, be used to argue that your injuries were more severe than they otherwise would have been, which could reduce your total compensation.',
+                  schemaAnswer: 'Evidence of seatbelt non-use can be introduced in Colorado. It does not bar recovery but may be used to argue that your injuries were more severe, reducing your total compensation.',
+                },
+                {
+                  id: 'ca-co-faq-3',
+                  question: 'What is Colorado dram shop liability, and how does it relate to my crash?',
+                  answer: 'If your accident was caused by a drunk driver who was over-served at a bar or restaurant, Colorado\'s dram shop law (C.R.S. 44-3-801) may allow you to pursue a claim against the establishment. This can be a vital secondary source of compensation if the driver\'s insurance is insufficient.',
+                  schemaAnswer: 'Colorado\'s dram shop law (C.R.S. 44-3-801) allows you to pursue a claim against an establishment if they over-served the drunk driver who caused your crash.',
+                },
+                {
+                  id: 'ca-co-faq-4',
+                  question: 'What is the minimum liability coverage required for drivers in Colorado?',
+                  answer: 'Colorado law mandates that all drivers carry at least $25,000 in bodily injury liability coverage per person and $50,000 per accident. Given the cost of modern medical care, these minimums are often woefully inadequate, making UM/UIM coverage essential.',
+                  schemaAnswer: 'Colorado law mandates a minimum of $25,000 in bodily injury liability coverage per person and $50,000 per accident.',
+                },
+                {
+                  id: 'ca-co-faq-5',
+                  question: 'Does a car accident settlement calculator provide an accurate number?',
+                  answer: 'No online tool can account for the nuance of Colorado law or the specific evidence in your case. A car accident settlement calculator is a starting point for discussion, not a definitive estimate of what a judge or jury will decide.',
+                  schemaAnswer: 'No online tool can account for the nuance of Colorado law. A calculator is a starting point for discussion, not a definitive estimate.',
+                },
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Securing Your Future
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                A car accident in Colorado can turn your life upside down in an instant. With the legal landscape shifting toward greater protections for injured victims — most notably the new <strong style={{ color: '#FBBF24' }}>$1.5 million</strong> cap on noneconomic damages — it is more important than ever to have a clear understanding of your claim&apos;s true value. Do not let an insurance adjuster dictate the worth of your recovery based on a simple algorithm. Focus on the facts, understand your rights under Colorado&apos;s specific statutes, and ensure that every dollar of your economic and noneconomic damages is accounted for using our{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: '#60A5FA' }}>car accident settlement calculator</Link>.
+              </p>
+
+            </article>
+
+          ) : stateData.slug === 'michigan' ? (
+            /* ─────────────────────────────────────────────────────────────────
+               MICHIGAN — converted from public/ca-michigan-content.md
+            ───────────────────────────────────────────────────────────────── */
+            <article style={{ margin: '0 auto' }}>
+
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
+                When you are involved in a motor vehicle collision, the financial ripple effects can be immediate and overwhelming. Beyond the physical pain, you are forced to confront a complex legal system that operates differently in Michigan than in almost any other state. If you are asking, &quot;How much is my car accident worth in Michigan?&quot; the answer depends on a unique set of statutes, coverage limits, and insurance reform laws that govern your recovery.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Using a{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: '#60A5FA' }}>car accident settlement calculator</Link>
+                {' '}can provide a baseline for understanding your potential claim, but in Michigan, the final figure is rarely a simple mathematical equation. It is the result of navigating Michigan&apos;s specific No-Fault system, meeting the &quot;serious impairment&quot; threshold, and strategically addressing liability.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Michigan No-Fault System Overview
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Michigan is a &quot;no-fault&quot; state under the Michigan No-Fault Act (MCL 500.3101). This system is designed to provide immediate medical and wage-loss benefits to accident victims, regardless of who caused the crash.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                When you are injured, your own insurance company — not the at-fault driver&apos;s — is primarily responsible for your medical expenses and economic losses through Personal Injury Protection (PIP) benefits. Because your own insurer handles your initial medical needs, the concept of settlement in Michigan is split into two tracks. First, there are <strong style={{ color: '#E2E8F0' }}>first-party claims</strong>, which are claims against your own insurer for PIP benefits. Second, there are <strong style={{ color: '#E2E8F0' }}>third-party claims</strong>, which are lawsuits against the at-fault driver for excess economic losses and non-economic damages, such as pain and suffering.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                PIP Coverage and the 2019 Reform
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The 2019 auto insurance reform fundamentally changed how Michigan drivers access medical benefits. Before this, all drivers were required to carry unlimited PIP coverage. Today, drivers have the flexibility to select coverage levels, which directly impacts your financial protection if you are severely injured.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Under the current law, you may have chosen one of the following PIP medical limit options. Unlimited coverage is the gold standard for protection, while a <strong style={{ color: '#FBBF24' }}>$500,000</strong> limit is a mid-tier option for medical care. Alternatively, you might have selected a <strong style={{ color: '#FBBF24' }}>$250,000</strong> limit, which is a common choice for many households, or a <strong style={{ color: '#FBBF24' }}>$50,000</strong> limit available for drivers enrolled in Medicaid. Lastly, some drivers choose to opt-out if they have Medicare or other qualified health coverage.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Your settlement strategy must account for these limits. If your medical expenses exceed the coverage you selected, you may be left with significant out-of-pocket costs unless you can successfully pursue an excess economic loss claim against the at-fault driver.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Serious Impairment Threshold: Your Key to Suing for Pain and Suffering
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                In many states, you can sue for pain and suffering for any injury. In Michigan, you face a higher hurdle. To pursue a third-party claim for non-economic damages (pain and suffering, mental anguish), you must meet the <strong style={{ color: '#E2E8F0' }}>serious impairment of body function</strong> threshold under MCL 500.3135.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                By law, this means you must demonstrate an &quot;objectively manifested impairment of an important body function that affects your general ability to lead your normal life.&quot;
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This is not a self-diagnosis. It requires medical documentation, diagnostic imaging (like MRIs or CT scans), and expert testimony. If your injury does not rise to this level — for example, if you suffer only minor bruising or temporary soreness — you may be barred from seeking non-economic compensation entirely. Proving this threshold is often the single most critical factor in determining the viability and value of your case.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                How Settlements Are Calculated
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                A settlement is not just a random number; it is a calculation of your total losses, both current and future. Our{' '}
+                <Link href="/pain-and-suffering-calculator/michigan/" style={{ color: '#60A5FA' }}>Michigan pain and suffering calculator</Link>
+                {' '}can help you estimate these amounts, but lawyers typically evaluate claims using two core components. First, <strong style={{ color: '#E2E8F0' }}>economic damages</strong> are the hard costs. They include medical bills that exceed your PIP limits, lost wages (paid at <strong style={{ color: '#E2E8F0' }}>85%</strong> of gross pay for up to three years), and replacement services for household chores you can no longer perform. Second, <strong style={{ color: '#E2E8F0' }}>non-economic damages</strong> compensate for the human cost of the crash, including the pain of rehabilitation, the loss of enjoyment of life, disfigurement, and mental anguish. Because there is no mathematical formula for pain, the value is often determined by the severity of the injury, your prognosis, and the quality of your legal representation.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Under the mini-tort exception, if your car was damaged in an accident caused by someone else, you can use Michigan&apos;s mini-tort law to recover up to <strong style={{ color: '#FBBF24' }}>$3,000</strong> from the at-fault driver to cover your collision deductible or repair costs, regardless of who was at fault for the accident itself.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Michigan 51% Comparative Fault
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If you were partially responsible for your accident, your settlement could be reduced or even eliminated. Michigan follows a modified comparative fault rule with a 51% bar. If you are under 51% at fault, you can still recover damages, but your total settlement will be reduced by your percentage of fault. For example, if you are awarded <strong style={{ color: '#FBBF24' }}>$100,000</strong> but are found 20% at fault, your final recovery will be <strong style={{ color: '#FBBF24' }}>$80,000</strong>. However, if you are 51% or more at fault, you are legally barred from recovering any non-economic damages. This is why insurance companies in Michigan work aggressively to shift blame onto the victim, as every percentage point they can assign to you is money they do not have to pay.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Venue Matters: Detroit vs. Other Michigan Regions
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The location of your accident significantly impacts the potential value of your settlement. In Michigan, Wayne County (Detroit) is known for producing some of the highest plaintiff jury verdicts in the state.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Venues in smaller, more conservative counties may result in lower settlement expectations, as juries there are often more skeptical of large damage claims. When evaluating a settlement offer, an experienced attorney will weigh not only the facts of your injury but also the &quot;jurisdictional climate&quot; of the county where the lawsuit would be filed.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Statute of Limitations
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Do not wait to take action. In Michigan, you have a statute of limitations of 3 years from the date of the accident to file a lawsuit for bodily injury or property damage (MCL 600.5805).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                However, be aware that No-Fault insurance benefits have much shorter deadlines. You typically have only one year from the date of the accident to file an application for benefits, and one year from the date an expense is incurred to sue for unpaid PIP benefits. Missing these deadlines can permanently strip you of your right to compensation.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Frequently Asked Questions
+              </h2>
+              <FAQAccordion faqs={[
+                {
+                  id: "ca-mi-faq-1",
+                  question: "What happens if the at-fault driver has no insurance?",
+                  answer: "If you are injured by an uninsured driver, you must rely on your own insurance policy's Uninsured Motorist (UM) coverage, if you purchased it. Michigan law requires a residual liability coverage of $50,000 per person and $100,000 per accident, but if the driver has nothing, your own policy is your primary safety net.",
+                  schemaAnswer: "If you are injured by an uninsured driver, you must rely on your own Uninsured Motorist (UM) coverage. Michigan requires residual liability coverage of $50,000 per person and $100,000 per accident."
+                },
+                {
+                  id: "ca-mi-faq-2",
+                  question: "Is there a cap on pain and suffering damages in Michigan?",
+                  answer: "No. Michigan does not place a statutory cap on non-economic damages for auto accident cases that meet the \"serious impairment\" threshold.",
+                  schemaAnswer: "No. Michigan does not place a statutory cap on non-economic damages for auto accident cases that meet the serious impairment threshold."
+                },
+                {
+                  id: "ca-mi-faq-3",
+                  question: "How does the Michigan mini-tort work if I have a high deductible?",
+                  answer: "The mini-tort allows you to recover up to $3,000 for vehicle damage that your own insurance does not cover. If your deductible is $1,000, you can use the mini-tort to recover that $1,000 from the at-fault driver.",
+                  schemaAnswer: "The mini-tort allows you to recover up to $3,000 for vehicle damage that your own insurance does not cover (e.g. deductibles)."
+                },
+                {
+                  id: "ca-mi-faq-4",
+                  question: "Can I still sue if I was partially at fault?",
+                  answer: "Yes, as long as you are 50% or less at fault. Your total recovery will be reduced by your percentage of comparative negligence.",
+                  schemaAnswer: "Yes, as long as you are 50% or less at fault. Your total recovery will be reduced by your percentage of comparative negligence."
+                },
+                {
+                  id: "ca-mi-faq-5",
+                  question: "Why is my settlement offer lower than my medical bills?",
+                  answer: "Insurance adjusters often undervalue cases by ignoring future medical needs, \"lowballing\" the multiplier for pain and suffering, or attempting to apply comparative fault to reduce their payout. You should never accept a settlement without having a professional review the offer against your long-term prognosis.",
+                  schemaAnswer: "Insurance adjusters often undervalue cases by ignoring future medical needs, lowballing the pain and suffering multiplier, or attempting to apply comparative fault."
+                }
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Protect Your Future
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Navigating a car accident claim in Michigan requires more than just filling out a form. It requires a deep understanding of the No-Fault Act and the ability to prove your injuries meet the serious impairment threshold.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If you have been injured, don&apos;t leave your recovery to chance. Use our{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: '#60A5FA' }}>car accident settlement calculator</Link>
+                {' '}to estimate your baseline, understand your rights under the No-Fault Act, and fight to ensure you receive the full compensation you deserve.
+              </p>
+
+            </article>
+
+          ) : stateData.slug === 'nevada' ? (
+            /* ─────────────────────────────────────────────────────────────────
+               NEVADA — converted from public/ca-nevada-content.md
+            ───────────────────────────────────────────────────────────────── */
+            <article style={{ margin: '0 auto' }}>
+
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
+                You are sitting in the aftermath of a collision on the Las Vegas Strip, surrounded by the neon blur of the city and the crushing reality of a wrecked vehicle. In the moments following a crash, your thoughts rarely drift toward complex legal statutes, but the path toward your recovery depends entirely on understanding Nevada&apos;s specific approach to liability and compensation. Whether you are dealing with a distracted driver on I-15 or a commercial transport near a major casino resort, your financial future hinges on how you calculate the true value of your damages.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Using a{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: '#60A5FA' }}>car accident settlement calculator</Link>
+                {' '}for Nevada is a starting point, but true recovery requires navigating a system that is distinct from many other states. Nevada is an at-fault state, meaning the person responsible for the crash is legally obligated to cover your losses. Because Nevada does not require personal injury protection (PIP), you cannot rely on automatic, no-fault coverage to pay your medical bills. Instead, you must prove fault and aggressively pursue the at-fault driver&apos;s insurance policy or a commercial defendant&apos;s liability coverage.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                What Your Nevada Car Accident Settlement Covers
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                When you assess your claim, it is a mistake to think only of the immediate repair costs for your car. A comprehensive settlement must account for the full spectrum of your physical, emotional, and financial disruption. In Nevada, you are entitled to seek both economic and non-economic damages.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Economic damages</strong> are the objective costs tied to your accident. This includes every dollar of your medical bills — from the initial ambulance transport and emergency room visit to ongoing physical therapy, chiropractic care, and future surgeries. If your injuries have sidelined you from work, your lost wages and loss of future earning capacity are also included. You are also entitled to recover the cost of vehicle repairs or the fair market value of your car if it was totaled.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Non-economic damages</strong> are more complex, as they compensate you for the intangible burdens of your injury. These are the life-altering effects: the physical pain of chronic injuries, the emotional distress of trauma, the loss of enjoyment of your hobbies, and the strain on your personal relationships. While these lack a specific invoice, they are often the largest component of a high-value settlement. Many victims use a{' '}
+                <Link href="/pain-and-suffering-calculator/nevada/" style={{ color: '#60A5FA' }}>Nevada pain and suffering calculator</Link>
+                {' '}to establish a baseline for these damages, which are then multiplied by the severity and long-term prognosis of the injuries you sustained.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                How Settlements Are Calculated: The Multiplier Method
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Insurance adjusters and attorneys often use a multiplier method to determine a baseline for settlement discussions. They look at your total economic damages and apply a multiplier, usually ranging from 1.5 to 5, depending on the severity of your injuries and the clarity of the evidence against the at-fault driver.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Imagine you are injured in a crash near the Las Vegas Strip involving a rideshare vehicle. You incur <strong style={{ color: '#FBBF24' }}>$50,000</strong> in medical bills and lost wages. If your injury involves a permanent nerve issue or a traumatic injury that restricts your mobility, a multiplier of 3 might be applied, bringing your potential settlement to <strong style={{ color: '#FBBF24' }}>$150,000</strong>.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                In Las Vegas, the math is often amplified by the nature of the defendant. If your accident involves a commercial vehicle, such as a shuttle bus or a delivery truck associated with a large hotel, the policy limits are typically significantly higher than the standard Nevada minimum liability requirements of <strong style={{ color: '#FBBF24' }}>$25,000</strong> per person and <strong style={{ color: '#FBBF24' }}>$50,000</strong> per accident. When you are dealing with a commercial entity, the conversation shifts from minimum state requirements to high-limit commercial liability policies that can reach into the millions of dollars.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Nevada&apos;s 51% Modified Comparative Fault Rule
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                One of the most critical aspects of your case under NRS 41.141 is the concept of modified comparative fault. Nevada law dictates that you can recover damages only if you are 50% or less at fault for the accident. If a jury determines you are 51% or more responsible for the collision, you are barred from receiving any compensation at all.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If you are found to be partially at fault — for instance, 20% responsible — your total settlement award will be reduced by that percentage. If your total damages are calculated at <strong style={{ color: '#FBBF24' }}>$100,000</strong> but you are 20% at fault, your recovery will be <strong style={{ color: '#FBBF24' }}>$80,000</strong>. Insurance adjusters in Nevada are trained to scrutinize your actions to push your percentage of fault above that 51% threshold, effectively saving their companies millions by terminating your claim. This is why immediate, independent investigation of the crash scene is vital to protecting your recovery.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Advantage of No Damage Caps
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Unlike many states that have placed statutory limits on how much you can recover for non-economic damages, Nevada does not have a statutory cap on compensatory damages for personal injury. This is a massive advantage for plaintiffs with catastrophic injuries.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If you sustain life-altering injuries — such as traumatic brain injuries, spinal cord damage, or permanent disfigurement — your case is not limited by a pre-set ceiling. If a jury in Clark County finds that your pain and suffering warrants a <strong style={{ color: '#FBBF24' }}>$3,000,000</strong> verdict, that amount is not subject to an arbitrary reduction by the state legislature. This freedom allows your legal team to focus entirely on proving the true, full value of your loss, rather than working within a restricted budget imposed by state law.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Las Vegas Tourism Cases and Commercial Defendants
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The landscape of personal injury in Clark County is unlike anywhere else in the nation. Las Vegas is a city built on high-volume tourism, and our court system is experienced in handling cases that involve out-of-state defendants and massive commercial insurance policies.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                When an accident occurs on the Strip, there is often a higher probability that one of the defendants is a casino, a hotel, or a transportation service. These entities carry substantial insurance. Furthermore, because Nevada has limited dram shop liability — meaning bars and casinos are generally not held liable for serving alcohol unless they serve someone who is clearly intoxicated and under the legal age — the focus of your claim remains sharply on the driver and their employer.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Clark County jury verdicts are among the most robust in the country. Jurors here understand the high costs of medical care in the modern economy and the life-altering impact of permanent injuries. When your case involves multiple defendants, such as a negligent driver and the commercial entity that hired them, your legal team can pursue recovery from multiple layers of insurance, maximizing the potential value of your Las Vegas car accident settlement.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Venue Matters: Clark County vs. Rural Nevada
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Where your case is filed matters. Jurors in Clark County tend to be more accustomed to complex commercial litigation and high-stakes personal injury cases, often resulting in larger compensatory awards. Conversely, cases litigated in smaller, rural counties may face different cultural perceptions regarding litigation and compensation. Understanding how venue impacts your case is a core strategy for any attorney, and it is a factor that must be weighed when determining the strength of your settlement demand.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Statute of Limitations
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Time is the enemy of your claim. Under NRS 11.190, you have two years from the date of your accident to file a lawsuit. If you do not initiate legal action within this window, you lose your right to recover any compensation, regardless of the severity of your injuries or the clear liability of the other driver.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                While two years may feel like a long time, the investigation, medical stabilization, and settlement negotiation process is exhaustive. Waiting until the final months often forces your hand, leaving you with less leverage during negotiations and potentially resulting in a lower settlement.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Average Settlements and Your Unique Case
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                There is no such thing as an &quot;average&quot; settlement. A minor rear-end collision resulting in whiplash is mathematically incomparable to a multi-vehicle crash involving a commercial truck on I-15. However, the variables remain the same: the clarity of liability, the total cost of your medical care, the duration of your recovery, and the specific venue where your case is heard. By using a car accident settlement calculator, you can establish a baseline for your economic damages, but you must supplement that with a precise analysis of your non-economic losses.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                For those who want a more granular look at their specific pain and suffering, our{' '}
+                <Link href="/pain-and-suffering-calculator/nevada/" style={{ color: '#60A5FA' }}>Nevada pain and suffering calculator</Link>
+                {' '}can help you understand how different injuries are weighted and valued in our local courts.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Frequently Asked Questions
+              </h2>
+              <FAQAccordion faqs={[
+                {
+                  id: "ca-nv-faq-1",
+                  question: "Is Nevada a no-fault state?",
+                  answer: "No. Nevada is an at-fault state, meaning the party that causes the accident is responsible for paying damages. You must prove the other party was negligent to receive compensation.",
+                  schemaAnswer: "Nevada is an at-fault state, not no-fault. You must prove the other party was negligent to receive compensation."
+                },
+                {
+                  id: "ca-nv-faq-2",
+                  question: "How much is my car accident worth in Nevada?",
+                  answer: "The value depends on your medical expenses, lost wages, and the severity of your permanent injuries. Cases involving commercial defendants in Las Vegas often yield higher settlements due to larger insurance policies.",
+                  schemaAnswer: "The value depends on medical expenses, lost wages, and injury severity. Las Vegas commercial cases often yield higher settlements."
+                },
+                {
+                  id: "ca-nv-faq-3",
+                  question: "What happens if I am partially at fault for the accident?",
+                  answer: "Under Nevada's 51% modified comparative fault rule, you can still recover damages as long as you are 50% or less at fault. Your final recovery will be reduced by your percentage of fault.",
+                  schemaAnswer: "Under Nevada's 51% modified comparative fault rule, you can recover damages if 50% or less at fault, reduced by your percentage of fault."
+                },
+                {
+                  id: "ca-nv-faq-4",
+                  question: "Does Nevada have a cap on injury settlements?",
+                  answer: "No. Nevada does not have any statutory caps on compensatory damages for personal injury, meaning you can recover the full amount determined by a jury or negotiated in a settlement.",
+                  schemaAnswer: "Nevada does not have statutory caps on compensatory damages for personal injury."
+                },
+                {
+                  id: "ca-nv-faq-5",
+                  question: "How long do I have to file a claim?",
+                  answer: "You have two years from the date of your accident to file a lawsuit under the Nevada statute of limitations. Failure to file by this deadline bars your claim permanently.",
+                  schemaAnswer: "You have two years from the date of your accident to file a lawsuit under NRS 11.190."
+                }
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Take Control of Your Recovery
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The aftermath of a car accident is a period of vulnerability, but you do not have to navigate it alone. Understanding the nuances of Nevada law — from the complexities of comparative fault to the significant advantages of litigating in Clark County — is the first step toward securing the compensation you deserve. Do not leave your financial future to the discretion of an insurance adjuster whose primary goal is to minimize your payment. Use our{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: '#60A5FA' }}>car accident settlement calculator</Link>
+                {' '}to understand the numbers, then reach out to a legal advocate who can fight for the full value of your claim. Your recovery is worth fighting for, and the time to start is now.
+              </p>
+
+            </article>
+
+          ) : stateData.slug === 'north-carolina' ? (
+            /* ─────────────────────────────────────────────────────────────────
+               NORTH CAROLINA — converted from public/ca-north-carolina-content.md
+            ───────────────────────────────────────────────────────────────── */
+            <article style={{ margin: '0 auto' }}>
+
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
+                You are behind the wheel on a busy stretch of I-77 in Charlotte or navigating a quiet residential street in Raleigh when, in a split second, the unexpected happens. Another driver&apos;s negligence turns your day into a wreckage of bent metal, emergency room visits, and mounting financial worry. In the aftermath, you are not just dealing with physical recovery; you are facing a complex legal landscape. If you are searching for a{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: '#60A5FA' }}>car accident settlement calculator</Link>
+                {' '}in North Carolina, you need to understand that the math of your recovery is governed by some of the most unforgiving laws in the United States.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Estimating the value of your case requires more than just adding up medical receipts. It requires an understanding of how your actions, the specific venue of your crash, and state-specific legal doctrines interact to determine whether you receive a single dollar or nothing at all. While an online car accident settlement calculator provides a baseline for your economic and non-economic damages, the final outcome rests on the strength of your evidence and your ability to navigate the unique pitfalls of North Carolina law.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                What Your North Carolina Car Accident Settlement Covers
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                A settlement is designed to return you, as closely as possible, to the financial position you occupied before the collision. In North Carolina, this means your total compensation should be broken down into two primary categories: economic damages and non-economic damages.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Economic damages</strong> are the objective costs of your injury. These include your immediate medical bills — ambulance fees, emergency room charges, physical therapy, and ongoing prescriptions — as well as future medical expenses if your injury results in long-term impairment. These damages also cover your lost wages, including the time taken off work for doctor appointments and the potential loss of future earning capacity if your injuries prevent you from performing your job. Finally, this category includes the repair or replacement costs for your vehicle and any other personal property damaged in the collision.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Non-economic damages</strong>, often described as pain and suffering, account for the physical and emotional toll the accident has taken on your life. This includes physical pain, mental anguish, loss of enjoyment of life, and the inconvenience caused by your recovery process. Because these damages are subjective, attorneys and insurance adjusters often use a{' '}
+                <Link href="/pain-and-suffering-calculator/north-carolina/" style={{ color: '#60A5FA' }}>North Carolina pain and suffering calculator</Link>
+                {' '}to assign a concrete value to these experiences, frequently employing a multiplier of your economic losses or a per-diem rate for every day you spent in pain.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The North Carolina Contributory Negligence Trap
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If you take only one thing away from this guide, let it be this: North Carolina is one of only four states in the country that still adheres to the doctrine of contributory negligence. This is the single most significant factor in any North Carolina car accident settlement.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Under this rule, if you are found to be even <strong style={{ color: '#E2E8F0' }}>1%</strong> at fault for the accident, you are legally barred from recovering any damages whatsoever. Most states use a comparative negligence system, which reduces your settlement by your percentage of fault. In North Carolina, however, the threshold is binary. If the insurance adjuster can prove that you were slightly distracted, slightly speeding, or failed to signal, they may use that sliver of fault to deny your claim entirely. This makes every piece of evidence — from police reports to witness statements — critical.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Last Clear Chance Doctrine
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                There is a narrow exception to this harsh rule known as the Last Clear Chance Doctrine. If you were partially negligent, you may still be able to recover compensation if you can prove that the defendant had the &quot;last clear chance&quot; to avoid the collision and failed to exercise it. Essentially, if your negligence placed you in a position of peril, but the other driver saw your danger and had a sufficient opportunity to take evasive action but did not, the law may shift the blame back to them. Proving this requires meticulous reconstruction of the seconds leading up to the impact.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                No Statutory Damage Caps in North Carolina
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                One positive aspect of North Carolina personal injury law is the absence of statutory caps on compensatory damages. Unlike some states that limit the amount you can recover for pain and suffering in specific types of cases, North Carolina does not place an artificial ceiling on what a jury can award you.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This means that if you sustain catastrophic injuries — such as traumatic brain injury, spinal cord damage, or permanent disability — the value of your case is determined by the actual extent of your losses and the jury&apos;s assessment of your suffering. In cases involving severe harm, the lack of a damage cap allows for settlements that truly reflect the life-altering nature of the accident. However, this also means that insurance companies will aggressively fight to minimize those damages, knowing the potential exposure they face if the case goes to trial.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Venue Matters: Charlotte vs. Other NC Venues
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The location of your accident can have a measurable impact on the potential value of your settlement. In North Carolina, the venue — the county where the lawsuit is filed — matters. Charlotte car accident settlement values are often influenced by the demographics and legal climate of Mecklenburg County.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Urban centers like Mecklenburg County and Wake County (Raleigh) historically produce higher jury verdicts than more rural jurisdictions. Juries in these areas tend to be more accustomed to high-cost-of-living adjustments and may be more inclined to award higher non-economic damages based on the evidence presented. If your accident occurred in a high-verdict venue, insurance adjusters may be more motivated to reach a fair settlement to avoid the risk of a unpredictable jury outcome. Conversely, if your case is in a rural county, the legal strategy must be adapted to align with the community expectations of that specific area.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The 3-Year Statute of Limitations
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Under NCGS 1-52, you have exactly three years from the date of the accident to file a lawsuit against the at-fault party. While this might seem like a generous window, waiting until the final months is a strategic error.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Building a successful case requires gathering medical records, obtaining traffic camera footage, and preserving witness testimony — all of which becomes significantly more difficult as time passes. Furthermore, because North Carolina is an at-fault state, you are dealing with the defendant&apos;s insurance company, which is looking for any reason to delay or deny your claim. Missing this three-year deadline means your right to recover compensation is permanently extinguished, regardless of the severity of your injuries or the clarity of the other driver&apos;s fault.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Average Settlements and Insurance Requirements
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                North Carolina sets the minimum liability insurance requirements at <strong style={{ color: '#FBBF24' }}>$30,000</strong> per person and <strong style={{ color: '#FBBF24' }}>$60,000</strong> per accident. While these are higher than the minimums in many other states, they are often insufficient to cover the costs of a serious collision.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                In cases involving emergency surgery, long-term rehabilitation, or permanent impairment, the medical bills alone can quickly exceed these limits. When the at-fault driver&apos;s insurance is insufficient, your settlement value may depend on your own Uninsured/Underinsured Motorist (UM/UIM) coverage. Because there is no mandatory Personal Injury Protection (PIP) in North Carolina, your ability to pay for your own medical care immediately following an accident often depends on your own policy coverage and your health insurance.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Frequently Asked Questions
+              </h2>
+              <FAQAccordion faqs={[
+                {
+                  id: "ca-nc-faq-1",
+                  question: "What happens if I am 1% at fault for the accident?",
+                  answer: "Under North Carolina's strict contributory negligence law, being even 1% at fault means you are barred from recovering any compensation from the other driver. Insurance companies frequently look for this 1% to deny claims.",
+                  schemaAnswer: "Under North Carolina's contributory negligence law, being even 1% at fault completely bars you from recovering compensation from the other driver."
+                },
+                {
+                  id: "ca-nc-faq-2",
+                  question: "Is North Carolina a no-fault car insurance state?",
+                  answer: "No. North Carolina is an at-fault (tort) state. This means the party responsible for the accident — and their insurance carrier — is liable for the damages they cause.",
+                  schemaAnswer: "North Carolina is an at-fault state. The party responsible for the accident is liable for the damages they cause."
+                },
+                {
+                  id: "ca-nc-faq-3",
+                  question: "Does the venue of my accident affect my settlement value?",
+                  answer: "Yes. Statistically, cases filed in Mecklenburg County (Charlotte) or Wake County (Raleigh) often yield higher jury verdicts than cases in more rural parts of the state, which can influence how insurance companies approach settlement negotiations.",
+                  schemaAnswer: "Cases filed in urban counties like Mecklenburg or Wake tend to yield higher jury verdicts than rural jurisdictions, which influences settlement offers."
+                },
+                {
+                  id: "ca-nc-faq-4",
+                  question: "How long do I have to file a claim?",
+                  answer: "Under NCGS 1-52, the statute of limitations is three years from the date of the accident. Failure to file a lawsuit within this time frame will result in the loss of your legal right to pursue compensation.",
+                  schemaAnswer: "Under NCGS 1-52, the statute of limitations is three years from the date of the accident."
+                },
+                {
+                  id: "ca-nc-faq-5",
+                  question: "Can I get a settlement if the other driver was uninsured?",
+                  answer: "Yes, but you will likely need to rely on your own Uninsured Motorist (UM) coverage. Because North Carolina does not require PIP, your own policy is your primary safety net if the other driver lacks sufficient liability coverage.",
+                  schemaAnswer: "Yes, through your own Uninsured Motorist (UM) coverage, which acts as the safety net when the at-fault driver lacks insurance."
+                }
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Are you ready to understand the value of your case?
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The aftermath of a car accident is overwhelming, but you do not have to navigate the insurance process alone. Use our{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: '#60A5FA' }}>car accident settlement calculator</Link>
+                {' '}to get an estimate of your potential claim value based on current North Carolina law, and remember that professional legal counsel is the best way to protect your rights against a system that is designed to minimize your payout.
+              </p>
+
+            </article>
+
           ) : (
             /* ─────────────────────────────────────────────────────────────────
                ALL OTHER STATES — generic placeholder.
