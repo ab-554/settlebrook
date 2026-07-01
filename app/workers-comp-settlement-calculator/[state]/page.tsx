@@ -1438,6 +1438,321 @@ export default function StateWorkersCompPage({ params }: { params: { state: stri
 
             </article>
 
+          ) : stateData.slug === 'pennsylvania' ? (
+            /* ─────────────────────────────────────────────────────────────────
+               PENNSYLVANIA — converted from public/wc-pennsylvania-content.md
+            ───────────────────────────────────────────────────────────────── */
+            <article style={{ margin: '0 auto' }}>
+
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
+                Getting crushed by machinery in a Pittsburgh warehouse or blowing out your lumbar spine on a Philadelphia construction site flips your financial life upside down in an instant. The physical shock fades, but the financial terror begins when your paycheck stops and the insurance adjuster starts dodging your phone calls. Navigating a Pennsylvania workers comp settlement means stepping into a hostile legal arena where the insurance carrier&apos;s primary goal is to minimize your payout. You need to know the true dollar value of your case before you sign away your future. While using a pennsylvania workers comp settlement calculator gives you a critical baseline for negotiations, extracting the maximum financial recovery requires understanding exactly how the state defines your wages, caps your benefits, and judges your permanent physical damage.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                How Pennsylvania Workers Comp Works
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The state system is strictly overseen by the Pennsylvania Bureau of Workers Compensation, which enforces every regulation written into the Pennsylvania Workers Compensation Act. This is a purely no-fault system. You do not have to prove that your boss was negligent, that the company failed to maintain equipment, or that safety protocols were ignored. You simply need to prove that you were performing your job duties when the injury occurred.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                In exchange for this streamlined no-fault protection, you forfeit the right to sue your employer directly for personal injury. From the moment you report the accident, a massive administrative machine activates. You and your employer must immediately file the required Pennsylvania LIBC forms to formalize your claim with the state. Whether you are dealing with a routine factory injury or negotiating a complex Philadelphia workers comp settlement, the insurance carrier will assign an adjuster to look for any legal excuse to deny your care. Understanding the specific benefits you are owed is your only defense against lowball offers.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Temporary Total Disability Benefits
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                When a workplace injury completely takes you off the schedule, you are entitled to Temporary Total Disability benefits. Under state law, your weekly check is standardly calculated at 66.67 percent of your pre-injury Average Weekly Wage. Lower-wage earners might receive a higher percentage, up to 90 percent, to ensure they can still afford basic survival. However, the state imposes a strict statutory ceiling on these payments, adjusted annually based on the statewide average weekly wage. While the maximum weekly benefit was <strong style={{ color: '#FBBF24' }}>$1,325 in 2024</strong>, the ceiling for injuries occurring in 2026 is currently set at <strong style={{ color: '#FBBF24' }}>$1,394 per week</strong>, subject to annual adjustment by the state.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Consider a real-world scenario. You work as a union electrician earning <strong style={{ color: '#FBBF24' }}>$1,800 per week</strong>. A scaffolding collapse shatters your femur, leaving you bedridden. Two-thirds of your $1,800 wage equals <strong style={{ color: '#FBBF24' }}>$1,200</strong>. Because your calculated rate falls below the 2026 statutory cap of $1,394, your tax-free weekly workers comp check will be exactly $1,200. The distinct advantage of Pennsylvania law is that there is no arbitrary time limit on total disability. If your injury is so catastrophic that you can never perform any kind of work again, you can theoretically collect that $1,200 every week for the rest of your life.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Pennsylvania IRE System and Partial Disability
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Because insurance companies loathe paying lifetime benefits, they rely on a unique legal mechanism to cap their financial bleeding: the Pennsylvania IRE impairment rating evaluation. This evaluation is the most critical pivot point in any long-term Pennsylvania workers comp permanent disability case. After you have received 104 weeks of total disability benefits, the insurance carrier has the legal right to force you to attend an exam with a state-appointed physician. This doctor uses the American Medical Association guidelines to assign a mathematical percentage to your whole-body physical impairment.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The financial stakes of this single exam are massive. If the doctor concludes your impairment rating is 35 percent or higher, you retain your total disability status, and your weekly checks continue without a timeline. But if the doctor assigns a rating of less than 35 percent — which happens in the overwhelming majority of insurance-demanded evaluations — the carrier will petition the state to officially change your status from total disability to partial disability.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Your weekly check amount might remain exactly the same after this status change, but a deadly clock starts ticking. The state strictly caps partial disability benefits at a maximum of <strong style={{ color: '#E2E8F0' }}>500 weeks</strong>, which equates to roughly nine and a half years. Once you consume those 500 weeks, your wage loss benefits vanish permanently, even if your spine is still fused and you cannot physically tolerate sitting at a desk. When adjusters calculate a Pennsylvania impairment rating workers comp settlement, they are hyper-focused on this 500-week cap. They will never voluntarily offer a settlement that exceeds their remaining financial exposure under that 500-week limit.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Pennsylvania Specific Loss Benefits
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Not all workplace devastation is measured by missed paychecks. If a job site accident results in an amputation or the permanent loss of use of a body part, your sight, or your hearing, you are entitled to Pennsylvania specific loss benefits. This is a scheduled payout system that operates entirely separate from your standard wage loss claim. The state has predetermined exactly how many weeks of compensation a specific body part is worth, and you receive this money even if you return to work the very next day.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Imagine you are a machinist earning an average weekly wage that translates to an <strong style={{ color: '#FBBF24' }}>$800 weekly compensation rate</strong>. A press malfunction crushes your index finger, requiring surgical amputation. The state schedule dictates that the loss of an index finger commands 50 weeks of compensation. You are legally owed an automatic <strong style={{ color: '#FBBF24' }}>$40,000</strong> specific loss payment, plus an additional state-mandated healing period payout. The insurance company will inevitably try to dispute the extent of a &apos;loss of use&apos; claim by demanding a Pennsylvania IME, or Independent Medical Examination. They hire doctors trained to argue that you still have partial functionality, requiring an aggressive legal defense to secure your full scheduled payout.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Compromise and Release (C&amp;R) Settlements
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The ultimate goal for most injured workers is to sever ties with a hostile insurance carrier and secure their financial future through a lump-sum payout. In this state, a lump-sum settlement is legally executed through a Compromise and Release agreement. When you sign a C&amp;R, you are making a binding agreement to permanently close your case in exchange for a single, tax-free check.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Securing maximum value in a C&amp;R requires brutal financial calculus. If you are currently drawing <strong style={{ color: '#FBBF24' }}>$1,000 per week</strong> and you were recently downgraded to partial disability with 400 weeks remaining on your cap, your maximum future wage exposure is <strong style={{ color: '#FBBF24' }}>$400,000</strong>. No insurance company will simply hand you a check for $400,000 today because money depreciates over time. They will reduce the offer to its present value, often countering with <strong style={{ color: '#FBBF24' }}>$280,000</strong>. To bridge that gap, an aggressive negotiator will calculate the astronomical costs of your future medical care — decades of prescription pain medication, joint replacements, and physical therapy — using that leverage to force the lump sum substantially higher.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Factors Affecting Your Settlement and Third-Party Lawsuits
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                A harsh reality of the workers compensation system is that it does not care about your trauma. You cannot recover financial damages for your physical agony, emotional distress, or the fact that you can no longer play catch with your children. If you want to understand what those non-economic damages are worth in a civil courtroom, you can review a{' '}
+                <Link href="/pain-and-suffering-calculator/pennsylvania/" style={{ color: '#60A5FA' }}>Pennsylvania pain and suffering calculator</Link>
+                {', '}but those damages are strictly barred from workers comp claims.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                There is one major exception. If your catastrophic injury was caused by a third party — such as a defective forklift manufacturer, a reckless driver who T-boned your delivery truck, or a negligent subcontractor on your job site — you can file a traditional personal injury lawsuit against them while simultaneously collecting workers comp benefits. Third-party lawsuits unlock the right to demand massive pain and suffering compensation. However, if you win that civil lawsuit, the workers comp insurance carrier holds a legal lien against your settlement. They will demand reimbursement for the medical bills and wages they already paid you. In certain complex administrative disputes where a carrier overpays benefits that a judge later determines were unearned, the insurance company can seek reimbursement directly from the Pennsylvania supersedeas fund rather than seizing the money out of your personal bank account.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Pennsylvania Workers Comp Statute of Limitations
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Time is the ultimate weapon used against injured workers. The Pennsylvania workers comp statute of limitations demands that you file a formal Claim Petition with the state within exactly <strong style={{ color: '#E2E8F0' }}>three years</strong> from the date of your injury. Many workers fall into a trap where they notify their boss, accept some initial medical treatment paid by the company clinic, and assume their claim is secure. It is not. If an insurance adjuster strings you along with delays and you fail to file the official state petition before that three-year anniversary hits, your claim is permanently destroyed. You will never receive a settlement, and the financial burden of your medical care will fall entirely on your own shoulders.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Average Settlements and Complex Calculations
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Because the human body heals differently and wages vary wildly, there is no true average settlement. A minor torn rotator cuff that heals cleanly after surgery might settle for <strong style={{ color: '#FBBF24' }}>$25,000</strong>, while a traumatic brain injury requiring 24-hour home care can command a Compromise and Release well over <strong style={{ color: '#FBBF24' }}>$1,500,000</strong>.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Consider a 50-year-old heavy equipment operator earning <strong style={{ color: '#FBBF24' }}>$1,500 per week</strong> who suffers a career-ending spinal crush injury. His compensation rate is <strong style={{ color: '#FBBF24' }}>$1,000 per week</strong>. After completing his 104 weeks of total disability, an IRE doctor assigns him a 25 percent impairment rating. He is shifted to partial disability, starting his 500-week countdown. His maximum remaining wage loss value is strictly capped at <strong style={{ color: '#FBBF24' }}>$500,000</strong>. However, his future medical projections require revision spinal fusion surgery, daily nerve medication, and aggressive pain management, totaling <strong style={{ color: '#FBBF24' }}>$450,000</strong> over his projected life expectancy. While the carrier might open negotiations at an insulting <strong style={{ color: '#FBBF24' }}>$300,000</strong>, presenting undeniable medical evidence and threatening a lifetime of expensive surgical payouts can often push the final settlement past the <strong style={{ color: '#FBBF24' }}>$650,000</strong> mark.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Frequently Asked Questions
+              </h2>
+              <FAQAccordion faqs={[
+                {
+                  id: 'wc-pa-faq-1',
+                  question: 'What is the maximum weekly benefit rate in Pennsylvania?',
+                  answer: 'The state automatically adjusts the maximum benefit rate every single year based on fluctuations in the statewide average weekly wage. For severe injuries occurring in 2026, the absolute maximum weekly benefit rate is capped at $1,394. This means that even if you were earning a massive corporate salary before the accident, your weekly tax-free compensation check simply cannot exceed this statutory ceiling.',
+                  schemaAnswer: 'The maximum weekly benefit rate in Pennsylvania for 2026 injuries is $1,394, adjusted annually based on the statewide average weekly wage. Regardless of pre-injury salary, your weekly compensation check cannot exceed this statutory ceiling.',
+                },
+                {
+                  id: 'wc-pa-faq-2',
+                  question: 'Can my employer force me to accept a Compromise and Release?',
+                  answer: 'No. A settlement is an entirely voluntary legal contract. Your employer and their insurance carrier have zero authority to force you into a lump-sum payout. If their financial offer fails to adequately cover your future medical needs and lost wages, you have the absolute right to reject the paperwork and continue drawing your weekly checks. Furthermore, a workers compensation judge must review and approve the settlement at a formal hearing to ensure you fully understand the rights you are surrendering.',
+                  schemaAnswer: 'No. A Compromise and Release is voluntary — your employer cannot force you into it. You can reject any offer and continue drawing weekly checks. A workers compensation judge must also review and approve the settlement at a formal hearing.',
+                },
+                {
+                  id: 'wc-pa-faq-3',
+                  question: 'What happens if I return to work but make less money?',
+                  answer: 'If your treating physician clears you for light-duty work but the new restricted role pays significantly less than your pre-injury average weekly wage, you do not simply lose your benefits. You are legally entitled to partial disability payments. The insurance carrier is required to pay you two-thirds of the exact difference between your old wage and your new lower wage, subject to the state maximum caps and the strict 500-week time limit.',
+                  schemaAnswer: 'If you return to work at a lower wage, you are entitled to partial disability payments equal to two-thirds of the difference between your old and new wages, subject to state caps and the 500-week time limit.',
+                },
+                {
+                  id: 'wc-pa-faq-4',
+                  question: 'Does signing a settlement mean my medical coverage ends permanently?',
+                  answer: 'It depends entirely on the specific language drafted into your Compromise and Release agreement. The majority of lump-sum settlements close out both the wage loss and the medical portions of your claim, meaning you take the cash and assume full responsibility for all future surgeries and prescriptions. However, skilled negotiators can often structure a settlement that pays out a large lump sum for your wages while legally forcing the insurance company to keep your medical claim open indefinitely for injury-related care.',
+                  schemaAnswer: 'Most Compromise and Release agreements close both wage loss and medical portions. However, skilled negotiators can sometimes structure a settlement that closes wage loss while keeping the medical claim open indefinitely.',
+                },
+                {
+                  id: 'wc-pa-faq-5',
+                  question: 'How long do I actually have to report my injury to my employer?',
+                  answer: 'While the absolute statute of limitations to file a formal claim petition is three years, Pennsylvania law imposes a much faster preliminary deadline. You are required to notify your employer that you suffered a work-related injury within exactly 120 days of the accident. If you try to tough it out and fail to inform a manager or supervisor before that 120-day window slams shut, you completely forfeit your right to claim any workers compensation benefits whatsoever.',
+                  schemaAnswer: 'Pennsylvania requires you to notify your employer of a work-related injury within 120 days of the accident. Missing this window forfeits all workers compensation benefits, even though the formal claim petition deadline is three years.',
+                },
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Protect Your Future
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Fighting a multi-billion dollar insurance conglomerate on your own is the fastest way to bankrupt your family. Adjusters are highly trained corporate negotiators whose sole directive is to close your file for pennies on the dollar. Before you give a recorded statement, submit to an independent medical exam, or consider signing a Compromise and Release, you need a precise accounting of your future losses. Use a{' '}
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: '#60A5FA' }}>workers comp settlement calculator</Link>
+                {' '}to establish the baseline mathematics of your wages and impairment rating, then demand the maximum financial compensation that Pennsylvania law mandates.
+              </p>
+
+            </article>
+
+          ) : stateData.slug === 'ohio' ? (
+            /* ─────────────────────────────────────────────────────────────────
+               OHIO — converted from public/wc-ohio-content.md
+            ───────────────────────────────────────────────────────────────── */
+            <article style={{ margin: '0 auto' }}>
+
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
+                When you hear a sudden, sickening snap in your shoulder on the factory floor, your first thought is the blinding physical pain. By the third week, however, that physical pain is eclipsed by financial panic. You are staring at an MRI bill you cannot afford, your rent is due in three days, and the claims examiner assigned to your case is suddenly very difficult to reach. You do not just need a rough estimate of what your claim might be worth; you need to understand exactly how the state values your injury and your future. If you are searching for an accurate Ohio workers comp settlement calculator, you must first realize that Ohio does not calculate workplace injuries like most of the rest of the country. This is a highly specialized legal battlefield, and knowing the state-specific math is the only way to protect your financial survival.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Ohio BWC Monopolistic System
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                In most states, if you get hurt on the job, you deal with your employer&apos;s private insurance company — a massive corporate entity like Liberty Mutual or Travelers. Ohio operates under a completely different statutory framework. It is one of only four states with a monopolistic state fund system. This means private workers comp insurance is simply not available on the open market. Almost every business in the state must purchase their coverage directly through the Ohio Bureau of Workers Compensation, widely known as the Ohio BWC.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                There is a limited exception for massive corporations and hospital networks that qualify as self-insured employers, but even those massive companies must strictly adhere to the rules, procedures, and payment schedules set by the state legislature. You are not fighting a standard insurance corporation; you are navigating a massive state bureaucracy. This dynamic dictates exactly how an Ohio BWC settlement is negotiated, funded, and ultimately approved.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Understanding Your TTD Benefits
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Before you even think about negotiating a final settlement, you must survive the immediate financial crisis of being unable to clock in. Temporary Total Disability, or TTD, is the lifeline that keeps your household afloat. Under Ohio law, the calculation actually changes depending on how long you are forced out of work. For the first twelve weeks of your disability, you receive <strong style={{ color: '#E2E8F0' }}>seventy-two percent</strong> of your full weekly wage. Starting on week thirteen, your compensation shifts downward to the standard TTD rate, which equals <strong style={{ color: '#E2E8F0' }}>66.67% of your average weekly wage</strong>.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Let&apos;s look at the concrete math. If you averaged <strong style={{ color: '#FBBF24' }}>$1,200 a week</strong> before a forklift crushed your foot, your standard TTD checks will be roughly <strong style={{ color: '#FBBF24' }}>$800 a week</strong>. The state does, however, impose a strict statutory ceiling. For injuries occurring in 2026, the maximum weekly TTD rate is capped at <strong style={{ color: '#FBBF24' }}>$1,281</strong>, though this figure is subject to annual adjustment by the state based on statewide economic metrics. The state fund pays this wage replacement only until a designated doctor declares that you have reached maximum medical improvement, meaning your condition has stabilized and will not significantly improve with further active treatment.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Ohio PPD Awards and Scheduled Losses
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Once you reach maximum medical improvement, the legal focus shifts from your immediate recovery to your permanent damage. This is where the Ohio Industrial Commission steps in. While the BWC handles the administrative side and initial claim payments, the Industrial Commission is the separate, adjudicative body that conducts hearings and determines the monetary value of your permanent impairment. If your injury leaves you with lasting physical limitations, you have the right to seek an Ohio permanent partial disability award.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Unlike some states that simply assign a flat dollar value to a specific medical diagnosis, an Ohio permanent partial disability is calculated based on a percentage of impairment to your whole person. A state-sanctioned doctor will physically examine you and assign an impairment rating. If the doctor determines your crushed foot results in a <strong style={{ color: '#E2E8F0' }}>ten percent whole person impairment</strong>, state statutes dictate exactly how many weeks of pay that percentage represents. You receive two weeks of compensation for every one percent of impairment. Therefore, a ten percent rating equals twenty weeks of pay at a statutorily capped weekly rate.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Ohio also maintains a parallel system of scheduled awards for catastrophic injuries involving amputations or total loss of use. If you lose an arm, a leg, or an eye, the statute bypasses the percentage system and assigns a strict, predetermined number of weeks of compensation. For example, the total amputation or loss of use of a hand guarantees <strong style={{ color: '#E2E8F0' }}>one hundred and seventy-five weeks</strong> of pay at the maximum weekly rate, regardless of your actual historical wage history.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Negotiating an Ohio Workers Comp Lump Sum Settlement
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Receiving ongoing weekly wage checks or staggered impairment awards is standard procedure, but eventually, you or the state may want to close the books on the claim entirely. In this state, an Ohio workers comp lump sum settlement is formally known as a C-240 settlement, or simply a settlement agreement. When you sign a C-240, you are permanently trading your right to any future wage loss payments and medical coverage related to the injury for a single, final financial payout.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                State administrators love lump sum settlements because it permanently caps their financial exposure to your medical future. You must approach an Ohio lump sum settlement with extreme caution. If your settlement check is <strong style={{ color: '#FBBF24' }}>$40,000</strong>, but your physician determines you require a <strong style={{ color: '#FBBF24' }}>$60,000</strong> spinal fusion surgery three years from now, you will be paying for that operation entirely out of your own pocket. The state will not reopen a fully settled claim simply because your condition worsened.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Trap of Ohio Allowed Conditions
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Perhaps the most dangerous legal trap in the entire state system is the concept of Ohio allowed conditions. The Ohio BWC does not simply accept that you hurt your back at work and agree to pay for everything related to your spine. They only cover the exact, specific medical diagnoses that they formally &quot;allow&quot; in your official claim file.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Imagine you fall off a ladder and suffer a devastating herniated disc. The emergency room doctor quickly jots down that you have a lumbar sprain. The BWC swiftly approves the claim for a lumbar sprain and pays for a few weeks of physical therapy. But when the pain refuses to subside and an MRI reveals the herniated disc requiring surgery, the BWC will flatly deny the surgical request. Why? Because a herniated disc is not an allowed condition on your claim. Disputes over allowed conditions are the most common battleground at the Industrial Commission. If you do not legally force the state to add the more severe diagnoses to your official file, your future settlement value will be anchored to a minor sprain, not a major surgical injury.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Statute of Limitations and Filing the FROI
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Time is your absolute worst enemy after a workplace injury. The Ohio workers comp statute of limitations is ruthlessly strict. You have exactly <strong style={{ color: '#E2E8F0' }}>two years</strong> from the date of your injury to officially file your claim. This is accomplished by submitting the First Report of Injury, commonly referred to as the Ohio FROI. If you simply notify your shift supervisor but fail to ensure the Ohio FROI is actually filed with the state within that two-year window, your claim will be permanently barred. You will lose all rights to medical coverage, wage replacement, and settlement negotiations, no matter how severe your injuries are or how obviously the accident occurred at work.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Permanent Total Disability Applications
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                While a standard settlement closes out a claim for a single check, some catastrophic injuries completely destroy your earning capacity forever. If your workplace injury is so severe that it prevents you from engaging in any sustained remunerative employment for the rest of your life, you can file an Ohio PTD application. Permanent Total Disability is not a single settlement check; it is a lifetime pension. Winning a PTD claim is incredibly difficult, requiring extensive vocational and medical expert testimony to prove that your specific allowed conditions make it impossible for you to hold even a sedentary, minimum-wage job.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Leveraging Settlement Calculators
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Accurately pricing a final buyout requires projecting decades of future medical inflation and lost earning potential. When you use a reliable{' '}
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: '#60A5FA' }}>workers comp settlement calculator</Link>
+                {', '}you gain a baseline understanding of what your future wage loss and medical care actually cost in today&apos;s dollars.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                However, you must remember a critical legal truth: workers comp does not cover pain and suffering. If you are looking to be compensated for the emotional trauma, the physical agony of the accident itself, or the loss of enjoyment of your life, you are looking in the wrong venue. You can explore our{' '}
+                <Link href="/pain-and-suffering-calculator/ohio/" style={{ color: '#60A5FA' }}>Ohio pain and suffering calculator</Link>
+                {' '}for third-party personal injury claims against negligent outsiders, but inside the BWC system, your settlement is based strictly on concrete medical bills, impairment ratings, and mathematical wage loss figures.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Frequently Asked Questions
+              </h2>
+              <FAQAccordion faqs={[
+                {
+                  id: 'wc-oh-faq-1',
+                  question: 'Does an Ohio BWC settlement close my medical coverage forever?',
+                  answer: 'Yes, if you sign a full C-240 lump sum settlement agreement, it permanently closes your claim. The state will pay you a single check, and in exchange, you agree to take on all future medical expenses related to your workplace injury. You cannot go back to the BWC five years later and ask them to cover a sudden surgery.',
+                  schemaAnswer: 'Yes. A full C-240 lump sum settlement permanently closes your claim. You receive a single check and assume all future medical expenses. You cannot reopen the claim for future surgeries or treatment.',
+                },
+                {
+                  id: 'wc-oh-faq-2',
+                  question: 'Can I get fired while on workers comp in Ohio?',
+                  answer: 'Ohio is an at-will employment state, meaning your employer can terminate your employment at almost any time. However, it is strictly illegal for an employer to terminate you specifically in retaliation for filing a workers compensation claim. If they lay you off due to broader company downsizing while you are recovering, your BWC wage benefits generally continue, but your actual job does not.',
+                  schemaAnswer: 'Ohio is at-will, so employers can generally terminate employment. However, it is illegal to fire you in retaliation for filing a workers comp claim. BWC wage benefits typically continue during layoffs unrelated to the claim.',
+                },
+                {
+                  id: 'wc-oh-faq-3',
+                  question: 'How long does an Ohio BWC settlement take to get approved?',
+                  answer: 'Once you and the BWC agree on a final settlement number and sign the C-240 paperwork, the agreement must be submitted to the Ohio Industrial Commission. The state mandates a strict thirty-day waiting period, which acts as a cooling-off window where either party can back out of the deal. After those thirty days expire without an objection, it typically takes another two to three weeks for the final settlement check to actually arrive in your mail.',
+                  schemaAnswer: 'After signing the C-240 paperwork, the Ohio Industrial Commission mandates a 30-day cooling-off period. After expiration without objection, expect an additional 2-3 weeks for the settlement check to arrive.',
+                },
+                {
+                  id: 'wc-oh-faq-4',
+                  question: 'Do I pay taxes on an Ohio workers comp lump sum settlement?',
+                  answer: 'Under state and federal tax codes, workers compensation settlements are generally not considered taxable income. The IRS views these funds as compensation for physical injuries and lost wages rather than standard earned income. However, if you are also receiving Social Security Disability benefits, the way your settlement agreement is drafted can heavily impact your federal tax liabilities, which requires highly specialized legal structuring.',
+                  schemaAnswer: 'Workers compensation settlements are generally not taxable income under state and federal tax codes. However, if you receive Social Security Disability benefits simultaneously, the settlement structure can impact your federal tax liabilities and requires specialized legal drafting.',
+                },
+                {
+                  id: 'wc-oh-faq-5',
+                  question: 'Does an Ohio workers comp settlement include pain and suffering?',
+                  answer: 'No. The monopolistic state system is designed as a no-fault compromise. You do not have to prove your employer was negligent to get your medical bills paid, but in exchange for that ease, you forfeit the legal right to sue your employer for pain, suffering, emotional distress, or loss of enjoyment of life. Your payout is strictly calculated using medical expenses, wage loss figures, and standardized impairment ratings.',
+                  schemaAnswer: 'No. Ohio workers comp settlements do not include pain and suffering. The no-fault system covers medical expenses, wage loss, and impairment ratings, but you forfeit the right to sue your employer for non-economic damages.',
+                },
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Take Control of Your Claim Today
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                You only get one chance to settle your Ohio workplace injury claim. The massive state bureaucracy is perfectly content to let you walk away with a fraction of what your future medical care will actually cost. Do not let unrepresented allowed conditions or aggressive claims examiners ruin your long-term financial stability. You must review your exact medical records, forcefully calculate your true long-term wage loss, and relentlessly demand the maximum compensation that Ohio law dictates you deserve.
+              </p>
+
+            </article>
+
           ) : (
             <article style={{ margin: '0 auto' }}>
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>

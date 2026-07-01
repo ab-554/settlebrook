@@ -1320,6 +1320,305 @@ export default function StateCarAccidentPage({ params }: { params: { state: stri
 
             </article>
 
+          ) : stateData.slug === 'georgia' ? (
+            /* ─────────────────────────────────────────────────────────────────
+               GEORGIA — converted from public/ca-georgia-content.md
+            ───────────────────────────────────────────────────────────────── */
+            <article style={{ margin: '0 auto' }}>
+
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
+                When the screeching tires and shattering glass finally stop, the reality of a Georgia collision sets in almost immediately. Whether you were rear-ended in stop-and-go traffic on the Downtown Connector or T-boned at a rural intersection outside of Macon, the physical pain is quickly followed by severe financial panic. You are suddenly staring at towering emergency room invoices, an immobilized vehicle, and a boss asking when you can return to work. In the midst of this chaos, you just want to know what your claim is actually worth. You might search for a car accident settlement calculator georgia to find a quick number, but the truth is that your final payout is governed by strict state statutes, venue metrics, and aggressive insurance defense tactics.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Georgia operates as a traditional at-fault state, meaning the driver who caused the crash is legally and financially responsible for all your resulting damages. Because there is no PIP requirement in Georgia, you are not forced to drain your own personal injury protection coverage just to get your initial medical bills paid. Instead, you have the immediate right to file a claim against the at-fault driver&apos;s bodily injury liability policy. State law requires every driver to carry minimum liability limits of <strong style={{ color: '#FBBF24' }}>$25,000 per person</strong> and <strong style={{ color: '#FBBF24' }}>$50,000 per accident</strong>. However, extracting that money — or forcing the insurance company to pay above those minimums on larger commercial policies — requires proving exact financial losses while defending yourself against allegations of shared blame.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                What a Georgia Car Accident Settlement Actually Covers
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                A comprehensive Georgia car accident settlement is designed to make you whole again by reimbursing two distinct categories of loss. The first category is your <strong style={{ color: '#E2E8F0' }}>economic damages</strong>. These are the concrete, highly documented financial losses that keep you awake at night. Economic damages include the <strong style={{ color: '#FBBF24' }}>$14,000</strong> Grady Memorial hospital bill for your emergency trauma care, the <strong style={{ color: '#FBBF24' }}>$3,200</strong> you paid out-of-pocket for physical therapy copays, and the <strong style={{ color: '#FBBF24' }}>$8,500</strong> in wages you lost because your fractured tibia kept you off the construction site for two months. These are hard numbers, proven with tax returns, pay stubs, and medical billing codes.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The second category encompasses your <strong style={{ color: '#E2E8F0' }}>non-economic damages</strong>, which compensate you for the invisible but devastating human cost of the crash. This covers your physical pain and suffering, the mental anguish of dealing with a traumatic brain injury, and the loss of enjoyment of life when you can no longer pick up your young children due to spinal nerve damage. Because non-economic damages do not come with a neat receipt, insurance adjusters fight them aggressively. They will attempt to minimize your pain, arguing that your back ache is just a pre-existing condition from aging, rather than the direct result of their insured driver smashing into your bumper at sixty miles per hour.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                How Your Settlement Is Calculated: The Multiplier Method
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Insurance adjusters do not use a magic crystal ball to calculate your settlement value. Instead, they typically rely on the multiplier method to assign a dollar figure to your intangible suffering. First, they add up all your hard economic damages. Then, they multiply that baseline number by a factor generally ranging between 1.5 and 5, depending on the permanent severity of your physical injuries and the intensity of your medical treatment.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Imagine you are struck head-on by a distracted driver on Peachtree Street in Midtown. You require invasive knee surgery followed by three months of grueling rehabilitation. Your total medical bills equal <strong style={{ color: '#FBBF24' }}>$45,000</strong>, and your documented lost income totals <strong style={{ color: '#FBBF24' }}>$15,000</strong>. Your hard economic damages sit at <strong style={{ color: '#FBBF24' }}>$60,000</strong>. Because your injury required surgical intervention and left you with a permanent limp, an adjuster might assign a multiplier of 3 to calculate your pain and suffering. Multiplying your $60,000 economic loss by 3 yields <strong style={{ color: '#FBBF24' }}>$180,000</strong> in non-economic damages. Adding both figures together gives you a gross settlement valuation of <strong style={{ color: '#FBBF24' }}>$240,000</strong>. You can experiment with different economic baselines using our{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: '#60A5FA' }}>car accident settlement calculator</Link>
+                {' '}and isolate the subjective variables by exploring our{' '}
+                <Link href="/pain-and-suffering-calculator/georgia/" style={{ color: '#60A5FA' }}>Georgia pain and suffering calculator</Link>.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Brutal Reality of the Georgia Modified Comparative Fault 50% Bar
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Calculating your gross damages is only the first half of the battle. The second half is defending your settlement against the Georgia modified comparative fault 50% bar. Outlined in O.C.G.A. 51-12-33, this law dictates exactly how shared blame reduces your financial recovery. Georgia law is incredibly strict compared to most of the country. In many states, you can still recover money if you are deemed exactly 50 percent at fault for a crash. In Georgia, if a judge or jury determines you are <strong style={{ color: '#E2E8F0' }}>50 percent or more</strong> responsible for the collision, you recover absolutely nothing. At exactly 50 percent fault, your payout instantly drops to zero dollars.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Let&apos;s look at how this razor-thin margin works in practice. Suppose you are navigating an intersection in Savannah. You have a green light, but you are driving ten miles over the speed limit. An oncoming driver fails to yield and turns left directly into your path, causing a catastrophic collision. Your total calculated damages are <strong style={{ color: '#FBBF24' }}>$300,000</strong>. If the jury decides that the other driver&apos;s failure to yield makes them 51 percent at fault, and your speeding makes you 49 percent at fault, your recovery is simply reduced by your 49 percent share of the blame. You would walk away with <strong style={{ color: '#FBBF24' }}>$153,000</strong>.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                However, if the insurance defense attorney successfully argues that your speeding was equally to blame for the crash, and the jury assigns you exactly 50 percent of the fault, that $153,000 completely vanishes. The insurance company pays nothing, and you are left bankrupt by your medical bills. This devastating 50 percent cutoff is exactly why insurance adjusters will twist your words, scour police reports for any mention of your own distraction, and fight fiercely to shift just a fraction of the blame onto your shoulders.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                No Damage Caps and the Threat of Punitive Damages
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                For victims of catastrophic collisions, medical care can easily stretch into the millions. Fortunately, there is a Georgia no damage cap rule regarding compensatory damages. The state legislature does not place an arbitrary ceiling on the amount of money you can recover for your medical bills, lost wages, or pain and suffering. If a jury believes your permanent paralysis warrants <strong style={{ color: '#FBBF24' }}>$12 million</strong> in lifelong care and <strong style={{ color: '#FBBF24' }}>$20 million</strong> in human suffering, the court will uphold that full amount.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                In addition to compensatory damages, Georgia law allows juries to award punitive damages to actively punish the at-fault driver for horrific behavior. You cannot win punitive damages just because the other driver made a careless mistake. You must prove by clear and convincing evidence that the defendant&apos;s actions demonstrated willful misconduct, malice, fraud, or an entire want of care which would raise the presumption of conscious indifference to consequences. The most common trigger for punitive damages is a drunk driving crash. While Georgia normally caps punitive damages at <strong style={{ color: '#FBBF24' }}>$250,000</strong>, that cap is entirely removed if the at-fault driver was operating their vehicle under the influence of drugs or alcohol, exposing them to unlimited financial punishment.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Why an Atlanta Car Accident Settlement Demands a Premium
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Where your accident occurs and where the lawsuit will be filed dramatically changes how an insurance company values your claim. An Atlanta car accident settlement is routinely negotiated at a higher premium than a virtually identical crash that happens in rural South Georgia. This geographic disparity is driven entirely by jury pools. Fulton County jury verdicts are historically recognized as some of the highest and most plaintiff-friendly in the entire Southeast.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Insurance companies are massive data operations, and they track county-by-county verdict histories obsessively. If an adjuster knows they are facing a lawsuit in downtown Atlanta, they understand that a Fulton County jury might award you a staggering sum for your pain and suffering. To avoid that localized risk, they will offer a higher out-of-court settlement. In contrast, if your case is venued in a deeply conservative, rural jurisdiction known for stingy jury awards, the adjuster will purposefully lowball your settlement offer, knowing the local jury is unlikely to punish them at trial.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This venue leverage is further amplified by Georgia&apos;s strong bad faith insurance laws. If an insurance company unreasonably refuses to pay your valid claim when their driver&apos;s liability is clear and your damages obviously exceed the policy limits, they can be sued for acting in bad faith. The combination of a dangerous Fulton County jury pool and the threat of severe bad faith financial penalties is the ultimate leverage used to force stubborn insurance carriers to write fair settlement checks.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Ticking Clock: Georgia Statute of Limitations 2 Years
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                No matter how strong your evidence is, time is your ultimate enemy. Under O.C.G.A. 9-3-33, the Georgia statute of limitations requires you to either finalize a negotiated settlement or officially file a lawsuit within exactly <strong style={{ color: '#E2E8F0' }}>two years</strong> from the date of the collision.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Do not expect the insurance adjuster to warn you about this deadline. In fact, many adjusters will intentionally drag out settlement negotiations, requesting duplicate medical records and delaying their responses, hoping you will accidentally let the two-year anniversary slip by. If you miss this statutory deadline by a single day, your legal right to compensation evaporates entirely. The insurance company will immediately close your file, stop taking your calls, and leave you holding the bag for every penny of your medical debt.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Frequently Asked Questions
+              </h2>
+              <FAQAccordion faqs={[
+                {
+                  id: 'ca-ga-faq-1',
+                  question: 'How much is my car accident worth in Georgia?',
+                  answer: 'The baseline value of your crash depends entirely on the sum of your hard medical bills and lost wages, multiplied by the severity of your physical suffering. However, the true ceiling on your settlement is often dictated by the at-fault driver\'s insurance limits. If your damages total $100,000 but the driver only carries the Georgia minimum of $25,000, your recovery from them is capped at $25,000 unless they possess massive personal wealth. This is why discovering all available umbrella policies and commercial coverages is vital to maximizing your final payout.',
+                  schemaAnswer: 'The baseline value depends on your medical bills and lost wages multiplied by injury severity. The true ceiling is often the at-fault driver\'s insurance limits. Georgia minimum coverage is $25,000 per person, so uncovering umbrella and commercial policies is critical to maximizing recovery.',
+                },
+                {
+                  id: 'ca-ga-faq-2',
+                  question: 'What happens if the driver who hit me has no insurance?',
+                  answer: 'Because roughly one in eight drivers on the road is uninsured, your Georgia uninsured motorist coverage is the most important protection you can carry. If a hit-and-run driver leaves you with $80,000 in surgical bills, or if an underinsured driver only has a $25,000 policy to cover your $100,000 loss, your own uninsured motorist policy steps in to cover the difference. Uninsured motorist coverage directly replaces the bodily injury coverage the at-fault driver was legally supposed to have, saving you from financial ruin.',
+                  schemaAnswer: 'Georgia uninsured motorist coverage steps in when the at-fault driver is uninsured or underinsured. It covers the gap between the at-fault driver\'s policy limit and your actual damages, up to your purchased UM limit.',
+                },
+                {
+                  id: 'ca-ga-faq-3',
+                  question: 'Will I have to pay taxes on my settlement check?',
+                  answer: 'Under federal IRS regulations, you generally do not pay income taxes on personal injury settlements that compensate you for visible, physical injuries or physical sickness. The government views this money as a restoration of what you lost, not as earned income. The money allocated for your hospital bills and your physical pain and suffering is tax-free. However, if your settlement includes compensation for lost wages, or if you are awarded punitive damages, those specific portions of the settlement are subject to standard income taxation.',
+                  schemaAnswer: 'Settlement proceeds for physical injuries and pain and suffering are generally tax-free under federal IRS rules. However, compensation for lost wages and any punitive damages are subject to standard income taxation.',
+                },
+                {
+                  id: 'ca-ga-faq-4',
+                  question: 'Does Georgia cap my pain and suffering payout?',
+                  answer: 'No, Georgia courts do not place a statutory cap on your compensatory damages, which includes both your economic losses and your subjective pain and suffering. If a jury determines your injuries warrant a massive financial award to adequately compensate your loss of mobility and chronic pain, the state will not arbitrarily reduce that number. Caps only apply to punitive damages, and even those caps are stripped away if the at-fault driver was intoxicated.',
+                  schemaAnswer: 'No. Georgia has no statutory cap on compensatory damages including pain and suffering. Caps apply only to punitive damages ($250,000), and even that cap is removed when the at-fault driver was intoxicated.',
+                },
+                {
+                  id: 'ca-ga-faq-5',
+                  question: 'What happens if the police report says I contributed to the crash?',
+                  answer: 'A police report is simply the responding officer\'s initial opinion; it is not the final legal ruling on fault. If the adjuster uses the report to claim you were partially responsible, your final settlement will simply be reduced by your assigned percentage of blame, provided you are 49 percent or less at fault. If the insurance company tries to push your blame to 50 percent to completely deny your claim under Georgia\'s strict comparative fault bar, your legal counsel will utilize accident reconstruction experts and dashcam footage to override the officer\'s initial crash report and force the liability back onto the other driver.',
+                  schemaAnswer: 'A police report is only the officer\'s initial opinion and is not a final fault ruling. Your settlement is reduced by your fault percentage as long as you are 49% or less at fault. At 50% or more, Georgia\'s comparative fault bar eliminates your recovery entirely.',
+                },
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Protect Your Financial Recovery Today
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Navigating a high-stakes injury claim while recovering from major surgery is a recipe for being taken advantage of by a predatory insurance adjuster. One recorded statement where you accidentally apologize for the crash can push your liability to 50 percent, permanently destroying your right to compensation. Before you sign any release forms or accept a lowball initial offer, use the{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: '#60A5FA' }}>car accident settlement calculator</Link>
+                {' '}to benchmark your economic damages, then ensure the insurance company is forced to pay the absolute maximum value of your claim under Georgia law.
+              </p>
+
+            </article>
+
+          ) : stateData.slug === 'ohio' ? (
+            /* ─────────────────────────────────────────────────────────────────
+               OHIO — converted from public/ca-ohio-content.md
+            ───────────────────────────────────────────────────────────────── */
+            <article style={{ margin: '0 auto' }}>
+
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
+                When the shattered glass is swept off the asphalt and the adrenaline fades, the insurance company immediately starts doing math. They are calculating exactly how little they can pay to make you go away and protect their corporate profit margins. If you are sitting at your kitchen table staring at a stack of mounting medical bills from Riverside Methodist or the Cleveland Clinic, wondering how much your car accident is worth in Ohio, you need to know exactly how your claim is valued before you sign any release forms. A car accident settlement calculator Ohio residents use can provide a solid baseline for your expectations, but true case valuation requires understanding how the state&apos;s specific tort laws apply directly to your life and your financial losses.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Because Ohio operates as a traditional tort system, the at-fault driver&apos;s insurance carrier is entirely on the hook for your damages. This guide shows you exactly how insurance adjusters, defense attorneys, and local juries look at your medical records to calculate your final payout. From understanding local jury tendencies to fighting back against adjusters who try to blame you for the crash, this page provides the unvarnished truth about maximizing your financial recovery.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                What Your Ohio Car Accident Settlement Actually Covers
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Before you can determine a final dollar amount, you have to understand the two primary categories of damages available under state law. <strong style={{ color: '#E2E8F0' }}>Economic damages</strong> represent your hard, calculable financial costs resulting from the crash. These include the initial ambulance ride, the emergency room trauma fees, any necessary orthopedic surgeries, months of physical therapy, and the exact wages you lost while out of work recovering. The calculation does not stop at your past bills. If your orthopedic surgeon testifies that you will require a future spinal fusion five years down the road, the projected cost of that future medical care is calculated and added to your economic total. If your injuries force you to take a lower-paying job, your loss of future earning capacity is also demanded from the defense.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Non-economic damages</strong> cover the deeply personal, human toll of the crash. This is the financial compensation for the chronic neck pain that keeps you awake at night, the severe anxiety you feel every time you merge onto Interstate 71, and the physical hobbies you can no longer enjoy with your family. Because there is no simple receipt for physical agony or emotional trauma, calculating this portion of your Ohio car accident settlement requires examining the severity, duration, and permanence of your injuries — which is exactly where the industry-standard multiplier method comes into play.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                How Adjusters Calculate Your Claim Value
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                To determine a starting point for settlement negotiations, insurance adjusters often utilize the multiplier method. They take your total concrete economic damages and multiply them by a number typically ranging between 1.5 and 5, depending on the severity of your physical injuries, the venue of the crash, and the clarity of the liability evidence.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Imagine you are violently rear-ended at a red light on High Street in Columbus. Your medical bills for a herniated disc, epidural injections, and physical therapy total <strong style={{ color: '#FBBF24' }}>$30,000</strong>, and you missed <strong style={{ color: '#FBBF24' }}>$10,000</strong> in wages, leaving you with <strong style={{ color: '#FBBF24' }}>$40,000</strong> in strict economic losses. Because Franklin County jury verdicts historically favor plaintiffs who present clear, documented evidence of suffering, a claims adjuster might assign a multiplier of 3. They multiply your $40,000 economic loss by 3 to reach <strong style={{ color: '#FBBF24' }}>$120,000</strong> in non-economic damages. Added together, your total claim valuation sits at a baseline of <strong style={{ color: '#FBBF24' }}>$160,000</strong>.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Alternatively, if you suffer a severe femur fracture requiring surgical plates and screws in Cuyahoga County, the math shifts aggressively in your favor. A Cleveland car accident settlement for a victim with <strong style={{ color: '#FBBF24' }}>$80,000</strong> in medical bills and a permanent limp might command a multiplier of 4 or 5. If the adjuster uses a 4, your $80,000 in economic damages generates <strong style={{ color: '#FBBF24' }}>$320,000</strong> in pain and suffering, creating a <strong style={{ color: '#FBBF24' }}>$400,000</strong> total settlement target. For a more tailored estimate of the non-economic portion of your specific claim, you can run your unique numbers through our{' '}
+                <Link href="/pain-and-suffering-calculator/ohio/" style={{ color: '#60A5FA' }}>Ohio pain and suffering calculator</Link>.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Navigating the Ohio 51% Comparative Fault Rule
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The insurance adjuster&apos;s absolute favorite trick is to blame you for the crash to save their company money. Under Ohio Revised Code 2315.33, the state firmly follows the Ohio modified comparative fault 51% bar rule. This statute dictates that you can still recover financial compensation even if you share some of the blame, as long as you are <strong style={{ color: '#E2E8F0' }}>50 percent or less</strong> at fault. Your final financial payout is simply reduced by your assigned percentage of responsibility.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Suppose a jury determines your total damages are <strong style={{ color: '#FBBF24' }}>$100,000</strong> after a devastating T-bone collision, but they also find you were 20 percent at fault because the intersection camera proved you were driving slightly over the speed limit. The judge will automatically subtract 20 percent from your award, leaving you with a final <strong style={{ color: '#FBBF24' }}>$80,000</strong> judgment. However, the 51 percent threshold is a brutal, hard cliff. If the defense successfully argues that you were 51 percent or more responsible for the accident, the law completely bars you from recovering a single penny. This is exactly why insurance companies fight so aggressively to shift just enough blame onto your shoulders to cross that 51 percent line.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Truth About Statutory Damage Caps
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                When a catastrophic crash turns your life upside down, you might worry that the state restricts how much a jury can legally award you. When it comes to your actual financial losses, there is <strong style={{ color: '#E2E8F0' }}>no cap on economic damages</strong> in Ohio. You can recover every single dollar of your past and future medical expenses, lost earning capacity, and property damage without any statutory limitation whatsoever.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                While Ohio law does place a cap on non-economic damages — limiting them to the greater of <strong style={{ color: '#FBBF24' }}>$250,000</strong> or three times your economic damages up to a maximum of <strong style={{ color: '#FBBF24' }}>$350,000</strong> per plaintiff — the state legislature provided a massive exception for the most severely injured victims. If you suffer a permanent and substantial physical deformity, the loss of use of a limb, or a permanent physical functional injury that prevents you from independently caring for yourself, the statutory cap on pain and suffering is completely removed. In these catastrophic cases, a jury can award millions in non-economic damages to truly reflect the lifelong devastation caused by the negligent driver.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Why Your Venue Changes Your Valuation
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Where your accident happens dramatically impacts the mathematical value of your case. Because Ohio is a traditional at-fault state, you generally file your lawsuit in the county where the negligent driver caused the crash. Insurance adjusters track venue data obsessively because they know that juries in different counties value human pain and suffering very differently.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Urban centers traditionally yield significantly higher payouts. Franklin County jury verdicts in Columbus and Cuyahoga County verdicts in Cleveland consistently rank among the most plaintiff-friendly jurisdictions in the entire state. Juries in these dense metropolitan areas are accustomed to higher costs of living and often hand down substantial awards when the evidence is clear. Consequently, an insurance company is much more likely to offer a premium settlement prior to trial simply to avoid facing a Cleveland or Columbus jury. In stark contrast, if your collision occurs in a rural venue like Holmes County or Vinton County, juries tend to be far more conservative, and an adjuster will often use a lower multiplier, knowing the threat of a massive runaway verdict is statistically much lower.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                The Strict Ohio Statute of Limitations
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                No matter how clear the other driver&apos;s fault is, the clock is continuously ticking on your right to demand civil justice. The Ohio statute of limitations for car accidents, codified under Ohio Revised Code 2305.10, dictates that you have exactly <strong style={{ color: '#E2E8F0' }}>two years</strong> from the date of the accident to file a formal lawsuit against the at-fault driver. If you miss this deadline by a single day, the court will dismiss your case permanently, and the insurance company will close your file without paying you a single dime.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This strict two-year deadline also applies if you are filing a wrongful death claim after tragically losing a family member to a negligent driver. While two years might sound like a long time, building a high-value case requires months of ongoing medical treatment, gathering expensive expert testimony, and negotiating in good faith with obstinate adjusters. Waiting until the final months to speak with an attorney severely damages your leverage, as the defense knows you are running out of time to prepare a proper, evidence-based lawsuit.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Understanding Average Settlements and Insurance Limits
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Injury victims constantly search for an average settlement amount, but the reality is that an average simply does not exist in personal injury law. Your specific case value is dictated by the severity of your injuries and the hard limits of the available insurance policies. Ohio law requires drivers to carry a minimum liability policy of <strong style={{ color: '#FBBF24' }}>$25,000 per person</strong> and <strong style={{ color: '#FBBF24' }}>$50,000 per accident</strong>. If you suffer $100,000 in surgical damages but the at-fault driver only carries a state-minimum policy, your primary recovery from their carrier is strictly capped at $25,000.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This dynamic is exactly why state law requires insurance companies to offer Ohio uninsured motorist coverage — a vital protection you can only reject in writing. If the driver who hit you has insufficient insurance or flees the scene entirely, your own uninsured or underinsured motorist policy steps in to cover the financial difference up to your purchased limits. A minor whiplash claim with a few weeks of physical therapy might settle for <strong style={{ color: '#FBBF24' }}>$12,000 to $25,000</strong>, while a surgical case involving commercial trucking negligence routinely settles for <strong style={{ color: '#FBBF24' }}>$250,000 to well over $1,000,000</strong>, provided the right commercial insurance policies are properly identified. You can use our{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: '#60A5FA' }}>car accident settlement calculator</Link>
+                {' '}to adjust these specific financial variables and see exactly how policy limits affect your potential payout.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Frequently Asked Questions
+              </h2>
+              <FAQAccordion faqs={[
+                {
+                  id: 'ca-oh-faq-1',
+                  question: 'How do I know if I have a valid car accident claim in Ohio?',
+                  answer: 'You possess a valid legal claim if you can successfully prove that another driver breached their duty of care on the road, that their specific negligence directly caused the collision, and that you suffered actual financial or physical damages as a result. Because Ohio operates under a traditional tort system rather than a no-fault system, you must prove the other party was primarily responsible before their insurance company will accept liability and agree to pay your medical bills.',
+                  schemaAnswer: 'A valid Ohio claim requires proving another driver breached their duty of care, their negligence directly caused the collision, and you suffered actual damages. Ohio is a traditional tort state — you must prove the other party was primarily responsible before their insurer accepts liability.',
+                },
+                {
+                  id: 'ca-oh-faq-2',
+                  question: 'Will my claim be denied if I was not wearing a seatbelt during the crash?',
+                  answer: 'Under Ohio law, failing to wear a seatbelt cannot be used as evidence of comparative negligence to completely bar your claim or prove that you caused the accident itself. However, defense attorneys can introduce your lack of a seatbelt to argue that your injuries were much more severe than they would have been had you buckled up properly. This tactic can successfully reduce the amount of compensation you receive for your physical injuries, though it will not stop you from recovering damages entirely.',
+                  schemaAnswer: 'Ohio law prohibits using seatbelt non-use to bar your claim or prove fault for the accident. However, the defense can argue it made your injuries more severe, potentially reducing your compensation, though not eliminating it entirely.',
+                },
+                {
+                  id: 'ca-oh-faq-3',
+                  question: 'Do I have to use my own health insurance for my crash injuries?',
+                  answer: 'Yes, you should always process your medical bills through your own private health insurance or Medicare first. The at-fault driver\'s auto insurance will not pay your doctors directly on a month-to-month basis while you treat. Instead, they write one final settlement check at the very end of your case. Using your health insurance ensures your medical bills do not go to collections while you wait for your settlement to finalize, and your attorney will simply recover the costs and reimburse your health plan out of your final settlement check.',
+                  schemaAnswer: 'Yes. Always use your own health insurance or Medicare first, as the at-fault driver\'s insurer pays only at case resolution. Your attorney will reimburse your health plan\'s subrogation lien from the final settlement.',
+                },
+                {
+                  id: 'ca-oh-faq-4',
+                  question: 'What happens if the at-fault driver\'s insurance company calls me?',
+                  answer: 'You are under absolutely no legal obligation to give a recorded statement to the other driver\'s insurance adjuster, and doing so is almost always a costly mistake. Adjusters are highly trained to ask leading questions designed to make you apologize on tape, downplay your physical pain, or admit partial fault for the crash. You should politely decline to provide any statement and direct all of their communications to your legal representative, who will protect your narrative and your fundamental right to full compensation.',
+                  schemaAnswer: 'You have no legal obligation to give a recorded statement to the at-fault driver\'s adjuster. Doing so risks accidentally admitting fault. Decline politely and direct all communications to your attorney.',
+                },
+                {
+                  id: 'ca-oh-faq-5',
+                  question: 'How long does it take to receive a settlement check in Ohio?',
+                  answer: 'The timeline depends entirely on how long it takes your body to heal from the trauma. You should never settle a claim until you have reached maximum medical improvement, meaning your treating doctor has declared you are as healed as you are going to get. For a minor soft-tissue injury, a settlement might be reached in four to six months. For severe injuries requiring surgery and prolonged rehabilitation, the legal process can take a year or more to ensure every single dollar of your future medical care is accurately calculated and demanded from the defense.',
+                  schemaAnswer: 'Never settle before reaching maximum medical improvement. Minor soft-tissue injuries typically resolve in 4 to 6 months. Severe surgical injuries requiring prolonged rehabilitation can take a year or more to ensure all future medical costs are accurately calculated.',
+                },
+              ]} />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Take Action on Your Claim Today
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The insurance company already has a dedicated team of adjusters and defense lawyers working around the clock to devalue your injuries and protect their corporate profit margins. Stop guessing about the true value of your case and start building the legal leverage you need to secure a maximum financial payout. Use our{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: '#60A5FA' }}>car accident settlement calculator</Link>
+                {' '}to understand your baseline numbers, then hold the negligent driver fully accountable and aggressively demand every single dollar you are owed under Ohio law.
+              </p>
+
+            </article>
+
           ) : (
             /* ─────────────────────────────────────────────────────────────────
                ALL OTHER STATES — generic placeholder.
