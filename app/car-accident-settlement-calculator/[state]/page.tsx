@@ -75,7 +75,7 @@ export async function generateMetadata({
       type: 'website',
       images: [
         {
-          url: 'https://settlebrook.com/og-image.png',
+          url: '/og-image.png',
           width: 1200,
           height: 630,
           alt: `${stateData.name} Car Accident Settlement Calculator — Settlebrook`,
@@ -87,7 +87,7 @@ export async function generateMetadata({
       site: '@settlebrook',
       title: `${pageTitle} | Settlebrook`,
       description,
-      images: ['https://settlebrook.com/og-image.png'],
+      images: ['/og-image.png'],
     },
     robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   }
@@ -111,30 +111,11 @@ function SideCard({ children }: { children: React.ReactNode }) {
   )
 }
 
-// ─── Ad slot placeholder — matches styled guide page pattern ──────────────────
+// ─── Empty ad slot container — no visible text, data-ad-slot for future AdSense ──
 
 function AdSlot({ id }: { id: string }) {
   return (
-    <div
-      id={id}
-      aria-label="Advertisement"
-      style={{
-        background: 'rgba(255,255,255,0.02)',
-        border: '1px dashed rgba(99,179,237,0.15)',
-        borderRadius: '8px',
-        minHeight: '90px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: '32px 0',
-        color: 'rgba(99,179,237,0.3)',
-        fontSize: '11px',
-        letterSpacing: '2px',
-        textTransform: 'uppercase',
-      }}
-    >
-      AD
-    </div>
+    <div id={id} data-ad-slot={id} aria-hidden="true" />
   )
 }
 
@@ -281,19 +262,19 @@ export default function StateCarAccidentPage({ params }: { params: { state: stri
     datePublished: '2026-01-01',
     dateModified: new Date().toISOString().split('T')[0],
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    provider: { '@type': 'Organization', name: 'Settlebrook', url: 'https://settlebrook.com' },
+    provider: { '@type': 'Organization', name: 'Settlebrook', url: 'https://www.settlebrook.com' },
   }
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://settlebrook.com/' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.settlebrook.com/' },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Car Accident Settlement Calculator',
-        item: 'https://settlebrook.com/car-accident-settlement-calculator/',
+        item: 'https://www.settlebrook.com/car-accident-settlement-calculator/',
       },
       {
         '@type': 'ListItem',

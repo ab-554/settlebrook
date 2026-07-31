@@ -39,7 +39,7 @@ export function BreadcrumbNav({ items }: BreadcrumbNavProps) {
                 // FIX M6: id prop added to satisfy schema.org ListItem.item @id requirement
                 <Link
                   href={item.href}
-                  id={`https://settlebrook.com${item.href}`}
+                  id={`https://www.settlebrook.com${item.href}`}
                   className="transition-colors hover:opacity-80"
                   style={{ color: '#60A5FA' }}
                   itemProp="item"

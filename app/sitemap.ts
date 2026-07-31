@@ -11,7 +11,7 @@ import { ALL_STATES, PRIORITY_STATES } from '@/lib/data/states'
 import { CAR_ACCIDENT_STATES } from '@/lib/data/carAccidentStates'
 import { WORKERS_COMP_STATES } from '@/lib/data/workersCompStates'
 
-const BASE_URL = 'https://settlebrook.com'
+const BASE_URL = 'https://www.settlebrook.com'
 const PRIORITY_STATE_SLUGS = new Set(PRIORITY_STATES.map((s) => s.slug))
 const CAR_ACCIDENT_TIER1_SLUGS = new Set(['california', 'texas'])
 const WORKERS_COMP_TIER1_SLUGS = new Set(['california', 'texas', 'florida'])

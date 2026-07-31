@@ -7,17 +7,17 @@ export const metadata: Metadata = {
   title: "About Settlebrook — Legal Settlement Calculators",
   description:
     "SettleBrook builds free, research-backed settlement calculators for pain and suffering, car accidents, and workers' comp claims. Learn how our tools work and why we built them.",
-  alternates: { canonical: "https://settlebrook.com/about/" },
+  alternates: { canonical: "/about/" },
   openGraph: {
     title: "About SettleBrook | Free Legal Settlement Calculators",
     description:
       "Free settlement estimation tools built for everyday Americans navigating personal injury and workplace injury claims.",
-    url: "https://settlebrook.com/about/",
+    url: "/about/",
     siteName: "SettleBrook",
     type: "website",
     images: [
       {
-        url: "https://settlebrook.com/og-image.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "SettleBrook – Settlement Calculator Hub",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: "About SettleBrook | Free Legal Settlement Calculators",
     description:
       "Free settlement estimation tools built for everyday Americans navigating personal injury and workplace injury claims.",
-    images: ["https://settlebrook.com/og-image.png"],
+    images: ["/og-image.png"],
   },
 };
 

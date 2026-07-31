@@ -6,22 +6,22 @@ export const metadata: Metadata = {
   title: "Terms of Use",
   description:
     "SettleBrook terms of use. Our calculators provide estimates only — not legal advice. Read our full terms including disclaimer, acceptable use, and governing law.",
-  alternates: { canonical: "https://settlebrook.com/terms-of-use/" },
+  alternates: { canonical: "/terms-of-use/" },
   robots: { index: true, follow: true },
   openGraph: {
     title: "Terms of Use | Settlebrook",
     description:
       "Read SettleBrook's terms of use. Settlement calculators provide estimates only, not legal advice.",
-    url: "https://settlebrook.com/terms-of-use/",
+    url: "/terms-of-use/",
     siteName: "Settlebrook",
     type: "website",
-    images: [{ url: "https://settlebrook.com/og-image.png", width: 1200, height: 630, alt: "Terms of Use — Settlebrook" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Terms of Use — Settlebrook" }],
   },
   twitter: {
     card: "summary_large_image",
     site: "@settlebrook",
     title: "Terms of Use | Settlebrook",
-    images: ["https://settlebrook.com/og-image.png"],
+    images: ["/og-image.png"],
   },
 };
 
@@ -95,7 +95,7 @@ export default function TermsOfUsePage() {
           <p className="mt-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
             These Terms of Use (&ldquo;Terms&rdquo;) govern your access to and use of the
             SettleBrook website located at{" "}
-            <a href="https://settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+            <a href="/" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
               settlebrook.com
             </a>{" "}
             and all associated pages, tools, and content (collectively, the &ldquo;Site&rdquo;).
@@ -369,7 +369,7 @@ export default function TermsOfUsePage() {
                 </a>
               </p>
               <p>Website:{" "}
-                <a href="https://settlebrook.com/contact" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+                <a href="/contact" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
                   settlebrook.com/contact
                 </a>
               </p>

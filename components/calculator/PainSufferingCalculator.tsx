@@ -110,15 +110,9 @@ export default function PainSufferingCalculator({ stateSlug, stateName, faultRul
     setForm(INITIAL_FORM); setErrors({}); setResult(null); setHasCalc(false)
   }
 
+  // Empty ad slot container — no visible text, no height; data-ad-slot attr preserved for future AdSense
   const AdSlot = ({ id }: { id: string }) => (
-    <div
-      id={id}
-      aria-label="Advertisement"
-      className="w-full min-h-[90px] rounded-xl flex items-center justify-center"
-      style={{ background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(99,179,237,0.10)' }}
-    >
-      <span className="text-xs select-none" style={{ color: 'rgba(148,163,184,0.22)' }}>{id}</span>
-    </div>
+    <div id={id} data-ad-slot={id} aria-hidden="true" />
   )
 
   return (

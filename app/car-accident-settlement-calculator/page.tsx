@@ -33,13 +33,13 @@ export const metadata: Metadata = {
     title: 'Car Accident Settlement Calculator — Free Tool | Settlebrook',
     description:
       'Free car accident settlement calculator for USA victims. Estimate economic damages, pain and suffering, and total settlement value instantly.',
-    url: 'https://settlebrook.com/car-accident-settlement-calculator/',
+    url: '/car-accident-settlement-calculator/',
     siteName: 'Settlebrook',
     locale: 'en_US',
     type: 'website',
     images: [
       {
-        url: 'https://settlebrook.com/og-image.png',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Car Accident Settlement Calculator — Settlebrook',
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     title: 'Car Accident Settlement Calculator — Free Tool | Settlebrook',
     description:
       'Free car accident settlement calculator. Estimate medical bills, lost wages, vehicle damage, and pain and suffering. Instant results — no signup.',
-    images: ['https://settlebrook.com/og-image.png'],
+    images: ['/og-image.png'],
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
 }
@@ -67,7 +67,7 @@ const webApplicationSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
   name: 'Car Accident Settlement Calculator',
-  url: 'https://settlebrook.com/car-accident-settlement-calculator/',
+  url: 'https://www.settlebrook.com/car-accident-settlement-calculator/',
   description:
     'Free online calculator that estimates car accident settlement values including economic damages, pain and suffering, vehicle damage, and fault reduction.',
   applicationCategory: 'FinanceApplication',
@@ -75,19 +75,19 @@ const webApplicationSchema = {
   datePublished: '2026-01-01',
   dateModified: new Date().toISOString().split('T')[0],
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-  provider: { '@type': 'Organization', name: 'Settlebrook', url: 'https://settlebrook.com' },
+  provider: { '@type': 'Organization', name: 'Settlebrook', url: 'https://www.settlebrook.com' },
 }
 
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://settlebrook.com/' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.settlebrook.com/' },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Car Accident Settlement Calculator',
-      item: 'https://settlebrook.com/car-accident-settlement-calculator/',
+      item: 'https://www.settlebrook.com/car-accident-settlement-calculator/',
     },
   ],
 }

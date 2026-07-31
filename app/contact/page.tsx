@@ -10,20 +10,20 @@ export const metadata: Metadata = {
   title: "Contact Us — Settlement Calculator Questions",
   description:
     "Contact the SettleBrook team with questions about our pain and suffering, car accident, or workers' comp calculators. We respond within 2 business days.",
-  alternates: { canonical: "https://settlebrook.com/contact/" },
+  alternates: { canonical: "/contact/" },
   openGraph: {
     title: "Contact SettleBrook",
     description:
       "Have a question about our settlement calculators? Reach the SettleBrook team.",
-    url: "https://settlebrook.com/contact/",
+    url: "/contact/",
     siteName: "SettleBrook",
     type: "website",
-    images: [{ url: "https://settlebrook.com/og-image.png", width: 1200, height: 630 }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Contact SettleBrook",
-    images: ["https://settlebrook.com/og-image.png"],
+    images: ["/og-image.png"],
   },
 };
 
@@ -32,13 +32,13 @@ const jsonLd = {
   "@type": "ContactPage",
   name: "Contact SettleBrook",
   // FIX M3: trailing slash added to url
-  url: "https://settlebrook.com/contact/",
+  url: "https://www.settlebrook.com/contact/",
   description: "Contact form and FAQ for SettleBrook settlement calculators.",
   mainEntity: {
     "@type": "Organization",
     name: "SettleBrook",
     email: "contact.ab554@gmail.com",
-    url: "https://settlebrook.com",
+    url: "https://www.settlebrook.com",
   },
 };
 

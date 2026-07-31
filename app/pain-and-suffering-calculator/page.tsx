@@ -21,21 +21,21 @@ export const metadata: Metadata = {
   title: 'Pain & Suffering Calculator — Free Estimate',
   // FIX C3: expanded to 153 chars with CTA and primary keyword
   description:
-    'Use our free pain and suffering calculator to estimate your damages. Enter medical bills and lost wages for an instant multiplier or per diem estimate. Updated for 2025 USA laws.',
+    'Use our free pain and suffering calculator to estimate your damages. Enter medical bills and lost wages for an instant multiplier or per diem estimate. Updated for 2026 USA laws.',
   // FIX M8: keywords array removed — Google ignores this meta tag entirely
   alternates: { canonical: '/pain-and-suffering-calculator/' },
   openGraph: {
     // FIX C3: OG title and description fully populated
     title: 'Pain & Suffering Calculator — Free Estimate | Settlebrook',
     description:
-      'Use our free pain and suffering calculator to estimate your damages. Enter medical bills and lost wages for an instant multiplier or per diem estimate. Updated for 2025 USA laws.',
-    url: 'https://settlebrook.com/pain-and-suffering-calculator/',
+      'Use our free pain and suffering calculator to estimate your damages. Enter medical bills and lost wages for an instant multiplier or per diem estimate. Updated for 2026 USA laws.',
+    url: '/pain-and-suffering-calculator/',
     siteName: 'Settlebrook',
     locale: 'en_US',
     type: 'website',
     images: [
       {
-        url: 'https://settlebrook.com/og-image.png',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Pain & Suffering Calculator — Settlebrook',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     title: 'Pain & Suffering Calculator — Free Estimate | Settlebrook',
     description:
       'Free pain and suffering calculator using the multiplier and per diem methods. Instant results for USA injury victims. No signup required.',
-    images: ['https://settlebrook.com/og-image.png'],
+    images: ['/og-image.png'],
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
 }
@@ -61,7 +61,7 @@ const webApplicationSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
   name: 'Pain & Suffering Calculator',
-  url: 'https://settlebrook.com/pain-and-suffering-calculator/',
+  url: 'https://www.settlebrook.com/pain-and-suffering-calculator/',
   description:
     'Free online calculator that estimates pain and suffering damages using the multiplier method and per diem method.',
   applicationCategory: 'FinanceApplication',
@@ -70,19 +70,19 @@ const webApplicationSchema = {
   datePublished: '2025-01-01',
   dateModified: new Date().toISOString().split('T')[0],
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-  provider: { '@type': 'Organization', name: 'Settlebrook', url: 'https://settlebrook.com' },
+  provider: { '@type': 'Organization', name: 'Settlebrook', url: 'https://www.settlebrook.com' },
 }
 
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://settlebrook.com/' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.settlebrook.com/' },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Pain & Suffering Calculator',
-      item: 'https://settlebrook.com/pain-and-suffering-calculator/',
+      item: 'https://www.settlebrook.com/pain-and-suffering-calculator/',
     },
   ],
 }
@@ -148,7 +148,7 @@ export default function PainSufferingCalculatorPage() {
             </div>
             <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
               {[
-                'Updated for 2025',
+                'Updated for 2026',
                 'Both multiplier & per diem methods',
                 'All 50 states',
                 'No personal data collected',

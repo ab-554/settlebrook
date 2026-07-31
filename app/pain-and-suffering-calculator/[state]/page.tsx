@@ -44,7 +44,7 @@ export async function generateMetadata({
       type: 'website',
       images: [
         {
-          url: 'https://settlebrook.com/og-image.png',
+          url: '/og-image.png',
           width: 1200,
           height: 630,
           alt: `${stateData.name} Pain & Suffering Calculator — Settlebrook`,
@@ -57,7 +57,7 @@ export async function generateMetadata({
       site: '@settlebrook',
       title: `${pageTitle} | Settlebrook`,
       description: stateData.metaDescription,
-      images: ['https://settlebrook.com/og-image.png'],
+      images: ['/og-image.png'],
     },
     robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   }
@@ -103,13 +103,13 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
     datePublished: '2025-01-01',
     dateModified: new Date().toISOString().split('T')[0],
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    provider: { '@type': 'Organization', name: 'Settlebrook', url: 'https://settlebrook.com' },
+    provider: { '@type': 'Organization', name: 'Settlebrook', url: 'https://www.settlebrook.com' },
   }
   const breadcrumbSchema = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://settlebrook.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Pain & Suffering Calculator', item: 'https://settlebrook.com/pain-and-suffering-calculator/' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.settlebrook.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Pain & Suffering Calculator', item: 'https://www.settlebrook.com/pain-and-suffering-calculator/' },
       { '@type': 'ListItem', position: 3, name: `${stateData.name} Pain & Suffering Calculator`, item: canonicalUrl },
     ],
   }
@@ -1632,8 +1632,7 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              {/* Ad slot — top */}
-              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(99,179,237,0.15)', borderRadius: '8px', minHeight: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '32px 0', color: 'rgba(99,179,237,0.3)', fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase' }}>AD</div>
+              <div data-ad-slot="PS_STATE_AD_TOP" aria-hidden="true" />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Pain and Suffering Damages Under Nevada Law</h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Nevada law allows injured victims to recover noneconomic damages for the physical pain, emotional distress, mental anguish, and diminished quality of life caused by another party&apos;s negligence. These damages are separate from economic damages such as medical bills, lost wages, and future care costs.</p>
@@ -1660,8 +1659,7 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              {/* Ad slot — mid */}
-              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(99,179,237,0.15)', borderRadius: '8px', minHeight: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '32px 0', color: 'rgba(99,179,237,0.3)', fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase' }}>AD</div>
+              <div data-ad-slot="PS_STATE_AD_MID" aria-hidden="true" />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Nevada Modified Comparative Fault</h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Nevada follows a <strong style={{ color: '#E2E8F0' }}>modified comparative fault system with a 51% bar</strong>, codified in NRS 41.141. Under this rule, your compensation is reduced by your percentage of fault for the accident. If you are found 30% at fault for a car accident, a $100,000 award is reduced to $70,000.</p>
@@ -1696,8 +1694,7 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              {/* Ad slot — bottom */}
-              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(99,179,237,0.15)', borderRadius: '8px', minHeight: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '32px 0', color: 'rgba(99,179,237,0.3)', fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase' }}>AD</div>
+              <div data-ad-slot="PS_STATE_AD_BOTTOM" aria-hidden="true" />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[

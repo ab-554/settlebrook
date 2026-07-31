@@ -32,13 +32,13 @@ export const metadata: Metadata = {
     title: 'Workers Comp Settlement Calculator — Free Tool | Settlebrook',
     description:
       'Free workers compensation settlement calculator. Estimate TTD, PPD, and PTD benefits by state. Enter your weekly wage and impairment rating for an instant estimate.',
-    url: 'https://settlebrook.com/workers-comp-settlement-calculator/',
+    url: '/workers-comp-settlement-calculator/',
     siteName: 'Settlebrook',
     locale: 'en_US',
     type: 'website',
     images: [
       {
-        url: 'https://settlebrook.com/og-image.png',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Workers Comp Settlement Calculator — Settlebrook',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     title: 'Workers Comp Settlement Calculator — Free Tool | Settlebrook',
     description:
       'Free workers compensation settlement calculator. Estimate TTD, PPD, and PTD benefits by state. Enter your weekly wage and impairment rating for an instant estimate.',
-    images: ['https://settlebrook.com/og-image.png'],
+    images: ['/og-image.png'],
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
 }
@@ -62,7 +62,7 @@ const webApplicationSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
   name: 'Workers Comp Settlement Calculator',
-  url: 'https://settlebrook.com/workers-comp-settlement-calculator/',
+  url: 'https://www.settlebrook.com/workers-comp-settlement-calculator/',
   description:
     'Free workers compensation settlement calculator. Estimate TTD, PPD, and PTD benefits by state based on your weekly wage and impairment rating.',
   applicationCategory: 'FinanceApplication',
@@ -70,37 +70,30 @@ const webApplicationSchema = {
   datePublished: '2026-01-01',
   dateModified: new Date().toISOString().split('T')[0],
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-  provider: { '@type': 'Organization', name: 'Settlebrook', url: 'https://settlebrook.com' },
+  provider: { '@type': 'Organization', name: 'Settlebrook', url: 'https://www.settlebrook.com' },
 }
 
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://settlebrook.com/' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.settlebrook.com/' },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Workers Comp Settlement Calculator',
-      item: 'https://settlebrook.com/workers-comp-settlement-calculator/',
+      item: 'https://www.settlebrook.com/workers-comp-settlement-calculator/',
     },
   ],
 }
 
 const faqSchema = buildWorkersCompFAQSchema(WORKERS_COMP_FAQS)
 
-// ─── Local Ad Slot placeholder ────────────────────────────────────────────────
+// ─── Empty ad slot container — no visible text, data-ad-slot for future AdSense ──
 
 function AdSlot({ id }: { id: string }) {
   return (
-    <div
-      id={id}
-      aria-label="Advertisement"
-      className="w-full min-h-[90px] rounded-xl flex items-center justify-center my-4"
-      style={{ background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(99,179,237,0.10)' }}
-    >
-      <span className="text-xs select-none" style={{ color: 'rgba(148,163,184,0.22)' }}>{id}</span>
-    </div>
+    <div id={id} data-ad-slot={id} aria-hidden="true" />
   )
 }
 

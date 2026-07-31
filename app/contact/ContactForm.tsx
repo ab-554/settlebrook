@@ -66,7 +66,7 @@ return (
    />
  </div>
  <input type="hidden" name="_subject" value="New Settlebrook Contact Form Submission" />
- <input type="hidden" name="_next" value="https://settlebrook.com/contact/?success=true" />
+ <input type="hidden" name="_next" value="https://www.settlebrook.com/contact/?success=true" />
  <p style={{ color: '#64748B', fontSize: '13px' }}>
    We cannot provide legal advice or comment on specific cases.
  </p>

@@ -10,13 +10,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'How Is Pain and Suffering Calculated? Complete Guide',
     description: 'Learn exactly how pain and suffering is calculated using the multiplier and per diem methods. Includes real examples, state rules, and a free calculator tool.',
-    url: 'https://settlebrook.com/pain-and-suffering-calculator/guide/',
+    url: '/pain-and-suffering-calculator/guide/',
     siteName: 'Settlebrook',
     locale: 'en_US',
     type: 'article',
     images: [
       {
-        url: 'https://settlebrook.com/og-image.png',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Pain & Suffering Calculator — Settlebrook',
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     site: '@settlebrook',
     title: 'How Is Pain and Suffering Calculated? Complete Guide',
     description: 'Learn exactly how pain and suffering is calculated using the multiplier and per diem methods. Includes real examples, state rules, and a free calculator tool.',
-    images: ['https://settlebrook.com/og-image.png'],
+    images: ['/og-image.png'],
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
 }
@@ -85,35 +85,35 @@ const ARTICLE_SCHEMA = {
   "@type": "Article",
   "headline": "How Is Pain and Suffering Calculated? Complete Guide",
   "description": "A complete guide to how pain and suffering damages are calculated in personal injury claims, covering the multiplier method, per diem method, insurance adjuster tactics, documentation strategies, and state law variations.",
-  "url": "https://settlebrook.com/pain-and-suffering-calculator/guide/",
+  "url": "https://www.settlebrook.com/pain-and-suffering-calculator/guide/",
   "inLanguage": "en-US",
   "datePublished": "2024-01-01",
   "dateModified": "2026-05-12",
   "author": {
     "@type": "Organization",
     "name": "Settlebrook",
-    "url": "https://settlebrook.com"
+    "url": "https://www.settlebrook.com"
   },
   "publisher": {
     "@type": "Organization",
     "name": "Settlebrook",
-    "url": "https://settlebrook.com",
+    "url": "https://www.settlebrook.com",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://settlebrook.com/logo.png",
+      "url": "https://www.settlebrook.com/logo.png",
       "width": 200,
       "height": 60
     }
   },
   "image": {
     "@type": "ImageObject",
-    "url": "https://settlebrook.com/og-image.png",
+    "url": "https://www.settlebrook.com/og-image.png",
     "width": 1200,
     "height": 630
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://settlebrook.com/pain-and-suffering-calculator/guide/"
+    "@id": "https://www.settlebrook.com/pain-and-suffering-calculator/guide/"
   },
   "about": {
     "@type": "Thing",
@@ -130,9 +130,9 @@ const BREADCRUMB_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://settlebrook.com/" },
-    { "@type": "ListItem", "position": 2, "name": "Pain & Suffering Calculator", "item": "https://settlebrook.com/pain-and-suffering-calculator/" },
-    { "@type": "ListItem", "position": 3, "name": "Complete Guide", "item": "https://settlebrook.com/pain-and-suffering-calculator/guide/" }
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.settlebrook.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Pain & Suffering Calculator", "item": "https://www.settlebrook.com/pain-and-suffering-calculator/" },
+    { "@type": "ListItem", "position": 3, "name": "Complete Guide", "item": "https://www.settlebrook.com/pain-and-suffering-calculator/guide/" }
   ]
 }
 
@@ -187,7 +187,7 @@ export default function GuidePage() {
 
         <div className="max-w-7xl mx-auto px-6 sm:px-8 py-8 sm:py-12">
           
-          <div style={{ width: '100%', minHeight: '90px', background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(99,179,237,0.15)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '32px 0', color: 'rgba(99,179,237,0.3)', fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase' }}>AD</div>
+          <div data-ad-slot="GUIDE_AD_TOP" aria-hidden="true" />
 
           <article style={{ margin: "0 auto" }}>
             
@@ -219,7 +219,7 @@ export default function GuidePage() {
             <p style={{ color: "#94A3B8", lineHeight: 1.8, marginBottom: 20 }}><strong style={{ color: "#E2E8F0" }}>Severe injury:</strong> You are struck by a commercial truck and sustain a fractured femur requiring surgery, followed by eight months of physical therapy. You are left with a permanent 15% impairment rating to your leg. Total medical bills: $87,000. Lost wages: $34,000. Future medical costs: $18,000. Special damages total: $139,000. Multiplier: 4. Pain and suffering estimate: $556,000. Total settlement demand: $695,000.</p>
             <p style={{ color: "#94A3B8", lineHeight: 1.8, marginBottom: 20 }}>The multiplier method is flexible by design. It rewards well-documented claims and penalizes gaps in medical treatment. If you stopped treating for six weeks in the middle of your recovery, the adjuster will argue your injuries were not as serious as claimed — and use that gap to push the multiplier down.</p>
             
-            <div style={{ width: '100%', minHeight: '90px', background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(99,179,237,0.15)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '32px 0', color: 'rgba(99,179,237,0.3)', fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase' }}>AD</div>
+            <div data-ad-slot="GUIDE_AD_MID" aria-hidden="true" />
             <hr style={{ borderColor: "rgba(99,179,237,0.15)", margin: "40px 0" }} />
             
             <h2 className="heading-gradient" style={{ fontSize: 28, fontWeight: 700, marginBottom: 16, marginTop: 48 }}>The Per Diem Method</h2>
@@ -329,7 +329,7 @@ export default function GuidePage() {
 
           </article>
           
-          <div style={{ width: '100%', minHeight: '90px', background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(99,179,237,0.15)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '32px 0', color: 'rgba(99,179,237,0.3)', fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase' }}>AD</div>
+          <div data-ad-slot="GUIDE_AD_BOTTOM" aria-hidden="true" />
         </div>
       </main>
     </>

@@ -87,7 +87,7 @@ export default function DisclaimerBanner({ variant = 'banner', stateName }: Disc
       <div className="flex flex-wrap justify-center gap-4 pt-2" style={{ borderTop: '1px solid rgba(99,179,237,0.10)' }}>
         <TrustBadge icon="shield" text="No personal data collected" />
         <TrustBadge icon="lock"   text="Free to use — no signup" />
-        <TrustBadge icon="check"  text="Updated for 2025 state laws" />
+        <TrustBadge icon="check"  text="Updated for 2026 state laws" />
       </div>
     </div>
   )

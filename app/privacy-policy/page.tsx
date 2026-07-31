@@ -6,22 +6,22 @@ export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
     "SettleBrook's privacy policy. We do not collect personal data. Learn how Google AdSense and Analytics cookies work on our site and how to exercise your GDPR and CCPA rights.",
-  alternates: { canonical: "https://settlebrook.com/privacy-policy/" },
+  alternates: { canonical: "/privacy-policy/" },
   robots: { index: true, follow: true },
   openGraph: {
     title: "Privacy Policy | Settlebrook",
     description:
       "SettleBrook does not collect or store personal information. Read our full GDPR and CCPA compliant privacy policy.",
-    url: "https://settlebrook.com/privacy-policy/",
+    url: "/privacy-policy/",
     siteName: "Settlebrook",
     type: "website",
-    images: [{ url: "https://settlebrook.com/og-image.png", width: 1200, height: 630, alt: "Privacy Policy — Settlebrook" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Privacy Policy — Settlebrook" }],
   },
   twitter: {
     card: "summary_large_image",
     site: "@settlebrook",
     title: "Privacy Policy | Settlebrook",
-    images: ["https://settlebrook.com/og-image.png"],
+    images: ["/og-image.png"],
   },
 };
 
@@ -93,7 +93,7 @@ export default function PrivacyPolicyPage() {
           <p className="mt-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
             This Privacy Policy describes how SettleBrook (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;),
             operated at{" "}
-            <a href="https://settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+            <a href="/" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
               settlebrook.com
             </a>
             , handles information when you use our website and free settlement
@@ -423,7 +423,7 @@ export default function PrivacyPolicyPage() {
                 </a>
               </p>
               <p>Website:{" "}
-                <a href="https://settlebrook.com/contact" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+                <a href="/contact" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
                   settlebrook.com/contact
                 </a>
               </p>
