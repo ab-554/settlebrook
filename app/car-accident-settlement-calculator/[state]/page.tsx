@@ -30,6 +30,10 @@ import {
 import { getCarAccidentFAQs, buildFAQSchema } from '@/lib/data/carAccidentFaqs'
 import type { FAQItem } from '@/lib/data/faqContent'
 
+// E-E-A-T review stamp. Bump this one string when state law is re-verified
+// - it stamps every state page generated from this template.
+const LAST_REVIEWED = 'August 2026'
+
 // ─── Static params ─────────────────────────────────────────────────────────────
 
 export async function generateStaticParams() {
@@ -325,6 +329,12 @@ export default function StateCarAccidentPage({ params }: { params: { state: stri
               >
                 {stateData.name} Car Accident Settlement Calculator
               </h1>
+              <p className="mt-3 text-sm" style={{ color: '#94A3B8' }}>
+                Last reviewed: {LAST_REVIEWED} · Settlebrook Editorial ·{' '}
+                <Link href="/methodology/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                  How we verify
+                </Link>
+              </p>
               <p className="mt-3 text-base leading-relaxed max-w-2xl" style={{ color: '#94A3B8' }}>
                 Estimate your {stateData.name} car accident settlement under{' '}
                 <strong style={{ color: '#E2E8F0' }}>{stateData.faultRuleLabel}</strong> rules.

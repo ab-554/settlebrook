@@ -21,6 +21,10 @@ import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import { WORKERS_COMP_FAQS, buildWorkersCompFAQSchema } from '@/lib/data/workersCompFaqs'
 import { WORKERS_COMP_STATES } from '@/lib/data/workersCompStates'
 
+// E-E-A-T review stamp. Bump this one string when the page is re-verified
+// against current law - nothing else needs to change.
+const LAST_REVIEWED = 'August 2026'
+
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = {
@@ -150,6 +154,12 @@ export default function WorkersCompCalculatorPage() {
               >
                 Workers Comp Settlement Calculator
               </h1>
+              <p className="mt-3 text-sm" style={{ color: '#94A3B8' }}>
+                Last reviewed: {LAST_REVIEWED} · Settlebrook Editorial ·{' '}
+                <Link href="/methodology/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                  How we verify
+                </Link>
+              </p>
               <p className="mt-3 text-base sm:text-lg leading-relaxed max-w-2xl" style={{ color: '#94A3B8' }}>
                 Estimate your TTD, PPD, or PTD workers compensation benefits by state. Free, instant, no signup required.
               </p>

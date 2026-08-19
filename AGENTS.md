@@ -44,13 +44,14 @@ app/
   sitemap.ts                               Auto-generated sitemap
   pain-and-suffering-calculator/
     page.tsx                               Main calculator (Tool #1 — LIVE)
-    [state]/page.tsx                       State landing pages — all active states carry full editorial content
+    [state]/page.tsx                       State landing pages — 14 states, full editorial content
   car-accident-settlement-calculator/
     page.tsx                               Main calculator (Tool #2 — LIVE)
-    [state]/page.tsx                       State landing pages — CA and TX carry full editorial content
+    [state]/page.tsx                       State landing pages — 14 states, full editorial content
   workers-comp-settlement-calculator/
-    page.tsx                               Stub page (Tool #3 — coming soon)
-    [state]/page.tsx                       State landing pages (Tool #3 — coming soon)
+    page.tsx                               Main calculator (Tool #3 — LIVE)
+    [state]/page.tsx                       State landing pages — 15 states, full editorial content
+  methodology/page.tsx                     Editorial standards, formulas, sources, review cadence
   about/page.tsx
   contact/page.tsx
   privacy-policy/page.tsx
@@ -119,7 +120,7 @@ Multiplier ranges:
 
 ## Tool #2 Architecture — Car Accident Settlement Calculator
 URL: /car-accident-settlement-calculator/
-Status: LIVE
+Status: LIVE — 14 states, full calculator and editorial content
 New inputs vs Tool #1:
 - propertyDamage — vehicle repair or total loss (already in formula)
 - insurancePolicyLimit — advisory display field, triggers warning if estimate exceeds it
@@ -140,7 +141,7 @@ Schema: WebApplication + FAQPage on main page. FAQPage + BreadcrumbList + WebPag
 
 ## Tool #3 Architecture — Workers Comp Settlement Calculator
 URL: /workers-comp-settlement-calculator/
-Status: Building
+Status: LIVE — 15 states, full calculator and editorial content
 Key difference from Tools #1 and #2:
 - No-fault system — negligence irrelevant
 - Pain and suffering NOT recoverable
@@ -174,11 +175,9 @@ Special flags:
 Schema: WebApplication + FAQPage on main page. FAQPage + BreadcrumbList + WebPage with areaServed on state pages.
 
 ## Pending Tasks — Complete In This Order
-1. ~~Tool #2 — Car Accident Settlement Calculator architecture and build~~ COMPLETE
-2. Tool #3 — Workers Comp Settlement Calculator architecture and build
-3. Blog posts — 4 foundation posts targeting long-tail keywords
-4. Internal linking audit — ensure all state pages link to each other correctly
-5. AdSense — replace placeholder divs with real ad units after approval
+1. Blog posts — 4 foundation posts targeting long-tail keywords
+2. Backlink acquisition
+3. AdSense resubmission — after content and E-E-A-T layer are deployed
 
 ## SEO Keywords
 Tool #1: "pain and suffering calculator"        KD 3%,  1.9K/mo, $7.37 CPC
@@ -186,7 +185,7 @@ Tool #2: "car accident settlement calculator"   KD 19%, 1.6K/mo, $11.40 CPC
 Tool #3: "workers comp settlement calculator"   KD 14%, 1.3K/mo, $2.99 CPC
 
 ## Domain and Deployment
-Domain:     settlebrook.com
+Domain:     settlebrook.com (canonical: https://www.settlebrook.com — always www)
 Hosting:    Vercel (free tier)
 Repo:       github.com/ab-554/settlebrook
 Analytics:  Google Analytics 4 — G-K3PV0YLHFG

@@ -21,6 +21,10 @@ import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import { getCarAccidentFAQs, buildFAQSchema } from '@/lib/data/carAccidentFaqs'
 import { CAR_ACCIDENT_STATES } from '@/lib/data/carAccidentStates'
 
+// E-E-A-T review stamp. Bump this one string when the page is re-verified
+// against current law - nothing else needs to change.
+const LAST_REVIEWED = 'August 2026'
+
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = {
@@ -148,6 +152,12 @@ export default function CarAccidentCalculatorPage() {
               >
                 Car Accident Settlement Calculator
               </h1>
+              <p className="mt-3 text-sm" style={{ color: '#94A3B8' }}>
+                Last reviewed: {LAST_REVIEWED} · Settlebrook Editorial ·{' '}
+                <Link href="/methodology/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                  How we verify
+                </Link>
+              </p>
               <p className="mt-3 text-base sm:text-lg leading-relaxed max-w-2xl" style={{ color: '#94A3B8' }}>
                 Estimate your total car accident settlement including{' '}
                 <strong style={{ color: '#E2E8F0' }}>vehicle damage</strong>,{' '}

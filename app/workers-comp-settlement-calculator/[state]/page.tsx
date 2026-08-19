@@ -29,6 +29,10 @@ import {
 } from '@/lib/data/workersCompStates'
 import { WORKERS_COMP_FAQS, buildWorkersCompFAQSchema } from '@/lib/data/workersCompFaqs'
 
+// E-E-A-T review stamp. Bump this one string when state law is re-verified
+// - it stamps every state page generated from this template.
+const LAST_REVIEWED = 'August 2026'
+
 // ─── Static params ─────────────────────────────────────────────────────────────
 
 export async function generateStaticParams() {
@@ -190,6 +194,12 @@ export default function StateWorkersCompPage({ params }: { params: { state: stri
               >
                 {stateData.name} Workers Comp Settlement Calculator
               </h1>
+              <p className="mt-3 text-sm" style={{ color: '#94A3B8' }}>
+                Last reviewed: {LAST_REVIEWED} · Settlebrook Editorial ·{' '}
+                <Link href="/methodology/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                  How we verify
+                </Link>
+              </p>
               <p className="mt-3 text-base leading-relaxed max-w-2xl" style={{ color: '#94A3B8' }}>
                 Estimate your {stateData.name} workers compensation benefits. Covers Temporary Total Disability (TTD), Permanent Partial Disability (PPD), and Permanent Total Disability (PTD) benefits based on 2026 laws.
               </p>

@@ -16,6 +16,10 @@ import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import { getMainPageFAQs, buildFAQSchema } from '@/lib/data/faqContent'
 import { getPriorityStates, ALL_STATES } from '@/lib/data/states'
 
+// E-E-A-T review stamp. Bump this one string when the page is re-verified
+// against current law — nothing else needs to change.
+const LAST_REVIEWED = 'August 2026'
+
 export const metadata: Metadata = {
   // FIX H7: 44 chars → 57 chars total with "| Settlebrook" template (under 60 ✓)
   title: 'Pain & Suffering Calculator — Free Estimate',
@@ -138,6 +142,12 @@ export default function PainSufferingCalculatorPage() {
               >
                 Pain &amp; Suffering Calculator
               </h1>
+              <p className="mt-3 text-sm" style={{ color: '#94A3B8' }}>
+                Last reviewed: {LAST_REVIEWED} · Settlebrook Editorial ·{' '}
+                <Link href="/methodology/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                  How we verify
+                </Link>
+              </p>
               <p className="mt-3 text-base sm:text-lg leading-relaxed max-w-2xl" style={{ color: '#94A3B8' }}>
                 Estimate your pain and suffering damages using the{' '}
                 <strong style={{ color: '#E2E8F0' }}>multiplier method</strong> or{' '}

@@ -113,100 +113,46 @@ export default function AboutPage() {
         {/* Main content */}
         <article className="max-w-7xl mx-auto px-6 sm:px-8 py-14 flex flex-col gap-12">
 
-          {/* Mission */}
-          <section aria-labelledby="mission-heading">
+          {/* What Settlebrook is */}
+          <section aria-labelledby="what-heading">
             <h2
-              id="mission-heading"
+              id="what-heading"
               className="heading-gradient font-bold mb-4"
               style={{ fontSize: 24, fontWeight: 700 }}
             >
-              Our Mission
+              What Settlebrook Is
             </h2>
             <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
               <p>
-                Every year, millions of Americans file personal injury and workers&apos;
-                compensation claims. Most have no idea what a fair settlement looks
-                like. Insurance adjusters do — and they exploit that information gap
-                to pay far less than claimants deserve. Studies consistently show
-                that unrepresented claimants receive significantly lower settlements
-                than those who understand the valuation process, even before hiring
-                an attorney.
-              </p>
-              <p>
-                SettleBrook exists to close that gap. Our calculators translate the
-                same formulas that insurance companies and plaintiff attorneys use
-                daily into plain-language tools that anyone can run in under two
-                minutes. You don&apos;t need a law degree or a $300-per-hour consultation
-                to get a realistic ballpark — you need a reliable, honest starting
-                point.
-              </p>
-              <p>
-                We are not a law firm and we do not give legal advice. But we believe
-                firmly that informed people negotiate better outcomes, accept fewer
-                lowball offers, and are far less likely to walk away from money they
-                are rightfully owed.
+                Settlebrook is a free set of settlement estimate tools for people with
+                injury claims in the United States. Three calculators cover the most
+                common claim types: pain and suffering, car accident settlements, and
+                workers compensation. Each one runs the same arithmetic that adjusters
+                and plaintiff attorneys use, in your browser, in about two minutes.
+                There is no signup, no paywall, and no data collection — your figures
+                are never transmitted anywhere.
               </p>
             </div>
           </section>
 
-          {/* How calculators work */}
-          <section aria-labelledby="how-it-works-heading">
+          {/* Why it exists */}
+          <section aria-labelledby="why-heading">
             <h2
-              id="how-it-works-heading"
+              id="why-heading"
               className="heading-gradient font-bold mb-4"
               style={{ fontSize: 24, fontWeight: 700 }}
             >
-              How Our Calculators Work
+              Why It Exists
             </h2>
             <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
               <p>
-                Our tools implement the two most widely used settlement estimation
-                methods in U.S. personal injury practice. Neither is codified in law —
-                they are industry conventions. But they are the same conventions your
-                insurer&apos;s claims software is running right now.
-              </p>
-
-              <h3 className="text-lg font-semibold mt-2" style={{ color: "#F1F5F9" }}>
-                The Multiplier Method
-              </h3>
-              <p>
-                The multiplier method starts with your total economic damages —
-                verified medical bills, documented lost wages, and out-of-pocket
-                costs like transportation to appointments or home care — and
-                multiplies them by a factor between 1.5 and 5 to estimate the
-                non-economic (pain and suffering) component of your claim.
-              </p>
-              <p>
-                The multiplier rises with injury severity, length of recovery, the
-                permanence of harm, and the degree to which the accident disrupted
-                your daily life and relationships. A sprained wrist that healed in
-                three weeks carries a very different multiplier than a herniated disc
-                requiring surgery and causing permanent limitations.
-              </p>
-              <p>
-                Example: $25,000 in verified medical costs × multiplier of 3 =
-                $75,000 in pain and suffering. Add back the $25,000 in economic
-                damages for a total estimated claim of{" "}
-                <strong style={{ color: "#FBBF24" }}>$100,000</strong>, before any
-                comparative negligence reductions or policy limit adjustments.
-              </p>
-
-              <h3 className="text-lg font-semibold mt-2" style={{ color: "#F1F5F9" }}>
-                The Per Diem Method
-              </h3>
-              <p>
-                The per diem method assigns a daily dollar value to your pain and
-                suffering — typically your daily wage rate — and multiplies it by
-                the number of days you endured documented pain, reduced mobility, or
-                measurably diminished quality of life. This approach is particularly
-                persuasive in courtroom presentations because it grounds the
-                intangible concept of suffering in a concrete, relatable daily cost.
-              </p>
-              <p>
-                Both methods produce informed estimates, not guarantees. Actual
-                settlement amounts depend on liability disputes, your jurisdiction&apos;s
-                damage caps, available insurance policy limits, the quality of your
-                documentation, and factors no calculator can fully anticipate.
+                Search for what your claim is worth and most of what you find is law
+                firm marketing. Those pages rank because someone paid to rank them,
+                and the calculator at the bottom is usually a form that collects your
+                phone number to sell as a lead. You are often injured, stressed, and
+                already being pressured by an adjuster when you go looking. Settlebrook
+                gives you the formula and the state rules directly instead, and asks
+                for nothing in return.
               </p>
             </div>
           </section>
@@ -220,82 +166,49 @@ export default function AboutPage() {
             {/* AdSense in-content responsive */}
           </div>
 
-          {/* Why we built this */}
-          <section aria-labelledby="why-heading">
+          {/* Accuracy */}
+          <section aria-labelledby="accuracy-heading">
             <h2
-              id="why-heading"
+              id="accuracy-heading"
               className="heading-gradient font-bold mb-4"
               style={{ fontSize: 24, fontWeight: 700 }}
             >
-              Why We Built SettleBrook
+              How We Keep It Accurate
             </h2>
             <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
               <p>
-                The idea came from a frustrating observation: the resources that
-                explain settlement math clearly — that walk you through an actual
-                formula, account for your state&apos;s specific rules, and tell you
-                honestly which factors push a number up or down — are mostly locked
-                behind attorney consultations or buried in dense legal textbooks
-                most people will never read.
-              </p>
-              <p>
-                Free online calculators existed before us, but the majority were
-                superficial lead-generation forms designed to collect your phone
-                number and sell it to law firms, not to give you meaningful
-                information. We found this practice predatory. People using these
-                tools are often injured, stressed, and already being pressured by
-                insurance adjusters. They deserve actual answers, not a sales funnel.
-              </p>
-              <p>
-                SettleBrook launched with the Pain &amp; Suffering Calculator — the most
-                commonly searched and least honestly served calculator in this niche.
-                The Car Accident Settlement Calculator and Workers&apos; Comp Settlement
-                Calculator followed, covering the three most prevalent injury claim
-                categories in the United States.
-              </p>
-              <p>
-                We are a small, independent operation. We keep the site free, keep
-                advertising unobtrusive, and decline affiliate arrangements with any
-                service we would not personally recommend. Our only business model is
-                helping enough people that the site sustains itself through display
-                advertising.
+                Statutory figures — benefit caps, damage caps, filing deadlines, fault
+                rules — are checked against state statutes, state workers compensation
+                agencies, and published decisions rather than copied from other
+                websites. State pages carry a visible last-reviewed date and are
+                re-checked on a rolling basis as legislatures change the numbers. The
+                formulas, the sources, and the review schedule are written out in full
+                in{" "}
+                <Link href="/methodology/" className="underline transition-colors" style={{ color: "#60A5FA" }}>
+                  our methodology
+                </Link>
+                .
               </p>
             </div>
           </section>
 
-          {/* Team */}
-          <section aria-labelledby="team-heading">
+          {/* What it is not */}
+          <section aria-labelledby="not-heading">
             <h2
-              id="team-heading"
+              id="not-heading"
               className="heading-gradient font-bold mb-4"
               style={{ fontSize: 24, fontWeight: 700 }}
             >
-              Our Team
+              What Settlebrook Is Not
             </h2>
             <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
               <p>
-                SettleBrook is maintained by a compact team of researchers, content
-                specialists, and web developers with backgrounds spanning legal
-                publishing, insurance industry analysis, and consumer financial
-                education. We are not a law firm. We do not employ licensed
-                attorneys. Our legal content is researched against publicly available
-                case law summaries, state insurance commission bulletins, established
-                personal injury litigation frameworks, and insurance industry
-                actuarial publications.
-              </p>
-              <p>
-                Every formula, assumption, and multiplier range we use is
-                documented, cited, and reviewed periodically for accuracy. When legal
-                landscapes shift — new state-level caps on non-economic damages,
-                changes to workers&apos; compensation fee schedules, or updated court
-                interpretations of comparative fault — we update our tools to reflect
-                current practice.
-              </p>
-              <p>
-                Our tools are designed exclusively for U.S. claims under U.S. law.
-                If you are located outside the United States or pursuing a claim
-                under another jurisdiction&apos;s legal framework, our calculators do not
-                apply to your situation.
+                Settlebrook is not a law firm and does not give legal advice. We do not
+                evaluate individual cases, and we do not sell leads or refer users to
+                attorneys for a fee. What the calculators produce is an informed
+                estimate, not a prediction — real settlements turn on evidence, policy
+                limits, venue, and negotiation. If you have an active claim, talk to a
+                licensed attorney in your state.
               </p>
             </div>
           </section>
