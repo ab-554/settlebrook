@@ -231,9 +231,9 @@ export default function AboutPage() {
             </h2>
             <div className="flex flex-col gap-3 text-sm leading-relaxed" style={{ color: "#94A3B8" }}>
               <p>
-                SettleBrook calculators produce estimates based on general industry
+                Settlebrook calculators produce estimates based on general industry
                 formulas and publicly documented settlement benchmarks. They are
-                educational tools only. No output from any SettleBrook tool should
+                educational tools only. No output from any Settlebrook tool should
                 be interpreted as a prediction of what you will receive, a guarantee
                 of any settlement amount, or a substitute for consultation with a
                 licensed personal injury attorney in your state.
