@@ -326,8 +326,8 @@ export default function PrivacyPolicyPage() {
             </ul>
             <p>
               To exercise these rights, contact us at{" "}
-              <a href="mailto:privacy@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
-                privacy@settlebrook.com
+              <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+                contact@settlebrook.com
               </a>
               . For rights related to Google&apos;s data processing, contact Google directly
               through their privacy controls.
@@ -364,8 +364,8 @@ export default function PrivacyPolicyPage() {
             </p>
             <p>
               To submit a CCPA request, email{" "}
-              <a href="mailto:privacy@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
-                privacy@settlebrook.com
+              <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+                contact@settlebrook.com
               </a>{" "}
               with &ldquo;CCPA Request&rdquo; in the subject line.
             </p>
@@ -384,8 +384,8 @@ export default function PrivacyPolicyPage() {
             for adults researching personal injury or workplace injury claims. If you
             believe a child has used our site in a way that raised privacy concerns,
             please contact us at{" "}
-            <a href="mailto:privacy@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
-              privacy@settlebrook.com
+            <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+              contact@settlebrook.com
             </a>
             .
           </p>
@@ -418,8 +418,8 @@ export default function PrivacyPolicyPage() {
               style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(99,179,237,0.15)" }}>
               <p className="font-semibold" style={{ color: "#F1F5F9" }}>SettleBrook</p>
               <p>Email:{" "}
-                <a href="mailto:privacy@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
-                  privacy@settlebrook.com
+                <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+                  contact@settlebrook.com
                 </a>
               </p>
               <p>Website:{" "}

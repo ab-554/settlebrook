@@ -329,8 +329,8 @@ export default function TermsOfUsePage() {
             <p>
               Before initiating any formal legal proceeding, we encourage you to
               contact us at{" "}
-              <a href="mailto:legal@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
-                legal@settlebrook.com
+              <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+                contact@settlebrook.com
               </a>{" "}
               to attempt informal resolution of any dispute. Most issues can be
               resolved quickly through direct communication.
@@ -364,8 +364,8 @@ export default function TermsOfUsePage() {
               style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(99,179,237,0.15)" }}>
               <p className="font-semibold" style={{ color: "#F1F5F9" }}>SettleBrook</p>
               <p>Email:{" "}
-                <a href="mailto:legal@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
-                  legal@settlebrook.com
+                <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+                  contact@settlebrook.com
                 </a>
               </p>
               <p>Website:{" "}

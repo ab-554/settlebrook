@@ -38,7 +38,7 @@ const organizationSchema = {
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'Customer Support',
-    email: 'contact.ab554@gmail.com',
+    email: 'contact@settlebrook.com',
     url: 'https://www.settlebrook.com/contact/',
   },
 }
