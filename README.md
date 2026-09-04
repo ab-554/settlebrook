@@ -47,7 +47,7 @@ AdSense publisher ID is a placeholder in app/layout.tsx —
 replace ca-pub-ADSENSE_PUBLISHER_ID with real ID after approval.
 
 ## SEO Strategy
-Primary keyword: "pain and suffering calculator" (KD 3%)
+Primary keyword: "pain and suffering calculator" (KD 14%)
 State pages: /pain-and-suffering-calculator/[state]/ for all 50 states
 Supporting content: Blog posts targeting long-tail legal keywords
 
