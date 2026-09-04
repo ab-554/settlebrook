@@ -41,6 +41,18 @@ Vercel auto-deploys on every push.
 ## Project Structure
 See AGENTS.md for complete file structure and AI agent instructions.
 
+Routes (source of truth: app/sitemap.ts):
+- /                                        Homepage tool hub
+- /pain-and-suffering-calculator/          Tool #1, plus /[state]/ (14 states)
+- /pain-and-suffering-calculator/guide/    Long-form guide
+- /car-accident-settlement-calculator/     Tool #2, plus /[state]/ (14 states)
+- /workers-comp-settlement-calculator/     Tool #3, plus /[state]/ (15 states)
+- /methodology/                            E-E-A-T page: calculation formulas,
+                                           state law verification sources, review cadence
+- /blog/                                   Blog index (1 post live, 3 more planned)
+- /blog/state-farm-pain-and-suffering-calculator/
+- /about/  /contact/  /privacy-policy/  /terms-of-use/
+
 ## Environment Variables
 No environment variables required for current build.
 AdSense publisher ID in app/layout.tsx: ca-pub-9642525412838279
@@ -48,7 +60,8 @@ AdSense publisher ID in app/layout.tsx: ca-pub-9642525412838279
 ## SEO Strategy
 Primary keyword: "pain and suffering calculator" (KD 14%)
 State pages: /pain-and-suffering-calculator/[state]/ (14 states live)
-Supporting content: Blog posts targeting long-tail legal keywords
+Roadmap: 50-state coverage is a long-term goal, not current state.
+Supporting content: Blog posts targeting long-tail legal keywords (1 live, 3 planned)
 
 ## Revenue Model
 - Google AdSense (primary — pending approval)
