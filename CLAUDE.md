@@ -139,7 +139,7 @@ Note that `tailwind.config.ts` defines a `brand.*` palette with slightly differe
 
 | Tool | Keyword | KD | Volume | CPC |
 |---|---|---|---|---|
-| #1 | pain and suffering calculator | 3% | 1.9K/mo | $7.37 |
+| #1 | pain and suffering calculator | 14% | 1.9K/mo | $7.37 |
 | #2 | car accident settlement calculator | 19% | 1.6K/mo | $11.40 |
 | #3 | workers comp settlement calculator | 14% | 1.3K/mo | $2.99 |
 

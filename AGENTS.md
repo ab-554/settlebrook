@@ -180,7 +180,7 @@ Schema: WebApplication + FAQPage on main page. FAQPage + BreadcrumbList + WebPag
 3. AdSense resubmission — after content and E-E-A-T layer are deployed
 
 ## SEO Keywords
-Tool #1: "pain and suffering calculator"        KD 3%,  1.9K/mo, $7.37 CPC
+Tool #1: "pain and suffering calculator"        KD 14%, 1.9K/mo, $7.37 CPC
 Tool #2: "car accident settlement calculator"   KD 19%, 1.6K/mo, $11.40 CPC
 Tool #3: "workers comp settlement calculator"   KD 14%, 1.3K/mo, $2.99 CPC
 
