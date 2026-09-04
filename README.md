@@ -1,15 +1,15 @@
 # Settlebrook
 
 Free legal settlement calculators for USA personal injury victims.
-Live at: https://settlebrook.com
+Live at: https://www.settlebrook.com
 
 ## What This Is
 A calculator hub targeting USA adults researching personal injury
-settlements. Three tools planned:
+settlements. Three tools, all live:
 
-- Tool #1: Pain & Suffering Calculator — LIVE
-- Tool #2: Car Accident Settlement Calculator — coming month 2
-- Tool #3: Workers Comp Settlement Calculator — coming month 3
+- Tool #1: Pain & Suffering Calculator — LIVE (14 states)
+- Tool #2: Car Accident Settlement Calculator — LIVE (14 states)
+- Tool #3: Workers Comp Settlement Calculator — LIVE (15 states)
 
 Monetized through Google AdSense and legal affiliate links.
 
@@ -43,12 +43,11 @@ See AGENTS.md for complete file structure and AI agent instructions.
 
 ## Environment Variables
 No environment variables required for current build.
-AdSense publisher ID is a placeholder in app/layout.tsx —
-replace ca-pub-ADSENSE_PUBLISHER_ID with real ID after approval.
+AdSense publisher ID in app/layout.tsx: ca-pub-9642525412838279
 
 ## SEO Strategy
 Primary keyword: "pain and suffering calculator" (KD 14%)
-State pages: /pain-and-suffering-calculator/[state]/ for all 50 states
+State pages: /pain-and-suffering-calculator/[state]/ (14 states live)
 Supporting content: Blog posts targeting long-tail legal keywords
 
 ## Revenue Model
