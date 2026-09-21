@@ -47,9 +47,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { state: string }
+  // Next.js 15: dynamic route params are now async (Promise-wrapped).
+  params: Promise<{ state: string }>
 }): Promise<Metadata> {
-  const stateData = getCarAccidentStateBySlug(params.state)
+  const { state } = await params
+  const stateData = getCarAccidentStateBySlug(state)
   if (!stateData) return { title: 'Page Not Found', robots: { index: false, follow: false } }
 
   const canonicalUrl = `/car-accident-settlement-calculator/${stateData.slug}/`
@@ -225,8 +227,10 @@ const TX_CAR_FAQS: FAQItem[] = [
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function StateCarAccidentPage({ params }: { params: { state: string } }) {
-  const stateData = getCarAccidentStateBySlug(params.state)
+export default async function StateCarAccidentPage({ params }: { params: Promise<{ state: string }> }) {
+  // Next.js 15: params must be awaited before use.
+  const { state } = await params
+  const stateData = getCarAccidentStateBySlug(state)
   if (!stateData) notFound()
 
   // Use state-specific FAQs for Tier 1 launch states; generic set for all others

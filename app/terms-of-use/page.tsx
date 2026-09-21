@@ -1,5 +1,6 @@
 // app/terms-of-use/page.tsx
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   // FIX H6: brand suffix removed — template adds "| Settlebrook" automatically
@@ -95,9 +96,9 @@ export default function TermsOfUsePage() {
           <p className="mt-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
             These Terms of Use (&ldquo;Terms&rdquo;) govern your access to and use of the
             SettleBrook website located at{" "}
-            <a href="/" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+            <Link href="/" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
               settlebrook.com
-            </a>{" "}
+            </Link>{" "}
             and all associated pages, tools, and content (collectively, the &ldquo;Site&rdquo;).
             By accessing or using the Site, you agree to be bound by these Terms.
             If you do not agree, do not use the Site.

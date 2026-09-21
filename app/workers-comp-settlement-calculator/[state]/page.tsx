@@ -44,9 +44,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { state: string }
+  // Next.js 15: dynamic route params are now async (Promise-wrapped).
+  params: Promise<{ state: string }>
 }): Promise<Metadata> {
-  const stateData = getWorkersCompStateBySlug(params.state)
+  const { state } = await params
+  const stateData = getWorkersCompStateBySlug(state)
   if (!stateData) return { title: 'Page Not Found', robots: { index: false, follow: false } }
 
   const canonicalUrl = `/workers-comp-settlement-calculator/${stateData.slug}/`
@@ -116,8 +118,10 @@ function AdSlot({ id }: { id: string }) {
 
 // ─── Page Component ───────────────────────────────────────────────────────────
 
-export default function StateWorkersCompPage({ params }: { params: { state: string } }) {
-  const stateData = getWorkersCompStateBySlug(params.state)
+export default async function StateWorkersCompPage({ params }: { params: Promise<{ state: string }> }) {
+  // Next.js 15: params must be awaited before use.
+  const { state } = await params
+  const stateData = getWorkersCompStateBySlug(state)
   if (!stateData) notFound()
 
   const canonicalUrl = `/workers-comp-settlement-calculator/${stateData.slug}/`

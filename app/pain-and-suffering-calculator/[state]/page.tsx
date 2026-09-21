@@ -24,9 +24,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { state: string }
+  // Next.js 15: dynamic route params are now async (Promise-wrapped).
+  params: Promise<{ state: string }>
 }): Promise<Metadata> {
-  const stateData = getStateBySlug(params.state)
+  const { state } = await params
+  const stateData = getStateBySlug(state)
   if (!stateData) return { title: 'Page Not Found', robots: { index: false, follow: false } }
 
   const canonicalUrl = `/pain-and-suffering-calculator/${stateData.slug}/`
@@ -84,8 +86,10 @@ function SideCard({ children }: { children: React.ReactNode }) {
   )
 }
 
-export default function StatePainSufferingPage({ params }: { params: { state: string } }) {
-  const stateData = getStateBySlug(params.state)
+export default async function StatePainSufferingPage({ params }: { params: Promise<{ state: string }> }) {
+  // Next.js 15: params must be awaited before use.
+  const { state } = await params
+  const stateData = getStateBySlug(state)
   if (!stateData) notFound()
 
   const faqs = getStateFAQs(stateData.slug, {
@@ -822,7 +826,7 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>The multiplier method</strong> is the most common. An adjuster or attorney takes your total economic damages (medical bills, lost wages, out-of-pocket costs) and multiplies them by a number between 1.5 and 5 to arrive at a pain and suffering figure. The multiplier depends on injury severity, treatment duration, whether surgery was required, and the permanence of your injuries.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>A real example: you suffered a herniated disc in a rear-end collision in Philadelphia. Your medical bills total $28,000 and you lost $6,000 in wages during your recovery. Your total economic damages are $34,000. A moderate multiplier of 3 produces a pain and suffering estimate of $102,000, for a total claim value of $136,000.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>The per diem method</strong> assigns a daily dollar value to your pain and suffering — often your daily wage — and multiplies it by the number of days you experienced pain. If you earned $250 per day and suffered for 180 days, the per diem calculation yields $45,000 in pain and suffering.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Use our <a href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</a> to run both methods with your own numbers. For a deeper explanation of how the math works, read <a href="/pain-and-suffering-calculator/guide/" style={{ color: '#60A5FA' }}>how pain and suffering is calculated</a>.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Use our <Link href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</Link> to run both methods with your own numbers. For a deeper explanation of how the math works, read <Link href="/pain-and-suffering-calculator/guide/" style={{ color: '#60A5FA' }}>how pain and suffering is calculated</Link>.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
@@ -900,7 +904,7 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Use the Pennsylvania Pain and Suffering Calculator</h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Pennsylvania&apos;s choice no-fault system is genuinely complicated, and whether you have full tort or limited tort changes the entire value of your claim. Before you negotiate with an insurance adjuster or accept any settlement offer, run your numbers.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Use our <a href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</a> to estimate both the multiplier method and per diem method with your actual medical expenses and income. If you are also researching how other states handle non-economic damages, compare with the <a href="/pain-and-suffering-calculator/new-york/" style={{ color: '#60A5FA' }}>New York pain and suffering calculator</a>. The calculator is free, takes under two minutes, and gives you a baseline to evaluate whatever the insurer puts on the table.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Use our <Link href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</Link> to estimate both the multiplier method and per diem method with your actual medical expenses and income. If you are also researching how other states handle non-economic damages, compare with the <Link href="/pain-and-suffering-calculator/new-york/" style={{ color: '#60A5FA' }}>New York pain and suffering calculator</Link>. The calculator is free, takes under two minutes, and gives you a baseline to evaluate whatever the insurer puts on the table.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>An estimate is not legal advice. For a claim involving serious injuries, surgery, or long-term impairment, consult a Pennsylvania personal injury attorney. Most take cases on contingency and charge nothing unless you recover.</p>
             </article>
           ) : stateData.slug === 'illinois' ? (
@@ -910,7 +914,7 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Introduction</h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you were injured in Illinois — whether in a car accident on the Eisenhower Expressway, a slip and fall in a Chicago storefront, or a workplace injury downstate — you&apos;re probably asking the same question most injured people ask: what is my case actually worth?</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Pain and suffering damages are typically the largest part of any personal injury settlement. In Illinois, those damages are uncapped, meaning there is no legal ceiling on how much you can recover for your physical pain, emotional distress, and loss of enjoyment of life. Illinois courts struck down attempts to limit those damages over a decade ago, and the law has remained strongly favorable to injured plaintiffs ever since.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>This page explains how pain and suffering is calculated in Illinois, what the 51% comparative fault rule means for your case, what deadlines apply to your claim, and what real Illinois settlements look like. Use the <a href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</a> above to run your own estimate.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>This page explains how pain and suffering is calculated in Illinois, what the 51% comparative fault rule means for your case, what deadlines apply to your claim, and what real Illinois settlements look like. Use the <Link href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</Link> above to run your own estimate.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
@@ -929,7 +933,7 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>At a multiplier of 4, the same facts produce $155,000 total. The multiplier is where negotiation actually happens.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>The Per Diem Method</strong></p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The per diem method assigns a daily dollar value to your pain — often your daily wage — and multiplies it by the number of days you suffered. If you earn $200 per day and suffered for 300 days, your pain and suffering figure is $60,000. This method works well when recovery was prolonged but injury severity was moderate.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>For a deeper look at how these formulas are applied, read <a href="/pain-and-suffering-calculator/guide/" style={{ color: '#60A5FA' }}>how pain and suffering is calculated</a>.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>For a deeper look at how these formulas are applied, read <Link href="/pain-and-suffering-calculator/guide/" style={{ color: '#60A5FA' }}>how pain and suffering is calculated</Link>.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
@@ -967,7 +971,7 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Giving a single average number for Illinois pain and suffering settlements is not meaningful because settlement values vary by three to four orders of magnitude depending on injury type, venue, and liability clarity. A soft tissue car accident case in a suburban county might settle for $15,000 to $40,000. A spinal cord injury case tried in Cook County can produce a jury verdict in the millions.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>What the data does show: Cook County jury verdicts in personal injury cases consistently rank among the top 10 in national surveys. Illinois plaintiffs with permanent injuries, strong medical documentation, and clear liability tend to receive higher offers than comparable plaintiffs in capped states, precisely because insurers cannot point to a statutory ceiling.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Real examples from public Illinois verdict and settlement data: a Chicago pedestrian struck by a rideshare vehicle recovered $1.2 million for a torn labrum and PTSD; a construction worker with a crush injury settled for $875,000 before trial in Cook County; a rear-end accident causing a cervical fusion settled for $340,000 in Lake County.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Your case is individual. Use the <a href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</a> to build a personalized estimate based on your actual damages.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Your case is individual. Use the <Link href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</Link> to build a personalized estimate based on your actual damages.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
@@ -1009,8 +1013,8 @@ export default function StatePainSufferingPage({ params }: { params: { state: st
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Use the Illinois Pain and Suffering Calculator</h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you were injured in Illinois, you deserve an accurate picture of what your claim is worth before you speak with an insurance adjuster or accept any offer. Adjusters make first offers based on what they think you will accept, not on what your case is worth.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Use the <a href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</a> to enter your medical expenses, lost wages, and injury details. The calculator applies both the multiplier and per diem methods and gives you an Illinois-specific estimate in under two minutes.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you want to understand how the numbers are built, read our guide on <a href="/pain-and-suffering-calculator/guide/" style={{ color: '#60A5FA' }}>how pain and suffering is calculated</a>. If you were injured in another state, see the <a href="/pain-and-suffering-calculator/california/" style={{ color: '#60A5FA' }}>California pain and suffering calculator</a> for a comparison of how capped states handle the same calculation differently.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Use the <Link href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</Link> to enter your medical expenses, lost wages, and injury details. The calculator applies both the multiplier and per diem methods and gives you an Illinois-specific estimate in under two minutes.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you want to understand how the numbers are built, read our guide on <Link href="/pain-and-suffering-calculator/guide/" style={{ color: '#60A5FA' }}>how pain and suffering is calculated</Link>. If you were injured in another state, see the <Link href="/pain-and-suffering-calculator/california/" style={{ color: '#60A5FA' }}>California pain and suffering calculator</Link> for a comparison of how capped states handle the same calculation differently.</p>
             </article>
           ) : stateData.slug === 'ohio' ? (
             <article style={{ margin: '0 auto' }}>

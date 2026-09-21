@@ -11,6 +11,7 @@
 // All color values match the design system in AGENTS.md.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import Link from 'next/link'
 import { formatCurrency } from '@/lib/calculations/painSuffering'
 import type { WorkersCompResult } from '@/lib/calculations/types'
 
@@ -331,9 +332,9 @@ export default function WorkersCompResult({ result }: WorkersCompResultProps) {
           and medical benefits. If a third party (not your employer) caused your injury, you
           may have a separate personal injury claim that <em>does</em> include pain &amp; suffering.
           Use the{' '}
-          <a href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA', textDecoration: 'underline' }}>
+          <Link href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA', textDecoration: 'underline' }}>
             Pain &amp; Suffering Calculator
-          </a>{' '}
+          </Link>{' '}
           to estimate that portion separately.
         </p>
       </div>

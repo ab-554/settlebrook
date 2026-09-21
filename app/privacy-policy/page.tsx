@@ -1,5 +1,6 @@
 // app/privacy-policy/page.tsx
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   // FIX H5: brand suffix removed — template adds "| Settlebrook" automatically
@@ -93,9 +94,9 @@ export default function PrivacyPolicyPage() {
           <p className="mt-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
             This Privacy Policy describes how SettleBrook (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;),
             operated at{" "}
-            <a href="/" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+            <Link href="/" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
               settlebrook.com
-            </a>
+            </Link>
             , handles information when you use our website and free settlement
             calculators. We are committed to being transparent about what data exists,
             what we do not collect, and what rights you have.
