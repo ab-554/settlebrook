@@ -52,6 +52,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: '/blog/ppd-settlement-calculator-guide/',
+    title: 'PPD Settlement Calculator & Payout Guide',
+    description:
+      'Learn exactly how your PPD settlement is calculated. Our permanent partial disability guide explains impairment ratings, state formulas, and payout amounts.',
+    date: 'September 23, 2026',
+    dateTime: '2026-09-23',
+  },
+  {
     slug: '/blog/state-farm-pain-and-suffering-calculator/',
     title: 'How State Farm Calculates Pain and Suffering',
     description:
