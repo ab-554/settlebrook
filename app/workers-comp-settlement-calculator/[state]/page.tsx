@@ -227,7 +227,9 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                   : stateData.ppdMethod === 'ama_schedule' ? 'AMA Scheduled Weeks' : 'Percentage of Person'}
               </span>
               <span className="state-badge state-badge-muted">
-                Max TTD: {stateData.maxWeeksTTD} Weeks
+                {Number.isFinite(stateData.maxWeeksTTD)
+                  ? `Max TTD: ${stateData.maxWeeksTTD} Weeks`
+                  : 'Max TTD: No Fixed Limit'}
               </span>
             </div>
           </div>
@@ -2012,7 +2014,9 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 In {stateData.name}, workers&apos; compensation provides a crucial safety net for employees injured in the course of their employment. The system is designed to provide wage replacement and medical benefits without the need to prove employer negligence.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Under {stateData.name} law, your temporary total disability (TTD) benefits are calculated at {(stateData.benefitRate * 100).toFixed(1)}% of your Average Weekly Wage (AWW). This amount is subject to a strict weekly cap of ${stateData.weeklyCapAmount.toLocaleString()} per week. The maximum duration you can receive TTD benefits is {stateData.maxWeeksTTD} weeks.
+                Under {stateData.name} law, your temporary total disability (TTD) benefits are calculated at {(stateData.benefitRate * 100).toFixed(1)}% of your Average Weekly Wage (AWW). This amount is subject to a strict weekly cap of ${stateData.weeklyCapAmount.toLocaleString()} per week. {Number.isFinite(stateData.maxWeeksTTD)
+                  ? `The maximum duration you can receive TTD benefits is ${stateData.maxWeeksTTD} weeks.`
+                  : `${stateData.name} sets no fixed week limit on TTD — benefits continue until you reach maximum medical improvement or return to work.`}
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
                 Permanent Partial Disability (PPD) benefits compensate you if you suffer a permanent loss of function after reaching maximum medical recovery. {NON_GENERIC_PPD_SLUGS.has(stateData.slug)

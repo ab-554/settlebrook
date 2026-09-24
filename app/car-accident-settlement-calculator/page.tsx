@@ -168,7 +168,7 @@ export default function CarAccidentCalculatorPage() {
                 <strong style={{ color: '#E2E8F0' }}>medical bills</strong>,{' '}
                 <strong style={{ color: '#E2E8F0' }}>lost wages</strong>, and{' '}
                 <strong style={{ color: '#E2E8F0' }}>pain and suffering</strong>.
-                Free, instant, covers all 50 states.
+                Free, instant, works for injuries anywhere in the US.
               </p>
             </div>
             {/* Trust badges */}

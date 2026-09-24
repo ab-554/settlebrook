@@ -1,0 +1,19 @@
+{
+  "name": "Settlebrook",
+  "short_name": "Settlebrook",
+  "icons": [
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#050A18",
+  "background_color": "#050A18",
+  "display": "browser"
+}

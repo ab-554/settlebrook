@@ -165,7 +165,7 @@ export default function PainSufferingCalculatorPage() {
               {[
                 'Updated for 2026',
                 'Both multiplier & per diem methods',
-                'All 50 states',
+                'Works Nationwide',
                 'No personal data collected',
               ].map((signal) => (
                 <span key={signal} className="flex items-center gap-1.5 text-xs" style={{ color: '#94A3B8' }}>

@@ -56,8 +56,8 @@ const FAQS = [
     a: "The multiplier reflects injury severity. Minor soft-tissue injuries with full recovery typically fall in the 1.5–2× range. Moderate injuries requiring surgery or extended recovery land around 3×. Severe, permanent, or catastrophic injuries can justify 4–5×. The appropriate multiplier requires judgment from an attorney familiar with your jurisdiction's case history.",
   },
   {
-    q: "Do your calculators work for all 50 states?",
-    a: "Our general calculators work as a starting point for all U.S. states. We also publish state-specific pages for high-volume states (California, Texas, Florida, New York) that account for local laws like non-economic damage caps, comparative fault rules, and state-specific workers' comp fee schedules.",
+    q: "Do your calculators work in every state?",
+    a: "Yes — the general calculators work for injuries anywhere in the US, using formulas that aren't state-specific. We also publish dedicated state guide pages for the states listed on each calculator, which account for local laws like non-economic damage caps, comparative fault rules, and state-specific workers' comp fee schedules.",
   },
   {
     q: "I found an error in a calculator. How do I report it?",

@@ -98,9 +98,12 @@ export const WORKERS_COMP_STATES: WorkersCompStateData[] = [
     abbreviation: 'NY',
     benefitRate: 0.6667,
     ppdMethod: 'ama_schedule',
-    // New York has no fixed TTD maximum for most cases — 520 weeks is a practical
-    // ceiling used for calculation purposes; severe cases may exceed this.
-    maxWeeksTTD: 520,
+    // WCL § 15(2): New York sets no statutory week cap on TTD — it continues
+    // until the claimant reaches maximum medical improvement or returns to
+    // work. Infinity (not an invented finite number) keeps calculateTTD's
+    // existing cap comparison mathematically correct without modifying that
+    // protected file — see lib/calculations/workersComp.ts.
+    maxWeeksTTD: Infinity,
     stateSpecificNotes:
       'New York has the highest workers comp weekly cap in the country, updated annually on July 1. There is no fixed TTD maximum for most injuries. PPD awards use the AMA Guides scheduled loss of use (SLU) table.',
     hasNonSubscriberSystem: false,
@@ -170,11 +173,12 @@ export const WORKERS_COMP_STATES: WorkersCompStateData[] = [
     benefitRate: 0.80, // Michigan pays 80% of after-tax AWW — unique formula
     ppdMethod: 'ama_schedule',
     // MCL 418.351 sets no fixed week cap on TTD — it continues while disability
-    // persists. 520 weeks (10 years) is a practical calculation ceiling only,
-    // matching the same convention used for New York above. The "500 weeks"
+    // persists. Infinity (not an invented finite number) keeps calculateTTD's
+    // existing cap comparison mathematically correct without modifying that
+    // protected file — see lib/calculations/workersComp.ts. The "500 weeks"
     // figure that used to appear here is actually the specific-loss
     // permanency-determination deadline in MCL 418.361, not a TTD payment cap.
-    maxWeeksTTD: 520,
+    maxWeeksTTD: Infinity,
     stateSpecificNotes:
       'Michigan calculates TTD benefits based on 80% of after-tax (net) average weekly wage, not gross — resulting in an effective gross replacement rate lower than the stated 80%. MCL 418.351 sets no fixed week cap on TTD; it continues while disability persists. PPD uses Michigan\'s own fixed statutory schedule of weeks per body part (MCL 418.361) — not the AMA Guides, and not scaled by an impairment percentage.',
     hasNonSubscriberSystem: false,
@@ -239,11 +243,12 @@ export const WORKERS_COMP_STATES: WorkersCompStateData[] = [
     benefitRate: 0.6667,
     ppdMethod: 'ama_schedule',
     // C.R.S. § 8-42-105 sets no fixed week cap on TTD — it runs until MMI,
-    // return to work, or a written release to return to work. 520 weeks
-    // (10 years) is a practical calculation ceiling only, matching the same
-    // convention used for New York and Michigan above. The "104 weeks" figure
-    // that used to appear here was not a real Colorado TTD cap.
-    maxWeeksTTD: 520,
+    // return to work, or a written release to return to work. Infinity (not
+    // an invented finite number) keeps calculateTTD's existing cap comparison
+    // mathematically correct without modifying that protected file — see
+    // lib/calculations/workersComp.ts. The "104 weeks" figure that used to
+    // appear here was not a real Colorado TTD cap.
+    maxWeeksTTD: Infinity,
     stateSpecificNotes:
       'Colorado TTD (C.R.S. § 8-42-105) has no fixed week cap — it continues until maximum medical improvement, return to regular/modified work, or a written release to return to work. PPD uses AMA Guides-based impairment ratings (C.R.S. § 8-42-107) for scheduled body-part injuries; non-scheduled (whole-person) injuries use a different age/wage-adjusted formula not reflected in this calculator.',
     hasNonSubscriberSystem: false,

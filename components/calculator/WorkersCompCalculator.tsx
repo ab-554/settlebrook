@@ -339,7 +339,7 @@ export default function WorkersCompCalculator({
                 <div className="flex flex-col">
                   <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#475569' }}>Max TTD Weeks</span>
                   <span className="text-sm font-bold" style={{ color: '#E2E8F0' }}>
-                    {selectedState.maxWeeksTTD} wks
+                    {Number.isFinite(selectedState.maxWeeksTTD) ? `${selectedState.maxWeeksTTD} wks` : 'No fixed limit'}
                   </span>
                 </div>
               </div>
@@ -434,7 +434,9 @@ export default function WorkersCompCalculator({
                   placeholder="12"
                   helpText={
                     selectedState
-                      ? `${selectedState.name} TTD maximum: ${selectedState.maxWeeksTTD} weeks`
+                      ? Number.isFinite(selectedState.maxWeeksTTD)
+                        ? `${selectedState.name} TTD maximum: ${selectedState.maxWeeksTTD} weeks`
+                        : `${selectedState.name} sets no fixed week limit — paid until maximum medical improvement or return to work`
                       : 'Number of weeks you were totally disabled'
                   }
                   error={errors.treatmentWeeks}
