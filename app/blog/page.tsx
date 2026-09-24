@@ -4,13 +4,15 @@
 //   • Same metadata shape (title without " | Settlebrook" — template appends it)
 //   • Same hero + relative canonical + relative OG/Twitter image paths
 //   • WebPage + BreadcrumbList JSON-LD, BreadcrumbNav in the article body
-// The post list is a hand-maintained array — one entry per published post. When
-// a second post ships, add it here and to app/sitemap.ts.
+// The post list lives in lib/data/blogPosts.ts (shared with the homepage's
+// "latest posts" section). When a new post ships, add it there and to
+// app/sitemap.ts.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import { BLOG_POSTS } from '@/lib/data/blogPosts'
 
 const canonicalUrl = '/blog/'
 
@@ -45,29 +47,6 @@ export const metadata: Metadata = {
     images: ['/og-image.png'],
   },
 }
-
-// ─── Post list ────────────────────────────────────────────────────────────────
-// One entry per published post, newest first. `description` doubles as the card
-// line and matches the post's own meta description.
-
-const POSTS = [
-  {
-    slug: '/blog/ppd-settlement-calculator-guide/',
-    title: 'PPD Settlement Calculator & Payout Guide',
-    description:
-      'Learn exactly how your PPD settlement is calculated. Our permanent partial disability guide explains impairment ratings, state formulas, and payout amounts.',
-    date: 'September 23, 2026',
-    dateTime: '2026-09-23',
-  },
-  {
-    slug: '/blog/state-farm-pain-and-suffering-calculator/',
-    title: 'How State Farm Calculates Pain and Suffering',
-    description:
-      'There is no official state farm pain and suffering calculator, but its internal evaluation process is known. Learn how to estimate your true payout now.',
-    date: 'August 20, 2026',
-    dateTime: '2026-08-20',
-  },
-]
 
 // ─── JSON-LD ──────────────────────────────────────────────────────────────────
 
@@ -160,16 +139,33 @@ export default function BlogIndexPage() {
           />
 
           {/* Intro */}
-          <p className="max-w-3xl text-base leading-relaxed" style={{ color: '#94A3B8' }}>
-            Our calculators give you a number. These guides explain where that number
-            comes from and what the person on the other side of the table is looking at
-            when they decide what your claim is worth. Everything here is written in
-            plain English, using the same formulas and sources we publish on our{' '}
-            <Link href="/methodology/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
-              methodology page
-            </Link>
-            .
-          </p>
+          <div className="max-w-3xl flex flex-col gap-4 text-base leading-relaxed" style={{ color: '#94A3B8' }}>
+            <p>
+              Our calculators give you a number. These guides explain where that number
+              comes from and what the person on the other side of the table is looking at
+              when they decide what your claim is worth. An insurance adjuster and a
+              plaintiff attorney are working from the same playbook &mdash; multiplier
+              methods, impairment ratings, statutory rate tables &mdash; and the gap between
+              a lowball first offer and a fair settlement usually comes down to who
+              understands that playbook better.
+            </p>
+            <p>
+              Everything here is written in plain English, using the same formulas and
+              official sources we publish on our{' '}
+              <Link href="/methodology/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                methodology page
+              </Link>
+              . We cover how specific insurers evaluate claims, how individual benefit
+              types (like permanent partial disability) are actually calculated
+              state-by-state, and the mechanics behind the multiplier and per diem
+              methods our tools use. Every guide is reviewed against current law and
+              cites its sources &mdash; see our{' '}
+              <Link href="/editorial-policy/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                editorial policy
+              </Link>
+              {' '}for how that review works.
+            </p>
+          </div>
 
           {/* Post list */}
           <section aria-labelledby="posts-heading">
@@ -179,7 +175,7 @@ export default function BlogIndexPage() {
 
             {/* Single column on mobile; the grid holds its shape as posts are added */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {POSTS.map((post) => (
+              {BLOG_POSTS.map((post) => (
                 <Link
                   key={post.slug}
                   href={post.slug}

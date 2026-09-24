@@ -37,6 +37,8 @@ const ABOUT_LAST_MODIFIED = '2026-09-24'
 const CONTACT_LAST_MODIFIED = '2026-09-24'
 const PRIVACY_POLICY_LAST_MODIFIED = '2026-09-24'
 const TERMS_OF_USE_LAST_MODIFIED = '2026-09-24'
+const WORKERS_COMP_MAX_BENEFITS_LAST_MODIFIED = '2026-09-24'
+const EDITORIAL_POLICY_LAST_MODIFIED = '2026-09-24'
 
 // All state pages for a given tool share one template file, so they share
 // that template's last-modified date until a state gets page-specific edits.
@@ -81,6 +83,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: METHODOLOGY_LAST_MODIFIED,
       changeFrequency: 'monthly',
       priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/workers-comp-maximum-weekly-benefits-by-state/`,
+      lastModified: WORKERS_COMP_MAX_BENEFITS_LAST_MODIFIED,
+      changeFrequency: 'monthly',
+      priority: 0.75,
+    },
+    {
+      url: `${BASE_URL}/editorial-policy/`,
+      lastModified: EDITORIAL_POLICY_LAST_MODIFIED,
+      changeFrequency: 'monthly',
+      priority: 0.6,
     },
     {
       url: `${BASE_URL}/blog/`,

@@ -262,7 +262,11 @@ export default function MethodologyPage() {
                 <Link href="/contact/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
                   contact page
                 </Link>
-                . Corrections to legal figures are prioritized.
+                . Corrections to legal figures are prioritized. See our{' '}
+                <Link href="/editorial-policy/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                  editorial policy
+                </Link>
+                {' '}for our full sourcing standards, review cycle, and corrections process.
               </p>
             </div>
           </section>

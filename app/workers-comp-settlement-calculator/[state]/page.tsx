@@ -293,6 +293,21 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 </Link>
               </div>
 
+              {/* Max weekly benefits reference table */}
+              <nav aria-label="Workers comp benefit rate reference">
+                <SideCard>
+                  <h2 className="text-sm font-bold mb-4" style={{ color: '#F1F5F9' }}>
+                    Benefit Rate Reference
+                  </h2>
+                  <Link href="/workers-comp-maximum-weekly-benefits-by-state/" className="flex flex-col gap-0.5 group">
+                    <span className="text-sm font-medium transition-colors hover:opacity-80" style={{ color: '#60A5FA' }}>
+                      Max Weekly Benefits by State (2026)
+                    </span>
+                    <span className="text-xs" style={{ color: '#475569' }}>See {stateData.name}&apos;s official max/min TTD rate alongside every other state</span>
+                  </Link>
+                </SideCard>
+              </nav>
+
               {/* Other state calculators — CA, TX, FL (excluding current) */}
               {tier1States.length > 0 && (
                 <nav aria-label="Other state workers comp calculators">

@@ -254,6 +254,21 @@ export default function WorkersCompCalculatorPage() {
                 </SideCard>
               </nav>
 
+              {/* Max weekly benefits reference table */}
+              <nav aria-label="Workers comp benefit rate reference">
+                <SideCard>
+                  <h2 className="font-display text-sm font-bold mb-4" style={{ color: '#F1F5F9' }}>
+                    Benefit Rate Reference
+                  </h2>
+                  <Link href="/workers-comp-maximum-weekly-benefits-by-state/" className="flex flex-col gap-0.5 group">
+                    <span className="text-sm font-medium transition-colors hover:opacity-80" style={{ color: '#60A5FA' }}>
+                      Max Weekly Benefits by State (2026)
+                    </span>
+                    <span className="text-xs" style={{ color: '#475569' }}>Official max/min TTD rate for every state</span>
+                  </Link>
+                </SideCard>
+              </nav>
+
               {/* Other calculators */}
               <nav aria-label="Other settlement calculators">
                 <SideCard>

@@ -1,9 +1,19 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // app/page.tsx — Homepage hub
+// Expanded 2026-09-24 (Sprint B2, item 8): added prose sections explaining
+// what each calculator does and when to use which, how estimates are
+// calculated, per-tool state guide lists (indexed states only), a feature
+// callout for the workers-comp max-benefits table, and an auto-pulled latest
+// blog posts section. Hero, tool cards, and the 3-icon "how it works" grid
+// are unchanged from the prior version.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { getPriorityStates, ALL_STATES } from '@/lib/data/states'
+import { CAR_ACCIDENT_STATES } from '@/lib/data/carAccidentStates'
+import { WORKERS_COMP_STATES, NOINDEXED_WORKERS_COMP_SLUGS } from '@/lib/data/workersCompStates'
+import { getLatestBlogPosts } from '@/lib/data/blogPosts'
 
 export const metadata: Metadata = {
   title: 'Free Personal Injury Settlement Calculators — Settlebrook',
@@ -75,6 +85,15 @@ const HOW_IT_WORKS = [
     body: 'Results are informed estimates, not legal advice. Actual settlements depend on your specific evidence, insurance limits, and negotiation.',
   },
 ]
+
+// Only indexed state pages are linked — Michigan, Colorado, Georgia, New
+// Jersey, Virginia, and Minnesota workers-comp pages are noindexed stub
+// templates (see NOINDEXED_WORKERS_COMP_SLUGS) and shouldn't be promoted here.
+const painSufferingStates = getPriorityStates()
+const carAccidentStates = CAR_ACCIDENT_STATES.filter((s) => s.slug === 'california' || s.slug === 'texas' || s.slug === 'florida' || s.slug === 'new-york')
+const workersCompStates = WORKERS_COMP_STATES.filter((s) => !NOINDEXED_WORKERS_COMP_SLUGS.has(s.slug))
+
+const latestPosts = getLatestBlogPosts(5)
 
 const SITE_SCHEMA = {
   '@context': 'https://schema.org',
@@ -253,8 +272,32 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── WHICH CALCULATOR SHOULD YOU USE ── */}
+        <section className="max-w-5xl mx-auto px-6 sm:px-8 pb-16">
+          <h2 className="heading-gradient text-center mb-8" style={{ fontSize: 28, fontWeight: 700 }}>
+            Which Calculator Should You Use?
+          </h2>
+          <div className="flex flex-col gap-6 text-base leading-relaxed" style={{ color: '#94A3B8' }}>
+            <p>
+              All three tools share the same underlying settlement math, but each one answers a different question, and picking the wrong one will leave money out of your estimate.
+            </p>
+            <p>
+              <strong style={{ color: '#E2E8F0' }}>Pain &amp; Suffering</strong> is the general-purpose tool: use it any time you have medical bills, lost wages, and a physical injury but no vehicle involved &mdash; a slip and fall, a dog bite, a workplace injury outside the workers&rsquo; comp system, or any other personal injury claim. It calculates non-economic damages using the multiplier method (the industry standard) or the per diem method, and adds them to your economic damages for a total estimate.
+            </p>
+            <p>
+              <strong style={{ color: '#E2E8F0' }}>Car Accident</strong> is a wrapper around that same pain-and-suffering math, built specifically for collision claims. Use it instead of the general calculator whenever a vehicle is involved &mdash; it adds vehicle damage as a separate line item that&rsquo;s included in your economic total but deliberately excluded from the pain-and-suffering multiplier base, and it lets you enter the at-fault driver&rsquo;s insurance policy limit to see whether your estimate exceeds what their coverage can actually pay.
+            </p>
+            <p>
+              <strong style={{ color: '#E2E8F0' }}>Workers Comp</strong> is a genuinely different system, not a variant of the other two. If you were hurt on the job, workers&rsquo; compensation is a no-fault system where pain and suffering generally isn&rsquo;t recoverable at all &mdash; instead you receive wage-replacement and impairment-based benefits (TTD, PPD, or PTD) set by your state&rsquo;s statutory schedule. Use this calculator, not the general one, for any workplace injury.
+            </p>
+            <p>
+              All three run entirely in your browser &mdash; nothing you type is sent to a server, stored, or sold, and none of them require an email address or signup to see a result. If your state isn&rsquo;t one of the ones we&rsquo;ve published a dedicated guide for, the general calculators still work: the underlying formulas aren&rsquo;t state-specific, only the surrounding legal context (caps, fault rules, deadlines) is.
+            </p>
+          </div>
+        </section>
+
         {/* ── HOW IT WORKS ── */}
-        <section className="max-w-7xl mx-auto px-6 sm:px-8 pb-20">
+        <section className="max-w-7xl mx-auto px-6 sm:px-8 pb-16">
           <div className="glass-card p-8 sm:p-10">
             <h2
               className="heading-gradient text-center mb-8"
@@ -279,8 +322,128 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
+            <p className="text-center text-sm mt-8" style={{ color: '#94A3B8' }}>
+              Every formula, source, and review date behind these numbers is disclosed on our{' '}
+              <Link href="/methodology/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                methodology page
+              </Link>
+              . We don&rsquo;t use a black-box score &mdash; you can see exactly how each figure is calculated and where the legal figures come from.
+            </p>
           </div>
         </section>
+
+        {/* ── STATE GUIDES ── */}
+        <section className="max-w-7xl mx-auto px-6 sm:px-8 pb-16">
+          <h2 className="heading-gradient text-center mb-3" style={{ fontSize: 28, fontWeight: 700 }}>
+            State-Specific Guides
+          </h2>
+          <p className="text-center max-w-2xl mx-auto mb-10 text-sm leading-relaxed" style={{ color: '#94A3B8' }}>
+            Fault rules, damage caps, and benefit schedules vary by state. These pages account for local law on top of the general formula.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="glass-card p-6">
+              <h3 className="text-sm font-bold mb-4" style={{ color: '#F1F5F9' }}>Pain &amp; Suffering</h3>
+              <ul className="flex flex-col gap-2 mb-4">
+                {painSufferingStates.map((state) => (
+                  <li key={state.slug}>
+                    <Link href={`/pain-and-suffering-calculator/${state.slug}/`} className="text-sm transition-colors hover:opacity-80" style={{ color: '#60A5FA' }}>
+                      {state.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/pain-and-suffering-calculator/" className="text-xs transition-colors hover:opacity-80" style={{ color: '#94A3B8' }}>
+                See all {ALL_STATES.length} states →
+              </Link>
+            </div>
+
+            <div className="glass-card p-6">
+              <h3 className="text-sm font-bold mb-4" style={{ color: '#F1F5F9' }}>Car Accident</h3>
+              <ul className="flex flex-col gap-2 mb-4">
+                {carAccidentStates.map((state) => (
+                  <li key={state.slug}>
+                    <Link href={`/car-accident-settlement-calculator/${state.slug}/`} className="text-sm transition-colors hover:opacity-80" style={{ color: '#60A5FA' }}>
+                      {state.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/car-accident-settlement-calculator/" className="text-xs transition-colors hover:opacity-80" style={{ color: '#94A3B8' }}>
+                See all {CAR_ACCIDENT_STATES.length} states →
+              </Link>
+            </div>
+
+            <div className="glass-card p-6">
+              <h3 className="text-sm font-bold mb-4" style={{ color: '#F1F5F9' }}>Workers Comp</h3>
+              <ul className="flex flex-col gap-2 mb-4">
+                {workersCompStates.map((state) => (
+                  <li key={state.slug}>
+                    <Link href={`/workers-comp-settlement-calculator/${state.slug}/`} className="text-sm transition-colors hover:opacity-80" style={{ color: '#60A5FA' }}>
+                      {state.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/workers-comp-settlement-calculator/" className="text-xs transition-colors hover:opacity-80" style={{ color: '#94A3B8' }}>
+                See all indexed states →
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ── MAX BENEFITS TABLE FEATURE ── */}
+        <section className="max-w-5xl mx-auto px-6 sm:px-8 pb-16">
+          <div className="glass-card p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center gap-6 justify-between">
+            <div>
+              <h2 className="heading-gradient mb-2" style={{ fontSize: 24, fontWeight: 700 }}>
+                Know Your State&rsquo;s Maximum Weekly Benefit
+              </h2>
+              <p className="text-sm leading-relaxed max-w-xl" style={{ color: '#94A3B8' }}>
+                Every state caps workers&rsquo; comp benefits at a maximum weekly rate, no matter how high your wages were. We sourced the current max and min weekly TTD rate for all 50 states and DC directly from each state&rsquo;s own agency &mdash; see the full table, methodology, and downloadable CSV.
+              </p>
+            </div>
+            <Link
+              href="/workers-comp-maximum-weekly-benefits-by-state/"
+              className="btn-primary inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold whitespace-nowrap"
+            >
+              View the Full Table →
+            </Link>
+          </div>
+        </section>
+
+        {/* ── LATEST FROM THE BLOG ── */}
+        {latestPosts.length > 0 && (
+          <section className="max-w-7xl mx-auto px-6 sm:px-8 pb-20">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="heading-gradient" style={{ fontSize: 28, fontWeight: 700 }}>
+                Latest From the Blog
+              </h2>
+              <Link href="/blog/" className="text-sm transition-colors hover:opacity-80" style={{ color: '#60A5FA' }}>
+                All guides →
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {latestPosts.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={post.slug}
+                  className="glass-card block p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                >
+                  <time dateTime={post.dateTime} className="text-xs font-medium uppercase tracking-widest" style={{ color: '#60A5FA' }}>
+                    {post.date}
+                  </time>
+                  <h3 className="mt-3 font-bold leading-snug" style={{ fontSize: 18, color: '#E2E8F0', letterSpacing: '-0.01em' }}>
+                    {post.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed" style={{ color: '#94A3B8' }}>
+                    {post.description}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
       </main>
     </>

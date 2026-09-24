@@ -39,6 +39,7 @@ export default function Footer() {
                 { href: '/', label: 'Home' },
                 { href: '/about/', label: 'About' },
                 { href: '/methodology/', label: 'Methodology' },
+                { href: '/editorial-policy/', label: 'Editorial Policy' },
                 { href: '/blog/', label: 'Blog' },
                 { href: '/contact/', label: 'Contact' },
                 { href: '/privacy-policy/', label: 'Privacy Policy' },
@@ -122,6 +123,11 @@ export default function Footer() {
               <li>
                 <Link href="/workers-comp-settlement-calculator/florida/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
                   Florida
+                </Link>
+              </li>
+              <li>
+                <Link href="/workers-comp-maximum-weekly-benefits-by-state/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
+                  Max Benefits by State
                 </Link>
               </li>
             </ul>
