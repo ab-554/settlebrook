@@ -24,6 +24,7 @@ import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import WorkedExampleWorkersComp from '@/components/seo/WorkedExampleWorkersComp'
 import SourcesSection from '@/components/seo/SourcesSection'
+import StatePPDSection from '@/components/calculator/StatePPDSection'
 import {
   getWorkersCompStateBySlug,
   getAllWorkersCompStateSlugs,
@@ -33,6 +34,17 @@ import {
 } from '@/lib/data/workersCompStates'
 import { WORKERS_COMP_FAQS, buildWorkersCompFAQSchema } from '@/lib/data/workersCompFaqs'
 import sourcesData from '@/lib/data/sources.json'
+import type { ScheduledLossStateSlug } from '@/lib/data/ppdSchedules2026'
+
+// States with a real state-specific PPD module (StatePPDSection) instead of
+// the generic AMA-schedule calculator's estimate. Georgia is included even
+// though it isn't in NON_GENERIC_PPD_SLUGS (Georgia's generic AMA-schedule
+// estimate isn't "wrong" the way MI/MN/NJ/VA's is, but Georgia has its own
+// real statutory schedule now — see PPD-MODULE-SPEC.md item 8). Colorado is
+// explicitly out of scope per that spec and keeps the generic text.
+const PPD_MODULE_SLUGS = new Set<ScheduledLossStateSlug | 'minnesota'>([
+  'michigan', 'minnesota', 'new-jersey', 'virginia', 'georgia',
+])
 
 // E-E-A-T review stamp. Bump this one string when state law is re-verified
 // - it stamps every state page generated from this template.
@@ -2041,12 +2053,17 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 {stateData.slug === 'virginia' && ' This 500-week limit is shared with permanent partial disability — weeks paid under one benefit type reduce the weeks available under the other (Va. Code § 65.2-518).'}
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Permanent Partial Disability (PPD) benefits compensate you if you suffer a permanent loss of function after reaching maximum medical recovery. {NON_GENERIC_PPD_SLUGS.has(stateData.slug)
-                  ? `${stateData.name} does not use the AMA Guides or a simple weeks-per-body-part schedule for PPD — see the state-specific note below for how it actually calculates this benefit. This calculator does not yet model ${stateData.name}'s PPD method and hides the PPD output accordingly.`
-                  : stateData.ppdMethod === 'ama_schedule'
-                    ? `In ${stateData.name}, PPD is calculated using the AMA Scheduled Weeks method (where each body part is worth a specific number of benefit weeks).`
-                    : `In ${stateData.name}, PPD is calculated using the percentage-of-person method (where benefits are calculated out of a whole person week count).`}
+                Permanent Partial Disability (PPD) benefits compensate you if you suffer a permanent loss of function after reaching maximum medical recovery. {PPD_MODULE_SLUGS.has(stateData.slug as ScheduledLossStateSlug | 'minnesota')
+                  ? `${stateData.name} does not use the AMA Guides or the generic weeks-per-body-part schedule above for PPD — it uses its own statutory schedule. Use the estimator below for a ${stateData.name}-specific figure.`
+                  : NON_GENERIC_PPD_SLUGS.has(stateData.slug)
+                    ? `${stateData.name} does not use the AMA Guides or a simple weeks-per-body-part schedule for PPD — see the state-specific note below for how it actually calculates this benefit. This calculator does not yet model ${stateData.name}'s PPD method and hides the PPD output accordingly.`
+                    : stateData.ppdMethod === 'ama_schedule'
+                      ? `In ${stateData.name}, PPD is calculated using the AMA Scheduled Weeks method (where each body part is worth a specific number of benefit weeks).`
+                      : `In ${stateData.name}, PPD is calculated using the percentage-of-person method (where benefits are calculated out of a whole person week count).`}
               </p>
+              {PPD_MODULE_SLUGS.has(stateData.slug as ScheduledLossStateSlug | 'minnesota') && (
+                <StatePPDSection state={stateData.slug as ScheduledLossStateSlug | 'minnesota'} />
+              )}
               {stateData.stateSpecificNotes && (
                 <div
                   className="rounded-xl px-4 py-3 mt-4"

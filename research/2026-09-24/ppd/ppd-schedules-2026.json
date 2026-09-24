@@ -1,0 +1,410 @@
+{
+  "_meta": {
+    "compiled_for": "Injuries in calendar year 2026",
+    "compiled_date": "2026-09-25",
+    "instructions": "Null beats a guess. Every numeric field has a paired _status of VERIFIED, PARTIAL, or UNVERIFIED, and a _source_type of official or secondary. VERIFIED = fetched directly from an official .gov (or official legislative) page/PDF and read verbatim (either directly or via a verbatim-reproducing tool call), or from a well-known official schedule PDF. secondary = Justia/FindLaw/law-firm page used because the primary official source could not be machine-read (WAF/bot-block); used only when content was verbatim-quoted and cross-checked against at least one other independent source.",
+    "known_data_gaps": [
+      "Michigan's official legislature.mi.gov site blocks all automated access (Check Point CloudGuard WAF 'Attack blocked') on every URL pattern tried, including the raw PDF of Chapter 418. Per instructions, treated as unusable; MI schedule is sourced from three independent secondary reproductions (FindLaw, Justia, a law-firm summary) that agree exactly with each other, plus one official Michigan.gov/LEO rate-book PDF confirming the rate methodology and minimum. MI hearing-loss and disfigurement schedule entries could not be confirmed in any source consulted and are left null.",
+      "Minnesota subd. 2a has TWO tables in effect during 2026: the current table (in force since Oct 1, 2023) applies to injuries Jan 1 - Sept 30, 2026; a new, higher table enacted by 2026 Minnesota Laws chapter 103, section 10 applies to injuries on/after Oct 1, 2026. Both are captured explicitly.",
+      "Virginia and New York set their maximum/minimum dollar compensation rates on a rolling non-calendar-year basis (VA: July 1-June 30; NY: July 1-June 30). Both halves of 2026 are captured explicitly.",
+      "Georgia's $800/week maximum (and $533 reduced/limited-duty rate) took effect July 1, 2023 and no subsequent statutory increase was found as of the research date (Sept 2026); treated as still current but flagged PARTIAL since a full search of 2024-2026 GA legislative sessions for a possible further increase was not exhaustive.",
+      "New Jersey's 'Disability Wage and Compensation Schedule' for weeks 1-180 uses old fixed per-week dollar brackets ($47 rising to $82) that have not been updated since a 1982 conversion to percentages was itself only applied at week 181+; this is unusual (low-percentage NJ schedule losses are compensated far below the SAWW-based high end) but is confirmed verbatim in the statute text itself, cross-checked twice."
+    ]
+  },
+
+  "michigan": {
+    "statute_citation": "MCL 418.361 (Michigan Worker's Disability Compensation Act of 1969, Act 317 of 1969, Chapter 3)",
+    "official_urls_attempted": [
+      "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-418-361 (BLOCKED: Check Point CloudGuard WAF 'Attack blocked by web application protection' on every URL variant and on the raw chapter PDF at https://www.legislature.mi.gov/documents/mcl/pdf/mcl-chap418.pdf)"
+    ],
+    "secondary_urls_used": [
+      "https://codes.findlaw.com/mi/chapter-418-workers-disability-compensation/mi-comp-laws-418-361/",
+      "https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-319/ (sibling section confirming numbering; MCL 418.361 text pulled from Justia's 2018/current Michigan Compiled Laws mirror)",
+      "https://www.jtrucks.com/workers-compensation-lawyer-in-michigan/michigan-workers-comp-benefits/ (law-firm secondary, cross-check only)"
+    ],
+    "official_url_confirmed_working": "https://www.michigan.gov/-/media/Project/Websites/leo/Documents/WDCA-Calculation-Program/wca_2011_Rate_Book.pdf (Michigan LEO/WDCA official rate book - confirms rate methodology, not the schedule table itself)",
+    "source_type": "secondary (schedule table) + official (rate methodology)",
+    "rate_rule": {
+      "value": "80% of the employee's after-tax average weekly wage (AWW). This is the SAME rate formula used for total (TTD) benefits under MCL 418.351/418.371 - Michigan does not have a separate, lower specific-loss rate formula.",
+      "minimum": "25% of the state average weekly wage (SAWW) applies as the floor for specific-loss and permanent-and-total awards (confirmed in the official 2011 WDCA rate book methodology; the dollar floor itself changes annually and was not re-verified for 2026).",
+      "status": "PARTIAL",
+      "notes": "Rate formula (80% after-tax AWW) is well corroborated (3 secondary + 1 official source). The exact 2026 dollar minimum/maximum was not independently re-verified because the official rate-book fetched was the 2011 edition; the mechanism, not the 2026 dollar figures, is what's confirmed."
+    },
+    "proration_rule": {
+      "value": "Partial loss of a scheduled member is prorated. Loss of the first phalange of the thumb or any finger = 1/2 of that digit's scheduled weeks. Loss of the first phalange and any portion of the second phalange = loss of the entire digit. 80% loss of vision in one eye constitutes total loss of that eye (all-or-nothing threshold rather than straight-line proration for vision).",
+      "status": "VERIFIED (secondary, cross-checked across FindLaw + Justia)"
+    },
+    "healing_period_and_addition_to_ttd": {
+      "value": "Specific-loss (scheduled) benefits are paid at the same 80%-after-tax-AWW rate as wage-loss/TTD benefits and are paid IN ADDITION to wage-loss benefits, including if/when the employee returns to work - they are not reduced or offset by a return to work.",
+      "status": "PARTIAL (secondary only - a single law-firm marketing page states this plainly and consistently with general Michigan practitioner commentary, but it was not confirmed against the primary statutory text because that text could not be fetched)"
+    },
+    "schedule_weeks": {
+      "thumb": 65,
+      "index_finger": 38,
+      "second_finger": 33,
+      "third_finger": 22,
+      "fourth_finger_little": 16,
+      "great_toe": 33,
+      "other_toe": 11,
+      "hand": 215,
+      "arm": 269,
+      "foot": 162,
+      "leg": 215,
+      "eye": 162,
+      "hearing_one_ear": null,
+      "hearing_both_ears": null,
+      "disfigurement": null,
+      "_status": "VERIFIED (secondary - identical figures independently reproduced by FindLaw, Justia, and a Michigan workers'-comp law-firm page; treated as reliable despite being unable to reach the primary .gov text)",
+      "_source_type": "secondary",
+      "_note_on_gaps": "Hearing-loss and disfigurement week entries were not found in any of the three secondary sources consulted and are left null rather than guessed."
+    },
+    "notes_edge_cases": [
+      "Loss of first phalange = 1/2 of digit's scheduled weeks; loss of more than the first phalange = full digit loss.",
+      "80% loss of vision in one eye = total loss of that eye for schedule purposes (statutory threshold, not linear proration below that point).",
+      "MCL 418.361 subsections also define 'total and permanent disability' (loss of both hands/arms/legs/feet, total blindness, insanity, etc.) as a distinct, non-schedule category paid differently; not itemized here since out of scope of scheduled-loss request."
+    ]
+  },
+
+  "new_jersey": {
+    "statute_citation": "N.J.S.A. 34:15-12(c) (New Jersey Workers' Compensation Act, Title 34, Ch. 15)",
+    "official_urls": [
+      "https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/2026_schedule.pdf (NJ DOL official 2026 'Schedule of Disabilities and Maximum Benefits Exclusive of Amputation and Enucleation' - fetched and confirmed)",
+      "https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf (NJ DOL official compiled Workers' Compensation Law text, rev. Dec 15, 2025 - fetched and confirmed, contains full N.J.S.A. 34:15-12 text)",
+      "https://www.nj.gov/labor/lwdhome/press/2025/20251229_newbenefitrates2026.shtml (NJ DOL official 2026 benefit-rate press release - fetched and confirmed)"
+    ],
+    "secondary_url_cross_check": "https://law.justia.com/codes/new-jersey/title-34/section-34-15-12/ (full verbatim text pulled directly via browser render, used to cross-check the official PDFs word-for-word; matched)",
+    "source_type": "official",
+    "status": "VERIFIED",
+    "rate_rule": {
+      "formula": "70% of the employee's average weekly wage at time of injury, subject to a MAXIMUM of 75% of the Statewide Average Weekly Wage (SAWW) per week and a MINIMUM of $35.00/week for the schedule as a whole. Within that envelope, the applicable weekly dollar rate for a PPD award is NOT simply 70% of wages - it is set by a graduated table keyed to the TOTAL NUMBER OF WEEKS the award covers (see rate_table below). This is a NJ-specific quirk: the weekly rate escalates with award size, not with the worker's actual wage, once you're inside the percentage-tiered bands (weeks 181+).",
+      "2026_saww": 1598.66,
+      "2026_max_weekly": 1199.00,
+      "2026_min_weekly": 320.00,
+      "status": "VERIFIED",
+      "rate_table_weeks_1_to_180": {
+        "description": "Fixed, non-SAWW-indexed dollar-per-week amounts, frozen since a 1982 statutory conversion (NOT updated for wage growth since). Applies to awards totaling 1-180 weeks.",
+        "brackets": [
+          {"weeks": "1-90", "rate_usd": 47},
+          {"weeks": "91-96", "rate_usd": 49},
+          {"weeks": "97-102", "rate_usd": 51},
+          {"weeks": "103-108", "rate_usd": 54},
+          {"weeks": "109-114", "rate_usd": 56},
+          {"weeks": "115-120", "rate_usd": 59},
+          {"weeks": "121-126", "rate_usd": 61},
+          {"weeks": "127-132", "rate_usd": 63},
+          {"weeks": "133-138", "rate_usd": 66},
+          {"weeks": "139-144", "rate_usd": 68},
+          {"weeks": "145-150", "rate_usd": 70},
+          {"weeks": "151-156", "rate_usd": 73},
+          {"weeks": "157-162", "rate_usd": 75},
+          {"weeks": "163-168", "rate_usd": 77},
+          {"weeks": "169-174", "rate_usd": 80},
+          {"weeks": "175-180", "rate_usd": 82}
+        ],
+        "_note": "Rate is the LAST (marginal) rate reached within the bracket, applied to every remaining week in that bracket per the statute's cascading 'then $X for each remaining week' phrasing - this is the rate PAID for that week band, not cumulative pay. Verified verbatim against N.J.S.A. 34:15-12(c) text (both the official wc_law.pdf and Justia's verbatim rendering agree character-for-character on these numbers).",
+        "status": "VERIFIED"
+      },
+      "rate_table_weeks_181_to_600": {
+        "description": "Percentage of SAWW, i.e., weekly_rate = percentage x 2026_SAWW ($1,598.66). Formula-verified: 20%xSAWW=$319.73 rounds to the official $320 minimum; 75%xSAWW=$1,198.995 rounds to the official $1,199 maximum - both match the NJ DOL 2026 press release exactly.",
+        "brackets": [
+          {"weeks": "181-210", "pct_of_saww": 35},
+          {"weeks": "211-240", "pct_of_saww": 40},
+          {"weeks": "241-270", "pct_of_saww": 45},
+          {"weeks": "271-300", "pct_of_saww": 50},
+          {"weeks": "301-330", "pct_of_saww": 55},
+          {"weeks": "331-360", "pct_of_saww": 60},
+          {"weeks": "361-390", "pct_of_saww": 65},
+          {"weeks": "391-420", "pct_of_saww": 70},
+          {"weeks": "421-600", "pct_of_saww": 75}
+        ],
+        "status": "VERIFIED"
+      }
+    },
+    "proration_rule": {
+      "value": "Award weeks = (percentage of bodily loss) x (max scheduled weeks for that member). The resulting total-weeks figure then determines which rate bracket (above) applies for the whole award. First phalange loss = 1/2 of digit; loss of first + any part of second phalange = full digit loss (capped so no combination of fingers can exceed the compensation for a full hand). For 'lesser or other cases' not on the schedule, weeks are prorated by analogy to the schedule, or as a fraction of 600 weeks if rated as a % of whole-body disability.",
+      "status": "VERIFIED"
+    },
+    "schedule_weeks": {
+      "thumb": 80,
+      "first_finger_index": 60,
+      "second_finger": 50,
+      "third_finger": 40,
+      "fourth_finger_little": 30,
+      "great_toe": 40,
+      "other_toe": 15,
+      "hand_under_25pct_loss_of_function": 260,
+      "hand_25pct_or_more_loss_of_function": 300,
+      "arm": 330,
+      "foot_under_25pct_loss_of_function": 250,
+      "foot_25pct_or_more_loss_of_function": 285,
+      "leg": 315,
+      "eye_loss_of_vision": 200,
+      "eye_enucleation_additional": 25,
+      "natural_tooth_per_tooth": 4,
+      "hearing_one_ear": 60,
+      "hearing_both_ears": 200,
+      "status": "VERIFIED",
+      "source": "Both the official 2026_schedule.pdf and the official wc_law.pdf agree exactly; further cross-checked against Justia's verbatim statute text - all three match."
+    },
+    "notes_edge_cases": [
+      "Amputation: an ADDITIONAL 30% is added on top of the amputation award (not subject to attorney fees) - e.g., a hand amputation award is the schedule award PLUS 30% more, for amputations specifically (not loss-of-use without amputation).",
+      "Amputation between elbow and wrist = equivalent to loss of a hand; at the elbow = equivalent to loss of the arm. Amputation between knee and ankle = equivalent to loss of a foot; at the knee = equivalent to loss of the leg.",
+      "Multiple disabilities in one claim petition: weeks for each disability are determined and entered SEPARATELY, not cumulated, when computing which rate bracket applies to each.",
+      "Loss of both hands/arms/feet/legs/eyes (or any two) = total and permanent disability (different section, not itemized here).",
+      "'Lesser or other cases' (non-listed injuries or partial loss of bodily function) are prorated against the schedule, or against 600 weeks if rated as % of whole-body disability."
+    ]
+  },
+
+  "virginia": {
+    "statute_citation": "Va. Code § 65.2-503 (Permanent loss); combined-cap interaction with § 65.2-518 (Limitation upon total compensation)",
+    "official_urls": [
+      "https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/ (Virginia Law - official legislative code site - fetched verbatim in full)",
+      "https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-518/ (fetched verbatim in full)",
+      "https://www.workcomp.virginia.gov/news/notice-of-2026-rates (Virginia Workers' Compensation Commission official 2026 rate notice)",
+      "https://workcomp.virginia.gov/documents/rates-min-max-benefits-cola-mileage (official VWC historical/current rate table)"
+    ],
+    "source_type": "official",
+    "status": "VERIFIED",
+    "rate_rule": {
+      "formula": "66 2/3% of the employee's average weekly wage, subject to Virginia's statewide max/min (same max/min as used for TTD under § 65.2-500).",
+      "rate_periods_covering_2026": [
+        {"period": "Jan 1, 2026 - Jun 30, 2026 (VWC fiscal-year rate set Jul 1, 2025)", "max_weekly_usd": 1463.10, "min_weekly_usd": 365.78},
+        {"period": "Jul 1, 2026 - Dec 31, 2026 (VWC fiscal-year rate set Jul 1, 2026)", "max_weekly_usd": 1507.01, "min_weekly_usd": 376.75}
+      ],
+      "status": "VERIFIED",
+      "note": "Virginia sets its comp-rate year July 1 - June 30, NOT the calendar year, so an injury's applicable max/min depends on which half of 2026 the injury falls in."
+    },
+    "proration_rule": {
+      "value": "'[T]he permanent loss of the use of a member shall be equivalent to the loss of such member, and for the permanent partial loss or loss of use of a member, compensation may be proportionately awarded. Compensation shall also be awarded proportionately for partial loss of vision or hearing.' (§ 65.2-503 D, verbatim). First phalanx of thumb/finger/toe = 1/2 of the full-member compensation; loss of more than one phalanx = full digit.",
+      "status": "VERIFIED"
+    },
+    "ttd_interaction": {
+      "value": "Compensation for permanent loss (§ 65.2-503) is PAYABLE AFTER payments for temporary total incapacity (TTD) under § 65.2-500 - i.e., sequential, not simultaneous with TTD. It MAY be paid simultaneously with payments for PARTIAL incapacity under § 65.2-502; when combined that way, each combined payment counts as TWO weeks against the overall 500-week cap in § 65.2-518.",
+      "status": "VERIFIED",
+      "source": "§ 65.2-503(E), verbatim, official law.lis.virginia.gov text"
+    },
+    "combined_500_week_cap": {
+      "value": "Total compensation payable under Title 65.2 cannot exceed 500 weeks, nor exceed the Commonwealth's average weekly wage (for the applicable year) x 500 - EXCEPT for permanent-and-total-incapacity cases (§ 65.2-503 C), a specific subdivision of § 65.2-504 permanent disability, and coal workers' pneumoconiosis deaths (§ 65.2-513), which are uncapped.",
+      "status": "VERIFIED",
+      "source": "§ 65.2-518, verbatim, official law.lis.virginia.gov text"
+    },
+    "schedule_weeks": {
+      "thumb": 60,
+      "first_finger_index": 35,
+      "second_finger_middle": 30,
+      "third_finger_ring": 20,
+      "fourth_finger_little": 15,
+      "first_phalanx_any_digit": "1/2 of full-digit compensation",
+      "great_toe": 30,
+      "other_toe": 10,
+      "hand": 150,
+      "arm": 200,
+      "foot": 125,
+      "leg": 175,
+      "eye_total_vision_loss": 100,
+      "hearing_total_loss_one_ear": 50,
+      "disfigurement_max": 60,
+      "pneumoconiosis_first_stage": 50,
+      "pneumoconiosis_second_stage": 100,
+      "pneumoconiosis_third_stage": 300,
+      "byssinosis": 50,
+      "status": "VERIFIED",
+      "source": "Verbatim from official law.lis.virginia.gov text of § 65.2-503 B"
+    },
+    "notes_edge_cases": [
+      "Loss of both hands, both arms, both feet, both legs, both eyes, or any two thereof (same accident or compensable consequence of the original accident) = permanent and total incapacity, compensated under § 65.2-500 instead of the schedule.",
+      "Permanent-and-total incapacity also includes total paralysis (Commission-determined on medical evidence) and brain injury so severe it renders the employee permanently unemployable.",
+      "Virginia's schedule does NOT list hearing loss for BOTH ears or an enucleation add-on the way NJ does; only 'permanent total loss of hearing of an ear' (50 weeks) is listed.",
+      "No 'body as a whole' schedule category (unlike Georgia) - non-listed injuries fall outside § 65.2-503's schedule entirely and would be handled under other provisions of Title 65.2 not itemized in this dataset."
+    ]
+  },
+
+  "georgia": {
+    "statute_citation": "O.C.G.A. § 34-9-263 (Compensation for permanent partial disability)",
+    "official_urls_attempted": [
+      "https://www.legis.ga.gov/laws/official-code (Georgia General Assembly - navigation/search portal, could not reach the specific section's rendered text in this session)",
+      "https://www.lexisnexis.com/hottopics/gacode/ (Georgia's designated official code host - loads as a JS search app; specific-section deep link not resolved in this session)"
+    ],
+    "official_url_confirmed_working": "https://sbwc.georgia.gov/document/publication/provisionspdf/download (Georgia State Board of Workers' Compensation official 'Summary of Workers' Compensation Provisions' PDF - fetched and confirmed the schedule + rate figures independently)",
+    "secondary_url_used_for_full_verbatim_text": "https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/ (full statute + annotations rendered directly in-browser, verbatim; cross-checked and matches the official SBWC PDF's numbers exactly, with one additional schedule line - 'Disability to the body as a whole: 300 weeks' - that appears in the Justia verbatim text but not in the SBWC's summarized PDF)",
+    "source_type": "official (schedule figures, rate cap) + secondary (full verbatim text incl. subsections a/b/d/e)",
+    "status": "VERIFIED",
+    "rate_rule": {
+      "formula": "Two-thirds (66 2/3%) of the employee's average weekly wage for the number of weeks = (percentage of bodily loss or loss of use) x (maximum weeks for that body part), subject to the same statutory maximum/minimum weekly benefit that applies to TTD/TPD under O.C.G.A. § 34-9-261.",
+      "2026_max_weekly_usd": 800,
+      "2026_max_weekly_effective_date": "2023-07-01",
+      "reduced_limited_duty_rate_usd": 533,
+      "status": "PARTIAL",
+      "note": "The $800 max (and $533 reduced rate) is confirmed via the official SBWC provisions PDF and independently corroborated by a law-firm secondary source, both stating it took effect July 1, 2023. No subsequent statutory increase was found in the sources checked, so this is treated as the rate still in force for 2026 injuries, but that absence-of-a-later-increase was not exhaustively confirmed against every 2024-2026 Georgia General Assembly session, hence PARTIAL rather than VERIFIED on the CURRENCY of the $800 figure specifically (the $800 figure's historical accuracy as of 2023 is itself VERIFIED)."
+    },
+    "impairment_rating_application": {
+      "value": "'In all cases arising under this chapter, any percentage of disability or bodily loss ratings shall be based upon Guides to the Evaluation of Permanent Impairment, fifth edition, published by the American Medical Association.' (O.C.G.A. § 34-9-263(d), verbatim). The AMA-Guides-5th-edition impairment % for the affected body part is multiplied directly by that part's maximum scheduled weeks to get the number of weeks owed, then multiplied by the weekly rate.",
+      "status": "VERIFIED"
+    },
+    "ttd_interaction": {
+      "value": "PPD income benefits under § 34-9-263 do NOT become payable so long as the employee is entitled to TTD (§ 34-9-261) or TPD (§ 34-9-262) benefits for the same injury - i.e., PPD is paid only AFTER TTD/TPD entitlement ends, not concurrently. If a PPD recipient's condition later changes and re-qualifies them for TTD/TPD, PPD payments cease until the condition changes again.",
+      "status": "VERIFIED",
+      "source": "O.C.G.A. § 34-9-263(b)(2)-(3), verbatim, confirmed by case law annotations (e.g., Wet Walls, Inc. v. Ledezma, 2004) reproduced alongside the statute"
+    },
+    "schedule_weeks": {
+      "arm": 225,
+      "leg": 225,
+      "hand": 160,
+      "foot": 135,
+      "thumb": 60,
+      "index_finger": 40,
+      "middle_finger": 35,
+      "ring_finger": 30,
+      "little_finger": 25,
+      "great_toe": 30,
+      "other_toe": 20,
+      "hearing_traumatic_one_ear": 75,
+      "hearing_traumatic_both_ears": 150,
+      "vision_one_eye": 150,
+      "disability_to_body_as_a_whole": 300,
+      "status": "VERIFIED",
+      "source": "Matches exactly between the official SBWC provisions PDF and the verbatim Justia statute text (Justia additionally includes the 'body as a whole: 300 weeks' line)"
+    },
+    "notes_edge_cases": [
+      "PPD benefits are payable 'without regard to whether the employee has suffered economic loss' - i.e., paid on impairment alone, unlike TTD/TPD which require actual wage loss.",
+      "Loss of both arms, hands, legs, or feet (or any two or more of these), or permanent total loss of vision in both eyes, creates a REBUTTABLE PRESUMPTION of permanent total disability (compensated under § 34-9-261 instead of the schedule).",
+      "Georgia is described in its own case law as 'among a minority of states which does not allow workers' compensation for non-disability-producing disfigurement' - i.e., disfigurement alone (without an accompanying scheduled loss) is not separately compensable.",
+      "Compensation for a scheduled member injury is 'in lieu of all other compensation' for that same injury absent a 'superadded' injury/disease affecting other body parts."
+    ]
+  },
+
+  "new_york": {
+    "statute_citation": "WCL § 15(3) (Schedule in case of disability - Permanent partial disability)",
+    "official_urls": [
+      "https://www.nysenate.gov/legislation/laws/WKC/15 (NY Senate Open Legislation - official consolidated-laws host - fetched verbatim in full, current as of the 2023-09-08 revision plus later citations reflected in the amendment history)"
+    ],
+    "source_type": "official",
+    "status": "VERIFIED",
+    "rate_rule": {
+      "formula": "66 2/3% of the employee's average weekly wage, subject to NY's statutory maximum/minimum (same max/min framework used for TTD under WCL § 15).",
+      "rate_periods_covering_2026": [
+        {"period": "Jan 1, 2026 - Jun 30, 2026", "max_weekly_usd": 1222.42, "min_weekly_usd": null},
+        {"period": "Jul 1, 2026 - Jun 30, 2027", "max_weekly_usd": 1281.50, "min_weekly_usd": 384.45}
+      ],
+      "status": "PARTIAL",
+      "note": "NY resets its max rate every July 1 to 2/3 of the NY State Average Weekly Wage (NYSAWW) for the prior calendar year - NOT the calendar year - so an injury's applicable max depends on which half of 2026 it falls in. Both max figures are secondary-sourced (law-firm/trade-publication bulletins reporting the WCB's own announcements) rather than pulled directly from a WCB bulletin page in this session; the Jan-Jun 2026 minimum was not found and is left null."
+    },
+    "proration_rule": {
+      "value": "'Compensation for permanent partial loss or loss of use of a member may be for proportionate loss or loss of use of the member.' Phalanges: first phalange loss = 1/2 of digit compensation; loss of more than one phalange = full digit. Amputated arm/leg at or above wrist/ankle = proportionate loss of the arm/leg. Two or more digits (or phalanges of two or more digits) of a hand/foot may be proportioned to loss-of-use of the hand/foot but capped at the hand/foot's own maximum. Binocular vision loss or 80%+ vision loss in one eye = treated as full loss of that eye.",
+      "status": "VERIFIED"
+    },
+    "schedule_weeks": {
+      "arm": 312,
+      "leg": 288,
+      "hand": 244,
+      "foot": 205,
+      "eye": 160,
+      "thumb": 75,
+      "first_finger": 46,
+      "great_toe": 38,
+      "second_finger": 30,
+      "third_finger": 25,
+      "toe_other_than_great": 16,
+      "fourth_finger": 15,
+      "hearing_one_ear": 60,
+      "hearing_both_ears": 150,
+      "status": "VERIFIED",
+      "source": "Verbatim from official nysenate.gov text of WCL § 15(3)(a)-(m)"
+    },
+    "notes_edge_cases": [
+      "Disfigurement (facial/head/neck) is separately compensable up to $20,000 total (paragraph t) - not weeks-based, a flat statutory dollar cap.",
+      "'Additional compensation for impairment of wage earning capacity' (paragraph v): after a schedule award under paragraphs a-d (arm/leg/hand/foot) for loss of 50%+ of that member, ADDITIONAL wage-impairment compensation becomes payable once the scheduled award period ends, computed under paragraph w and reduced by 50% of any concurrent Social Security disability benefits.",
+      "Paragraph w caps 'other cases' (non-schedule PPD) at graduated maximum weeks (225 to 525 weeks) keyed to the percentage loss of wage-earning capacity - a fundamentally different, non-schedule track from paragraphs a-t.",
+      "Paragraph 4-a: if TTD for a scheduled-loss injury runs longer than set per-member thresholds (e.g., arm 32 weeks, leg 40 weeks, eye 20 weeks), the EXCESS TTD weeks are ADDED to the schedule award period - i.e., schedule + protracted TTD can combine rather than being mutually exclusive, up to those thresholds.",
+      "Impairment guidelines for rating permanency (paragraphs a-v) are the Board's own adopted guidelines (most recently required to be updated by Jan 1, 2018), not the AMA Guides directly - contrasts with Georgia's direct AMA-Guides-5th-edition reference."
+    ]
+  },
+
+  "minnesota": {
+    "statute_citation": "Minn. Stat. § 176.101, subd. 2a (Permanent partial disability); rating standard under Minn. Rules ch. 5223",
+    "official_urls": [
+      "https://www.revisor.mn.gov/statutes/cite/176.101 (MN Revisor of Statutes - official - fetched verbatim in full; this is the CURRENT-as-of-fetch table, i.e. the one in force through Sept 30, 2026)",
+      "https://www.revisor.mn.gov/laws/2026/0/103/laws.0.12.0 (MN Revisor of Statutes - official session-law text of 2026 Minnesota Laws, chapter 103 (S.F. No. 3720), Section 10 - fetched verbatim in full; shows both old and new dollar figures with strikethrough/insert markup AND the explicit effective date)",
+      "https://www.dli.mn.gov/business/workers-compensation/work-comp-disability-benefits-permanent-partial-disability-ppd (MN DLI official PPD explainer, fetched via summarization tool)",
+      "https://dli.mn.gov/campus-connect/ppdmultipliertable (MN DLI official notice confirming injury-date-based table selection)"
+    ],
+    "source_type": "official",
+    "status": "VERIFIED",
+    "critical_2026_note": "TWO impairment-to-dollar tables apply within calendar year 2026, split by an October 1, 2026 cutoff written directly into 2026 Minnesota Laws ch. 103, s. 10: (A) the table in force since Oct 1, 2023 applies to injuries occurring Jan 1, 2026 through Sept 30, 2026; (B) a NEW, higher table (enacted May 18, 2026) applies to injuries occurring Oct 1, 2026 or later. A calculator MUST branch on exact injury date, not just 'year = 2026'.",
+    "rating_standard": {
+      "value": "Permanent partial disability must be rated as a PERCENTAGE OF THE WHOLE BODY (not member-specific weeks, unlike the other 5 states) 'in accordance with rules adopted by the commissioner under section 176.105' - i.e., Minnesota Rules Chapter 5223 (the state's own impairment schedule, not the AMA Guides).",
+      "status": "VERIFIED"
+    },
+    "computation_rule": {
+      "value": "lump_sum = (whole-body impairment rating %, per Minn. Rules ch. 5223) x (dollar amount for the impairment band the rating % falls into, from the table below). An employee cannot be compensated for more than 100% whole-body disability even with injuries to 2+ body parts (they are combined, not stacked past 100%).",
+      "status": "VERIFIED",
+      "source": "Minn. Stat. § 176.101 subd. 2a(b), verbatim, official revisor.mn.gov text"
+    },
+    "ttd_interaction": {
+      "value": "PPD 'is payable upon cessation of temporary total disability' (subd. 1) - i.e., sequential, paid only after TTD ends, and explicitly: 'Permanent partial disability is not payable while temporary total compensation is being paid.' If the employee requests a lump sum, it must be paid within 30 days, and MAY be discounted to present value at up to a 5% basis; otherwise it's paid in installments at the employee's TTD rate as of the date of injury.",
+      "status": "VERIFIED",
+      "source": "Minn. Stat. § 176.101 subd. 2a(c), verbatim, official revisor.mn.gov text"
+    },
+    "table_A_injuries_2026_01_01_to_2026_09_30": {
+      "effective_since": "2023-10-01 (2023 c 51 art 3 s 1)",
+      "applies_to_injury_dates": "on or after 2023-10-01 and before 2026-10-01",
+      "impairment_pct_to_dollar_amount": {
+        "less_than_5.5": 114260,
+        "5.5_to_less_than_10.5": 121800,
+        "10.5_to_less_than_15.5": 129485,
+        "15.5_to_less_than_20.5": 137025,
+        "20.5_to_less_than_25.5": 139720,
+        "25.5_to_less_than_30.5": 147000,
+        "30.5_to_less_than_35.5": 150150,
+        "35.5_to_less_than_40.5": 163800,
+        "40.5_to_less_than_45.5": 177450,
+        "45.5_to_less_than_50.5": 177870,
+        "50.5_to_less_than_55.5": 181965,
+        "55.5_to_less_than_60.5": 209475,
+        "60.5_to_less_than_65.5": 237090,
+        "65.5_to_less_than_70.5": 264600,
+        "70.5_to_less_than_75.5": 292215,
+        "75.5_to_less_than_80.5": 347340,
+        "80.5_to_less_than_85.5": 402465,
+        "85.5_to_less_than_90.5": 457590,
+        "90.5_to_less_than_95.5": 512715,
+        "95.5_up_to_and_including_100": 567840
+      },
+      "status": "VERIFIED",
+      "source": "Verbatim from official revisor.mn.gov current-statutes rendering of § 176.101 subd. 2a(b)"
+    },
+    "table_B_injuries_2026_10_01_onward": {
+      "enacted_by": "2026 Minnesota Laws, chapter 103 (S.F. No. 3720), Section 10 - signed by the governor 2026-05-18",
+      "applies_to_injury_dates": "on or after 2026-10-01",
+      "impairment_pct_to_dollar_amount": {
+        "less_than_5.5": 137240,
+        "5.5_to_less_than_10.5": 146297,
+        "10.5_to_less_than_15.5": 155527,
+        "15.5_to_less_than_20.5": 164584,
+        "20.5_to_less_than_25.5": 167821,
+        "25.5_to_less_than_30.5": 176565,
+        "30.5_to_less_than_35.5": 180348,
+        "35.5_to_less_than_40.5": 196744,
+        "40.5_to_less_than_45.5": 213139,
+        "45.5_to_less_than_50.5": 213643,
+        "50.5_to_less_than_55.5": 218562,
+        "55.5_to_less_than_60.5": 251605,
+        "60.5_to_less_than_65.5": 284774,
+        "65.5_to_less_than_70.5": 317817,
+        "70.5_to_less_than_75.5": 350986,
+        "75.5_to_less_than_80.5": 417197,
+        "80.5_to_less_than_85.5": 483409,
+        "85.5_to_less_than_90.5": 549621,
+        "90.5_to_less_than_95.5": 615833,
+        "95.5_up_to_and_including_100": 682045
+      },
+      "status": "VERIFIED",
+      "source": "Verbatim from official revisor.mn.gov session-law text of 2026 c 103 s 10, which shows the exact new figures alongside the old ones with an explicit 'EFFECTIVE DATE. This section is effective for dates of injury on or after October 1, 2026.'"
+    },
+    "notes_edge_cases": [
+      "Minnesota rates the WHOLE BODY as a percentage, not individual scheduled body parts/weeks like the other 5 states in this dataset - there is no 'thumb = X weeks' style schedule; Minn. Rules ch. 5223 (not itemized here, out of scope) converts a specific injury/condition into a whole-body impairment percentage first.",
+      "Every even-numbered-year legislative session (2026, 2028, ...), the Workers' Compensation Advisory Council must reconsider whether the table represents 'adequate compensation' - i.e., the dollar table is expected to be revisited every 2 years, so a 2028 table change should be anticipated and re-checked.",
+      "Apportionment (subd. 4a): if a disability is partly attributable to a pre-existing congenital or traumatic condition clearly evidenced in a PRIOR medical record, the PPD compensation is reduced proportionately for the pre-existing share; the compensable portion is still paid at the rate for the ENTIRE disability (not a lower blended rate)."
+    ]
+  }
+}
