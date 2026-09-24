@@ -2,46 +2,74 @@
 // lib/data/workersCompStates.ts
 // Tool #3 — Workers Comp Settlement Calculator state data.
 //
-// Tier 1 states (CA, TX, FL, NY) are fully populated with accurate 2026 data.
-// Remaining 10 states carry correct benefitRate and stubbed cap values to be
-// expanded per the Tier 2 / Tier 3 rollout schedule in AGENTS.md.
-//
-// Weekly cap sources (2026):
-//   California  — DIR SAWW-based cap, effective 1 Jan 2026: $1,619
-//   Texas       — TDI SAWW cap, effective 1 Oct 2025:       $1,066
-//   Florida     — DFS SAWW cap, effective 1 Jan 2026:       $1,197
-//   New York    — WCB SAWW cap, effective 1 Jul 2025:       $1,145  (updates annually)
+// 2026-09-24 legal accuracy sprint: weeklyCapAmount and weeklyCapEffectivePeriod
+// are now read from lib/data/wcMaxBenefits2026.json — the single verified
+// source of truth for every state's max weekly TTD benefit (see
+// research/2026-09-24/LEGAL-FIXES.md and wc-max-benefits-2026-notes.md).
+// Do not hardcode a weeklyCapAmount literal below; add/update the JSON instead.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { WorkersCompStateData } from '../calculations/types'
+import wcMaxBenefits2026 from './wcMaxBenefits2026.json'
+
+interface WcMaxBenefitRecord {
+  state: string
+  max_weekly: number | null
+  min_weekly: number | null
+  effective_period: string
+  source_url: string
+  status: string
+}
+
+const WC_MAX_BENEFITS_BY_STATE = new Map<string, WcMaxBenefitRecord>(
+  (wcMaxBenefits2026 as WcMaxBenefitRecord[]).map((record) => [record.state, record])
+)
+
+type WorkersCompStateSeed = Omit<WorkersCompStateData, 'weeklyCapAmount' | 'weeklyCapEffectivePeriod'>
+
+/**
+ * Pulls weeklyCapAmount + weeklyCapEffectivePeriod from wcMaxBenefits2026.json
+ * by the state's full name. Throws at build time rather than silently
+ * shipping a stale/guessed number if a state is ever missing from the JSON.
+ */
+function withVerifiedWeeklyCap(seed: WorkersCompStateSeed): WorkersCompStateData {
+  const record = WC_MAX_BENEFITS_BY_STATE.get(seed.name)
+  if (!record || record.max_weekly == null) {
+    throw new Error(
+      `lib/data/workersCompStates.ts: no verified max_weekly found in wcMaxBenefits2026.json for "${seed.name}". ` +
+      'Add a VERIFIED record before publishing this state.',
+    )
+  }
+  return {
+    ...seed,
+    weeklyCapAmount: record.max_weekly,
+    weeklyCapEffectivePeriod: record.effective_period,
+  }
+}
 
 export const WORKERS_COMP_STATES: WorkersCompStateData[] = [
-  // ── Tier 1 — full 2026 data ─────────────────────────────────────────────
+  // ── Tier 1 ────────────────────────────────────────────────────────────
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'california',
     name: 'California',
     abbreviation: 'CA',
     // California pays 66.67% (two-thirds) of AWW, capped at the SAWW-linked max.
     benefitRate: 0.6667,
-    weeklyCapAmount: 1619,
-    weeklyCapYear: 2026,
     ppdMethod: 'ama_schedule',
     maxWeeksTTD: 104,
     stateSpecificNotes:
       'California TTD is limited to 104 weeks within a 5-year period from the date of injury for most injuries (240 weeks for certain severe injuries). PPD uses the AMA Guides 5th Edition. WCAB adjudication required for disputed claims.',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
-  },
+  }),
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'texas',
     name: 'Texas',
     abbreviation: 'TX',
     // Texas pays 70% of AWW, capped at the state average weekly wage.
     benefitRate: 0.70,
-    weeklyCapAmount: 1066,
-    weeklyCapYear: 2026,
     ppdMethod: 'ama_schedule',
     maxWeeksTTD: 104,
     stateSpecificNotes:
@@ -49,204 +77,217 @@ export const WORKERS_COMP_STATES: WorkersCompStateData[] = [
     // Non-subscriber flag drives the UI warning in WorkersCompCalculator.
     hasNonSubscriberSystem: true,
     isMonopolisticFund: false,
-  },
+  }),
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'florida',
     name: 'Florida',
     abbreviation: 'FL',
     benefitRate: 0.6667,
-    weeklyCapAmount: 1197,
-    weeklyCapYear: 2026,
     ppdMethod: 'ama_schedule',
     maxWeeksTTD: 104,
     stateSpecificNotes:
       'Florida TTD is limited to 104 weeks. PPD benefits are based on impairment ratings under the AMA Guides. Florida eliminated permanent total disability benefits for most injuries effective 2003; severe cases may qualify under a narrow exception.',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
-  },
+  }),
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'new-york',
     name: 'New York',
     abbreviation: 'NY',
     benefitRate: 0.6667,
-    // New York's cap is the highest in the nation and updates annually on 1 July.
-    // Verify at wcb.ny.gov before relying on this figure for specific claims.
-    weeklyCapAmount: 1145,
-    weeklyCapYear: 2026,
     ppdMethod: 'ama_schedule',
     // New York has no fixed TTD maximum for most cases — 520 weeks is a practical
     // ceiling used for calculation purposes; severe cases may exceed this.
     maxWeeksTTD: 520,
     stateSpecificNotes:
-      'New York has the highest workers comp weekly cap in the country, updated annually on July 1. The 2025–2026 cap is $1,145/week. There is no fixed TTD maximum for most injuries. PPD awards use the AMA Guides scheduled loss of use (SLU) table.',
+      'New York has the highest workers comp weekly cap in the country, updated annually on July 1. There is no fixed TTD maximum for most injuries. PPD awards use the AMA Guides scheduled loss of use (SLU) table.',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
-  },
+  }),
 
-  // ── Tier 2 — stubbed, to be expanded per AGENTS.md rollout ─────────────
+  // ── Tier 2 ────────────────────────────────────────────────────────────
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'illinois',
     name: 'Illinois',
     abbreviation: 'IL',
     benefitRate: 0.6667,
-    weeklyCapAmount: 1897, // 2026 — Illinois cap is one of the highest; verify at icc.illinois.gov
-    weeklyCapYear: 2026,
     // Illinois uses percentage_of_person for PPD, not the AMA body-part schedule.
     // workersComp.ts branches on this flag for the PPD formula.
     ppdMethod: 'percentage_of_person',
     maxWeeksTTD: 104,
     stateSpecificNotes:
-      'Illinois uses a percentage-of-person PPD method rather than the AMA scheduled weeks table. PPD is calculated as: weekly benefit × 500 whole-body weeks × impairment percentage. The weekly cap is among the highest nationally.',
+      'Illinois uses a percentage-of-person PPD method rather than the AMA scheduled weeks table. PPD is calculated as: weekly benefit × 500 whole-body weeks × impairment percentage.',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
-  },
+  }),
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'pennsylvania',
     name: 'Pennsylvania',
     abbreviation: 'PA',
     benefitRate: 0.6667,
-    weeklyCapAmount: 1273, // 2026 estimate — verify at dli.pa.gov
-    weeklyCapYear: 2026,
     ppdMethod: 'ama_schedule',
     maxWeeksTTD: 104,
     stateSpecificNotes: '',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
-  },
+  }),
 
-  // ── Tier 3 — stubbed, to be expanded per AGENTS.md rollout ─────────────
+  // ── Tier 3 ────────────────────────────────────────────────────────────
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'georgia',
     name: 'Georgia',
     abbreviation: 'GA',
     benefitRate: 0.6667,
-    weeklyCapAmount: 800, // 2026 estimate — verify at sbwc.georgia.gov
-    weeklyCapYear: 2026,
     ppdMethod: 'ama_schedule',
     maxWeeksTTD: 400,
-    stateSpecificNotes: '',
+    stateSpecificNotes:
+      'PPD uses the AMA Guides to the Evaluation of Permanent Impairment, 5th Edition (named explicitly in O.C.G.A. § 34-9-263): impairment rating % × scheduled weeks for the body part × 66⅔% of AWW.',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
-  },
+  }),
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'ohio',
     name: 'Ohio',
     abbreviation: 'OH',
     benefitRate: 0.6667,
-    weeklyCapAmount: 1200, // 2026 estimate — verify at bwc.ohio.gov
-    weeklyCapYear: 2026,
     ppdMethod: 'ama_schedule',
     maxWeeksTTD: 200,
     stateSpecificNotes: '',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
-  },
+  }),
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'michigan',
     name: 'Michigan',
     abbreviation: 'MI',
     benefitRate: 0.80, // Michigan pays 80% of after-tax AWW — unique formula
-    weeklyCapAmount: 1200, // 2026 estimate — verify at michigan.gov/leo
-    weeklyCapYear: 2026,
     ppdMethod: 'ama_schedule',
-    maxWeeksTTD: 500,
+    // MCL 418.351 sets no fixed week cap on TTD — it continues while disability
+    // persists. 520 weeks (10 years) is a practical calculation ceiling only,
+    // matching the same convention used for New York above. The "500 weeks"
+    // figure that used to appear here is actually the specific-loss
+    // permanency-determination deadline in MCL 418.361, not a TTD payment cap.
+    maxWeeksTTD: 520,
     stateSpecificNotes:
-      'Michigan calculates TTD benefits based on 80% of after-tax (net) average weekly wage, not gross — resulting in an effective gross replacement rate lower than the stated 80%. Verify the net-vs-gross distinction before finalizing any estimate.',
+      'Michigan calculates TTD benefits based on 80% of after-tax (net) average weekly wage, not gross — resulting in an effective gross replacement rate lower than the stated 80%. MCL 418.351 sets no fixed week cap on TTD; it continues while disability persists. PPD uses Michigan\'s own fixed statutory schedule of weeks per body part (MCL 418.361) — not the AMA Guides, and not scaled by an impairment percentage.',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
-  },
+  }),
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'north-carolina',
     name: 'North Carolina',
     abbreviation: 'NC',
     benefitRate: 0.6667,
-    weeklyCapAmount: 1282, // 2026 — verify at ic.nc.gov
-    weeklyCapYear: 2026,
     ppdMethod: 'ama_schedule',
     maxWeeksTTD: 500,
     stateSpecificNotes: '',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
-  },
+  }),
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'arizona',
     name: 'Arizona',
     abbreviation: 'AZ',
     benefitRate: 0.6667,
-    weeklyCapAmount: 1200, // 2026 estimate — verify at ica.az.gov
-    weeklyCapYear: 2026,
     ppdMethod: 'ama_schedule',
     maxWeeksTTD: 455,
-    stateSpecificNotes: '',
+    stateSpecificNotes:
+      'Arizona\'s system is based on a monthly Average Monthly Wage, not a weekly figure — the weekly cap shown here is a standard weekly-equivalent conversion (AMW × 12 ÷ 52 × 66⅔%) for comparability with other states, not a figure the Industrial Commission itself publishes as "weekly."',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
-  },
+  }),
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'new-jersey',
     name: 'New Jersey',
     abbreviation: 'NJ',
     benefitRate: 0.70,
-    weeklyCapAmount: 1131, // 2026 estimate — verify at nj.gov/labor
-    weeklyCapYear: 2026,
     ppdMethod: 'ama_schedule',
     maxWeeksTTD: 400,
-    stateSpecificNotes: '',
+    stateSpecificNotes:
+      'PPD uses New Jersey\'s own statutory schedule of weeks per body part (R.S. 34:15-12(c)) — not the AMA Guides. Percentage of disability maps directly to weeks on that schedule.',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
-  },
+  }),
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'virginia',
     name: 'Virginia',
     abbreviation: 'VA',
     benefitRate: 0.6667,
-    weeklyCapAmount: 1309, // 2026 estimate — verify at workcomp.virginia.gov
-    weeklyCapYear: 2026,
     ppdMethod: 'ama_schedule',
     maxWeeksTTD: 500,
-    stateSpecificNotes: '',
+    stateSpecificNotes:
+      'PPD uses Virginia\'s own statutory schedule of weeks per body part (Va. Code § 65.2-503) — not the AMA Guides. The award is proportional to the partial loss of use of that body part.',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
-  },
+  }),
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'colorado',
     name: 'Colorado',
     abbreviation: 'CO',
     benefitRate: 0.6667,
-    weeklyCapAmount: 1391, // 2026 estimate — verify at cdle.colorado.gov
-    weeklyCapYear: 2026,
     ppdMethod: 'ama_schedule',
-    maxWeeksTTD: 104,
-    stateSpecificNotes: '',
+    // C.R.S. § 8-42-105 sets no fixed week cap on TTD — it runs until MMI,
+    // return to work, or a written release to return to work. 520 weeks
+    // (10 years) is a practical calculation ceiling only, matching the same
+    // convention used for New York and Michigan above. The "104 weeks" figure
+    // that used to appear here was not a real Colorado TTD cap.
+    maxWeeksTTD: 520,
+    stateSpecificNotes:
+      'Colorado TTD (C.R.S. § 8-42-105) has no fixed week cap — it continues until maximum medical improvement, return to regular/modified work, or a written release to return to work. PPD uses AMA Guides-based impairment ratings (C.R.S. § 8-42-107) for scheduled body-part injuries; non-scheduled (whole-person) injuries use a different age/wage-adjusted formula not reflected in this calculator.',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
-  },
+  }),
 
-  {
+  withVerifiedWeeklyCap({
     slug: 'minnesota',
     name: 'Minnesota',
     abbreviation: 'MN',
     benefitRate: 0.6667,
-    weeklyCapAmount: 1222, // 2026 estimate — verify at dli.mn.gov
-    weeklyCapYear: 2026,
     ppdMethod: 'ama_schedule',
     maxWeeksTTD: 130,
-    stateSpecificNotes: '',
+    stateSpecificNotes:
+      'Minnesota PPD is not weeks-based: a physician rates whole-body impairment as a percentage under the state\'s own Administrative Rules Chapter 5223 (not the AMA Guides by name), and that percentage is multiplied by a dollar figure from the statutory table in Minn. Stat. § 176.101, subd. 2a to produce a lump-sum award — not the scheduled-weeks formula this calculator uses.',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
-  },
+  }),
 ]
+
+/**
+ * Tier 3 state pages pulled from indexing/internal links during the 2026-09-23
+ * AdSense fix sprint — content is a stubbed template with no state-specific
+ * editorial (see stateSpecificNotes above). Pages stay live but noindexed
+ * until each one gets real state-specific content, per context.md-style
+ * decision tracking for this repo.
+ */
+export const NOINDEXED_WORKERS_COMP_SLUGS = new Set([
+  'georgia',
+  'michigan',
+  'new-jersey',
+  'virginia',
+  'colorado',
+  'minnesota',
+])
+
+/**
+ * States where this calculator's generic PPD formula (AMA scheduled weeks ×
+ * impairment % × weekly benefit) does not match the state's real PPD method.
+ * On these states' pages, the PPD *output* is hidden (UI only) and replaced
+ * with a short explanation of the actual method — see LEGAL-FIXES.md A.12.
+ * State-specific PPD module planned — do not re-enable generic PPD here.
+ */
+export const NON_GENERIC_PPD_SLUGS = new Set(['michigan', 'minnesota', 'new-jersey', 'virginia'])
 
 /**
  * Returns a single WorkersCompStateData entry by URL slug, or undefined when

@@ -10,12 +10,16 @@ import PainSufferingCalculator from '@/components/calculator/PainSufferingCalcul
 import FAQAccordion from '@/components/seo/FAQAccordion'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
+import WorkedExample from '@/components/seo/WorkedExample'
+import SourcesSection from '@/components/seo/SourcesSection'
 import { getStateBySlug, getAllStateSlugs, getPriorityStates } from '@/lib/data/states'
 import { getStateFAQs, buildFAQSchema } from '@/lib/data/faqContent'
+import sourcesData from '@/lib/data/sources.json'
 
 // E-E-A-T review stamp. Bump this one string when state law is re-verified
 // - it stamps every state page generated from this template.
-const LAST_REVIEWED = 'August 2026'
+// Updated 2026-09-24: legal accuracy sprint touched every state's content.
+const LAST_REVIEWED = 'September 2026'
 
 export async function generateStaticParams() {
   return getAllStateSlugs()
@@ -91,6 +95,9 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
   const { state } = await params
   const stateData = getStateBySlug(state)
   if (!stateData) notFound()
+
+  const stateSources =
+    (sourcesData['pain-and-suffering'] as Record<string, { label: string; url: string; supports: string; tier: 'primary' | 'secondary' }[]>)[stateData.slug] ?? []
 
   const faqs = getStateFAQs(stateData.slug, {
     name: stateData.name,
@@ -229,6 +236,15 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
                       </div>
                     </div>
                   )}
+                  {stateData.hasDamageCap && !stateData.damageCap && (
+                    <div className="flex gap-2.5">
+                      <span className="flex-shrink-0" style={{ color: '#FBBF24' }}>🔒</span>
+                      <div>
+                        <span className="font-semibold" style={{ color: '#E2E8F0' }}>Damage Cap: </span>
+                        {stateData.damageCapNotes}
+                      </div>
+                    </div>
+                  )}
                   {!stateData.hasDamageCap && (
                     <div className="flex gap-2.5">
                       <span className="flex-shrink-0" style={{ color: '#34D399' }}>✅</span>
@@ -351,7 +367,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>California&apos;s Pure Comparative Fault Rule</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>California follows pure comparative fault under California Civil Code § 1714. This means that even if you were partially responsible for your own injury, you can still recover damages. Your recovery is simply reduced by your percentage of fault.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>California follows pure comparative fault under <em>Li v. Yellow Cab Co. of California</em>, 13 Cal.3d 804 (1975) — the California Supreme Court decision that adopted pure comparative negligence, interpreting the general duty of care set out in Civil Code § 1714. This means that even if you were partially responsible for your own injury, you can still recover damages. Your recovery is simply reduced by your percentage of fault.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>This is more favorable than the rule in Texas and most other states, which bar recovery entirely if you&apos;re more than 50% or 51% at fault. In California, there is no fault bar. Even a plaintiff who is 90% at fault can recover 10% of their damages.</p>
 
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Real example:</strong></p>
@@ -382,14 +398,17 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in California</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Settlement data in California isn&apos;t publicly reported, and any source giving you a precise &quot;average&quot; is either guessing or cherry-picking. What injury attorneys and aggregated verdict databases do show are realistic ranges by injury type.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Soft tissue injuries</strong> (sprains, strains, minor whiplash) with no surgery and full recovery: $10,000–$40,000 in total settlement value, with pain and suffering comprising roughly half.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Moderate injuries</strong> (herniated discs, fractures, injuries requiring surgery but with good recovery): $75,000–$250,000, depending on treatment costs, lost income, and case venue.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>Severe or permanent injuries</strong> (spinal cord damage, traumatic brain injury, permanent disability, disfigurement): $500,000 to several million dollars, particularly in Los Angeles and Bay Area venues where jury verdicts support higher valuations.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>California settlements trend higher than national averages for two reasons: the pure comparative fault rule maximizes plaintiff recovery, and California jury verdicts — particularly in urban counties — are among the highest in the country. Insurance companies price their offers with that jury threat in mind.</p>
+              <WorkedExample
+                toolLabel="pain and suffering settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={stateData.faultRuleExplanation}
+                calculatorHref="/pain-and-suffering-calculator/"
+              />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[
@@ -420,8 +439,8 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
                 {
                   id: 'ca-faq-5',
                   question: 'What is the average pain and suffering settlement in California?',
-                  answer: 'There is no single average — settlement values range from under $10,000 for minor soft tissue injuries to millions for permanent disability cases. California settlements trend higher than the national average due to pure comparative fault rules and high urban jury verdict data in counties like Los Angeles and San Francisco. The most accurate estimate for your specific situation comes from entering your actual damages into the calculator.',
-                  schemaAnswer: 'There is no single average — settlement values range from under $10,000 for minor soft tissue injuries to millions for permanent disability cases. California settlements trend higher than the national average due to pure comparative fault rules and high urban jury verdict data in counties like Los Angeles and San Francisco. The most accurate estimate for your specific situation comes from entering your actual damages into the calculator.'
+                  answer: 'There is no reliable published average — settlement values vary too widely by injury severity, treatment documentation, and venue to reduce to one number. See the worked example on this page for how the calculator\'s math actually works, or enter your own damages into the calculator above for a personalized estimate.',
+                  schemaAnswer: 'There is no reliable published average. See the worked example on this page for how the calculator\'s math works, or use the calculator for a personalized estimate.'
                 }
               ]} />
 
@@ -502,14 +521,18 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in Texas</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>There is no honest way to give you a precise average — settlement data is largely private, and the range is enormous based on injury type, fault allocation, and insurance coverage. That said, here is a realistic picture based on claim types.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Minor soft-tissue injuries (whiplash, bruising, strains) with full recovery typically settle in the $8,000 to $25,000 range in Texas, with pain and suffering representing 50 to 60% of that figure.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Moderate injuries requiring surgery — a knee scope, disc surgery, or rotator cuff repair — commonly settle between $75,000 and $250,000 depending on recovery outcomes and fault allocation.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Severe injuries involving permanent impairment, traumatic brain injury, or spinal damage can produce settlements and verdicts from $300,000 into the millions, though Texas jury conservatism means these cases often settle below what comparable cases would fetch in California. See our <Link href="/pain-and-suffering-calculator/california/" style={{ color: '#60A5FA' }}>California pain and suffering calculator</Link> if you are comparing jurisdictions.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The calculator above gives you a data-anchored starting estimate. Treat it as a floor for negotiation, not a final number.</p>
+              <WorkedExample
+                toolLabel="pain and suffering settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={stateData.faultRuleExplanation}
+                calculatorHref="/pain-and-suffering-calculator/"
+              />
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you are comparing jurisdictions, see our <Link href="/pain-and-suffering-calculator/california/" style={{ color: '#60A5FA' }}>California pain and suffering calculator</Link> — California&apos;s pure comparative fault rule and jury tendencies produce a different result on identical facts.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[
@@ -569,8 +592,8 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Florida No-Fault Insurance and the Pain and Suffering Threshold</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Florida requires every driver to carry Personal Injury Protection (PIP) coverage of at least $10,000. When you are injured in a car accident, your own PIP pays 80% of your medical bills and 60% of lost wages up to that $10,000 limit — regardless of fault. PIP does not cover pain and suffering.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>To step outside the no-fault system and sue the at-fault driver for pain and suffering, you must meet the permanent injury threshold under Florida Statute 627.737. The law requires that you prove one of the following:</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Florida requires every driver to carry Personal Injury Protection (PIP) coverage of at least $10,000 under Florida Statute § 627.736. When you are injured in a car accident, your own PIP pays 80% of your medical bills and 60% of lost wages up to that $10,000 limit — regardless of fault. PIP does not cover pain and suffering.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>To step outside the no-fault system and sue the at-fault driver for pain and suffering, you must meet the separate permanent injury threshold under Florida Statute § 627.737. The law requires that you prove one of the following:</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>You suffered a significant and permanent loss of an important bodily function. You sustained a permanent injury within a reasonable degree of medical probability (not just a possibility — a probability). You have significant and permanent scarring or disfigurement. Or the accident caused your death.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Soft tissue injuries — whiplash, minor sprains, and strains — typically do not meet this threshold, which is why many Florida accident victims are surprised to learn their claim for pain and suffering is blocked even when the other driver was clearly at fault. You generally need objective medical evidence: imaging showing a herniated disc, surgical records, or a physician&apos;s opinion that your injury is permanent.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If you do not meet the threshold, you are limited to your PIP benefits for economic losses. If you do meet it, you can pursue full non-economic damages including pain and suffering.</p>
@@ -612,14 +635,17 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in Florida</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>There is no official average — settlements are private and court verdicts vary dramatically by case facts. That said, publicly available verdict data and industry settlement surveys give rough reference points.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Minor soft tissue injuries where the permanent injury threshold is met (such as a documented disc herniation at a single level with conservative treatment): settlements commonly range from $15,000 to $75,000.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Moderate permanent injuries requiring surgery — spinal fusion, knee reconstruction, shoulder repair — typically settle between $75,000 and $300,000 depending on age, income, and the extent of ongoing limitations.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Severe or catastrophic injuries — traumatic brain injury, spinal cord damage, amputations, permanent paralysis — routinely produce settlements and verdicts above $500,000 and frequently into the millions.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Miami-Dade County juries have returned some of the highest personal injury verdicts in the country, and insurers factor that risk premium into South Florida settlement offers. If you are in Miami or Fort Lauderdale, your settlement leverage is measurably higher than if the same case were litigated in rural north Florida.</p>
+              <WorkedExample
+                toolLabel="pain and suffering settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={stateData.faultRuleExplanation}
+                calculatorHref="/pain-and-suffering-calculator/"
+              />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[
@@ -735,17 +761,28 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in New York</h2>
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Why New York Settlements Trend High</h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>New York — particularly New York City — produces some of the highest personal injury settlements in the United States. Several factors drive this premium:</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>New York City jurors</strong> apply a high cost-of-living benchmark to per diem calculations</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>New York juries</strong> are historically more plaintiff-favorable than national averages</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>The serious injury threshold</strong> filters out minor claims, meaning cases that reach the litigation stage tend to involve genuine, documented injuries</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>New York City&apos;s congestion</strong> and the density of commercial activity produce high-frequency, high-stakes accident claims</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Soft-tissue injuries that meet the 90/180-day rule in New York City typically settle between $50,000 and $150,000. Fractures with full recovery settle between $75,000 and $200,000. Cases involving permanent limitation of use — spinal injuries with documented impairment, traumatic brain injuries, amputations — routinely exceed $500,000 and frequently produce seven-figure verdicts at trial.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The <Link href="/pain-and-suffering-calculator/florida/" style={{ color: '#60A5FA' }}>Florida pain and suffering calculator</Link> page shows the contrast — Florida&apos;s $10,000 PIP floor and two-year statute produce structurally different claim dynamics.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: '#E2E8F0' }}>MVAIC note:</strong> If the at-fault driver was uninsured and fled the scene, the Motor Vehicle Accident Indemnification Corporation (MVAIC) provides coverage for qualified New York residents. You must file a Notice of Intention to make a claim with MVAIC within 180 days of the accident.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <WorkedExample
+                toolLabel="pain and suffering settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={stateData.faultRuleExplanation}
+                calculatorHref="/pain-and-suffering-calculator/"
+              />
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The <Link href="/pain-and-suffering-calculator/florida/" style={{ color: '#60A5FA' }}>Florida pain and suffering calculator</Link> page shows the contrast — Florida&apos;s $10,000 PIP floor and two-year statute produce structurally different claim dynamics.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[
@@ -853,12 +890,18 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in Pennsylvania</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Pennsylvania does not publish statewide settlement data, and published verdict databases reflect only cases that went to trial — a small fraction of all resolved claims. With that caveat, published verdict research and attorney survey data suggest the following general ranges for Pennsylvania.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Soft-tissue injuries (sprains, strains) in full tort cases: $15,000 to $60,000. Disc injuries without surgery: $40,000 to $150,000. Disc injuries with surgery: $100,000 to $400,000. Traumatic brain injuries: $200,000 to several million dollars depending on severity. Wrongful death cases in Philadelphia: often seven figures before punitive damages.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>These are ranges, not guarantees. Your specific facts — venue, liability clarity, treatment quality, and the at-fault driver&apos;s policy limits — will determine where your case falls within or outside any range. Policy limits are a practical ceiling in most cases; a $25,000 bodily injury policy is the most you will recover from that insurer regardless of what a jury would award.</p>
+              <WorkedExample
+                toolLabel="pain and suffering settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={stateData.faultRuleExplanation}
+                calculatorHref="/pain-and-suffering-calculator/"
+              />
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Your specific facts — venue, liability clarity, treatment quality, and the at-fault driver&apos;s policy limits — determine where your actual case lands. Policy limits are a practical ceiling in most cases; a $25,000 bodily injury policy is the most you will recover from that insurer regardless of what a jury would award.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[
@@ -967,13 +1010,22 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in Illinois</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Giving a single average number for Illinois pain and suffering settlements is not meaningful because settlement values vary by three to four orders of magnitude depending on injury type, venue, and liability clarity. A soft tissue car accident case in a suburban county might settle for $15,000 to $40,000. A spinal cord injury case tried in Cook County can produce a jury verdict in the millions.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>What the data does show: Cook County jury verdicts in personal injury cases consistently rank among the top 10 in national surveys. Illinois plaintiffs with permanent injuries, strong medical documentation, and clear liability tend to receive higher offers than comparable plaintiffs in capped states, precisely because insurers cannot point to a statutory ceiling.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Real examples from public Illinois verdict and settlement data: a Chicago pedestrian struck by a rideshare vehicle recovered $1.2 million for a torn labrum and PTSD; a construction worker with a crush injury settled for $875,000 before trial in Cook County; a rear-end accident causing a cervical fusion settled for $340,000 in Lake County.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Your case is individual. Use the <Link href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</Link> to build a personalized estimate based on your actual damages.</p>
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Why Illinois Settlements Can Run High</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Cook County jury verdicts in personal injury cases consistently rank among the top 10 in national surveys. Illinois plaintiffs with permanent injuries, strong medical documentation, and clear liability tend to receive higher offers than comparable plaintiffs in capped states, precisely because insurers cannot point to a statutory ceiling.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <WorkedExample
+                toolLabel="pain and suffering settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={stateData.faultRuleExplanation}
+                calculatorHref="/pain-and-suffering-calculator/"
+              />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[
@@ -1077,12 +1129,18 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in Ohio</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Published settlement data for Ohio personal injury cases is limited because the majority of claims resolve confidentially. General verdict research and reported case data suggest the following ranges as rough benchmarks, not guarantees.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Soft-tissue injuries such as whiplash and minor sprains in Ohio tend to settle in the range of $15,000 to $75,000, with noneconomic damages representing the majority of the total. Moderate injuries — fractures, disc herniations requiring surgery, shoulder or knee tears — commonly produce settlements in the $80,000 to $300,000 range. Catastrophic injuries that trigger the ORC 2315.18 exception and remove the cap entirely have produced jury verdicts in Ohio exceeding $1 million.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Columbus, Cleveland, and Cincinnati personal injury attorneys operate in active plaintiff markets with established verdict histories. If your injury is serious and liability is clear, Ohio settlements are often defensible well above initial insurance offers. Your economic damages figure is the foundation — every dollar added to that number raises your 3x cap ceiling.</p>
+              <WorkedExample
+                toolLabel="pain and suffering settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={stateData.faultRuleExplanation}
+                calculatorHref="/pain-and-suffering-calculator/"
+              />
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Your economic damages figure is the foundation for the non-catastrophic cap: every dollar added to that number raises your 3x cap ceiling. Catastrophic injuries that trigger the ORC 2315.18 exception remove the cap entirely.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[
@@ -1182,12 +1240,18 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in Georgia</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>There is no official database of Georgia personal injury settlement amounts — most cases resolve confidentially. That said, documented jury verdicts and reported settlements provide useful reference points.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Minor soft tissue injuries in Georgia — whiplash, sprains, strains with full recovery — typically settle in the <strong style={{ color: '#E2E8F0' }}>$10,000 to $35,000</strong> range, with pain and suffering representing roughly half. Moderate injuries requiring surgery or producing lasting impairment commonly settle between <strong style={{ color: '#E2E8F0' }}>$75,000 and $250,000</strong>. Catastrophic injuries — spinal cord damage, traumatic brain injury, permanent disability — regularly produce settlements and verdicts <strong style={{ color: '#E2E8F0' }}>above $500,000</strong>, with Atlanta jury awards occasionally reaching seven figures.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>These figures are not guarantees. Your specific settlement depends on your fault percentage under Georgia&apos;s 50% bar, the defendant&apos;s insurance policy limits, the strength of your medical documentation, and whether your case is tried in an urban or rural Georgia county. Use our <Link href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</Link> to build a baseline estimate from your actual damages.</p>
+              <WorkedExample
+                toolLabel="pain and suffering settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={stateData.faultRuleExplanation}
+                calculatorHref="/pain-and-suffering-calculator/"
+              />
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Your actual settlement depends on your fault percentage under Georgia&apos;s 50% bar, the defendant&apos;s insurance policy limits, the strength of your medical documentation, and whether your case is tried in an urban or rural Georgia county.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[
@@ -1283,13 +1347,23 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in North Carolina</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Published verdicts and settlements in North Carolina reflect the impact of contributory negligence on case values. Because any plaintiff fault can eliminate the claim entirely, cases that proceed to settlement tend to involve defendants with clear, unambiguous liability — and those cases often settle well.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Moderate car accident injuries with solid liability — broken bones, herniated discs, or rotator cuff tears requiring surgery — commonly settle in the $75,000 to $200,000 range in major metro venues. Traumatic brain injury and spinal cord injury cases with permanent functional loss regularly produce settlements and verdicts exceeding $500,000, with serious cases reaching seven figures.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Soft-tissue-only claims with no surgery and full recovery tend to settle in the $15,000 to $50,000 range depending on treatment costs and duration.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>These are illustrative ranges, not guarantees. Every case is fact-specific, and the contributory negligence exposure in your particular case may significantly affect what an insurer is willing to offer. Compare your state with our <Link href="/pain-and-suffering-calculator/georgia/" style={{ color: '#60A5FA' }}>Georgia pain and suffering calculator</Link> to understand how different fault rules change outcomes.</p>
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>How Contributory Negligence Shapes Outcomes</h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Because any plaintiff fault can eliminate the claim entirely, cases that proceed to settlement tend to involve defendants with clear, unambiguous liability — and those cases often settle well. Every case is fact-specific, and the contributory negligence exposure in your particular case may significantly affect what an insurer is willing to offer.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <WorkedExample
+                toolLabel="pain and suffering settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={stateData.faultRuleExplanation}
+                calculatorHref="/pain-and-suffering-calculator/"
+              />
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Compare your state with our <Link href="/pain-and-suffering-calculator/georgia/" style={{ color: '#60A5FA' }}>Georgia pain and suffering calculator</Link> to understand how different fault rules change outcomes.</p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[
@@ -1354,9 +1428,9 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Michigan Noneconomic Damage Cap</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Michigan imposes a statutory cap on noneconomic damages in personal injury cases. For 2026, the <strong style={{ color: '#E2E8F0' }}>standard cap is $596,400</strong>. This figure is adjusted annually based on the Consumer Price Index and applies to the vast majority of motor vehicle accident claims.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>A separate, elevated cap of <strong style={{ color: '#E2E8F0' }}>$1,065,000</strong> applies when the plaintiff has suffered a catastrophic injury. Michigan law defines catastrophic injuries eligible for the elevated cap as: paraplegia or quadriplegia resulting in the permanent loss of or damage to both legs, both arms, or one leg and one arm; permanent cognitive incapacity; or permanent loss of or damage to a reproductive organ resulting in an inability to procreate.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>In practical terms, the standard $596,400 cap is the ceiling for most serious injury claims — even those involving significant permanent injuries that fall short of the catastrophic definitions above. A plaintiff with a severe spinal injury, a traumatic brain injury, or permanent scarring that is life-altering in impact but does not meet the statutory catastrophic definition will be capped at $596,400 in noneconomic damages, regardless of what a jury might otherwise award.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Michigan imposes a statutory cap on noneconomic damages in personal injury cases (MCL 600.1483). The cap is adjusted annually based on the Consumer Price Index and applies to the vast majority of motor vehicle accident claims — check the statute directly for the current-year dollar figure before relying on a specific number.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>A separate, higher cap applies when the plaintiff has suffered a catastrophic injury. Michigan law defines catastrophic injuries eligible for the elevated cap as: paraplegia or quadriplegia resulting in the permanent loss of or damage to both legs, both arms, or one leg and one arm; permanent cognitive incapacity; or permanent loss of or damage to a reproductive organ resulting in an inability to procreate.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>In practical terms, the standard cap is the ceiling for most serious injury claims — even those involving significant permanent injuries that fall short of the catastrophic definitions above. A plaintiff with a severe spinal injury, a traumatic brain injury, or permanent scarring that is life-altering in impact but does not meet the statutory catastrophic definition will be capped at the standard noneconomic-damages figure, regardless of what a jury might otherwise award.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>These caps apply only to noneconomic damages. <strong style={{ color: '#E2E8F0' }}>Economic damages in Michigan are uncapped</strong> — medical bills, future medical costs, lost wages, and lost earning capacity are fully recoverable without a ceiling.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
@@ -1365,7 +1439,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Once you have cleared the serious impairment threshold and your case proceeds toward settlement or trial, adjusters and attorneys calculate your noneconomic damages using two primary methods.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The <strong style={{ color: '#E2E8F0' }}>multiplier method</strong> takes your total special damages — documented medical bills and lost wages — and multiplies them by a factor that reflects the severity and permanence of your injuries. In Michigan, multipliers typically range from 1.5x for moderate recoverable injuries to 4x or 5x for severe permanent conditions. Insurance carriers use claims software such as Colossus to generate multiplier recommendations based on injury codes, treatment duration, and documentation quality.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The <strong style={{ color: '#E2E8F0' }}>per diem method</strong> assigns a daily dollar rate to your pain — often equivalent to your daily wage — and multiplies it by the number of days you suffered. Per diem calculations are more commonly used by plaintiff attorneys during demand letters and trial preparation than by insurance adjusters.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>In either method, the noneconomic damage cap functions as a hard ceiling. If the multiplier calculation produces a figure of $900,000 but your claim does not meet the catastrophic injury definition, your noneconomic recovery is limited to $596,400 regardless.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>In either method, the noneconomic damage cap functions as a hard ceiling. If the multiplier calculation produces a figure above the standard cap but your claim does not meet the catastrophic injury definition, your noneconomic recovery is limited to that standard cap regardless.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
@@ -1391,21 +1465,26 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in Michigan</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Michigan does not maintain a public database of personal injury settlement values, and published verdict reporters capture only the small percentage of cases that go to trial. That said, pattern data from Michigan courts and attorney reporting provides general benchmarks.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Soft tissue injuries that clearly meet the serious impairment threshold — herniated discs with nerve involvement, rotator cuff tears requiring surgery — typically settle in the <strong style={{ color: '#E2E8F0' }}>$75,000 to $200,000</strong> range in noneconomic damages, depending on age, treatment duration, and jurisdiction. Moderate permanent injuries settle in the <strong style={{ color: '#E2E8F0' }}>$200,000 to $450,000</strong> range. Claims approaching the $596,400 standard cap involve significant, documented permanent impairment with strong medical support.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Catastrophic injuries involving paraplegia, quadriplegia, or permanent cognitive incapacity reach the elevated $1,065,000 cap in the strongest cases. Wayne County verdicts in catastrophic cases occasionally exceed even the elevated cap, though those awards are reduced to the statutory ceiling on post-verdict motions.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>These figures are reference points, not guarantees. Every Michigan personal injury claim turns on its own facts.</p>
+              <WorkedExample
+                toolLabel="pain and suffering settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={stateData.faultRuleExplanation}
+                calculatorHref="/pain-and-suffering-calculator/"
+              />
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Remember the noneconomic damage cap applies regardless of what a jury awards — even a verdict above the statutory ceiling is reduced to it on post-verdict motions.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[
                 {
                   id: 'mi-faq-1',
                   question: 'How is pain and suffering calculated in Michigan?',
-                  answer: 'Michigan attorneys and insurance adjusters use either the multiplier method or the per diem method. The multiplier method multiplies your total economic damages (medical bills plus lost wages) by a factor between 1.5 and 5, depending on injury severity and permanence. The per diem method assigns a daily dollar value to your suffering and multiplies it by the number of days affected. Both calculations are subject to Michigan\'s noneconomic damage cap of $596,400 for standard claims in 2026.',
-                  schemaAnswer: 'Michigan attorneys and insurance adjusters use either the multiplier method or the per diem method. The multiplier method multiplies your total economic damages (medical bills plus lost wages) by a factor between 1.5 and 5, depending on injury severity and permanence. The per diem method assigns a daily dollar value to your suffering and multiplies it by the number of days affected. Both calculations are subject to Michigan\'s noneconomic damage cap of $596,400 for standard claims in 2026.'
+                  answer: 'Michigan attorneys and insurance adjusters use either the multiplier method or the per diem method. The multiplier method multiplies your total economic damages (medical bills plus lost wages) by a factor between 1.5 and 5, depending on injury severity and permanence. The per diem method assigns a daily dollar value to your suffering and multiplies it by the number of days affected. Both calculations are subject to Michigan\'s noneconomic damage cap (MCL 600.1483), which adjusts annually for inflation — check the statute for the current figure.',
+                  schemaAnswer: 'Michigan attorneys and insurance adjusters use either the multiplier method or the per diem method: economic damages multiplied by 1.5-5x, or a daily rate multiplied by days affected. Both are subject to Michigan\'s noneconomic damage cap (MCL 600.1483), which adjusts annually for inflation.'
                 },
                 {
                   id: 'mi-faq-2',
@@ -1416,8 +1495,8 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
                 {
                   id: 'mi-faq-3',
                   question: 'Is there a cap on pain and suffering in Michigan?',
-                  answer: 'Yes. Michigan caps noneconomic damages at $596,400 for standard personal injury claims in 2026. An elevated cap of $1,065,000 applies to catastrophic injuries: paraplegia, quadriplegia, permanent cognitive incapacity, or permanent loss of a reproductive organ. Economic damages — medical bills, lost wages, future care costs — are not capped. The caps are adjusted annually based on the Consumer Price Index.',
-                  schemaAnswer: 'Yes. Michigan caps noneconomic damages at $596,400 for standard personal injury claims in 2026. An elevated cap of $1,065,000 applies to catastrophic injuries: paraplegia, quadriplegia, permanent cognitive incapacity, or permanent loss of a reproductive organ. Economic damages — medical bills, lost wages, future care costs — are not capped. The caps are adjusted annually based on the Consumer Price Index.'
+                  answer: 'Yes. Michigan caps noneconomic damages for standard personal injury claims under MCL 600.1483, with a separate elevated cap for catastrophic injuries: paraplegia, quadriplegia, permanent cognitive incapacity, or permanent loss of a reproductive organ. Both caps adjust annually based on the Consumer Price Index — check the statute for the current-year dollar figures rather than relying on a fixed number. Economic damages — medical bills, lost wages, future care costs — are not capped.',
+                  schemaAnswer: 'Yes. Michigan caps noneconomic damages under MCL 600.1483, with a higher cap for catastrophic injuries (paraplegia, quadriplegia, permanent cognitive incapacity, or permanent loss of a reproductive organ). Both adjust annually for inflation. Economic damages are not capped.'
                 },
                 {
                   id: 'mi-faq-4',
@@ -1483,12 +1562,18 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in Washington</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Washington does not maintain a public database of personal injury settlement values, and most cases resolve through private negotiation rather than public trial verdicts. Settlement amounts vary widely based on injury type, liability clarity, insurance policy limits, and venue.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>That said, observable ranges from reported verdicts and disclosed settlements provide a useful reference. Soft-tissue injuries — whiplash, minor ligament sprains, contusions — with full recovery typically resolve in the $15,000 to $60,000 range for non-economic damages. Moderate injuries requiring surgery or producing permanent partial impairment commonly reach $100,000 to $400,000. Catastrophic injuries — spinal cord damage, traumatic brain injury, severe burns — regularly produce seven-figure non-economic awards in Washington, particularly in King County.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>These figures are ranges, not guarantees. Your specific outcome depends on the facts of your case, your documentation, the applicable insurance limits, and whether the case resolves before or at trial. Use our <Link href="/pain-and-suffering-calculator/" style={{ color: '#60A5FA' }}>Pain and Suffering Calculator</Link> to generate an estimate based on your actual damages.</p>
+              <WorkedExample
+                toolLabel="pain and suffering settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={stateData.faultRuleExplanation}
+                calculatorHref="/pain-and-suffering-calculator/"
+              />
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Your specific outcome depends on the facts of your case, your documentation, the applicable insurance limits, and whether the case resolves before or at trial.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[
@@ -1549,8 +1634,8 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>For years, Colorado&apos;s noneconomic damage cap was among the most restrictive in the country. Before 2025, the general cap sat at $250,000 for most personal injury cases, with a difficult-to-obtain exception allowing courts to increase it to $500,000 upon clear and convincing evidence. Adjusted for inflation, those figures had reached approximately $642,180 and $1,284,370 respectively just before the new law took effect — but the underlying statutory ceiling had not meaningfully kept pace with the real cost of serious injuries.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>That changed with <strong style={{ color: '#E2E8F0' }}>HB 24-1472</strong>, signed by Governor Jared Polis in 2024 and effective January 1, 2025. For all civil actions <strong style={{ color: '#E2E8F0' }}>filed on or after January 1, 2025</strong>, the noneconomic damage cap jumped to <strong style={{ color: '#E2E8F0' }}>$1.5 million</strong> — a sixfold increase over the prior statutory floor. Starting January 1, 2028, the cap adjusts biennially for inflation, so it will never again fall behind the cost of living the way the old cap did.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The increase reflects what Colorado lawmakers acknowledged directly: the old caps had failed to keep pace with the real economic and human cost of catastrophic injuries. A victim who suffered a traumatic brain injury, spinal cord damage, or permanent disfigurement could previously recover only a fraction of what a jury determined their suffering was actually worth.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>For <strong style={{ color: '#E2E8F0' }}>medical malpractice</strong> claims, the cap structure is different and phases in more gradually under HB 24-1472. The noneconomic damages cap for med mal is <strong style={{ color: '#E2E8F0' }}>$530,000 for injuries occurring in 2026</strong> (rising from $415,000 in 2025), and it climbs incrementally to $875,000 by 2029, after which it too adjusts for inflation every two years.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>In <strong style={{ color: '#E2E8F0' }}>wrongful death</strong> cases arising from medical malpractice, the cap scales from $555,000 in 2025 to $1.575 million by 2029. For general wrongful death actions, HB 24-1472 sets a new cap of $2.125 million, also subject to biennial inflation adjustment from 2028.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>For <strong style={{ color: '#E2E8F0' }}>medical malpractice</strong> claims, the cap structure is different and lower — it phases in gradually under a separate schedule in HB 24-1472 rather than jumping straight to $1.5 million, then adjusts for inflation every two years once fully phased in. Check the bill text directly for the current-year dollar figure rather than relying on a fixed number, since it changes annually during the phase-in.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Wrongful death cases arising from medical malpractice follow that same lower, phased-in med-mal schedule. For general wrongful death actions (not medical malpractice), HB 24-1472 sets a separate, higher cap, also subject to biennial inflation adjustment from 2028.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>One important development reinforcing these changes came from the Colorado Supreme Court. In <strong style={{ color: '#E2E8F0' }}>Banner Health v. Gresser (23SC959)</strong>, decided October 20, 2025, the court affirmed that when a trial court makes a proper finding of good cause to exceed the Health Care Availability Act&apos;s $1 million total damages cap in a medical malpractice case, the court must rely on the jury&apos;s damages determination rather than substituting its own figure. The ruling secured a judgment exceeding $39 million — now over $50 million with interest — for a child who suffered catastrophic neurological injuries due to medical negligence. While Gresser addresses the HCAA&apos;s separate $1 million total cap rather than the general noneconomic cap, the decision reinforces the principle that jury determinations of damages carry significant legal weight in Colorado courts.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
@@ -1591,13 +1676,18 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in Colorado</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Settlement data in Colorado is not publicly reported in a standardized way, and the concept of an &quot;average&quot; settlement is genuinely misleading in personal injury contexts because case values vary enormously based on injury type, liability clarity, and available insurance coverage. That said, real-world Colorado verdicts and settlements provide useful reference points.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Soft-tissue car accident claims in Colorado — whiplash, minor back strains — typically settle in the range of $10,000 to $50,000 when the injuries resolved within a few months and medical bills are relatively modest. Moderate injuries with ongoing physical therapy and some lost wages commonly settle in the $75,000 to $250,000 range.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Serious injury cases — herniated discs requiring surgery, shoulder repairs, traumatic brain injuries — can produce settlements and verdicts in the $500,000 to $1.5 million range, particularly in Denver and Boulder where jury pools tend to award more generously. Catastrophic injury cases involving permanent disability, spinal cord damage, or injuries requiring lifelong care have reached seven figures under Colorado&apos;s new $1.5 million noneconomic cap, with economic damages adding substantially to those totals.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The 2025 cap increase means victims with serious permanent injuries who previously would have been limited to recovering $250,000 in noneconomic damages can now pursue their full noneconomic losses up to $1.5 million. That is a structural change in Colorado settlement leverage that benefits plaintiffs significantly.</p>
+              <WorkedExample
+                toolLabel="pain and suffering settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={stateData.faultRuleExplanation}
+                calculatorHref="/pain-and-suffering-calculator/"
+              />
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>The 2025 cap increase means victims with serious permanent injuries who previously would have been limited to a much lower noneconomic-damages ceiling can now pursue their full noneconomic losses up to $1.5 million. That is a structural change in Colorado settlement leverage that benefits plaintiffs significantly.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[
@@ -1610,14 +1700,14 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
                 {
                   id: 'co-faq-2',
                   question: 'What is the noneconomic damage cap in Colorado?',
-                  answer: 'For personal injury cases filed on or after January 1, 2025, the noneconomic damage cap in Colorado is $1.5 million under HB 24-1472. Medical malpractice claims are subject to a separate, lower cap that phases in gradually — $530,000 for injuries occurring in 2026, climbing to $875,000 by 2029. The general personal injury cap will be adjusted for inflation every two years starting in 2028.',
-                  schemaAnswer: 'For personal injury cases filed on or after January 1, 2025, the noneconomic damage cap in Colorado is $1.5 million under HB 24-1472. Medical malpractice claims are subject to a separate, lower cap that phases in gradually — $530,000 for injuries occurring in 2026, climbing to $875,000 by 2029. The general personal injury cap will be adjusted for inflation every two years starting in 2028.'
+                  answer: 'For personal injury cases filed on or after January 1, 2025, the noneconomic damage cap in Colorado is $1.5 million under HB 24-1472. Medical malpractice claims are subject to a separate, lower cap that phases in gradually under its own schedule — check the bill text for the current-year figure. The general personal injury cap will be adjusted for inflation every two years starting in 2028.',
+                  schemaAnswer: 'For personal injury cases filed on or after January 1, 2025, the noneconomic damage cap in Colorado is $1.5 million under HB 24-1472. Medical malpractice claims are subject to a separate, lower, gradually phased-in cap under the same bill.'
                 },
                 {
                   id: 'co-faq-3',
                   question: 'What changed with Colorado\'s damage cap in 2025?',
-                  answer: 'The Colorado General Assembly passed HB 24-1472 in the 2024 legislative session, and Governor Polis signed it into law effective January 1, 2025. The general noneconomic damage cap increased from $250,000 (with a hard-to-obtain $500,000 exception) to $1.5 million — a sixfold increase. The law also substantially increased the wrongful death cap to $2.125 million and began a phased increase of the medical malpractice noneconomic cap from $300,000 to $875,000 by 2029.',
-                  schemaAnswer: 'The Colorado General Assembly passed HB 24-1472 in the 2024 legislative session, and Governor Polis signed it into law effective January 1, 2025. The general noneconomic damage cap increased from $250,000 to $1.5 million — a sixfold increase. The law also substantially increased the wrongful death cap to $2.125 million and began a phased increase of the medical malpractice noneconomic cap to $875,000 by 2029.'
+                  answer: 'The Colorado General Assembly passed HB 24-1472 in the 2024 legislative session, and Governor Polis signed it into law effective January 1, 2025. The general noneconomic damage cap increased from $250,000 (with a hard-to-obtain $500,000 exception) to $1.5 million — a sixfold increase. The law also substantially increased the wrongful death cap and began a phased increase of the medical malpractice noneconomic cap under its own separate schedule.',
+                  schemaAnswer: 'The Colorado General Assembly passed HB 24-1472 in the 2024 legislative session, effective January 1, 2025. The general noneconomic damage cap increased from $250,000 to $1.5 million. The law also increased the wrongful death cap and began a phased increase of the medical malpractice noneconomic cap.'
                 },
                 {
                   id: 'co-faq-4',
@@ -1646,8 +1736,6 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <div data-ad-slot="PS_STATE_AD_TOP" aria-hidden="true" />
-
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Pain and Suffering Damages Under Nevada Law</h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Nevada law allows injured victims to recover noneconomic damages for the physical pain, emotional distress, mental anguish, and diminished quality of life caused by another party&apos;s negligence. These damages are separate from economic damages such as medical bills, lost wages, and future care costs.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Unlike some states that impose blanket caps on noneconomic damages across all personal injury claims, Nevada takes a targeted approach. For most personal injury cases — car accidents, slip and falls, premises liability, product liability — there is <strong style={{ color: '#E2E8F0' }}>no statutory cap on pain and suffering</strong>. Juries in Clark County, Washoe County, and across Nevada have broad discretion to award noneconomic damages that reflect the full impact of your injuries on your daily life.</p>
@@ -1673,7 +1761,6 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <div data-ad-slot="PS_STATE_AD_MID" aria-hidden="true" />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Nevada Modified Comparative Fault</h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Nevada follows a <strong style={{ color: '#E2E8F0' }}>modified comparative fault system with a 51% bar</strong>, codified in NRS 41.141. Under this rule, your compensation is reduced by your percentage of fault for the accident. If you are found 30% at fault for a car accident, a $100,000 award is reduced to $70,000.</p>
@@ -1694,21 +1781,23 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Nevada Statute of Limitations</h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Under NRS 11.190(4)(e), Nevada imposes a <strong style={{ color: '#E2E8F0' }}>2-year statute of limitations</strong> on personal injury claims. The clock starts on the date of the accident or, in some cases, the date you discovered the injury. Missing this deadline permanently bars your claim.</p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Medical malpractice claims carry the same 2-year period but apply a discovery rule — the clock begins when you discovered or reasonably should have discovered the negligence, subject to an outer limit.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Claims against <strong style={{ color: '#E2E8F0' }}>Nevada government entities</strong> operate under a separate and shorter deadline. Under NRS 41.036, you must file a written notice of claim with the relevant government agency within <strong style={{ color: '#E2E8F0' }}>6 months</strong> of the injury before you can file a lawsuit. Failing to submit this notice on time destroys your right to sue the government — it is not a soft deadline. This applies to injuries on public property, accidents involving government vehicles, and claims against state or county agencies.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If your injury involves any government-owned property, facility, or vehicle — including Clark County School District premises, Nevada DOT road conditions, or a city-operated bus — treat the 6-month notice deadline as your primary filing date.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Claims against <strong style={{ color: '#E2E8F0' }}>Nevada government entities</strong> also require written notice. Under NRS 41.036, you must file a written notice of claim with the relevant government agency within <strong style={{ color: '#E2E8F0' }}>2 years</strong> of the injury before you can file a lawsuit. Failing to submit this notice on time destroys your right to sue the government — it is not a soft deadline. This applies to injuries on public property, accidents involving government vehicles, and claims against state or county agencies.</p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>If your injury involves any government-owned property, facility, or vehicle — including Clark County School District premises, Nevada DOT road conditions, or a city-operated bus — the same 2-year notice deadline applies, so treat it with the same urgency as the general statute of limitations.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in Nevada</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Settlement values in Nevada vary widely based on injury type, liability clarity, available insurance, and venue. The figures below reflect general market ranges observed in Nevada personal injury cases and are not guarantees of any individual outcome.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Soft tissue injuries — sprains, strains, and whiplash — with full recovery typically resolve in the $10,000 to $50,000 range for pain and suffering. Moderate injuries requiring surgery, such as a herniated disc with discectomy or a fractured bone with hardware, commonly produce pain and suffering awards between $75,000 and $200,000.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Severe injuries with permanent impairment — traumatic brain injuries, spinal cord injuries, and amputations — routinely produce noneconomic awards exceeding $500,000, particularly in Clark County. Wrongful death claims in Nevada can produce multi-million-dollar pain and suffering awards for surviving family members.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Las Vegas premises liability cases against large commercial defendants — casinos, hotels, entertainment venues — often resolve at the higher end of applicable ranges given the institutional defendants&apos; policy limits and reputational sensitivity to litigation.</p>
+              <WorkedExample
+                toolLabel="pain and suffering settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={stateData.faultRuleExplanation}
+                calculatorHref="/pain-and-suffering-calculator/"
+              />
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>For context on how Nevada compares to neighboring states, see our <Link href="/pain-and-suffering-calculator/california/" style={{ color: '#60A5FA' }}>California pain and suffering calculator</Link>.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <div data-ad-slot="PS_STATE_AD_BOTTOM" aria-hidden="true" />
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[
@@ -1733,8 +1822,8 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
                 {
                   id: 'nv-faq-4',
                   question: 'What is the statute of limitations for personal injury in Nevada?',
-                  answer: 'Two years from the date of injury for most personal injury claims under NRS 11.190(4)(e). Claims against government entities require a written notice of claim within 6 months of the injury before a lawsuit can be filed. Both deadlines are absolute — missing either one permanently ends your case.',
-                  schemaAnswer: 'Two years from the date of injury for most personal injury claims under NRS 11.190(4)(e). Claims against government entities require a written notice of claim within 6 months of the injury before a lawsuit can be filed. Both deadlines are absolute — missing either one permanently ends your case.'
+                  answer: 'Two years from the date of injury for most personal injury claims under NRS 11.190(4)(e). Claims against government entities also require a written notice of claim within 2 years of the injury (NRS 41.036) before a lawsuit can be filed. Both deadlines are absolute — missing either one permanently ends your case.',
+                  schemaAnswer: 'Two years from the date of injury for most personal injury claims under NRS 11.190(4)(e). Claims against government entities also require a written notice of claim within 2 years of the injury (NRS 41.036) before a lawsuit can be filed.'
                 },
                 {
                   id: 'nv-faq-5',
@@ -1792,12 +1881,18 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Average Pain and Suffering Settlements in Arizona</h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>There is no published average for pain and suffering settlements in Arizona because most settlements are private. That said, attorneys and claims data suggest general ranges by injury category.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Minor soft-tissue injuries — strains, sprains, whiplash without structural damage — typically settle in the range of $5,000 to $35,000 in total damages, with pain and suffering representing a portion of that. Moderate injuries involving herniated discs, fractures, or surgeries commonly settle between $50,000 and $200,000. Serious injuries with permanent impairment, chronic pain, or significant loss of function regularly produce settlements above $200,000, and catastrophic cases in Maricopa County have resulted in verdicts and settlements exceeding $1 million.</p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>Arizona&apos;s plaintiff-friendly legal environment — no damage caps, pure comparative fault, and an active plaintiff bar in Phoenix and Tucson — means settlements here tend to run higher than in comparable states. For a state-by-state comparison, review the <Link href="/pain-and-suffering-calculator/california/" style={{ color: '#60A5FA' }}>California pain and suffering calculator</Link> page, which uses a different fault framework and shows how legal rules shift settlement values.</p>
+              <WorkedExample
+                toolLabel="pain and suffering settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={stateData.faultRuleExplanation}
+                calculatorHref="/pain-and-suffering-calculator/"
+              />
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>For a state-by-state comparison, review the <Link href="/pain-and-suffering-calculator/california/" style={{ color: '#60A5FA' }}>California pain and suffering calculator</Link> page, which uses a different fault framework and shows how legal rules shift settlement values.</p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>Frequently Asked Questions</h2>
               <FAQAccordion faqs={[

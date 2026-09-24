@@ -8,7 +8,7 @@
 //   • LAST_REVIEWED stamp under the H1 — one-line edit to re-date the page
 //   • Article + FAQPage JSON-LD inline; BreadcrumbList comes from the
 //     BreadcrumbNav component's microdata (Home -> Blog -> post)
-//   • data-ad-slot containers matching the state-page ad pattern
+//   • No manual ad slots (Auto Ads only, per 2026-09-23 cleanup)
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata } from 'next'
@@ -204,8 +204,6 @@ export default function PPDSettlementCalculatorGuidePost() {
 
             <hr style={ruleStyle} />
 
-            <div data-ad-slot="BLOG_POST_AD_TOP" aria-hidden="true" />
-
             <h2 className="heading-gradient" style={h2Style}>Why the Same Injury Pays Differently by State</h2>
             <p style={bodyStyle}>You might suffer the exact same injury as someone in a neighboring state and walk away with a vastly different settlement amount. State borders dictate the entire financial value of a workers compensation claim, because the main variables in the standard formula change completely the moment you cross a state line.</p>
             <p style={bodyStyle}>State legislatures assign completely different statutory weeks for the exact same body parts. One state legislature might value an arm at 220 weeks, while a neighboring state might value that exact same arm at 312 weeks. The maximum weekly compensation rates also vary wildly across the country. High cost-of-living states often set high maximum weekly caps to protect workers, whereas other states keep those weekly wage caps relatively low. A high earner in a low-cap state loses a significant portion of their potential settlement value. You can see how these differences compound when you run your personal numbers through a general <Link href="/workers-comp-settlement-calculator/" style={linkStyle}>workers comp settlement calculator</Link>.</p>
@@ -229,8 +227,6 @@ export default function PPDSettlementCalculatorGuidePost() {
             <p style={bodyStyle}>Apportionment frequently reduces settlements for older workers with a long medical history. If you have a pre-existing condition in the exact same body part, the doctor must separate the old impairment from the new impairment. The insurance company will only pay for the exact percentage of disability directly caused by the workplace accident.</p>
 
             <hr style={ruleStyle} />
-
-            <div data-ad-slot="BLOG_POST_AD_MID" aria-hidden="true" />
 
             <h2 className="heading-gradient" style={h2Style}>FAQ</h2>
 

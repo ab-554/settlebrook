@@ -68,9 +68,9 @@ const MAIN_PAGE_FAQS: FAQItem[] = [
     id: 'do-i-need-a-lawyer',
     question: 'Do I need a lawyer to get pain and suffering damages?',
     answer:
-      'You are not legally required to hire an attorney, but studies consistently show that injury victims with legal representation receive higher settlements — often 3–4x higher — even after attorney fees. Insurance companies have professional adjusters trained to minimize payouts. Most personal injury attorneys work on contingency (no upfront fees — they take a percentage only if you win).',
+      'You are not legally required to hire an attorney. An attorney can negotiate on your behalf, identify additional insurance coverage, and take a case to trial if the insurer won\'t offer a fair number — leverage you don\'t have negotiating alone. That value has to be weighed against contingency fees, which are typically a third of the settlement. Insurance companies have professional adjusters trained to minimize payouts, so the decision deserves serious thought before you negotiate alone.',
     schemaAnswer:
-      'You are not required to hire an attorney, but represented victims typically receive 3–4x higher settlements even after fees. Insurance companies employ professional adjusters trained to minimize payouts. Most personal injury attorneys work on contingency — no upfront fees.',
+      'You are not required to hire an attorney, but an attorney provides negotiating leverage, can identify additional coverage, and can take a case to trial — weighed against a contingency fee, typically a third of the settlement.',
   },
   {
     id: 'how-long-to-settle',
@@ -127,9 +127,9 @@ const CALIFORNIA_FAQS: FAQItem[] = [
     id: 'ca-damage-cap',
     question: 'Does California cap pain and suffering damages?',
     answer:
-      'No — California does not cap non-economic damages for general personal injury cases. You can recover unlimited pain and suffering damages in a car accident, slip and fall, or premises liability case. The only damage cap in California applies to medical malpractice cases under MICRA, which was raised to $350,000 in 2023.',
+      'No — California does not cap non-economic damages for general personal injury cases. You can recover unlimited pain and suffering damages in a car accident, slip and fall, or premises liability case. The only damage cap in California applies to medical malpractice cases under MICRA, which started at $350,000 in 2023 and rises $40,000 every January 1 under a statutory schedule — check the current-year figure rather than relying on a fixed number.',
     schemaAnswer:
-      'California does not cap non-economic damages for general personal injury cases. A $350,000 cap applies only to medical malpractice cases under MICRA.',
+      'California does not cap non-economic damages for general personal injury cases. A cap applies only to medical malpractice cases under MICRA, which rises annually under a statutory schedule.',
   },
   {
     id: 'ca-statute-of-limitations',

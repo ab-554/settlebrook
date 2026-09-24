@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   // FIX H6: brand suffix removed — template adds "| Settlebrook" automatically
   title: "Terms of Use",
   description:
-    "SettleBrook terms of use. Our calculators provide estimates only — not legal advice. Read our full terms including disclaimer, acceptable use, and governing law.",
+    "Settlebrook terms of use. Our calculators provide estimates only — not legal advice. Read our full terms including disclaimer, acceptable use, and governing law.",
   alternates: { canonical: "/terms-of-use/" },
   robots: { index: true, follow: true },
   openGraph: {
     title: "Terms of Use | Settlebrook",
     description:
-      "Read SettleBrook's terms of use. Settlement calculators provide estimates only, not legal advice.",
+      "Read Settlebrook's terms of use. Settlement calculators provide estimates only, not legal advice.",
     url: "/terms-of-use/",
     siteName: "Settlebrook",
     type: "website",
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
   },
 };
 
-const LAST_UPDATED = "January 1, 2025";
-const EFFECTIVE_DATE = "January 1, 2025";
+const LAST_UPDATED = "September 23, 2026";
+const EFFECTIVE_DATE = "September 23, 2026";
 
 export default function TermsOfUsePage() {
   return (
@@ -75,27 +75,17 @@ export default function TermsOfUsePage() {
           </div>
         </section>
 
-        {/* AD_SLOT_TOP */}
-        <div
-          id="AD_SLOT_TOP"
-          className="w-full flex justify-center py-3"
-          style={{ backgroundColor: 'rgba(13,21,38,0.6)', borderBottom: '1px solid rgba(99,179,237,0.08)' }}
-          aria-hidden="true"
-        >
-          {/* AdSense leaderboard 728×90 / responsive */}
-        </div>
-
       <article className="max-w-3xl mx-auto px-6 sm:px-8 py-14 flex flex-col gap-10">
 
         {/* Header */}
         <header>
           <p className="text-sm flex gap-5 mb-6" style={{ color: "#64748B" }}>
-            <span>Effective: <time dateTime="2025-01-01">{EFFECTIVE_DATE}</time></span>
-            <span>Last updated: <time dateTime="2025-01-01">{LAST_UPDATED}</time></span>
+            <span>Effective: <time dateTime="2026-09-23">{EFFECTIVE_DATE}</time></span>
+            <span>Last updated: <time dateTime="2026-09-23">{LAST_UPDATED}</time></span>
           </p>
           <p className="mt-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
             These Terms of Use (&ldquo;Terms&rdquo;) govern your access to and use of the
-            SettleBrook website located at{" "}
+            Settlebrook website located at{" "}
             <Link href="/" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
               settlebrook.com
             </Link>{" "}
@@ -118,7 +108,7 @@ export default function TermsOfUsePage() {
           <div className="flex flex-col gap-3 text-sm leading-relaxed" style={{ color: "#94A3B8" }}>
             <p>
               <strong style={{ color: "#F1F5F9" }}>
-                SettleBrook is not a law firm. We do not provide legal advice. Nothing
+                Settlebrook is not a law firm. We do not provide legal advice. Nothing
                 on this Site — including calculator outputs, articles, guides, or any
                 other content — constitutes legal advice, legal opinion, or a
                 prediction of any legal outcome.
@@ -127,7 +117,7 @@ export default function TermsOfUsePage() {
             <p>
               All calculator results are estimates based on general industry formulas
               and publicly documented benchmarks. They are provided for educational
-              and informational purposes only. No output from any SettleBrook tool
+              and informational purposes only. No output from any Settlebrook tool
               should be used as the sole basis for any legal, financial, or
               settlement decision.
             </p>
@@ -162,7 +152,7 @@ export default function TermsOfUsePage() {
               have authority to bind that organization to these Terms.
             </p>
             <p>
-              These Terms constitute the entire agreement between you and SettleBrook
+              These Terms constitute the entire agreement between you and Settlebrook
               with respect to your use of the Site and supersede all prior or
               contemporaneous agreements. We reserve the right to modify these Terms
               at any time. Material changes will be reflected in an updated &ldquo;Last
@@ -171,11 +161,6 @@ export default function TermsOfUsePage() {
             </p>
           </div>
         </section>
-
-        {/* AD_SLOT_MID */}
-        <div id="AD_SLOT_MID" className="w-full flex justify-center py-4" aria-hidden="true">
-          {/* AdSense in-content responsive */}
-        </div>
 
         {/* 3. No Liability */}
         <section aria-labelledby="liability-heading">
@@ -207,7 +192,7 @@ export default function TermsOfUsePage() {
               damages, so some of the above may not apply to you.
             </p>
             <p>
-              SettleBrook does not guarantee the accuracy, completeness, or
+              Settlebrook does not guarantee the accuracy, completeness, or
               timeliness of any content on the Site. Laws, regulations, and settlement
               practices change. Content may be out of date. You use the Site at your
               own risk.
@@ -224,8 +209,8 @@ export default function TermsOfUsePage() {
           <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
             <p>
               All content on the Site — including text, calculator logic, code,
-              design elements, graphics, and the &ldquo;SettleBrook&rdquo; name and any associated
-              marks — is owned by or licensed to SettleBrook and is protected by U.S.
+              design elements, graphics, and the &ldquo;Settlebrook&rdquo; name and any associated
+              marks — is owned by or licensed to Settlebrook and is protected by U.S.
               copyright, trademark, and other intellectual property laws.
             </p>
             <p>
@@ -285,7 +270,7 @@ export default function TermsOfUsePage() {
               The Site may contain links to third-party websites and may display
               third-party advertisements through Google AdSense. These third-party
               sites and advertisers operate under their own terms and privacy policies.
-              SettleBrook does not endorse, control, or assume responsibility for
+              Settlebrook does not endorse, control, or assume responsibility for
               any third-party content, products, or services. Your interactions with
               any third party are solely between you and that third party.
             </p>
@@ -363,7 +348,7 @@ export default function TermsOfUsePage() {
             <p>Questions about these Terms should be directed to:</p>
             <div className="rounded-xl p-4 text-sm flex flex-col gap-1"
               style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(99,179,237,0.15)" }}>
-              <p className="font-semibold" style={{ color: "#F1F5F9" }}>SettleBrook</p>
+              <p className="font-semibold" style={{ color: "#F1F5F9" }}>Settlebrook</p>
               <p>Email:{" "}
                 <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
                   contact@settlebrook.com
@@ -379,16 +364,6 @@ export default function TermsOfUsePage() {
         </section>
 
       </article>
-
-      {/* AD_SLOT_BOTTOM */}
-      <div
-        id="AD_SLOT_BOTTOM"
-        className="w-full flex justify-center py-3"
-        style={{ backgroundColor: "rgba(13,21,38,0.6)", borderTop: "1px solid rgba(99,179,237,0.08)" }}
-        aria-hidden="true"
-      >
-        {/* AdSense leaderboard 728×90 / responsive */}
-      </div>
 
     </main>
   );

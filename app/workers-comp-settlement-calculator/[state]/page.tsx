@@ -22,16 +22,22 @@ import WorkersCompCalculator from '@/components/calculator/WorkersCompCalculator
 import FAQAccordion from '@/components/seo/FAQAccordion'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
+import WorkedExampleWorkersComp from '@/components/seo/WorkedExampleWorkersComp'
+import SourcesSection from '@/components/seo/SourcesSection'
 import {
   getWorkersCompStateBySlug,
   getAllWorkersCompStateSlugs,
   WORKERS_COMP_STATES,
+  NOINDEXED_WORKERS_COMP_SLUGS,
+  NON_GENERIC_PPD_SLUGS,
 } from '@/lib/data/workersCompStates'
 import { WORKERS_COMP_FAQS, buildWorkersCompFAQSchema } from '@/lib/data/workersCompFaqs'
+import sourcesData from '@/lib/data/sources.json'
 
 // E-E-A-T review stamp. Bump this one string when state law is re-verified
 // - it stamps every state page generated from this template.
-const LAST_REVIEWED = 'August 2026'
+// Updated 2026-09-24: legal accuracy sprint touched every state's content.
+const LAST_REVIEWED = 'September 2026'
 
 // ─── Static params ─────────────────────────────────────────────────────────────
 
@@ -86,7 +92,11 @@ export async function generateMetadata({
       description,
       images: ['/og-image.png'],
     },
-    robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+    // Tier 3 stub states are noindexed until they get real state-specific
+    // editorial content — see NOINDEXED_WORKERS_COMP_SLUGS in workersCompStates.ts.
+    robots: NOINDEXED_WORKERS_COMP_SLUGS.has(stateData.slug)
+      ? { index: false, follow: true, googleBot: { index: false, follow: true } }
+      : { index: true, follow: true, googleBot: { index: true, follow: true } },
   }
 }
 
@@ -108,14 +118,6 @@ function SideCard({ children }: { children: React.ReactNode }) {
   )
 }
 
-// ─── Empty ad slot container — no visible text, data-ad-slot for future AdSense ──
-
-function AdSlot({ id }: { id: string }) {
-  return (
-    <div id={id} data-ad-slot={id} aria-hidden="true" />
-  )
-}
-
 // ─── Page Component ───────────────────────────────────────────────────────────
 
 export default async function StateWorkersCompPage({ params }: { params: Promise<{ state: string }> }) {
@@ -123,6 +125,9 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
   const { state } = await params
   const stateData = getWorkersCompStateBySlug(state)
   if (!stateData) notFound()
+
+  const stateSources =
+    (sourcesData['workers-comp'] as Record<string, { label: string; url: string; supports: string; tier: 'primary' | 'secondary' }[]>)[stateData.slug] ?? []
 
   const canonicalUrl = `/workers-comp-settlement-calculator/${stateData.slug}/`
 
@@ -214,10 +219,12 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 {(stateData.benefitRate * 100).toFixed(1)}% Benefit Rate
               </span>
               <span className="state-badge state-badge-muted">
-                ${stateData.weeklyCapAmount.toLocaleString()}/wk Cap ({stateData.weeklyCapYear})
+                ${stateData.weeklyCapAmount.toLocaleString()}/wk Cap ({stateData.weeklyCapEffectivePeriod})
               </span>
               <span className="state-badge state-badge-blue">
-                {stateData.ppdMethod === 'ama_schedule' ? 'AMA Scheduled Weeks' : 'Percentage of Person'}
+                {NON_GENERIC_PPD_SLUGS.has(stateData.slug)
+                  ? `${stateData.name}'s Own PPD Schedule`
+                  : stateData.ppdMethod === 'ama_schedule' ? 'AMA Scheduled Weeks' : 'Percentage of Person'}
               </span>
               <span className="state-badge state-badge-muted">
                 Max TTD: {stateData.maxWeeksTTD} Weeks
@@ -228,8 +235,6 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
         {/* ── MAIN CONTENT ── */}
         <div className="max-w-7xl mx-auto px-6 sm:px-8 py-8 sm:py-12">
-          
-          <AdSlot id="WC_STATE_AD_TOP" />
 
           {/* Texas non-subscriber warning box */}
           {stateData.hasNonSubscriberSystem && (
@@ -349,8 +354,6 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
             </aside>
           </div>
 
-          <AdSlot id="WC_STATE_AD_MID" />
-
           {/* ── STATE-SPECIFIC EDITORIAL CONTENT ── */}
           {stateData.slug === 'california' ? (
             <article style={{ margin: '0 auto' }}>
@@ -388,7 +391,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 When an authorized treating physician places you completely off work to heal, Temporary Total Disability (TTD) benefits step in to keep your household afloat. Under California Labor Code formulas, your weekly tax-free check equals exactly 66.67% (two-thirds) of your pre-tax Average Weekly Wage (AWW). Your baseline AWW is established by calculating your total gross earnings during the exact 52 weeks immediately preceding your injury date, which includes overtime pay, production bonuses, shift differentials, and verifiable wages from second jobs.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                To maintain economic balance, the California Department of Industrial Relations enforces statutory income floors and ceilings. For workplace injuries occurring in 2026, your weekly TTD benefit is strictly capped at a maximum of <strong style={{ color: '#E2E8F0' }}>$1,619 per week</strong>. Consider a real dollar example: if you earned $1,800 per week as a union ironworker before shattering your ankle, two-thirds of your wage equals $1,200. Because this amount falls below the state threshold, you will receive $1,200 every week. However, if you earned $3,000 per week as a specialized commercial pilot, two-thirds of your wage equals $2,000. Because this calculated figure exceeds the statutory ceiling, your actual payments will be restricted to the $1,619 weekly cap. Under state law, TTD payments are legally restricted to a maximum duration of <strong style={{ color: '#E2E8F0' }}>104 weeks within a five-year window</strong> from your injury date.
+                To maintain economic balance, the California Department of Industrial Relations enforces statutory income floors and ceilings. For workplace injuries occurring in 2026, your weekly TTD benefit is strictly capped at a maximum of <strong style={{ color: '#E2E8F0' }}>${stateData.weeklyCapAmount.toLocaleString()} per week</strong> ({stateData.weeklyCapEffectivePeriod}). Consider a real dollar example: if you earned $1,800 per week as a union ironworker before shattering your ankle, two-thirds of your wage equals $1,200. Because this amount falls below the state threshold, you will receive $1,200 every week. However, if you earned $3,000 per week as a specialized commercial pilot, two-thirds of your wage equals $2,000. Because this calculated figure exceeds the statutory ceiling, your actual payments will be restricted to the ${stateData.weeklyCapAmount.toLocaleString()} weekly cap. Under state law, TTD payments are legally restricted to a maximum duration of <strong style={{ color: '#E2E8F0' }}>104 weeks within a five-year window</strong> from your injury date.
               </p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
@@ -453,24 +456,15 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              {/* ── Average Settlements ── */}
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Average Workers&apos; Comp Settlements in California
-              </h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Because permanent impairment scores, pre-injury wage histories, and future medical allocations vary wildly from person to person, there is no single universal settlement average. However, historical claims data across the California Department of Industrial Relations provides reliable financial benchmarks based on injury severity.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                <strong style={{ color: '#E2E8F0' }}>Minor workplace injuries</strong> involving straightforward soft-tissue sprains, simple lacerations, or minor concussions that resolve fully within a few months without residual impairment typically resolve for lump-sum C&amp;R amounts ranging between <strong style={{ color: '#FBBF24' }}>$5,000 and $20,000</strong>.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                <strong style={{ color: '#E2E8F0' }}>Moderate occupational injuries</strong> requiring arthroscopic surgical intervention, such as torn rotator cuffs, meniscus tears, or single-level herniated discs that result in permanent disability ratings between 15% and 30%, generally yield settlement packages between <strong style={{ color: '#FBBF24' }}>$40,000 and $90,000</strong>.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                <strong style={{ color: '#E2E8F0' }}>Catastrophic workplace traumas</strong> involving multi-level spinal fusions, traumatic brain injuries, severe crushing fractures, or occupational amputations carrying disability ratings above 70% command substantial six-figure settlements regularly ranging between <strong style={{ color: '#FBBF24' }}>$250,000 and $500,000</strong> or more when factoring in substantial future lifetime medical care allocations.
-              </p>
+              <WorkedExampleWorkersComp
+                stateSlug={stateData.slug}
+                stateName={stateData.name}
+                calculatorHref="/workers-comp-settlement-calculator/"
+              />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               {/* ── FAQ ── */}
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
@@ -486,8 +480,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 {
                   id: 'wc-ca-faq-2',
                   question: 'What is the maximum workers comp settlement in California?',
-                  answer: 'There is no statutory maximum dollar cap on a total workers\u2019 compensation settlement in California. While temporary disability weekly paychecks are strictly capped at $1,619 per week for 2026 injuries, overall settlement values depend entirely on your final permanent disability rating percentage and the projected lifetime cost of your medical care. Workers who suffer 100% total permanent disability qualify for lifetime bi-weekly pension payments that can accumulate to well over $1 million.',
-                  schemaAnswer: 'There is no statutory maximum dollar cap on a total workers\u2019 compensation settlement in California. While temporary disability weekly paychecks are strictly capped at $1,619 per week for 2026 injuries, overall settlement values depend entirely on your final permanent disability rating percentage and the projected lifetime cost of your medical care. Workers who suffer 100% total permanent disability qualify for lifetime bi-weekly pension payments that can accumulate to well over $1 million.',
+                  answer: `There is no statutory maximum dollar cap on a total workers\u2019 compensation settlement in California. While temporary disability weekly paychecks are strictly capped at $${stateData.weeklyCapAmount.toLocaleString()} per week (${stateData.weeklyCapEffectivePeriod}), overall settlement values depend entirely on your final permanent disability rating percentage and the projected lifetime cost of your medical care. Workers who suffer 100% total permanent disability qualify for lifetime bi-weekly pension payments that can accumulate to well over $1 million.`,
+                  schemaAnswer: `There is no statutory maximum dollar cap on a total workers\u2019 compensation settlement in California. Temporary disability weekly paychecks are capped at $${stateData.weeklyCapAmount.toLocaleString()} per week (${stateData.weeklyCapEffectivePeriod}). Overall settlement values depend on your permanent disability rating and projected lifetime medical costs.`,
                 },
                 {
                   id: 'wc-ca-faq-3',
@@ -567,7 +561,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 The state strictly limits what you can recover. Your TTD benefit rate is <strong style={{ color: '#E2E8F0' }}>70 percent</strong> of your Average Weekly Wage (AWW) for the first 26 weeks of your disability. If your lost wages extend beyond that six-month mark, your benefit shifts to 75 percent of your spendable income.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Let&apos;s put concrete math to this statute. Suppose you are an electrician earning $1,400 a week. For the first 26 weeks of your recovery, the insurance company will pay you 70 percent of that wage, which equals <strong style={{ color: '#FBBF24' }}>$980 per week</strong>. You must also factor in the state-mandated caps. For injuries occurring in 2026, the maximum weekly benefit is <strong style={{ color: '#FBBF24' }}>$1,066</strong>. Because your $980 calculation falls below the maximum cap, you receive your full calculated rate. If you were earning $2,000 a week, your 70 percent calculation would be $1,400, but the insurance company would legally cap your checks at exactly $1,066 per week.
+                Let&apos;s put concrete math to this statute. Suppose you are an electrician earning $1,400 a week. For the first 26 weeks of your recovery, the insurance company will pay you 70 percent of that wage, which equals <strong style={{ color: '#FBBF24' }}>$980 per week</strong>. You must also factor in the state-mandated caps. For the current period ({stateData.weeklyCapEffectivePeriod}), the maximum weekly benefit is <strong style={{ color: '#FBBF24' }}>${stateData.weeklyCapAmount.toLocaleString()}</strong>. Because your $980 calculation falls below the maximum cap, you receive your full calculated rate. If you were earning $2,000 a week, your 70 percent calculation would be $1,400, but the insurance company would legally cap your checks at exactly ${stateData.weeklyCapAmount.toLocaleString()} per week.
               </p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
@@ -583,7 +577,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 Once you reach MMI, a certified doctor will evaluate your permanent physical damage using the AMA Guides to the Evaluation of Permanent Impairment. The doctor assigns you an impairment rating, represented as a strict percentage. This single number dictates the entire value of your Texas workers&apos; comp permanent disability settlement.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Texas law mandates that you receive exactly <strong style={{ color: '#E2E8F0' }}>three weeks</strong> of Texas IIB benefits for every single percentage point of your impairment rating. These benefits are paid at 70 percent of your Average Weekly Wage, strictly capped at $1,066 per week.
+                Texas law mandates that you receive exactly <strong style={{ color: '#E2E8F0' }}>three weeks</strong> of Texas IIB benefits for every single percentage point of your impairment rating. These benefits are paid at 70 percent of your Average Weekly Wage, strictly capped at ${stateData.weeklyCapAmount.toLocaleString()} per week ({stateData.weeklyCapEffectivePeriod}).
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
                 Let&apos;s look at how a seemingly small rating translates into concrete settlement dollars. Imagine you suffered a severe back injury, and your pre-injury AWW was $1,500. Your IIB rate is 70 percent of your AWW, which equals <strong style={{ color: '#FBBF24' }}>$1,050 per week</strong>. After a spinal fusion surgery, the doctor assigns you a 15 percent impairment rating.
@@ -682,21 +676,24 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              {/* ── Average Settlements ── */}
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Average Settlements
+                Subscriber vs. Non-Subscriber Outcomes
               </h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Because of the dual system, average settlement values look wildly different depending on your employer&apos;s insurance status.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                For <strong style={{ color: '#E2E8F0' }}>subscribers</strong>, the system is designed to be a rigid math equation rather than a windfall. A moderate injury like a torn meniscus or a simple fracture usually results in a Texas workers&apos; comp settlement ranging from <strong style={{ color: '#FBBF24' }}>$15,000 to $35,000</strong> in IIB payouts, plus the coverage of the surgery. Severe injuries involving spinal fusions or joint replacements can push IIB settlements into the <strong style={{ color: '#FBBF24' }}>$60,000 to $90,000</strong> range.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                For <strong style={{ color: '#E2E8F0' }}>non-subscribers</strong>, the sky is the limit. Because civil juries can award massive pain and suffering damages, non-subscriber settlements frequently exceed <strong style={{ color: '#FBBF24' }}>$100,000</strong> for moderate injuries and regularly cross the million-dollar threshold for severe, life-altering negligence cases.
+                Because of the dual system, outcomes look structurally different depending on your employer&apos;s insurance status. For <strong style={{ color: '#E2E8F0' }}>subscribers</strong>, the system runs on the statutory formula above — a rigid math equation rather than a windfall. For <strong style={{ color: '#E2E8F0' }}>non-subscribers</strong>, your claim is a personal injury lawsuit instead, where a civil jury can award pain and suffering damages the workers&apos; comp formula never includes.
               </p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <WorkedExampleWorkersComp
+                stateSlug={stateData.slug}
+                stateName={stateData.name}
+                calculatorHref="/workers-comp-settlement-calculator/"
+              />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               {/* ── FAQ ── */}
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
@@ -784,7 +781,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 In the immediate aftermath of your accident, your primary concern is replacing your missing paycheck. If your authorized treating physician states you cannot perform any work whatsoever while you heal, you are entitled to Temporary Total Disability benefits. The math here is strictly defined by statute: your TTD checks will equal <strong style={{ color: '#E2E8F0' }}>66.67 percent</strong> of your Average Weekly Wage.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Let&apos;s look at a concrete example. If you earn an average of $1,200 per week as a heavy machinery operator in Jacksonville, your weekly TTD check will be <strong style={{ color: '#FBBF24' }}>$800</strong>. The state does impose a hard ceiling on these wages. For injuries occurring in 2026, the absolute maximum weekly TTD rate is <strong style={{ color: '#FBBF24' }}>$1,197</strong>. Even if you are a high-earning executive making $4,000 a week, your weekly workers&apos; comp check cannot exceed that statutory $1,197 cap. Furthermore, the insurance company will not pay you these temporary benefits forever. Florida law strictly limits TTD payments to a maximum of <strong style={{ color: '#E2E8F0' }}>104 weeks</strong>. Once you hit that two-year mark of temporary benefits, the checks stop, regardless of whether you have fully recovered.
+                Let&apos;s look at a concrete example. If you earn an average of $1,200 per week as a heavy machinery operator in Jacksonville, your weekly TTD check will be <strong style={{ color: '#FBBF24' }}>$800</strong>. The state does impose a hard ceiling on these wages. For the current period ({stateData.weeklyCapEffectivePeriod}), the absolute maximum weekly TTD rate is <strong style={{ color: '#FBBF24' }}>${stateData.weeklyCapAmount.toLocaleString()}</strong>. Even if you are a high-earning executive making $4,000 a week, your weekly workers&apos; comp check cannot exceed that statutory cap. Furthermore, the insurance company will not pay you these temporary benefits forever. Florida law strictly limits TTD payments to a maximum of <strong style={{ color: '#E2E8F0' }}>104 weeks</strong>. Once you hit that two-year mark of temporary benefits, the checks stop, regardless of whether you have fully recovered.
               </p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
@@ -869,21 +866,15 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              {/* ── Average Settlements ── */}
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Real-World Average Settlement Examples
-              </h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                While every spinal cord and torn rotator cuff heals differently, analyzing real-world examples helps set your expectations. Settlement values hinge entirely on your pre-injury wages and the severity of your medical prognosis.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Consider a 45-year-old construction worker making $900 a week who suffers a torn meniscus requiring arthroscopic surgery. He receives his temporary benefits for three months, undergoes physical therapy, and reaches MMI with a 3 percent impairment rating. Because he can return to light-duty work, his future wage loss is minimal. A fair settlement to close out his future medical rights and pay his impairment benefits might land around <strong style={{ color: '#FBBF24' }}>$18,000 to $25,000</strong>.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Conversely, look at a 55-year-old commercial truck driver making $1,500 a week who suffers a crushed lumbar spine requiring a complex multi-level fusion. He requires lifelong pain management, physical therapy, and will never drive a commercial rig again. Even if he does not meet the strict statutory definition for permanent total disability, the massive cost of his future medical care and his high impairment rating drastically inflate his case value. A settlement to close out his medical care and buy out his impairment benefits could easily range from <strong style={{ color: '#FBBF24' }}>$150,000 to $275,000</strong> or more, depending heavily on the projected costs locked inside his Medicare Set-Aside.
-              </p>
+              <WorkedExampleWorkersComp
+                stateSlug={stateData.slug}
+                stateName={stateData.name}
+                calculatorHref="/workers-comp-settlement-calculator/"
+              />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               {/* ── FAQ ── */}
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
@@ -980,7 +971,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 While you are actively recovering and your doctor declares you completely unable to work, you receive Temporary Total Disability (TTD) benefits. The New York statutory formula for TTD is straightforward: you receive <strong style={{ color: '#E2E8F0' }}>66.67% (two-thirds)</strong> of your Average Weekly Wage (AWW), subject to a strict statutory ceiling.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Your AWW is calculated by taking your total gross earnings from the 52 weeks immediately preceding your accident and dividing that number by 52. Once the WCB determines your baseline wage, they apply the state cap. For 2026, the New York maximum weekly benefit sits at <strong style={{ color: '#FBBF24' }}>$1,145 per week</strong>. This figure updates annually every July 1st based on the statewide average weekly wage, and it represents one of the highest benefit ceilings in the entire country.
+                Your AWW is calculated by taking your total gross earnings from the 52 weeks immediately preceding your accident and dividing that number by 52. Once the WCB determines your baseline wage, they apply the state cap. For {stateData.weeklyCapEffectivePeriod}, the New York maximum weekly benefit sits at <strong style={{ color: '#FBBF24' }}>${stateData.weeklyCapAmount.toLocaleString()} per week</strong>. This figure updates annually every July 1st based on the statewide average weekly wage, and it represents one of the highest benefit ceilings in the entire country.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
                 To see how this works in practice, let&apos;s look at two different New York workers:
@@ -1008,7 +999,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                       <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Worker B: Union Electrician</td>
                       <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>$2,400 / week ($124,800/yr)</td>
                       <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$1,600.08</td>
-                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$1,145.00 (Capped at 2026 maximum)</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>${stateData.weeklyCapAmount.toLocaleString()} (Capped at current maximum)</td>
                     </tr>
                   </tbody>
                 </table>
@@ -1130,57 +1121,18 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Average Settlements in New York
-              </h2>
+              <WorkedExampleWorkersComp
+                stateSlug={stateData.slug}
+                stateName={stateData.name}
+                calculatorHref="/workers-comp-settlement-calculator/"
+              />
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Because the New York WCB strictly redlines individual settlement data to protect worker privacy, there is no official state ledger of exact payout averages. However, based on published actuarial data from state rating bureaus and historical SLU schedules, we can bracket realistic expectations across different injury tiers across the state:
-              </p>
-
-              {/* Settlement tiers table */}
-              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Injury Severity Tier</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Common Diagnoses</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Typical Settlement Mechanism</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Estimated Payout Range</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Minor Extremity</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Sprained ankle, simple finger fracture, resolved tendinitis</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Schedule Loss of Use (SLU)</td>
-                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$5,000 – $22,000</td>
-                    </tr>
-                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Moderate Surgical</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Arthroscopic knee repair, rotator cuff tear, wrist fracture</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Schedule Loss of Use (SLU)</td>
-                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$35,000 – $85,000</td>
-                    </tr>
-                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Severe Non-Schedule</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Herniated cervical disc, complex shoulder rebuild, mild concussions</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Section 32 Lump Sum</td>
-                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$90,000 – $240,000</td>
-                    </tr>
-                    <tr>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Catastrophic Total</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Multi-level spinal fusion, traumatic brain injury, amputations</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Structured Section 32</td>
-                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$300,000 – $850,000+</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                <em>Note: These figures represent gross case valuations before deducting prior temporary wage payments, attorney fees (typically capped at 10% to 15% by WCB judges), and medical liens.</em>
+                <em>Any settlement figure is a gross valuation before deducting prior temporary wage payments, attorney fees (typically capped at 10% to 15% by WCB judges), and medical liens.</em>
               </p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions
@@ -1272,7 +1224,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 By statutory law, your weekly TTD check equals exactly <strong style={{ color: '#E2E8F0' }}>66.67 percent</strong> of your Average Weekly Wage. To calculate your actual AWW, the insurance company must look at your gross earnings from the 52 weeks immediately preceding your accident, including mandatory overtime. Say you worked as a union carpenter earning an average of $1,800 per week over the past year. Under the two-thirds statutory formula, your baseline TTD benefit comes out to <strong style={{ color: '#FBBF24' }}>$1,200 per week</strong>, and these checks are entirely exempt from state and federal income taxes.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Because Illinois historically maintains strong labor protections, the state caps these payments at some of the highest statutory thresholds in the entire country. For injuries occurring in 2026, the maximum weekly TTD benefit is capped at <strong style={{ color: '#FBBF24' }}>$1,897.47</strong>. If you are an executive or specialized heavy equipment operator earning $3,500 a week, your weekly disability check cannot legally exceed that statutory ceiling regardless of your actual lost wages. Adjusters frequently miscalculate your AWW by excluding earned bonuses or regular overtime, artificially starving your household budget to pressure you into a cheap, premature settlement.
+                Because Illinois historically maintains strong labor protections, the state caps these payments at some of the highest statutory thresholds in the entire country. For {stateData.weeklyCapEffectivePeriod}, the maximum weekly TTD benefit is capped at <strong style={{ color: '#FBBF24' }}>${stateData.weeklyCapAmount.toLocaleString()}</strong>. If you are an executive or specialized heavy equipment operator earning $3,500 a week, your weekly disability check cannot legally exceed that statutory ceiling regardless of your actual lost wages. Adjusters frequently miscalculate your AWW by excluding earned bonuses or regular overtime, artificially starving your household budget to pressure you into a cheap, premature settlement.
               </p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
@@ -1342,49 +1294,15 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Average Illinois Workers Comp Settlements
-              </h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Because every workplace injury involves distinct wage histories and medical recoveries, providing a single universal average settlement figure is misleading. However, reviewing historical IWCC approval data allows us to group realistic settlement expectations into concrete medical tiers across Illinois:
-              </p>
-
-              {/* Settlement tiers table */}
-              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Injury Severity Tier</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Typical Medical Treatment</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Estimated Settlement Range</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Tier 1: Minor Soft Tissue</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Physical therapy, minor strains, clean lacerations with no nerve damage.</td>
-                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$12,000 – $35,000</td>
-                    </tr>
-                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Tier 2: Moderate Surgical</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Arthroscopic knee meniscus repairs, simple rotator cuff tears, single fractures.</td>
-                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$45,000 – $110,000</td>
-                    </tr>
-                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Tier 3: Severe Spinal / Joint</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Single or two-level lumbar/cervical fusions, total hip or knee replacements.</td>
-                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$125,000 – $325,000</td>
-                    </tr>
-                    <tr>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Tier 4: Catastrophic Industrial</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Traumatic brain injuries, amputations, permanent total disability (PTD).</td>
-                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$400,000 – $1,200,000+</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <WorkedExampleWorkersComp
+                stateSlug={stateData.slug}
+                stateName={stateData.name}
+                calculatorHref="/workers-comp-settlement-calculator/"
+              />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions
@@ -1531,15 +1449,15 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Average Settlements and Complex Calculations
-              </h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Because the human body heals differently and wages vary wildly, there is no true average settlement. A minor torn rotator cuff that heals cleanly after surgery might settle for <strong style={{ color: '#FBBF24' }}>$25,000</strong>, while a traumatic brain injury requiring 24-hour home care can command a Compromise and Release well over <strong style={{ color: '#FBBF24' }}>$1,500,000</strong>.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Consider a 50-year-old heavy equipment operator earning <strong style={{ color: '#FBBF24' }}>$1,500 per week</strong> who suffers a career-ending spinal crush injury. His compensation rate is <strong style={{ color: '#FBBF24' }}>$1,000 per week</strong>. After completing his 104 weeks of total disability, an IRE doctor assigns him a 25 percent impairment rating. He is shifted to partial disability, starting his 500-week countdown. His maximum remaining wage loss value is strictly capped at <strong style={{ color: '#FBBF24' }}>$500,000</strong>. However, his future medical projections require revision spinal fusion surgery, daily nerve medication, and aggressive pain management, totaling <strong style={{ color: '#FBBF24' }}>$450,000</strong> over his projected life expectancy. While the carrier might open negotiations at an insulting <strong style={{ color: '#FBBF24' }}>$300,000</strong>, presenting undeniable medical evidence and threatening a lifetime of expensive surgical payouts can often push the final settlement past the <strong style={{ color: '#FBBF24' }}>$650,000</strong> mark.
-              </p>
+              <WorkedExampleWorkersComp
+                stateSlug={stateData.slug}
+                stateName={stateData.name}
+                calculatorHref="/workers-comp-settlement-calculator/"
+              />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
@@ -1701,6 +1619,16 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
+              <WorkedExampleWorkersComp
+                stateSlug={stateData.slug}
+                stateName={stateData.name}
+                calculatorHref="/workers-comp-settlement-calculator/"
+              />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
+
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions
               </h2>
@@ -1787,7 +1715,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 When the doctor writes you completely out of work to heal, you are entitled to Temporary Total Disability benefits, known as TTD. Under North Carolina law, your TTD rate is strictly set at <strong style={{ color: '#E2E8F0' }}>66.67 percent</strong> of your Average Weekly Wage. To find your Average Weekly Wage, the insurance company will look at your gross earnings over the 52 weeks immediately preceding your injury, including overtime and bonuses, and divide that total by 52.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Consider a concrete mathematical scenario. Imagine you work as a heavy equipment operator making a gross average of <strong style={{ color: '#FBBF24' }}>$1,200 per week</strong>. If you suffer a severe herniated disc and require spinal fusion surgery, your TTD compensation rate will be exactly <strong style={{ color: '#FBBF24' }}>$800 per week</strong>. These checks are completely tax-free. However, North Carolina law imposes a cap on these wage replacement benefits to protect the insurance system from astronomical payouts to high-income earners. For the year 2026, the maximum weekly benefit is capped at approximately <strong style={{ color: '#FBBF24' }}>$1,254</strong>, though this specific figure is subject to slight annual adjustments by the state. If you are an executive making <strong style={{ color: '#FBBF24' }}>$4,000 a week</strong>, you will not receive two-thirds of your actual wage; you will hit that statutory ceiling and receive the maximum allowable weekly rate.
+                Consider a concrete mathematical scenario. Imagine you work as a heavy equipment operator making a gross average of <strong style={{ color: '#FBBF24' }}>$1,200 per week</strong>. If you suffer a severe herniated disc and require spinal fusion surgery, your TTD compensation rate will be exactly <strong style={{ color: '#FBBF24' }}>$800 per week</strong>. These checks are completely tax-free. However, North Carolina law imposes a cap on these wage replacement benefits to protect the insurance system from astronomical payouts to high-income earners. For {stateData.weeklyCapEffectivePeriod}, the maximum weekly benefit is capped at <strong style={{ color: '#FBBF24' }}>${stateData.weeklyCapAmount.toLocaleString()}</strong>, subject to annual adjustment by the state. If you are an executive making <strong style={{ color: '#FBBF24' }}>$4,000 a week</strong>, you will not receive two-thirds of your actual wage; you will hit that statutory ceiling and receive the maximum allowable weekly rate.
               </p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
@@ -1841,16 +1769,26 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Navigating Attorney Fees and Average Settlements
+                Navigating Attorney Fees
               </h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
                 If you are negotiating a six-figure clincher agreement involving future surgical risks, handling the adjuster alone is incredibly dangerous. Hiring a legal professional levels the playing field, but you need to understand how the money works. A North Carolina workers comp attorney operates on a strict contingency fee basis, meaning they only get paid if they secure a settlement or a beneficial ruling for you. State law strictly caps these attorney fees at a maximum of <strong style={{ color: '#E2E8F0' }}>25 percent</strong> of your recovery. Furthermore, the NC IC must independently review and approve all attorney fees to ensure they are fair and legally compliant. If your attorney negotiates an <strong style={{ color: '#FBBF24' }}>$80,000</strong> clincher agreement, the maximum fee they can collect is <strong style={{ color: '#FBBF24' }}>$20,000</strong>, leaving you with a net recovery of <strong style={{ color: '#FBBF24' }}>$60,000</strong>. You never pay hourly rates out of your own pocket.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Because every single body part has a different statutory value, and every worker has a different Average Weekly Wage, it is impossible to state a generic average settlement amount. A general{' '}
-                <Link href="/workers-comp-settlement-calculator/" style={{ color: '#60A5FA' }}>workers comp settlement calculator</Link>
-                {' '}helps aggregate these variables, but the reality is heavily nuanced. A mild carpal tunnel release surgery with a 5 percent impairment rating might yield a final clincher of <strong style={{ color: '#FBBF24' }}>$12,000 to $18,000</strong>. Conversely, a catastrophic crush injury to the dominant hand resulting in complex regional pain syndrome, permanent work restrictions, and a lifetime need for pain management could easily push a clincher agreement well past <strong style={{ color: '#FBBF24' }}>$250,000</strong>. The dollar figures are always driven by your pre-injury earning power and the severity of the permanent anatomical damage.
+                Because every single body part has a different statutory value, and every worker has a different Average Weekly Wage, it is impossible to state a generic average settlement amount. The dollar figures are always driven by your pre-injury earning power and the severity of the permanent anatomical damage — see the worked example below for how the underlying formula produces a number.
               </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <WorkedExampleWorkersComp
+                stateSlug={stateData.slug}
+                stateName={stateData.name}
+                calculatorHref="/workers-comp-settlement-calculator/"
+              />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
@@ -2001,15 +1939,15 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Concrete Average Settlement Scenarios
-              </h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Because the state relies on rigid formulas rather than jury sympathy, settlement values vary wildly based on the exact injury classification. Imagine you suffer a scheduled injury, such as a severe knee meniscus tear resulting in a 10% permanent impairment to your leg. The law grants 50 months for a total leg loss, so you are awarded 5 months of compensation. If your average monthly wage was locked in at <strong style={{ color: '#FBBF24' }}>$4,000</strong>, your payout is mathematically capped. You receive 55% of your wage, which is <strong style={{ color: '#FBBF24' }}>$2,200</strong>, multiplied by those five months, yielding a permanent disability payout of exactly <strong style={{ color: '#FBBF24' }}>$11,000</strong>.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Now contrast that with an unscheduled injury scenario. You suffer a severe traumatic brain injury from a scaffolding fall. Your neurologist permanently restricts you to simple, low-stress, part-time work, reducing your earning capacity by <strong style={{ color: '#FBBF24' }}>$3,000</strong> a month. Because unscheduled injuries pay 55% of that lost capacity indefinitely, you are owed <strong style={{ color: '#FBBF24' }}>$1,650</strong> every month for the rest of your working life. An insurance company looking to eliminate the risk of paying you that monthly stipend for the next thirty years might offer an Arizona workers comp lump sum settlement well over <strong style={{ color: '#FBBF24' }}>$300,000</strong> to finalize the claim and close their books.
-              </p>
+              <WorkedExampleWorkersComp
+                stateSlug={stateData.slug}
+                stateName={stateData.name}
+                calculatorHref="/workers-comp-settlement-calculator/"
+              />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
@@ -2077,7 +2015,11 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 Under {stateData.name} law, your temporary total disability (TTD) benefits are calculated at {(stateData.benefitRate * 100).toFixed(1)}% of your Average Weekly Wage (AWW). This amount is subject to a strict weekly cap of ${stateData.weeklyCapAmount.toLocaleString()} per week. The maximum duration you can receive TTD benefits is {stateData.maxWeeksTTD} weeks.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Permanent Partial Disability (PPD) benefits compensate you if you suffer a permanent loss of function after reaching maximum medical recovery. In {stateData.name}, PPD is calculated using the {stateData.ppdMethod === 'ama_schedule' ? 'AMA Scheduled Weeks method (where each body part is worth a specific number of benefit weeks)' : 'percentage-of-person method (where benefits are calculated out of a whole person week count)'}.
+                Permanent Partial Disability (PPD) benefits compensate you if you suffer a permanent loss of function after reaching maximum medical recovery. {NON_GENERIC_PPD_SLUGS.has(stateData.slug)
+                  ? `${stateData.name} does not use the AMA Guides or a simple weeks-per-body-part schedule for PPD — see the state-specific note below for how it actually calculates this benefit. This calculator does not yet model ${stateData.name}'s PPD method and hides the PPD output accordingly.`
+                  : stateData.ppdMethod === 'ama_schedule'
+                    ? `In ${stateData.name}, PPD is calculated using the AMA Scheduled Weeks method (where each body part is worth a specific number of benefit weeks).`
+                    : `In ${stateData.name}, PPD is calculated using the percentage-of-person method (where benefits are calculated out of a whole person week count).`}
               </p>
               {stateData.stateSpecificNotes && (
                 <div
@@ -2089,6 +2031,18 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                   </p>
                 </div>
               )}
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <WorkedExampleWorkersComp
+                stateSlug={stateData.slug}
+                stateName={stateData.name}
+                calculatorHref="/workers-comp-settlement-calculator/"
+              />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
             </article>
           )}
 
@@ -2131,7 +2085,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               Select your state for a workers compensation calculator reflecting local replacement rates, weekly caps, and body part schedules.
             </p>
             <ul className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {WORKERS_COMP_STATES.map((state) => (
+              {WORKERS_COMP_STATES.filter((state) => !NOINDEXED_WORKERS_COMP_SLUGS.has(state.slug)).map((state) => (
                 <li key={state.slug}>
                   <Link
                     href={`/workers-comp-settlement-calculator/${state.slug}/`}
@@ -2145,8 +2099,6 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               ))}
             </ul>
           </section>
-
-          <AdSlot id="WC_STATE_AD_BOTTOM" />
 
           <div className="w-full">
             <DisclaimerBanner variant="footer" stateName={stateData.name} />

@@ -9,20 +9,20 @@ export const metadata: Metadata = {
   // FIX H4: title trimmed — template adds " | Settlebrook" (13 chars)
   title: "Contact Us — Settlement Calculator Questions",
   description:
-    "Contact the SettleBrook team with questions about our pain and suffering, car accident, or workers' comp calculators. We respond within 2 business days.",
+    "Contact the Settlebrook team with questions about our pain and suffering, car accident, or workers' comp calculators. We respond within 2 business days.",
   alternates: { canonical: "/contact/" },
   openGraph: {
-    title: "Contact SettleBrook",
+    title: "Contact Settlebrook",
     description:
-      "Have a question about our settlement calculators? Reach the SettleBrook team.",
+      "Have a question about our settlement calculators? Reach the Settlebrook team.",
     url: "/contact/",
-    siteName: "SettleBrook",
+    siteName: "Settlebrook",
     type: "website",
     images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contact SettleBrook",
+    title: "Contact Settlebrook",
     images: ["/og-image.png"],
   },
 };
@@ -30,13 +30,13 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
-  name: "Contact SettleBrook",
+  name: "Contact Settlebrook",
   // FIX M3: trailing slash added to url
   url: "https://www.settlebrook.com/contact/",
-  description: "Contact form and FAQ for SettleBrook settlement calculators.",
+  description: "Contact form and FAQ for Settlebrook settlement calculators.",
   mainEntity: {
     "@type": "Organization",
-    name: "SettleBrook",
+    name: "Settlebrook",
     email: "contact@settlebrook.com",
     url: "https://www.settlebrook.com",
   },
@@ -45,7 +45,7 @@ const jsonLd = {
 const FAQS = [
   {
     q: "Are your settlement calculators free to use?",
-    a: "Yes. All SettleBrook calculators are completely free. We support the site through non-intrusive display advertising. We will never charge for calculator access or gate results behind an email signup.",
+    a: "Yes. All Settlebrook calculators are completely free. We support the site through non-intrusive display advertising. We will never charge for calculator access or gate results behind an email signup.",
   },
   {
     q: "Are the calculator results legally binding?",
@@ -65,7 +65,7 @@ const FAQS = [
   },
   {
     q: "Can I share or embed your calculators on my website?",
-    a: "You may link to any SettleBrook page. Embedding via iframe or reproducing calculator logic in a competing tool is not permitted without written license. Contact us at contact@settlebrook.com to discuss licensing arrangements.",
+    a: "You may link to any Settlebrook page. Embedding via iframe or reproducing calculator logic in a competing tool is not permitted without written license. Contact us at contact@settlebrook.com to discuss licensing arrangements.",
   },
   {
     q: "Do you recommend specific attorneys or legal services?",
@@ -150,16 +150,6 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* AD_SLOT_TOP */}
-        <div
-          id="AD_SLOT_TOP"
-          className="w-full flex justify-center py-3"
-          style={{ backgroundColor: 'rgba(13,21,38,0.6)', borderBottom: '1px solid rgba(99,179,237,0.08)' }}
-          aria-hidden="true"
-        >
-          {/* AdSense leaderboard 728×90 / responsive */}
-        </div>
-
         {/* Two-column layout: form + info */}
         <section id="contact-form" className="max-w-7xl mx-auto px-6 sm:px-8 py-12">
           <div className="grid md:grid-cols-5 gap-10">
@@ -226,16 +216,6 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* AD_SLOT_MID */}
-        <div
-          id="AD_SLOT_MID"
-          className="w-full flex justify-center py-4"
-          style={{ backgroundColor: "rgba(13,21,38,0.4)" }}
-          aria-hidden="true"
-        >
-          {/* AdSense in-content responsive */}
-        </div>
-
         {/* FAQ */}
         <section
           aria-labelledby="faq-heading"
@@ -275,16 +255,6 @@ export default function ContactPage() {
             ))}
           </div>
         </section>
-
-        {/* AD_SLOT_BOTTOM */}
-        <div
-          id="AD_SLOT_BOTTOM"
-          className="w-full flex justify-center py-3"
-          style={{ backgroundColor: "rgba(13,21,38,0.6)", borderTop: "1px solid rgba(99,179,237,0.08)" }}
-          aria-hidden="true"
-        >
-          {/* AdSense leaderboard 728×90 / responsive */}
-        </div>
 
       </main>
     </>

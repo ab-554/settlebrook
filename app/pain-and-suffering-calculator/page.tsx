@@ -15,10 +15,15 @@ import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import { getMainPageFAQs, buildFAQSchema } from '@/lib/data/faqContent'
 import { getPriorityStates, ALL_STATES } from '@/lib/data/states'
+import SourcesSection from '@/components/seo/SourcesSection'
+import sourcesData from '@/lib/data/sources.json'
 
 // E-E-A-T review stamp. Bump this one string when the page is re-verified
 // against current law — nothing else needs to change.
-const LAST_REVIEWED = 'August 2026'
+// Updated 2026-09-24: legal accuracy sprint removed unsourced claims.
+const LAST_REVIEWED = 'September 2026'
+
+const HUB_SOURCES = (sourcesData['pain-and-suffering'] as Record<string, { label: string; url: string; supports: string; tier: 'primary' | 'secondary' }[]>)['main'] ?? []
 
 export const metadata: Metadata = {
   // FIX H7: 44 chars → 57 chars total with "| Settlebrook" template (under 60 ✓)
@@ -319,17 +324,19 @@ export default function PainSufferingCalculatorPage() {
             <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Treatment consistency</strong> matters almost as much. If you went to three appointments and then stopped for two months, the insurance company will argue the gap means you recovered. Even if you stopped because you couldn&apos;t afford more visits, or because life got in the way, the gap will be used against you. Treat consistently until your doctor releases you.</p>
             <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Injury severity and permanence</strong> drive the multiplier higher than anything else. A torn rotator cuff that requires surgery and leaves you with a 15% permanent impairment is worth dramatically more than the same shoulder injury that heals completely. If your doctor has given you a permanent impairment rating, that number is significant — document it and make sure it&apos;s in your records.</p>
             <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Your credibility</strong> affects settlement value in ways that aren&apos;t always obvious. Social media posts showing you at a barbecue two weeks after claiming you can barely walk will crater your claim. Inconsistencies between what you tell doctors and what you tell the insurance company will be flagged.</p>
-            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Attorney representation</strong> consistently produces higher settlements. Studies have found that represented claimants receive settlements three to four times higher on average than unrepresented ones — even after attorney fees. This doesn&apos;t mean you must hire an attorney, but it means the decision deserves serious thought before you negotiate alone.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Attorney representation</strong> is worth weighing carefully. An attorney can negotiate on your behalf, identify additional insurance coverage, and take a case to trial if the insurer won&apos;t offer a fair number — leverage you don&apos;t have negotiating alone. That value has to be weighed against contingency fees, which are typically a third of the settlement. This doesn&apos;t mean you must hire an attorney, but the decision deserves serious thought before you negotiate alone.</p>
 
             <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
 
             <h2 className="heading-gradient" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}>Pain and Suffering Settlement Examples</h2>
             <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>These examples are illustrative — every claim is different, and these numbers are not guarantees. They&apos;re meant to show you what the math looks like in real personal injury claims.</p>
-            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Scenario 1 — Rear-end collision, soft tissue injuries.</strong> You&apos;re hit from behind at a stoplight. Whiplash, cervical strain, six weeks of physical therapy. Medical bills: $6,800. Lost wages: $1,400. Economic damages: $8,200. Multiplier: 1.8 (moderate soft tissue, full recovery). Pain and suffering estimate: $14,760. Total claim range: $20,000–$26,000.</p>
-            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Scenario 2 — Slip and fall, knee surgery.</strong> You fall on a wet floor at a retail store. Torn meniscus, arthroscopic surgery, four months of recovery. Medical bills: $31,500. Lost wages: $9,200. Economic damages: $40,700. Multiplier: 3.0 (surgery, significant recovery period). Pain and suffering estimate: $122,100. Total claim range: $140,000–$175,000.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Scenario 1 — Rear-end collision, soft tissue injuries.</strong> You&apos;re hit from behind at a stoplight. Whiplash, cervical strain, six weeks of physical therapy. Medical bills: $6,800. Lost wages: $1,400. Economic damages: $8,200. Multiplier: 1.8 (moderate soft tissue, full recovery). Pain and suffering estimate: $14,760. Total claim value: $22,960.</p>
+            <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Scenario 2 — Slip and fall, knee surgery.</strong> You fall on a wet floor at a retail store. Torn meniscus, arthroscopic surgery, four months of recovery. Medical bills: $31,500. Lost wages: $9,200. Economic damages: $40,700. Multiplier: 3.0 (surgery, significant recovery period). Pain and suffering estimate: $122,100. Total claim value: $162,800.</p>
             <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: '#E2E8F0' }}>Scenario 3 — T-bone collision, spinal injury.</strong> Another driver runs a red light and hits your door. Herniated disc at L4-L5, nerve damage, permanent 12% whole-body impairment. Medical bills: $67,000. Lost wages: $28,000. Economic damages: $95,000. Multiplier: 4.5 (permanent injury, surgical intervention, lasting disability). Pain and suffering estimate: $427,500. Total claim value: well over $500,000 — and likely subject to policy limits.</p>
 
             <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
+
+            <SourcesSection sources={HUB_SOURCES} />
 
             <h2 className="heading-gradient" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}>Frequently Asked Questions</h2>
             <FAQAccordion faqs={faqs} />

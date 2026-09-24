@@ -100,16 +100,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* AD_SLOT_TOP */}
-        <div
-          id="AD_SLOT_TOP"
-          className="w-full flex justify-center py-3"
-          style={{ backgroundColor: 'rgba(13,21,38,0.6)', borderBottom: '1px solid rgba(99,179,237,0.08)' }}
-          aria-hidden="true"
-        >
-          {/* AdSense leaderboard 728×90 / responsive */}
-        </div>
-
         {/* Main content */}
         <article className="max-w-7xl mx-auto px-6 sm:px-8 py-14 flex flex-col gap-12">
 
@@ -129,8 +119,17 @@ export default function AboutPage() {
                 common claim types: pain and suffering, car accident settlements, and
                 workers compensation. Each one runs the same arithmetic that adjusters
                 and plaintiff attorneys use, in your browser, in about two minutes.
-                There is no signup, no paywall, and no data collection — your figures
-                are never transmitted anywhere.
+                There is no signup and no paywall. Your calculator inputs are never
+                transmitted anywhere — all figures stay in your browser. The site
+                itself runs on Google Analytics and Google AdSense, and our{' '}
+                <Link href="/contact/" className="underline transition-colors" style={{ color: "#60A5FA" }}>
+                  contact form
+                </Link>{' '}
+                is processed by Formspree; see our{' '}
+                <Link href="/privacy-policy/" className="underline transition-colors" style={{ color: "#60A5FA" }}>
+                  privacy policy
+                </Link>{' '}
+                for details.
               </p>
             </div>
           </section>
@@ -156,15 +155,6 @@ export default function AboutPage() {
               </p>
             </div>
           </section>
-
-          {/* AD_SLOT_MID */}
-          <div
-            id="AD_SLOT_MID"
-            className="w-full flex justify-center py-4"
-            aria-hidden="true"
-          >
-            {/* AdSense in-content responsive */}
-          </div>
 
           {/* Accuracy */}
           <section aria-labelledby="accuracy-heading">
@@ -285,16 +275,6 @@ export default function AboutPage() {
           </section>
 
         </article>
-
-        {/* AD_SLOT_BOTTOM */}
-        <div
-          id="AD_SLOT_BOTTOM"
-          className="w-full flex justify-center py-3"
-          style={{ backgroundColor: "rgba(13,21,38,0.6)", borderTop: "1px solid rgba(99,179,237,0.08)" }}
-          aria-hidden="true"
-        >
-          {/* AdSense leaderboard 728×90 / responsive */}
-        </div>
 
       </main>
     </>

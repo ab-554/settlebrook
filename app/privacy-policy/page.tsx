@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   // FIX H5: brand suffix removed — template adds "| Settlebrook" automatically
   title: "Privacy Policy",
   description:
-    "SettleBrook's privacy policy. We do not collect personal data. Learn how Google AdSense and Analytics cookies work on our site and how to exercise your GDPR and CCPA rights.",
+    "Settlebrook's privacy policy. We do not collect personal data. Learn how Google AdSense and Analytics cookies work on our site and how to exercise your GDPR and CCPA rights.",
   alternates: { canonical: "/privacy-policy/" },
   robots: { index: true, follow: true },
   openGraph: {
     title: "Privacy Policy | Settlebrook",
     description:
-      "SettleBrook does not collect or store personal information. Read our full GDPR and CCPA compliant privacy policy.",
+      "Settlebrook does not collect or store personal information. Read our full GDPR and CCPA compliant privacy policy.",
     url: "/privacy-policy/",
     siteName: "Settlebrook",
     type: "website",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
 };
 
-const LAST_UPDATED = "January 1, 2025";
+const LAST_UPDATED = "September 23, 2026";
 
 export default function PrivacyPolicyPage() {
   return (
@@ -52,7 +52,7 @@ export default function PrivacyPolicyPage() {
             <div className="animate-fade-in-up">
               <span className="trust-pill">
                 <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#34D399', animation: 'pulseGlow 2s infinite' }} />
-                Last Updated · 2025
+                Last Updated · 2026
               </span>
             </div>
 
@@ -69,30 +69,21 @@ export default function PrivacyPolicyPage() {
               className="animate-fade-in-up-d2 max-w-2xl text-lg leading-relaxed"
               style={{ color: '#94A3B8' }}
             >
-              We don&rsquo;t collect, sell, or store your personal data. Ever.
+              Your calculator inputs never leave your browser. We never sell your
+              information — here&rsquo;s exactly what this site does collect, and why.
             </p>
           </div>
         </section>
-
-        {/* AD_SLOT_TOP */}
-        <div
-          id="AD_SLOT_TOP"
-          className="w-full flex justify-center py-3"
-          style={{ backgroundColor: 'rgba(13,21,38,0.6)', borderBottom: '1px solid rgba(99,179,237,0.08)' }}
-          aria-hidden="true"
-        >
-          {/* AdSense leaderboard 728×90 / responsive */}
-        </div>
 
       <article className="max-w-3xl mx-auto px-6 sm:px-8 py-14 flex flex-col gap-10">
 
         {/* Header */}
         <header>
           <p className="text-sm mb-4" style={{ color: "#64748B" }}>
-            Last updated: <time dateTime="2025-01-01">{LAST_UPDATED}</time>
+            Last updated: <time dateTime="2026-09-23">{LAST_UPDATED}</time>
           </p>
           <p className="mt-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
-            This Privacy Policy describes how SettleBrook (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;),
+            This Privacy Policy describes how Settlebrook (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;),
             operated at{" "}
             <Link href="/" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
               settlebrook.com
@@ -103,17 +94,17 @@ export default function PrivacyPolicyPage() {
           </p>
         </header>
 
-        {/* 1. Information We Do Not Collect */}
+        {/* 1. Calculator Inputs: What We Don't Collect */}
         <section aria-labelledby="no-collect-heading">
           <h2 id="no-collect-heading" className="heading-gradient font-bold mb-4"
             style={{ fontSize: 22, fontWeight: 700 }}>
-            1. Information We Do Not Collect
+            1. Calculator Inputs: What We Don&apos;t Collect
           </h2>
           <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
             <p>
-              SettleBrook does not have user accounts. We do not require registration,
-              login, or any form of identification to use our calculators. We do not
-              collect, store, transmit, or sell:
+              Settlebrook does not have user accounts. We do not require registration,
+              login, or any form of identification to use our calculators. Specifically
+              for calculator use, we do not collect, store, transmit, or sell:
             </p>
             <ul className="flex flex-col gap-2 pl-4 text-sm" style={{ color: "#94A3B8", listStyleType: "disc" }}>
               <li>Your name, email address, phone number, or mailing address</li>
@@ -125,7 +116,9 @@ export default function PrivacyPolicyPage() {
             <p>
               All calculator inputs are processed entirely in your browser. No form
               values leave your device and no server receives your calculation data.
-              When you close the page or browser tab, all entered data is gone.
+              When you close the page or browser tab, all entered data is gone. This
+              applies to the calculators only — see the sections below for what our
+              analytics, advertising, and contact form do collect.
             </p>
           </div>
         </section>
@@ -138,7 +131,7 @@ export default function PrivacyPolicyPage() {
           </h2>
           <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
             <p>
-              Like virtually all websites, SettleBrook&apos;s hosting infrastructure
+              Like virtually all websites, Settlebrook&apos;s hosting infrastructure
               (Vercel) automatically logs standard server-level data when your browser
               requests a page. This includes:
             </p>
@@ -166,11 +159,6 @@ export default function PrivacyPolicyPage() {
           </div>
         </section>
 
-        {/* AD_SLOT_MID */}
-        <div id="AD_SLOT_MID" className="w-full flex justify-center py-4" aria-hidden="true">
-          {/* AdSense in-content responsive */}
-        </div>
-
         {/* 3. Cookies */}
         <section aria-labelledby="cookies-heading">
           <h2 id="cookies-heading" className="heading-gradient font-bold mb-4"
@@ -179,7 +167,7 @@ export default function PrivacyPolicyPage() {
           </h2>
           <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
             <p>
-              SettleBrook itself does not set first-party cookies. However, third-party
+              Settlebrook itself does not set first-party cookies. However, third-party
               services we use — specifically Google AdSense and Google Analytics —
               do set cookies in your browser. These cookies are subject to Google&apos;s
               privacy policies, not ours.
@@ -258,7 +246,7 @@ export default function PrivacyPolicyPage() {
             4. Third-Party Services
           </h2>
           <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
-            <p>The following third-party services operate on SettleBrook:</p>
+            <p>The following third-party services operate on Settlebrook:</p>
             <div className="overflow-x-auto rounded-xl"
               style={{ border: "1px solid rgba(99,179,237,0.15)" }}>
               <table className="w-full text-sm border-collapse">
@@ -275,6 +263,7 @@ export default function PrivacyPolicyPage() {
                     { name: "Google AdSense", purpose: "Display advertising", url: "https://policies.google.com/privacy" },
                     { name: "Google Analytics", purpose: "Aggregate traffic analysis", url: "https://policies.google.com/privacy" },
                     { name: "Vercel", purpose: "Website hosting and delivery", url: "https://vercel.com/legal/privacy-policy" },
+                    { name: "Formspree", purpose: "Contact form processing (name, email, message)", url: "https://formspree.io/legal/privacy-policy/" },
                   ].map((s, i) => (
                     <tr key={s.name} style={{
                       color: "#94A3B8",
@@ -309,7 +298,7 @@ export default function PrivacyPolicyPage() {
           </h2>
           <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
             <p>
-              Although SettleBrook is a U.S.-focused website, we acknowledge the
+              Although Settlebrook is a U.S.-focused website, we acknowledge the
               rights established under the General Data Protection Regulation (GDPR)
               for visitors from the European Union and European Economic Area. Because
               we do not collect or process personal data ourselves, most GDPR rights
@@ -351,7 +340,7 @@ export default function PrivacyPolicyPage() {
             </p>
             <p>
               <strong style={{ color: "#F1F5F9" }}>We do not sell personal information.</strong>{" "}
-              SettleBrook has not sold, and does not sell, any personal information
+              Settlebrook has not sold, and does not sell, any personal information
               belonging to California residents. No &ldquo;Do Not Sell My Personal Information&rdquo;
               opt-out link is required because we have no personal data to sell.
             </p>
@@ -380,7 +369,7 @@ export default function PrivacyPolicyPage() {
             7. Children&apos;s Privacy
           </h2>
           <p className="text-base leading-relaxed" style={{ color: "#94A3B8" }}>
-            SettleBrook is not directed at children under the age of 13. We do not
+            Settlebrook is not directed at children under the age of 13. We do not
             knowingly collect any information from children. Our content is intended
             for adults researching personal injury or workplace injury claims. If you
             believe a child has used our site in a way that raised privacy concerns,
@@ -401,7 +390,7 @@ export default function PrivacyPolicyPage() {
           <p className="text-base leading-relaxed" style={{ color: "#94A3B8" }}>
             We may update this Privacy Policy to reflect changes in our practices or
             applicable law. The &ldquo;Last Updated&rdquo; date at the top of this page will
-            reflect any revisions. Continued use of SettleBrook after any modification
+            reflect any revisions. Continued use of Settlebrook after any modification
             constitutes your acceptance of the updated policy. We encourage periodic
             review of this page.
           </p>
@@ -417,7 +406,7 @@ export default function PrivacyPolicyPage() {
             <p>For any privacy-related questions, requests, or concerns, contact us at:</p>
             <div className="rounded-xl p-4 text-sm flex flex-col gap-1"
               style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(99,179,237,0.15)" }}>
-              <p className="font-semibold" style={{ color: "#F1F5F9" }}>SettleBrook</p>
+              <p className="font-semibold" style={{ color: "#F1F5F9" }}>Settlebrook</p>
               <p>Email:{" "}
                 <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
                   contact@settlebrook.com
@@ -434,16 +423,6 @@ export default function PrivacyPolicyPage() {
         </section>
 
       </article>
-
-      {/* AD_SLOT_BOTTOM */}
-      <div
-        id="AD_SLOT_BOTTOM"
-        className="w-full flex justify-center py-3"
-        style={{ backgroundColor: "rgba(13,21,38,0.6)", borderTop: "1px solid rgba(99,179,237,0.08)" }}
-        aria-hidden="true"
-      >
-        {/* AdSense leaderboard 728×90 / responsive */}
-      </div>
 
     </main>
   );

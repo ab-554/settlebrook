@@ -12,8 +12,12 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
   openGraph: {
     title: 'Free Personal Injury Settlement Calculators — Settlebrook',
-    description: 'Estimate your injury settlement in seconds. Free tools for pain and suffering, car accident, and workers comp claims across all 50 states.',
+    description: 'Estimate your injury settlement in seconds. Free tools for pain and suffering, car accident, and workers comp claims, built for any US state.',
     url: 'https://www.settlebrook.com/',
+    siteName: 'Settlebrook',
+    locale: 'en_US',
+    type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Settlebrook — Free Personal Injury Settlement Calculators' }],
   },
 }
 
@@ -30,7 +34,7 @@ const TOOLS = [
   {
     href: '/car-accident-settlement-calculator/',
     title: 'Car Accident Settlement Calculator',
-    description: 'Estimate your total car accident settlement including vehicle damage, medical bills, lost wages, and pain and suffering. Covers all 50 states.',
+    description: 'Estimate your total car accident settlement including vehicle damage, medical bills, lost wages, and pain and suffering. Works for any US state, with dedicated guides for select states.',
     stats: 'Economic + non-economic damages',
     badge: 'Live',
     available: true,
@@ -49,7 +53,7 @@ const TOOLS = [
 
 const TRUST_BADGES = [
   { icon: '🛡️', label: 'No Signup Required' },
-  { icon: '🔒', label: 'No Personal Data Collected' },
+  { icon: '🔒', label: 'Your Inputs Never Leave Your Browser' },
   { icon: '✅', label: 'Updated for 2026 State Laws' },
   { icon: '⚡', label: 'Instant Results' },
 ]
@@ -141,7 +145,7 @@ export default function HomePage() {
                   className="w-1.5 h-1.5 rounded-full"
                   style={{ backgroundColor: '#34D399', animation: 'pulseGlow 2s infinite' }}
                 />
-                Free · No Signup · All 50 States
+                Free · No Signup · Works for Any US State
               </span>
             </div>
 
@@ -158,7 +162,7 @@ export default function HomePage() {
               className="animate-fade-in-up-d2 max-w-2xl text-lg leading-relaxed"
               style={{ color: '#94A3B8' }}
             >
-              Get a calm, data-backed estimate of your settlement in minutes — built from real personal injury outcomes. No pressure, no spam.
+              Get a calm, straightforward estimate of your settlement in minutes, using the same formulas insurance adjusters and plaintiff attorneys use. No pressure, no spam.
             </p>
 
             {/* Trust badges */}

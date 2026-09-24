@@ -199,10 +199,10 @@ export interface WorkersCompStateData {
   abbreviation: string
   /** Compensation rate as a decimal, e.g. 0.667 for 66.67%. */
   benefitRate: number
-  /** Maximum weekly benefit amount in dollars. */
+  /** Maximum weekly benefit amount in dollars. Sourced from wcMaxBenefits2026.json — see lib/data/workersCompStates.ts. */
   weeklyCapAmount: number
-  /** Calendar year the weeklyCapAmount applies to. */
-  weeklyCapYear: number
+  /** Human-readable effective period for weeklyCapAmount, e.g. "July 1, 2026 - June 30, 2027". */
+  weeklyCapEffectivePeriod: string
   /** PPD calculation method for this state. */
   ppdMethod: PPDMethod
   /** Maximum TTD duration in weeks. */

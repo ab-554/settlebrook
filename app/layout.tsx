@@ -4,10 +4,10 @@
 
 import type { Metadata } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
-import Script from 'next/script'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import AdsenseScript from '@/components/ads/AdsenseScript'
 import './globals.css'
 
 const playfair = Playfair_Display({
@@ -110,12 +110,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div id="main-content" className="flex-1">{children}</div>
         <Footer />
         <GoogleAnalytics gaId="G-K3PV0YLHFG" />
-        <Script
-          id="adsense-init"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9642525412838279"
-          strategy="afterInteractive"
-          crossOrigin="anonymous"
-        />
+        {/* Skipped on the not-found page — see components/ads/AdsenseScript.tsx */}
+        <AdsenseScript />
       </body>
     </html>
   )

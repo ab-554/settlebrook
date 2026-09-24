@@ -20,10 +20,14 @@ import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import { getCarAccidentFAQs, buildFAQSchema } from '@/lib/data/carAccidentFaqs'
 import { CAR_ACCIDENT_STATES } from '@/lib/data/carAccidentStates'
+import SourcesSection from '@/components/seo/SourcesSection'
+import sourcesData from '@/lib/data/sources.json'
 
 // E-E-A-T review stamp. Bump this one string when the page is re-verified
 // against current law - nothing else needs to change.
-const LAST_REVIEWED = 'August 2026'
+const LAST_REVIEWED = 'September 2026'
+
+const HUB_SOURCES = (sourcesData['car-accident'] as Record<string, { label: string; url: string; supports: string; tier: 'primary' | 'secondary' }[]>)['main'] ?? []
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
@@ -171,7 +175,7 @@ export default function CarAccidentCalculatorPage() {
             <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
               {[
                 'No Signup Required',
-                'No Personal Data Collected',
+                'Your Inputs Never Leave Your Browser',
                 'Updated for 2026 State Laws',
                 'Instant Results',
               ].map((signal) => (
@@ -361,7 +365,7 @@ export default function CarAccidentCalculatorPage() {
               Policy limits are one of the most important — and least understood — constraints on car accident settlements. Your calculated settlement value represents what your claim is theoretically worth. The at-fault driver&apos;s liability policy limit represents the ceiling the insurer will pay.
             </p>
             <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>
-              Most states require only modest minimum liability coverage. In Texas, that&apos;s 30/60/25 — meaning $30,000 per person, $60,000 per accident, and $25,000 for property damage. In California it&apos;s 15/30/5. These minimums were set decades ago and have not kept pace with rising medical costs. A single hospitalization can exceed $30,000 easily.
+              Most states require only modest minimum liability coverage. In Texas, that&apos;s 30/60/25 — meaning $30,000 per person, $60,000 per accident, and $25,000 for property damage. In California it&apos;s 30/60/15 (since January 1, 2025 — previously 15/30/5). Even at current levels, these minimums have not kept pace with rising medical costs. A single hospitalization can exceed $30,000 easily.
             </p>
             <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>
               When your calculated settlement exceeds the at-fault driver&apos;s policy limit, you have practical options. Underinsured Motorist (UIM) coverage on your own policy is specifically designed to bridge this gap — it pays the difference between the at-fault driver&apos;s limit and your actual damages, up to your UIM limit. If you have UIM coverage, your own insurer steps in and you negotiate with them instead.
@@ -392,6 +396,8 @@ export default function CarAccidentCalculatorPage() {
             </p>
 
             <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
+
+            <SourcesSection sources={HUB_SOURCES} />
 
             <h2
               className="heading-gradient"

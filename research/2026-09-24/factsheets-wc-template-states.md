@@ -1,0 +1,54 @@
+# Verified Fact Sheets — Workers' Comp Template States
+For the rewrite of the GA, MI, NJ, VA, CO, MN calculator pages. Every fact below is sourced; use the linked URL as the on-page citation. Audit date Sept 24, 2026 — re-check annually-adjusted figures (marked ⟳) each January/July as noted.
+
+---
+
+## Georgia
+- **TTD rate:** 66 2/3% of AWW. Source: O.C.G.A. §34-9-261, https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-261/
+- **Current max/min weekly (⟳ next change likely 7/1/2027):** Max $800/wk (TTD & PPD); TPD max $533/wk. Effective 7/1/23, revised/reconfirmed 7/1/25, no change through 2025-2026. Source: GA SBWC Summary of Provisions, https://sbwc.georgia.gov/document/publication/provisionspdf/download
+- **Duration cap:** 400 weeks from date of injury for TTD (catastrophic injuries continue beyond 400 weeks until improvement). Source: O.C.G.A. §34-9-261 (as above).
+- **PPD method:** Physician rates impairment using the AMA *Guides to the Evaluation of Permanent Impairment*, 5th Edition (named explicitly in the statute); rating % × scheduled weeks for the body part (e.g., arm 225 wks, hand 160 wks, thumb 60 wks) × 66 2/3% of AWW. Source: O.C.G.A. §34-9-263, https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/
+- **Waiting/retroactive period:** Not independently verified this pass — do not publish a number without re-checking O.C.G.A. §34-9-260.
+- **Claim/notice deadline:** 1 year from injury (extended to 2 years after last weekly-benefit payment, or 1 year after last employer-furnished remedial treatment). Source: O.C.G.A. §34-9-82, https://law.justia.com/codes/georgia/2022/title-34/chapter-9/article-3/part-1/section-34-9-82
+- **Settlement type/approval:** Settlement agreements (including lump-sum) must be filed with and approved by the State Board of Workers' Compensation; not binding until approved. Sources: O.C.G.A. §34-9-15, https://law.justia.com/codes/georgia/title-34/chapter-9/article-1/section-34-9-15/ ; GA SBWC Settlement Division, https://sbwc.georgia.gov/divisions-offices/settlement
+
+## Michigan
+- **TTD rate:** 80% of the employee's *after-tax (net)* average weekly wage — not gross. Source: MCL 418.351, https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-418-351
+- **Current max/min weekly (⟳ adjusts annually):** Max $1,201.00/wk; min $0.74/wk (SAWW $1,333.88). 2026 table. Source: MI LEO 2026 Rate Book, https://www.michigan.gov/leo/-/media/Project/Websites/leo/Documents/WDCA-Calculation-Program/wca_2026_Rate_Book.pdf
+- **Duration cap:** No fixed week cap on TTD payments — they continue while disability persists. (The "500 weeks" and "800 weeks" figures that circulate are, respectively, the specific-loss permanency-determination deadline and the conclusive-presumption-of-permanent-disability cutoff — neither is a hard stop on TTD checks.) Sources: MCL 418.351 (as above); MCL 418.361 (specific loss), https://codes.findlaw.com/mi/chapter-418-workers-disability-compensation/mi-comp-laws-418-361/
+- **PPD method:** Fixed statutory schedule of weeks per body part (thumb 65, hand 215, arm 269, leg 215, foot 162, eye 162) — this is Michigan's own schedule; the statute text does not reference the AMA Guides. Do not describe this as an "AMA" method. Source: MCL 418.361 (as above).
+- **Settlement type/approval:** Called a "redemption" of liability; requires a Workers' Disability Compensation Agency Magistrate's approval (form WC-113); becomes final if no party requests Director review within 15 days. Source: https://www.michigan.gov/-/media/Project/Websites/leo/Documents/WDCA-FORMS/Litigation/wca_WC113_fillin.pdf
+- **Waiting/retroactive period, claim deadline:** Not independently verified this pass — re-check MCL 418.381 before publishing specific numbers.
+
+## New Jersey
+- **TTD rate:** 70% of wages, subject to a max of 75% and a min of 20% of the statewide average weekly wage. Source: R.S. 34:15-12(a), https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf
+- **Current max/min weekly (⟳ recalculated by the Commissioner every year, effective each Jan 1):** Max $1,199/wk (up from $1,159 in 2025), effective Jan 1, 2026. Source: NJDOL press release, https://www.nj.gov/labor/lwdhome/press/2025/20251229_newbenefitrates2026.shtml
+- **Duration cap:** 400 weeks for temporary disability. Source: R.S. 34:15-12(a) (as above).
+- **PPD method:** New Jersey's own statutory schedule of weeks per body part (arm 330, hand up to 300, foot up to 285, thumb 80, etc.) — percentage of disability maps directly to weeks on this schedule. The AMA Guides are not the statutory basis; do not call this an "AMA" method. Source: R.S. 34:15-12(c); NJDOL schedule PDF, https://www.nj.gov/labor/workerscompensation/assets/PDFs/Legal/2022_schedule.pdf
+- **Waiting period:** 7 days (no compensation beyond medical aid until disabled 7 days; retroactive if disability continues). Source: R.S. 34:15-14, https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf
+- **Notice/claim deadline:** Notice to employer within 90 days of injury (R.S. 34:15-17); formal claim petition within 2 years (R.S. 34:15-41/34:15-51). Source: same PDF.
+- **Settlement types:** Not independently verified this pass (New Jersey uses both Section 20 "one-time" and Section 22 "reopener" settlement structures) — re-check before publishing.
+
+## Virginia
+- **TTD rate:** 66 2/3% of AWW (standard rate structure under Title 65.2).
+- **Current max/min weekly (⟳ effective every July 1):** Max $1,507.01/wk; min $376.75/wk, effective July 1, 2026. COLA of 2.65% effective Oct 1, 2026. Source: VWC Notice of 2026 Rates, https://www.workcomp.virginia.gov/news/notice-of-2026-rates
+- **Duration cap:** 500 weeks total compensation (with carve-outs for permanent total incapacity and specific listed disabilities). Source: Va. Code §65.2-518, https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-518/
+- **PPD method:** Virginia's own statutory schedule of weeks per body part (arm 200, hand 150, foot 125, leg 175, thumb 60, single eye 100, single ear 50), proportionally awarded for partial loss of use. The statute text does not reference the AMA Guides; avoid the "AMA" label. Source: Va. Code §65.2-503, https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/
+- **Notice/claim deadline:** Report to employer within 30 days of injury (60 days for occupational disease); formal claim within 2 years of injury (2 years of diagnosis / 5 years of last exposure for occupational disease). Source: VWC Injured Workers page, https://workcomp.virginia.gov/content/injured-workers
+- **Settlement approval:** Agreement is void unless approved by the Commission; once approved it is enforceable as an award. Source: Va. Code §65.2-701, https://law.lis.virginia.gov/vacode/title65.2/chapter7/section65.2-701/
+
+## Colorado
+- **TTD rate:** 66 2/3% of AWW (standard); site's 66.7% figure is consistent with this.
+- **Current max weekly:** Last confirmed official figure is $1,396.85/wk (91% of SAWW), effective July 1, 2025-June 30, 2026. A new Maximum Benefits Order took effect July 1, 2026 (before this audit's Sept 24, 2026 date) but its exact dollar figure could not be extracted from Colorado's JS-rendered order document in this pass — **do not publish a 2026-2027 number without confirming it directly from the order PDF** at https://cdle.colorado.gov/dwc/dowc-updates.
+- **Duration cap:** No fixed week cap — TTD continues until (a) MMI, (b) return to regular/modified work, or (c) a written release to return to regular work, whichever comes first. Do not publish "104 weeks" as a Colorado TTD cap. Source: C.R.S. §8-42-105, https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-105/
+- **PPD method:** Uses AMA Guides-based whole-person impairment ratings under C.R.S. §8-42-107, but scheduled (specific body part) and non-scheduled (whole-person) injuries are calculated differently — non-scheduled awards use an age/wage-adjusted formula, not a simple weeks-per-body-part table. This needs a Colorado-specific formula rewrite rather than the generic templated one; re-verify C.R.S. §8-42-107 directly before publishing a formula.
+- **Notice deadline:** Employer must notify the Division/insurance carrier within 10 days of the injury. Source: C.R.S. §8-43-103, https://colorado.public.law/statutes/crs_8-43-103
+- **Settlement type/approval:** "Full and final settlement" via the Uniform Settlement Agreement (USA) form, reviewed and approved by the Division of Workers' Compensation. Source: https://cdle.colorado.gov/sites/cdle/files/FAQ_Uniform_Settlement_Agreements.pdf
+
+## Minnesota
+- **TTD rate:** 66 2/3% of AWW (standard rate structure under Minn. Stat. Ch. 176).
+- **Current max/min weekly:** Effective Oct 1, 2025 (in effect on this audit's date, Sept 24, 2026): max $1,536.84/wk, min $307.37/wk. Effective Oct 1, 2026 (about to take effect): max $1,594.08/wk (108% of SAWW $1,476), min $318.82/wk. Sources: MN DLI rate page, https://www.dli.mn.gov/business/workers-compensation/work-comp-rate-information-statewide-average-weekly-wage-saww ; MN DLI comprates PDF, https://www.dli.mn.gov/sites/default/files/pdf/comprates.pdf
+- **Duration cap:** TTD ceases entirely once 130 weeks have been paid (extendable if the employee is in an approved retraining plan under §176.102, subd. 11). Source: Minn. Stat. §176.101, https://www.revisor.mn.gov/statutes/cite/176.101
+- **PPD method:** NOT weeks-based. A physician rates whole-body impairment as a percentage under Minnesota's own Administrative Rules Chapter 5223 (not the AMA Guides by name); that percentage is multiplied by a dollar figure from the statutory table in Minn. Stat. §176.101, subd. 2a (ranging roughly $114,260 for under 5.5% impairment up to $567,840 for 95.5-100%) to produce a lump-sum dollar award. This directly contradicts the site's "AMA Scheduled Weeks method (each body part worth a number of benefit weeks)" description — this is the highest-priority PPD rewrite of the six states. Source: Minn. Stat. §176.101, https://www.revisor.mn.gov/statutes/cite/176.101
+- **Claim/notice deadline:** 3 years from written injury report to the Commissioner (capped at 6 years from the accident date); occupational disease: 3 years from when the employee knew of the work-relatedness and resulting disability. Source: Minn. Stat. §176.151, https://www.revisor.mn.gov/statutes/cite/176.151
+- **Settlement type/approval:** "Stipulation for Settlement," must be filed within 45 days of reaching agreement, reviewed and approved by a Workers' Compensation Judge (Office of Administrative Hearings). Source: MN OAH General Proceedings Guide, https://mn.gov/cah/lawyers-and-litigants/workers-compensation/general-proceedings-guide/

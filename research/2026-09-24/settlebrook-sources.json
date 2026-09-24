@@ -1,0 +1,854 @@
+{
+  "pain-and-suffering": {
+    "main": [],
+    "california": [
+      {
+        "label": "Cal. Code Civ. Proc. \u00a7 335.1 \u2014 two-year statute of limitations for injury/death caused by wrongful act or neglect",
+        "url": "https://law.justia.com/codes/california/code-ccp/part-2/title-2/chapter-3/section-335-1/",
+        "supports": "2-year SOL for personal injury",
+        "tier": "secondary"
+      },
+      {
+        "label": "Cal. Civil Code \u00a7 1714 \u2014 general duty of ordinary care (does NOT establish comparative fault)",
+        "url": "https://law.justia.com/codes/california/code-civ/division-3/part-3/section-1714/",
+        "supports": "text check: \u00a7 1714 only states the general duty of ordinary care; it does not mention comparative fault, comparative negligence, or fault apportionment",
+        "tier": "secondary"
+      },
+      {
+        "label": "Li v. Yellow Cab Co. of California, 13 Cal.3d 804 (1975) \u2014 California Supreme Court opinion adopting pure comparative negligence",
+        "url": "https://law.justia.com/cases/california/supreme-court/3d/13/804.html",
+        "supports": "actual source of CA's pure comparative fault doctrine (judicial decision, not Civil Code \u00a7 1714)",
+        "tier": "secondary"
+      },
+      {
+        "label": "Cal. Civil Code \u00a7 3333.2 (MICRA) \u2014 noneconomic damages cap schedule in medical malpractice cases",
+        "url": "https://codes.findlaw.com/ca/civil-code/civ-sect-3333-2/",
+        "supports": "$470,000 injury-case cap / $650,000 wrongful-death cap for 2026 (AB 35 schedule: $350k/$500k base in 2023 rising $40k/$50k per year)",
+        "tier": "secondary"
+      }
+    ],
+    "texas": [
+      {
+        "label": "Tex. Civ. Prac. & Rem. Code \u00a7 16.003 \u2014 two-year limitations period for personal injury",
+        "url": "https://statutes.capitol.texas.gov/docs/cp/htm/cp.16.htm",
+        "supports": "2-year SOL",
+        "tier": "primary"
+      },
+      {
+        "label": "Tex. Civ. Prac. & Rem. Code \u00a7 33.001 \u2014 proportionate responsibility, >50% bar",
+        "url": "https://law.justia.com/codes/texas/civil-practice-and-remedies-code/title-2/subtitle-c/chapter-33/subchapter-a/section-33-001/",
+        "supports": "51% comparative-fault bar rule (claimant barred if >50% responsible)",
+        "tier": "secondary"
+      },
+      {
+        "label": "Tex. Civ. Prac. & Rem. Code \u00a7 74.301 \u2014 medical malpractice noneconomic damages caps",
+        "url": "https://codes.findlaw.com/tx/civil-practice-and-remedies-code/civ-prac-rem-sect-74-301/",
+        "supports": "$250,000 per physician/provider; $250,000 per institution up to 2 institutions ($500,000); $750,000 aggregate cap",
+        "tier": "secondary"
+      },
+      {
+        "label": "Texas Department of Insurance \u2014 Auto Insurance Consumer Bulletin (30/60/25 minimum liability coverage)",
+        "url": "https://www.tdi.texas.gov/pubs/consumer/cb020.html",
+        "supports": "$30,000 per-person minimum auto liability coverage",
+        "tier": "primary"
+      }
+    ],
+    "florida": [
+      {
+        "label": "Fla. Stat. \u00a7 95.11(4)(a) \u2014 two-year negligence statute of limitations",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0095/Sections/0095.11.html",
+        "supports": "current 2-year SOL for negligence actions",
+        "tier": "primary"
+      },
+      {
+        "label": "Fla. Stat. \u00a7 768.81(6) \u2014 modified comparative fault, >50% bar",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0700-0799/0768/Sections/0768.81.html",
+        "supports": "51% modified comparative fault bar (>50% at-fault claimants recover nothing)",
+        "tier": "primary"
+      },
+      {
+        "label": "Fla. Stat. \u00a7 627.736 \u2014 PIP coverage amount and 80%/60% reimbursement rates",
+        "url": "http://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0600-0699/0627/Sections/0627.736.html",
+        "supports": "$10,000 PIP limit; 80% medical / 60% lost-wage reimbursement \u2014 NOTE: page cites '\u00a7627.737' for this, which is the wrong section (see discrepancies file)",
+        "tier": "primary"
+      },
+      {
+        "label": "Fla. Stat. \u00a7 627.737 \u2014 tort threshold for pain-and-suffering lawsuits (the actual 'serious injury' gatekeeping statute)",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0600-0699/0627/Sections/0627.737.html",
+        "supports": "pain-and-suffering lawsuit threshold (permanent significant injury, etc.) \u2014 governs the threshold concept, not the PIP dollar/percentage figures",
+        "tier": "primary"
+      },
+      {
+        "label": "Fla. Stat. \u00a7 768.28(6)(a) \u2014 sovereign immunity notice-of-claim deadline",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0700-0799/0768/Sections/0768.28.html",
+        "supports": "3-year written notice deadline for claims against state/agencies (2 years for wrongful death)",
+        "tier": "primary"
+      }
+    ],
+    "new-york": [
+      {
+        "label": "N.Y. CPLR \u00a7 214(5) \u2014 three-year statute of limitations for personal injury",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/214",
+        "supports": "3-year SOL for personal injury",
+        "tier": "primary"
+      },
+      {
+        "label": "N.Y. CPLR \u00a7 214-a \u2014 medical malpractice statute of limitations",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/214-A",
+        "supports": "2.5-year (2 years 6 months) medical malpractice SOL",
+        "tier": "primary"
+      },
+      {
+        "label": "N.Y. CPLR \u00a7 1411 \u2014 pure comparative negligence, no bar to recovery",
+        "url": "https://law.justia.com/codes/new-york/cvp/article-14-a/1411/",
+        "supports": "pure comparative fault; culpable conduct 'shall not bar recovery,' only diminishes damages proportionally \u2014 no fault-percentage bar",
+        "tier": "secondary"
+      },
+      {
+        "label": "N.Y. Insurance Law \u00a7 5102 \u2014 serious injury definition and basic economic loss (PIP) limit",
+        "url": "https://www.nysenate.gov/legislation/laws/ISC/5102",
+        "supports": "$50,000 basic economic loss (PIP) coverage; statutory 'serious injury' definition",
+        "tier": "primary"
+      }
+    ],
+    "pennsylvania": [
+      {
+        "label": "42 Pa.C.S. \u00a7 5524 \u2014 two-year statute of limitations for personal injury",
+        "url": "https://law.justia.com/codes/pennsylvania/2022/title-42/chapter-55/section-5524/",
+        "supports": "2-year SOL",
+        "tier": "secondary"
+      },
+      {
+        "label": "42 Pa.C.S. \u00a7 7102(a) \u2014 comparative negligence, 51% bar",
+        "url": "https://codes.findlaw.com/pa/title-42-pacsa-judiciary-and-judicial-procedure/pa-csa-sect-42-7102/",
+        "supports": "51% comparative negligence bar (recovery barred when plaintiff's negligence exceeds defendant's)",
+        "tier": "secondary"
+      },
+      {
+        "label": "75 Pa.C.S. \u00a7 1705 \u2014 limited tort election",
+        "url": "https://law.justia.com/codes/pennsylvania/title-75/chapter-17/section-1705/",
+        "supports": "limited-tort threshold concept (pain-and-suffering recovery restricted absent 'serious injury')",
+        "tier": "secondary"
+      }
+    ],
+    "illinois": [
+      {
+        "label": "735 ILCS 5/13-202 \u2014 two-year statute of limitations for personal injury",
+        "url": "https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=073500050K13-202",
+        "supports": "2-year SOL",
+        "tier": "primary"
+      },
+      {
+        "label": "735 ILCS 5/2-1116 \u2014 modified comparative fault, >50% bar",
+        "url": "https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=073500050K2-1116",
+        "supports": "51% modified comparative fault bar",
+        "tier": "primary"
+      }
+    ],
+    "ohio": [
+      {
+        "label": "Ohio Rev. Code \u00a7 2305.10 \u2014 two-year statute of limitations for bodily injury",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-2305.10",
+        "supports": "2-year SOL",
+        "tier": "primary"
+      },
+      {
+        "label": "Ohio Rev. Code \u00a7 2315.33 \u2014 modified comparative fault, 51% bar",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-2315.33",
+        "supports": "recovery barred when plaintiff's fault exceeds combined fault of all other parties (>50%)",
+        "tier": "primary"
+      },
+      {
+        "label": "Ohio Rev. Code \u00a7 2315.18 \u2014 noneconomic damages cap",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-2315.18",
+        "supports": "greater of $250,000 or 3x economic damages, capped at $350,000/plaintiff or $500,000/occurrence",
+        "tier": "primary"
+      }
+    ],
+    "georgia": [
+      {
+        "label": "O.C.G.A. \u00a7 9-3-33 \u2014 two-year statute of limitations for personal injury",
+        "url": "https://law.justia.com/codes/georgia/title-9/chapter-3/article-2/section-9-3-33/",
+        "supports": "2-year SOL",
+        "tier": "secondary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 51-12-33(g) \u2014 50% fault bar to recovery",
+        "url": "https://law.justia.com/codes/georgia/title-51/chapter-12/article-2/section-51-12-33/",
+        "supports": "plaintiff barred from recovery if 50% or more at fault",
+        "tier": "secondary"
+      },
+      {
+        "label": "Atlanta Oculoplastic Surgery, P.C. v. Nestlehutt, 286 Ga. 731 (Ga. Mar. 22, 2010) \u2014 Georgia Supreme Court opinion",
+        "url": "https://images.law.com/contrib/content/uploads/documents/404/37394/GSC-ATLANTA-OCULOPLASTIC-SURGERY-V.-NESTLEHUTT-opinion.pdf",
+        "supports": "struck down statutory noneconomic damages cap in medical malpractice cases as unconstitutional",
+        "tier": "secondary"
+      }
+    ],
+    "arizona": [
+      {
+        "label": "Ariz. Rev. Stat. \u00a7 12-542 \u2014 two-year statute of limitations for personal injury",
+        "url": "https://www.azleg.gov/ars/12/00542.htm",
+        "supports": "2-year SOL",
+        "tier": "primary"
+      },
+      {
+        "label": "Ariz. Rev. Stat. \u00a7 12-2505 \u2014 pure comparative negligence",
+        "url": "https://www.azleg.gov/ars/12/02505.htm",
+        "supports": "pure comparative fault; damages reduced proportionally, no bar except for intentional/willful/wanton conduct",
+        "tier": "primary"
+      },
+      {
+        "label": "Ariz. Const. Art. 18, \u00a7 31 \u2014 prohibition on legislative damage caps",
+        "url": "https://www.azleg.gov/const/18/31.htm",
+        "supports": "constitutional prohibition on laws limiting damages for death or personal injury",
+        "tier": "primary"
+      }
+    ],
+    "washington": [
+      {
+        "label": "RCW 4.16.080 \u2014 three-year statute of limitations for personal injury",
+        "url": "https://app.leg.wa.gov/rcw/default.aspx?cite=4.16.080",
+        "supports": "3-year SOL",
+        "tier": "primary"
+      },
+      {
+        "label": "RCW 4.22.005 \u2014 pure comparative fault",
+        "url": "https://app.leg.wa.gov/rcw/default.aspx?cite=4.22.005",
+        "supports": "pure comparative fault; contributory fault diminishes damages proportionally but does not bar recovery",
+        "tier": "primary"
+      }
+    ],
+    "colorado": [
+      {
+        "label": "Colo. Rev. Stat. \u00a7 13-21-111 \u2014 modified comparative negligence, 50% bar",
+        "url": "https://law.justia.com/codes/colorado/title-13/article-21/part-1/section-13-21-111",
+        "supports": "recovery barred when plaintiff's negligence is equal to or greater than defendant's (50% bar)",
+        "tier": "secondary"
+      },
+      {
+        "label": "HB24-1472 (Colorado General Assembly) \u2014 raised general noneconomic damages cap",
+        "url": "https://leg.colorado.gov/bills/hb24-1472",
+        "supports": "general personal-injury noneconomic damages cap raised from $250,000 to $1.5 million, effective Jan. 1, 2025",
+        "tier": "primary"
+      },
+      {
+        "label": "SB24-130 (Colorado General Assembly) \u2014 medical malpractice noneconomic damages cap bill",
+        "url": "https://leg.colorado.gov/bills/sb24-130",
+        "supports": "CHECK ONLY \u2014 official bill summary describes raising the existing $300,000 med-mal cap to $500,000 over 5 years starting 2025; does not match the page's $530,000/2026 and $875,000/2029 figures (see discrepancies file)",
+        "tier": "primary"
+      }
+    ],
+    "michigan": [
+      {
+        "label": "Mich. Comp. Laws \u00a7 600.5805(2) \u2014 three-year statute of limitations for injury to person/property",
+        "url": "https://codes.findlaw.com/mi/chapter-600-revised-judicature-act-of-1961/mi-comp-laws-600-5805/",
+        "supports": "3-year SOL, subsection (2)",
+        "tier": "secondary"
+      },
+      {
+        "label": "Mich. Comp. Laws \u00a7 600.1483 \u2014 noneconomic damages cap and CPI-adjustment mechanism",
+        "url": "https://codes.findlaw.com/mi/chapter-600-revised-judicature-act-of-1961/mi-comp-laws-600-1483/",
+        "supports": "base caps $280,000 (standard) / $500,000 (catastrophic), annually adjusted by the state treasurer using CPI \u2014 mechanism confirmed; the specific 2026 figures ($596,400/$1,065,000) on the page were not independently confirmed against an official 2026 notice (see discrepancies file)",
+        "tier": "secondary"
+      }
+    ],
+    "nevada": [
+      {
+        "label": "NRS 11.190(4)(e) \u2014 two-year statute of limitations for personal injury",
+        "url": "https://www.leg.state.nv.us/nrs/nrs-011.html",
+        "supports": "2-year SOL",
+        "tier": "primary"
+      },
+      {
+        "label": "NRS 41.036 \u2014 notice-of-claim deadline for actions against the State/political subdivisions",
+        "url": "https://www.leg.state.nv.us/nrs/nrs-041.html",
+        "supports": "text check: statute requires notice within 2 YEARS, not 6 months as the page states (see discrepancies file)",
+        "tier": "primary"
+      },
+      {
+        "label": "NRS 41.141 \u2014 comparative negligence, 51% bar",
+        "url": "https://law.justia.com/codes/nevada/chapter-41/statute-41-141/",
+        "supports": "recovery barred when plaintiff's negligence is greater than combined defendant negligence (>50%)",
+        "tier": "secondary"
+      }
+    ],
+    "north-carolina": [
+      {
+        "label": "N.C. Gen. Stat. \u00a7 1-52(5) \u2014 three-year statute of limitations for personal injury",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_1/GS_1-52.html",
+        "supports": "3-year SOL",
+        "tier": "primary"
+      },
+      {
+        "label": "N.C. Gen. Stat. \u00a7 1D-25(b) \u2014 punitive damages cap",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_1D/GS_1D-25.html",
+        "supports": "punitive damages capped at greater of 3x compensatory damages or $250,000",
+        "tier": "primary"
+      },
+      {
+        "label": "N.C. Gen. Stat. \u00a7 90-21.19 \u2014 medical malpractice noneconomic damages cap and CPI adjustment",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_90/GS_90-21.19.html",
+        "supports": "base $500,000 cap (2011 baseline), CPI-adjusted every 3 years starting Jan. 1, 2014 \u2014 2026 is a scheduled adjustment year, consistent with the page's $712,847/2026 figure (exact figure not independently recomputed)",
+        "tier": "primary"
+      }
+    ]
+  },
+  "car-accident": {
+    "main": [
+      {
+        "label": "California DMV \u2014 Auto Insurance Requirements",
+        "url": "https://www.dmv.ca.gov/portal/vehicle-registration/insurance-requirements/",
+        "supports": "Current CA minimum liability limits are 30/60/15, not the 15/30/5 figure the main page states for California",
+        "tier": "primary"
+      },
+      {
+        "label": "Texas Department of Insurance \u2014 Consumer Bulletin CB-020 (minimum auto liability coverage)",
+        "url": "https://www.tdi.texas.gov/pubs/consumer/cb020.html",
+        "supports": "Texas minimum liability limits are 30/60/25, as stated on the main page",
+        "tier": "primary"
+      },
+      {
+        "label": "Texas Civil Practice & Remedies Code \u00a7 33.001 (Justia)",
+        "url": "https://law.justia.com/codes/texas/civil-practice-and-remedies-code/title-2/subtitle-c/chapter-33/subchapter-a/section-33-001/",
+        "supports": "Texas modified comparative fault, barred if plaintiff's responsibility is greater than 50% (51% bar), as grouped on the main page",
+        "tier": "secondary"
+      },
+      {
+        "label": "735 ILCS 5/2-1116 (FindLaw)",
+        "url": "https://codes.findlaw.com/il/chapter-735-civil-procedure/il-st-sect-735-5-2-1116/",
+        "supports": "Illinois modified comparative fault, barred if plaintiff fault is more than 50% (51% bar), as grouped with Texas/Illinois on the main page",
+        "tier": "secondary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 51-12-33 (Justia)",
+        "url": "https://law.justia.com/codes/georgia/2022/title-51/chapter-12/article-2/section-51-12-33/",
+        "supports": "Georgia 50% bar comparative fault rule, as grouped with Colorado on the main page",
+        "tier": "secondary"
+      }
+    ],
+    "california": [
+      {
+        "label": "Cal. Code Civ. Proc. \u00a7 335.1 (Justia)",
+        "url": "https://law.justia.com/codes/california/code-ccp/part-2/title-2/chapter-3/section-335-1/",
+        "supports": "2-year statute of limitations for personal injury in California",
+        "tier": "secondary"
+      },
+      {
+        "label": "Cal. Code Civ. Proc. \u00a7 338 (Justia)",
+        "url": "https://law.justia.com/codes/california/code-ccp/part-2/title-2/chapter-3/section-338/",
+        "supports": "3-year statute of limitations for injury to personal property (e.g., vehicle property damage)",
+        "tier": "secondary"
+      },
+      {
+        "label": "California DMV \u2014 Auto Insurance Requirements",
+        "url": "https://www.dmv.ca.gov/portal/vehicle-registration/insurance-requirements/",
+        "supports": "Current CA minimum liability limits of $30,000/$60,000/$15,000 (30/60/15), confirming the page's 'post-2025' figures",
+        "tier": "primary"
+      },
+      {
+        "label": "California Dept. of Insurance Bulletin 2023-1 re: SB 1107",
+        "url": "https://www.insurance.ca.gov/0250-insurers/0300-insurers/0200-bulletins/bulletin-notices-commiss-opinion/upload/bulletin-2023-1-re-sb-1107-final-003.pdf",
+        "supports": "New CA minimum liability limits (30/60/15) effective January 1, 2025 under SB 1107",
+        "tier": "primary"
+      },
+      {
+        "label": "CA Senate Judiciary Committee analysis of AB 35 (MICRA reform)",
+        "url": "https://sjud.senate.ca.gov/sites/sjud.senate.ca.gov/files/ab_35_reyes_sjud_analysis_updated.pdf",
+        "supports": "MICRA non-economic damages cap started at $350,000 in 2023 and rises $40,000/year, applies only to medical malpractice (not car accidents)",
+        "tier": "primary"
+      }
+    ],
+    "texas": [
+      {
+        "label": "Texas Civil Practice & Remedies Code \u00a7 16.003 (Justia)",
+        "url": "https://law.justia.com/codes/texas/civil-practice-and-remedies-code/title-2/subtitle-b/chapter-16/subchapter-a/section-16-003/",
+        "supports": "2-year statute of limitations for personal injury and injury to personal property in Texas",
+        "tier": "secondary"
+      },
+      {
+        "label": "Texas Civil Practice & Remedies Code \u00a7 33.001 (Justia)",
+        "url": "https://law.justia.com/codes/texas/civil-practice-and-remedies-code/title-2/subtitle-c/chapter-33/subchapter-a/section-33-001/",
+        "supports": "Modified comparative fault, barred if plaintiff responsibility is greater than 50% (51% bar)",
+        "tier": "secondary"
+      },
+      {
+        "label": "Texas Department of Insurance \u2014 Consumer Bulletin CB-020",
+        "url": "https://www.tdi.texas.gov/pubs/consumer/cb020.html",
+        "supports": "Texas minimum liability coverage of 30/60/25",
+        "tier": "primary"
+      }
+    ],
+    "florida": [
+      {
+        "label": "Florida Statutes \u00a7 95.11(5)(a)",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0095/Sections/0095.11.html",
+        "supports": "2-year statute of limitations for negligence actions in Florida (post-HB 837)",
+        "tier": "primary"
+      },
+      {
+        "label": "Florida Statutes \u00a7 627.736",
+        "url": "http://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0600-0699/0627/Sections/0627.736.html",
+        "supports": "$10,000 minimum PIP medical/disability benefit requirement in Florida",
+        "tier": "primary"
+      },
+      {
+        "label": "Florida Statutes \u00a7 768.81",
+        "url": "http://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0700-0799/0768/Sections/0768.81.html",
+        "supports": "Modified comparative fault; a party more than 50% at fault may not recover (51% bar)",
+        "tier": "primary"
+      }
+    ],
+    "new-york": [
+      {
+        "label": "NY CPLR \u00a7 214",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/214",
+        "supports": "3-year statute of limitations for personal injury in New York",
+        "tier": "primary"
+      },
+      {
+        "label": "NY Insurance Law \u00a7 5102",
+        "url": "https://www.nysenate.gov/legislation/laws/ISC/5102",
+        "supports": "$50,000 basic economic loss (PIP) benefit and the statutory 'serious injury' threshold categories",
+        "tier": "primary"
+      },
+      {
+        "label": "NY General Municipal Law \u00a7 50-e",
+        "url": "https://www.nysenate.gov/legislation/laws/GMU/50-E",
+        "supports": "90-day notice of claim deadline for suits against NY municipal/government entities",
+        "tier": "primary"
+      }
+    ],
+    "illinois": [
+      {
+        "label": "735 ILCS 5/13-202 (Illinois General Assembly)",
+        "url": "https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=073500050K13-202",
+        "supports": "2-year statute of limitations for personal injury actions in Illinois",
+        "tier": "primary"
+      },
+      {
+        "label": "735 ILCS 5/13-205 (FindLaw)",
+        "url": "https://codes.findlaw.com/il/chapter-735-civil-procedure/il-st-sect-735-5-13-205/",
+        "supports": "5-year statute of limitations for injury to property (e.g., vehicle) in Illinois",
+        "tier": "secondary"
+      },
+      {
+        "label": "735 ILCS 5/2-1116 (FindLaw)",
+        "url": "https://codes.findlaw.com/il/chapter-735-civil-procedure/il-st-sect-735-5-2-1116/",
+        "supports": "Modified comparative fault, barred if plaintiff fault is more than 50% (51% bar)",
+        "tier": "secondary"
+      }
+    ],
+    "pennsylvania": [
+      {
+        "label": "42 Pa.C.S. \u00a7 5524 (Justia)",
+        "url": "https://law.justia.com/codes/pennsylvania/2022/title-42/chapter-55/section-5524/",
+        "supports": "2-year statute of limitations for personal injury in Pennsylvania",
+        "tier": "secondary"
+      },
+      {
+        "label": "75 Pa.C.S. \u00a7 1711 (Justia)",
+        "url": "https://law.justia.com/codes/pennsylvania/2022/title-75/chapter-17/section-1711/",
+        "supports": "$5,000 minimum first-party medical (PIP) benefit requirement in Pennsylvania",
+        "tier": "secondary"
+      },
+      {
+        "label": "75 Pa.C.S. \u00a7 1705 (Justia)",
+        "url": "https://law.justia.com/codes/pennsylvania/2022/title-75/chapter-17/section-1705/",
+        "supports": "Limited tort vs. full tort election framework in Pennsylvania",
+        "tier": "secondary"
+      }
+    ],
+    "georgia": [
+      {
+        "label": "O.C.G.A. \u00a7 9-3-33 (Justia)",
+        "url": "https://law.justia.com/codes/georgia/2022/title-9/chapter-3/article-2/section-9-3-33/",
+        "supports": "2-year statute of limitations for personal injury in Georgia",
+        "tier": "secondary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 51-12-33 (Justia)",
+        "url": "https://law.justia.com/codes/georgia/2022/title-51/chapter-12/article-2/section-51-12-33/",
+        "supports": "Georgia's 50% bar comparative fault rule",
+        "tier": "secondary"
+      },
+      {
+        "label": "Georgia OCI \u2014 Consumer Guide for Automobile Insurance",
+        "url": "https://oci.georgia.gov/document/document/guide-auto-insurance/download",
+        "supports": "Georgia minimum liability limits of 25/50/25",
+        "tier": "primary"
+      }
+    ],
+    "ohio": [
+      {
+        "label": "Ohio Revised Code \u00a7 2305.10",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-2305.10",
+        "supports": "2-year statute of limitations for bodily injury in Ohio",
+        "tier": "primary"
+      },
+      {
+        "label": "Ohio Revised Code \u00a7 2315.18",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-2315.18",
+        "supports": "Non-economic damages cap: greater of $250,000 or 3x economic damages, up to $350,000 per plaintiff",
+        "tier": "primary"
+      },
+      {
+        "label": "Ohio BMV \u2014 Mandatory Insurance",
+        "url": "https://bmv.ohio.gov/dl-mandatory-insurance.aspx",
+        "supports": "Ohio minimum liability limits of $25,000/$50,000/$25,000",
+        "tier": "primary"
+      }
+    ],
+    "arizona": [
+      {
+        "label": "Arizona Revised Statutes \u00a7 12-542",
+        "url": "https://www.azleg.gov/ars/12/00542.htm",
+        "supports": "2-year statute of limitations for personal injury in Arizona",
+        "tier": "primary"
+      },
+      {
+        "label": "Arizona Revised Statutes \u00a7 12-2505",
+        "url": "https://www.azleg.gov/ars/12/02505.htm",
+        "supports": "Pure comparative fault in Arizona \u2014 recovery allowed at any fault level, reduced proportionally",
+        "tier": "primary"
+      }
+    ],
+    "washington": [
+      {
+        "label": "RCW 4.16.080",
+        "url": "https://app.leg.wa.gov/rcw/default.aspx?cite=4.16.080",
+        "supports": "3-year statute of limitations for personal injury/property injury in Washington",
+        "tier": "primary"
+      },
+      {
+        "label": "RCW 4.22.005",
+        "url": "https://app.leg.wa.gov/rcw/default.aspx?cite=4.22.005",
+        "supports": "Pure comparative fault in Washington \u2014 fault reduces damages proportionally but does not bar recovery",
+        "tier": "primary"
+      },
+      {
+        "label": "RCW 46.29.090",
+        "url": "https://app.leg.wa.gov/rcw/default.aspx?cite=46.29.090",
+        "supports": "Washington minimum liability limits of $25,000/$50,000/$10,000",
+        "tier": "primary"
+      }
+    ],
+    "colorado": [
+      {
+        "label": "C.R.S. \u00a7 13-80-101 (Justia)",
+        "url": "https://law.justia.com/codes/colorado/2023/title-13/limitation-of-actions/article-80/section-13-80-101/",
+        "supports": "3-year statute of limitations for tort actions for bodily injury/property damage arising from motor vehicle use (13-80-101(1)(n))",
+        "tier": "secondary"
+      },
+      {
+        "label": "C.R.S. \u00a7 13-21-111 (Justia)",
+        "url": "https://law.justia.com/codes/colorado/2023/title-13/damages-and-limitations-on-actions/article-21/part-1/section-13-21-111/",
+        "supports": "Colorado's 50% bar comparative negligence rule",
+        "tier": "secondary"
+      },
+      {
+        "label": "Colorado General Assembly \u2014 HB24-1472 bill page",
+        "url": "https://leg.colorado.gov/bills/hb24-1472",
+        "supports": "Non-economic damages cap raised to $1.5 million for civil actions filed on/after January 1, 2025",
+        "tier": "primary"
+      }
+    ],
+    "michigan": [
+      {
+        "label": "MCL 500.3135 (Michigan Legislature)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-500-3135",
+        "supports": "Michigan mini-tort limit of $3,000 for vehicle damage (accidents after July 1, 2020) and the no-fault serious-impairment framework",
+        "tier": "primary"
+      }
+    ],
+    "nevada": [
+      {
+        "label": "NRS 11.190",
+        "url": "https://www.leg.state.nv.us/nrs/nrs-011.html#NRS011Sec190",
+        "supports": "2-year statute of limitations for personal injury in Nevada",
+        "tier": "primary"
+      },
+      {
+        "label": "NRS 41.141 (Justia)",
+        "url": "https://law.justia.com/codes/nevada/chapter-41/statute-41-141/",
+        "supports": "Nevada modified comparative fault; barred if plaintiff negligence is greater than defendant's (51% bar)",
+        "tier": "secondary"
+      },
+      {
+        "label": "Nevada Division of Insurance \u2014 Automobile Insurance",
+        "url": "https://doi.nv.gov/Consumers/Automobile-Insurance/",
+        "supports": "Nevada minimum liability limits of $25,000/$50,000/$20,000 (25/50/20)",
+        "tier": "primary"
+      }
+    ],
+    "north-carolina": [
+      {
+        "label": "N.C. Gen. Stat. \u00a7 1-52",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_1/GS_1-52.html",
+        "supports": "3-year statute of limitations for personal injury in North Carolina",
+        "tier": "primary"
+      },
+      {
+        "label": "NC Dept. of Insurance \u2014 Changes to Rating of Automobile Insurance Policies, Effective July 1, 2025",
+        "url": "https://www.ncdoi.gov/changes-rating-automobile-insurance-policies-effective-july-1-2025",
+        "supports": "North Carolina's minimum liability limits increased to $50,000/$100,000/$50,000 effective July 1, 2025 (prior minimum was $30,000/$60,000/$25,000)",
+        "tier": "primary"
+      }
+    ]
+  },
+  "workers-comp": {
+    "main": [],
+    "georgia": [
+      {
+        "label": "Georgia State Board of Workers' Compensation - Summary of Provisions (official rate/benefit summary PDF)",
+        "url": "https://sbwc.georgia.gov/document/publication/provisionspdf/download",
+        "supports": "Max TTD/PPD weekly rate $800 (rev. 07/01/25); PTD-related TPD $533; confirms rate current through 2025-2026",
+        "tier": "primary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 34-9-261 - Compensation for total disability (Justia mirror of Georgia Code)",
+        "url": "https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-261/",
+        "supports": "400-week maximum TTD duration; catastrophic-injury exception",
+        "tier": "secondary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 34-9-263 - Compensation for specific member losses (Justia mirror)",
+        "url": "https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/",
+        "supports": "PPD = AMA Guides 5th ed. impairment % x statutory scheduled weeks per body part (arm 225, hand 160, thumb 60, etc.)",
+        "tier": "secondary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 34-9-82 - Statute of limitations for filing claim (Justia mirror)",
+        "url": "https://law.justia.com/codes/georgia/2022/title-34/chapter-9/article-3/part-1/section-34-9-82",
+        "supports": "1-year filing deadline (2 years if income benefits paid; 1 year after last remedial treatment)",
+        "tier": "secondary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 34-9-15 - Settlement approval by Board (Justia mirror)",
+        "url": "https://law.justia.com/codes/georgia/title-34/chapter-9/article-1/section-34-9-15/",
+        "supports": "Settlement not binding until approved by the State Board of Workers' Compensation",
+        "tier": "secondary"
+      },
+      {
+        "label": "Georgia SBWC - Settlement Division",
+        "url": "https://sbwc.georgia.gov/divisions-offices/settlement",
+        "supports": "Board settlement/approval process",
+        "tier": "primary"
+      }
+    ],
+    "michigan": [
+      {
+        "label": "Michigan LEO - 2026 WDCA Weekly Benefit Rate Book (official PDF)",
+        "url": "https://www.michigan.gov/leo/-/media/Project/Websites/leo/Documents/WDCA-Calculation-Program/wca_2026_Rate_Book.pdf",
+        "supports": "2026 max weekly benefit $1,201.00; min $0.74; 80% of after-tax (net) AWW basis; SAWW $1,333.88",
+        "tier": "primary"
+      },
+      {
+        "label": "MCL 418.351 - Michigan Legislature (Weekly compensation, total disability)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-418-351",
+        "supports": "80% of after-tax AWW formula; no fixed week cap on TTD payments; 800-week conclusive-presumption cutoff (different concept)",
+        "tier": "primary"
+      },
+      {
+        "label": "MCL 418.361 - Specific loss schedule (FindLaw mirror; official site blocked WebFetch by robots.txt)",
+        "url": "https://codes.findlaw.com/mi/chapter-418-workers-disability-compensation/mi-comp-laws-418-361/",
+        "supports": "Fixed statutory weeks per body part (thumb 65, hand 215, arm 269, leg 215, foot 162, eye 162); no AMA Guides reference; 500-week permanency-determination deadline is separate from any TTD cap",
+        "tier": "secondary"
+      },
+      {
+        "label": "Michigan Redemption Order form WC-113 (official Dept. of Labor and Economic Opportunity)",
+        "url": "https://www.michigan.gov/-/media/Project/Websites/leo/Documents/WDCA-FORMS/Litigation/wca_WC113_fillin.pdf",
+        "supports": "Settlement ('redemption') approved by a Workers' Disability Compensation Agency Magistrate",
+        "tier": "primary"
+      }
+    ],
+    "new-jersey": [
+      {
+        "label": "NJDOL press release - New Benefit Rates for 2026 (official)",
+        "url": "https://www.nj.gov/labor/lwdhome/press/2025/20251229_newbenefitrates2026.shtml",
+        "supports": "2026 max weekly workers' comp benefit $1,199 (up from $1,159 in 2025), effective Jan 1, 2026",
+        "tier": "primary"
+      },
+      {
+        "label": "N.J. Dept. of Labor - Schedule of Disabilities (official PPD schedule PDF)",
+        "url": "https://www.nj.gov/labor/workerscompensation/assets/PDFs/Legal/2022_schedule.pdf",
+        "supports": "PPD = statutory schedule of weeks by body part (arm 330, hand up to 300, thumb 80, etc.); rate 70% of wages; illustrates schedule-based (not AMA-based) conversion of % disability to weeks",
+        "tier": "primary"
+      },
+      {
+        "label": "N.J. Dept. of Labor - full Workers' Compensation Law text (official PDF, rev. Dec 15, 2025)",
+        "url": "https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf",
+        "supports": "R.S. 34:15-12(a) 400-week TTD cap and 70%/min-max AWW formula; R.S. 34:15-12(c) schedule-based PPD (no AMA Guides); R.S. 34:15-14 7-day waiting period; R.S. 34:15-17 90-day notice; R.S. 34:15-41/51 2-year filing deadline",
+        "tier": "primary"
+      }
+    ],
+    "virginia": [
+      {
+        "label": "Virginia Workers' Compensation Commission - Notice of 2026 Rates (official)",
+        "url": "https://www.workcomp.virginia.gov/news/notice-of-2026-rates",
+        "supports": "Max weekly compensation $1,507.01 and min $376.75, effective July 1, 2026; COLA 2.65% effective Oct 1, 2026",
+        "tier": "primary"
+      },
+      {
+        "label": "Va. Code \u00a7 65.2-518 - Limitation upon total compensation (official Code of Virginia)",
+        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-518/",
+        "supports": "500-week overall cap on total compensation",
+        "tier": "primary"
+      },
+      {
+        "label": "Va. Code \u00a7 65.2-503 - Permanent loss of use of member (official Code of Virginia)",
+        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/",
+        "supports": "PPD = Virginia's own statutory schedule of weeks by body part (arm 200, hand 150, thumb 60, etc.); statute text does not reference AMA Guides",
+        "tier": "primary"
+      },
+      {
+        "label": "Va. Code \u00a7 65.2-701 - Agreement as to compensation (official Code of Virginia)",
+        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter7/section65.2-701/",
+        "supports": "Settlement agreement void unless approved by the Commission",
+        "tier": "primary"
+      },
+      {
+        "label": "Virginia Workers' Compensation Commission - Injured Workers page (official)",
+        "url": "https://workcomp.virginia.gov/content/injured-workers",
+        "supports": "2-year claim filing deadline; 30-day notice-to-employer deadline",
+        "tier": "primary"
+      }
+    ],
+    "colorado": [
+      {
+        "label": "Colorado Dept. of Labor & Employment - Division of Workers' Compensation Updates (official)",
+        "url": "https://cdle.colorado.gov/dwc/dowc-updates",
+        "supports": "Confirms a new Maximum Benefits Order effective July 1, 2026 exists (2026-2027 order); exact new dollar figure not extractable from this page (linked PDF requires JS/Box viewer)",
+        "tier": "primary"
+      },
+      {
+        "label": "C.R.S. \u00a7 8-42-105 - Temporary total disability (Justia mirror)",
+        "url": "https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-105/",
+        "supports": "TTD has NO fixed week cap - continues until MMI, return to work, or written release, not a fixed 104-week limit",
+        "tier": "secondary"
+      },
+      {
+        "label": "C.R.S. \u00a7 8-43-103 - Notice of injury (Colorado.Public.Law mirror)",
+        "url": "https://colorado.public.law/statutes/crs_8-43-103",
+        "supports": "Employer must notify Division/carrier within 10 days of injury",
+        "tier": "secondary"
+      },
+      {
+        "label": "Colorado DOWC - FAQ Uniform Settlement Agreements (official PDF)",
+        "url": "https://cdle.colorado.gov/sites/cdle/files/FAQ_Uniform_Settlement_Agreements.pdf",
+        "supports": "Full & final settlements require DOWC review/approval via Uniform Settlement Agreement form",
+        "tier": "primary"
+      },
+      {
+        "label": "Colorado Division of Workers' Compensation \u2014 Maximum Benefits Order (eff. July 1, 2026)",
+        "url": "https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g",
+        "supports": "Max weekly TTD $1464.12 (Effective July 1, 2026, 12:01 a.m. (FY2026-2027))",
+        "tier": "primary"
+      }
+    ],
+    "minnesota": [
+      {
+        "label": "Minnesota DLI - Workers' Compensation Rates (official PDF, comprates.pdf)",
+        "url": "https://www.dli.mn.gov/sites/default/files/pdf/comprates.pdf",
+        "supports": "2026 max weekly rate $1,594.08 effective Oct 1, 2026 (108% of SAWW $1,476); min $318.82",
+        "tier": "primary"
+      },
+      {
+        "label": "Minnesota DLI - Work comp rate information / SAWW page (official)",
+        "url": "https://www.dli.mn.gov/business/workers-compensation/work-comp-rate-information-statewide-average-weekly-wage-saww",
+        "supports": "Prior-year (effective Oct 1, 2025) max weekly rate $1,536.84, min $307.37 - the rate actually in effect for claims on Sept 24, 2026",
+        "tier": "primary"
+      },
+      {
+        "label": "Minn. Stat. \u00a7 176.101 - Permanent partial disability / temporary total disability (official MN Revisor's Office)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/176.101",
+        "supports": "TTD caps at 130 weeks paid; PPD = impairment % (Minnesota's own rules) multiplied by a dollar-value table (not scheduled weeks, not AMA Guides by name), ranging $114,260-$567,840 by impairment tier",
+        "tier": "primary"
+      },
+      {
+        "label": "Minn. Stat. \u00a7 176.151 - Limitations (official MN Revisor's Office)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/176.151",
+        "supports": "3-year filing deadline from written injury report, capped at 6 years from accident date",
+        "tier": "primary"
+      },
+      {
+        "label": "MN Office of Administrative Hearings - Workers' Comp General Proceedings Guide (official)",
+        "url": "https://mn.gov/cah/lawyers-and-litigants/workers-compensation/general-proceedings-guide/",
+        "supports": "Settlements = Stipulation for Settlement approved by a Workers' Compensation Judge; must be filed within 45 days of agreement",
+        "tier": "primary"
+      }
+    ],
+    "california": [
+      {
+        "label": "CA Dept. of Industrial Relations - DIR News Release 2025-116 (official)",
+        "url": "https://dir.ca.gov/DIRNews/2025/2025-116.html",
+        "supports": "2026 TTD min $264.61 / max $1,764.11 per week, effective Jan 1, 2026",
+        "tier": "primary"
+      }
+    ],
+    "texas": [
+      {
+        "label": "Texas DWC - 2026 proposed/adopted DWC rules (official)",
+        "url": "https://www.tdi.texas.gov/wc/rules/2026rules.html",
+        "supports": "Confirms official 2026 DWC rulemaking page exists; exact max/min weekly benefit dollar figure not extractable from this page's fetched text",
+        "tier": "primary_unverified_figure"
+      }
+    ],
+    "florida": [
+      {
+        "label": "Florida CFO/Division of Workers' Compensation - AWW & Maximum Compensation Rate page (official)",
+        "url": "https://www.myfloridacfo.com/division/wc/insurer/awwrate",
+        "supports": "Confirms mechanism (max rate = 100% of statewide AWW, rounded); links to Jan 1, 2026 Informational Memorandum; exact 2026 dollar figure not extractable from fetched text",
+        "tier": "primary_unverified_figure"
+      }
+    ],
+    "new-york": [
+      {
+        "label": "NY Workers' Compensation Board - Subject Number 046-1805 (official)",
+        "url": "https://www.wcb.ny.gov/content/main/SubjectNos/sn046_1805.jsp",
+        "supports": "Max weekly benefit rate $1,281.50 for dates of injury July 1, 2026-June 30, 2027, based on NYSAWW $1,922.25",
+        "tier": "primary"
+      }
+    ],
+    "illinois": [
+      {
+        "label": "Illinois Workers' Compensation Commission - Benefit Rates page (official)",
+        "url": "https://iwcc.illinois.gov/resources/resources-for/benefits.html",
+        "supports": "Confirms IWCC posts TTD max rates twice yearly (Jan 15/Jul 15); exact current dollar figure not extractable from fetched text (JS-loaded table)",
+        "tier": "primary_unverified_figure"
+      }
+    ],
+    "pennsylvania": [
+      {
+        "label": "PA Dept. of Labor & Industry - Statewide Average Weekly Wage (SAWW) page (official)",
+        "url": "https://www.pa.gov/agencies/dli/programs-services/workers-compensation/workers--compensation-claim/statewide-average-weekly-wage-saww",
+        "supports": "2026 max weekly benefit $1,394.00, effective Jan 1, 2026 (up from $1,347.00 in 2025)",
+        "tier": "primary"
+      }
+    ],
+    "ohio": [
+      {
+        "label": "Ohio BWC - For Workers / Benefits page (official)",
+        "url": "https://info.bwc.ohio.gov/for-workers/benefits",
+        "supports": "Confirms official BWC benefits landing page exists; exact 2026 dollar figures not extractable from fetched text (linked sub-pages not rendered)",
+        "tier": "primary_unverified_figure"
+      }
+    ],
+    "north-carolina": [
+      {
+        "label": "NC Industrial Commission - Maximum Weekly Compensation Rates 1982-2026 (official)",
+        "url": "https://www.ic.nc.gov/workers-compensation-claims/maximum-weekly-compensation-rates",
+        "supports": "2026 maximum weekly benefit $1,446.00 (up from $1,380.00 in 2025)",
+        "tier": "primary"
+      }
+    ],
+    "arizona": [
+      {
+        "label": "Industrial Commission of Arizona - Average Monthly Wage Maximum History (official)",
+        "url": "https://www.azica.gov/average-monthly-wage-maximum-history",
+        "supports": "Confirms official ICA page tracking maximum average monthly wage history exists; exact 2026 figure not extractable from fetched text",
+        "tier": "primary_unverified_figure"
+      }
+    ]
+  }
+}

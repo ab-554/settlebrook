@@ -11,7 +11,7 @@
 //   • Calls calculateWorkersComp() from workersComp.ts
 //   • Passes WorkersCompResult to WorkersCompResult component
 //   • Texas non-subscriber warning panel
-//   • AD_SLOT_MID between form and results
+//   • No manual ad slots (Auto Ads only, per 2026-09-23 cleanup)
 //   • Same glassmorphism card + AGENTS.md color tokens throughout
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -22,8 +22,39 @@ import ImpairmentSlider from './ImpairmentSlider'
 import WorkersCompResult from './WorkersCompResult'
 import DisclaimerBanner from './DisclaimerBanner'
 import { calculateWorkersComp } from '@/lib/calculations/workersComp'
-import { WORKERS_COMP_STATES } from '@/lib/data/workersCompStates'
+import { WORKERS_COMP_STATES, NON_GENERIC_PPD_SLUGS } from '@/lib/data/workersCompStates'
 import type { WorkersCompResult as WorkersCompResultType } from '@/lib/calculations/types'
+
+// ─── States where the generic AMA-scheduled-weeks PPD formula does not match
+// the state's real method (LEGAL-FIXES.md A.12). PPD output is hidden for
+// these states and replaced with a short explanation + statute link.
+// State-specific PPD module planned — do not re-enable generic PPD here.
+const NON_GENERIC_PPD_INFO: Record<string, { explanation: string; statuteLabel: string; statuteUrl: string }> = {
+  michigan: {
+    explanation:
+      'Michigan PPD uses a fixed statutory schedule of weeks per body part (thumb 65, hand 215, arm 269, leg 215, foot 162, eye 162) under MCL 418.361 — not the AMA Guides, and not scaled by an impairment percentage the way this calculator\'s generic formula assumes.',
+    statuteLabel: 'MCL 418.361 — specific loss schedule',
+    statuteUrl: 'https://codes.findlaw.com/mi/chapter-418-workers-disability-compensation/mi-comp-laws-418-361/',
+  },
+  minnesota: {
+    explanation:
+      'Minnesota PPD is not weeks-based at all. A physician rates whole-body impairment as a percentage under the state\'s own Administrative Rules Chapter 5223, and that percentage is multiplied by a dollar figure from the statutory table in Minn. Stat. § 176.101, subd. 2a to produce a lump-sum award.',
+    statuteLabel: 'Minn. Stat. § 176.101',
+    statuteUrl: 'https://www.revisor.mn.gov/statutes/cite/176.101',
+  },
+  'new-jersey': {
+    explanation:
+      'New Jersey PPD uses its own statutory schedule of weeks per body part (arm 330, hand up to 300, foot up to 285, thumb 80, etc.) under R.S. 34:15-12(c) — not the AMA Guides.',
+    statuteLabel: 'NJDOL schedule of disabilities',
+    statuteUrl: 'https://www.nj.gov/labor/workerscompensation/assets/PDFs/Legal/2022_schedule.pdf',
+  },
+  virginia: {
+    explanation:
+      'Virginia PPD uses its own statutory schedule of weeks per body part (arm 200, hand 150, foot 125, leg 175, thumb 60, single eye 100, single ear 50) under Va. Code § 65.2-503, proportionally awarded for partial loss of use — not the AMA Guides.',
+    statuteLabel: 'Va. Code § 65.2-503',
+    statuteUrl: 'https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/',
+  },
+}
 
 // ─── Props ───────────────────────────────────────────────────────────────────
 
@@ -153,11 +184,6 @@ export default function WorkersCompCalculator({
     }
   }
 
-  // Empty ad slot container — no visible text, no height; data-ad-slot attr preserved for future AdSense
-  const AdSlot = ({ id }: { id: string }) => (
-    <div id={id} data-ad-slot={id} aria-hidden="true" />
-  )
-
   // ── Calculate ──────────────────────────────────────────────────────────────
 
   function handleCalculate(e: React.FormEvent) {
@@ -206,7 +232,6 @@ export default function WorkersCompCalculator({
     <div className="mx-auto flex flex-col gap-5" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
 
       <DisclaimerBanner variant="banner" stateName={propStateName} />
-      <AdSlot id="WC_AD_SLOT_TOP" />
 
       <section aria-label="Workers comp settlement calculator" className="calc-panel">
 
@@ -306,7 +331,7 @@ export default function WorkersCompCalculator({
                   </span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#475569' }}>Weekly Cap ({selectedState.weeklyCapYear})</span>
+                  <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#475569' }}>Weekly Cap ({selectedState.weeklyCapEffectivePeriod})</span>
                   <span className="text-sm font-bold" style={{ color: '#34D399' }}>
                     ${selectedState.weeklyCapAmount.toLocaleString()}/wk
                   </span>
@@ -560,14 +585,34 @@ export default function WorkersCompCalculator({
           aria-live="polite"
           className="scroll-mt-4"
         >
-          <AdSlot id="WC_AD_SLOT_MID" />
           <div className="mt-4">
-            <WorkersCompResult result={result} />
+            {result.benefitType === 'ppd' && selectedState && NON_GENERIC_PPD_SLUGS.has(selectedState.slug) ? (
+              <div
+                className="rounded-xl px-4 py-4 flex flex-col gap-2"
+                style={{ background: 'rgba(96,165,250,0.07)', border: '1px solid rgba(96,165,250,0.18)' }}
+              >
+                <p className="text-sm font-semibold" style={{ color: '#60A5FA' }}>
+                  {selectedState.name} PPD isn&apos;t calculated by this tool yet
+                </p>
+                <p className="text-xs leading-relaxed" style={{ color: '#93C5FD' }}>
+                  {NON_GENERIC_PPD_INFO[selectedState.slug].explanation}
+                </p>
+                <a
+                  href={NON_GENERIC_PPD_INFO[selectedState.slug].statuteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs underline"
+                  style={{ color: '#60A5FA' }}
+                >
+                  {NON_GENERIC_PPD_INFO[selectedState.slug].statuteLabel} →
+                </a>
+              </div>
+            ) : (
+              <WorkersCompResult result={result} />
+            )}
           </div>
         </section>
       )}
-
-      <AdSlot id="WC_AD_SLOT_BOTTOM" />
     </div>
   )
 }

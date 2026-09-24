@@ -3,7 +3,7 @@
 // E-E-A-T transparency page — discloses formulas, sources, review cadence,
 // and editorial boundaries. Structure mirrors app/about/page.tsx:
 //   • Same metadata shape (title without " | Settlebrook" — template appends it)
-//   • Same hero + AD_SLOT_TOP / MID / BOTTOM containers
+//   • Same hero styling (no ad slots — Auto Ads only, per 2026-09-23 cleanup)
 //   • Same glassmorphism + muted-prose styling
 // Adds BreadcrumbNav and WebPage + BreadcrumbList JSON-LD, which about/ lacks.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -134,16 +134,6 @@ export default function MethodologyPage() {
           </div>
         </section>
 
-        {/* AD_SLOT_TOP */}
-        <div
-          id="AD_SLOT_TOP"
-          className="w-full flex justify-center py-3"
-          style={{ backgroundColor: 'rgba(13,21,38,0.6)', borderBottom: '1px solid rgba(99,179,237,0.08)' }}
-          aria-hidden="true"
-        >
-          {/* AdSense leaderboard 728×90 / responsive */}
-        </div>
-
         {/* Main content */}
         <article className="max-w-7xl mx-auto px-6 sm:px-8 py-14 flex flex-col gap-12">
 
@@ -208,15 +198,6 @@ export default function MethodologyPage() {
               </p>
             </div>
           </section>
-
-          {/* AD_SLOT_MID */}
-          <div
-            id="AD_SLOT_MID"
-            className="w-full flex justify-center py-4"
-            aria-hidden="true"
-          >
-            {/* AdSense in-content responsive */}
-          </div>
 
           {/* Review cadence */}
           <section aria-labelledby="review-heading">
@@ -287,16 +268,6 @@ export default function MethodologyPage() {
           </section>
 
         </article>
-
-        {/* AD_SLOT_BOTTOM */}
-        <div
-          id="AD_SLOT_BOTTOM"
-          className="w-full flex justify-center py-3"
-          style={{ backgroundColor: 'rgba(13,21,38,0.6)', borderTop: '1px solid rgba(99,179,237,0.08)' }}
-          aria-hidden="true"
-        >
-          {/* AdSense leaderboard 728×90 / responsive */}
-        </div>
 
       </main>
     </>

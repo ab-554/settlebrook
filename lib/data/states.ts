@@ -190,8 +190,13 @@ export const SECONDARY_STATES: StateData[] = [
     name: 'Michigan',
     abbreviation: 'MI',
     hasDamageCap: true,
-    damageCap: 596400,
-    damageCapNotes: 'Standard noneconomic cap $596,400 for 2026 (CPI-adjusted annually). Elevated cap $1,065,000 for catastrophic injuries (paraplegia, quadriplegia, permanent cognitive incapacity, loss of reproductive organ). Product liability unascertainable economic damages capped at $97,770.',
+    // 2026-09-24 legal accuracy sprint: the specific dollar figures previously
+    // here ($596,400 / $1,065,000) could not be independently confirmed against
+    // an official Michigan Treasury notice — see research/2026-09-24/LEGAL-FIXES.md
+    // A.9. damageCap left null; the CPI-adjustment mechanism is real (MCL 600.1483)
+    // and described in damageCapNotes without a specific number.
+    damageCap: null,
+    damageCapNotes: 'Noneconomic damages are capped under MCL 600.1483, with a higher elevated cap for catastrophic injuries (paraplegia, quadriplegia, permanent cognitive incapacity, loss of reproductive organ). Both caps are adjusted annually based on the Consumer Price Index — check the statute for the current-year dollar figures.',
     isNoFaultState: true,
     faultRule: 'modified-comparative-51',
     faultRuleLabel: 'Modified Comparative Fault (51% Bar)',

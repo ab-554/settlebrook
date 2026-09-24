@@ -7,7 +7,7 @@
 //   • LAST_REVIEWED stamp under the H1 — one-line edit to re-date the page
 //   • Article + FAQPage JSON-LD inline; BreadcrumbList comes from the
 //     BreadcrumbNav component's microdata (Home -> Blog -> post)
-//   • data-ad-slot containers matching the state-page ad pattern
+//   • No manual ad slots (Auto Ads only, per 2026-09-23 cleanup)
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata } from 'next'
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
     siteName: 'Settlebrook',
     locale: 'en_US',
     type: 'article',
-    publishedTime: '2026-08-20',
-    modifiedTime: '2026-08-20',
+    publishedTime: '2026-08-19',
+    modifiedTime: '2026-08-19',
     images: [
       {
         url: '/og-image.png',
@@ -62,8 +62,8 @@ const articleSchema = {
   '@type': 'Article',
   headline: 'How State Farm Calculates Pain and Suffering (And How to Estimate It Yourself)',
   description: metaDescription,
-  datePublished: '2026-08-20',
-  dateModified: '2026-08-20',
+  datePublished: '2026-08-19',
+  dateModified: '2026-08-19',
   author: {
     '@type': 'Organization',
     name: 'Settlebrook',
@@ -193,8 +193,6 @@ export default function StateFarmPainAndSufferingPost() {
 
             <hr style={ruleStyle} />
 
-            <div data-ad-slot="BLOG_POST_AD_TOP" aria-hidden="true" />
-
             <h2 className="heading-gradient" style={h2Style}>The Factors State Farm Adjusters Weigh</h2>
             <p style={bodyStyle}>To successfully maximize your State Farm bodily injury settlement, you have to understand exactly what factors their adjusters weigh most heavily when reviewing your life-altering event.</p>
             <p style={bodyStyle}>The absolute foundation of any injury claim is your medical specials. This is the insurance industry term for your quantifiable, out-of-pocket medical bills. Higher medical bills generally signal a more severe injury, which logically leads to higher pain and suffering compensation. However, the type and duration of your treatment matter just as much as the final cost. State Farm respects objective injuries far more than subjective ones. An objective injury is something a doctor can definitively point to on a diagnostic test, like a broken femur clearly visible on an X-ray or a torn rotator cuff shown on an MRI. Subjective injuries, like whiplash, lower back sprains, or general bodily soreness, are much harder to prove because they rely almost entirely on your self-reported pain levels. Adjusters are naturally skeptical of subjective claims and often aggressively try to minimize their financial value.</p>
@@ -227,8 +225,6 @@ export default function StateFarmPainAndSufferingPost() {
             <p style={bodyStyle}>Finally, you must know when you are out of your depth. If you suffered severe, permanent injuries, if liability is suddenly being fiercely disputed by the adjuster, or if State Farm flat-out refuses to offer a fair amount despite your meticulous documentation, it is time to involve an attorney. A seasoned personal injury lawyer knows exactly how to bypass the lower-level adjusters, navigate the corporate hierarchy, and force the insurance company to take the very real threat of a lawsuit seriously.</p>
 
             <hr style={ruleStyle} />
-
-            <div data-ad-slot="BLOG_POST_AD_MID" aria-hidden="true" />
 
             <h2 className="heading-gradient" style={h2Style}>FAQ</h2>
 

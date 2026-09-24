@@ -19,11 +19,16 @@ import FAQAccordion from '@/components/seo/FAQAccordion'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import { WORKERS_COMP_FAQS, buildWorkersCompFAQSchema } from '@/lib/data/workersCompFaqs'
-import { WORKERS_COMP_STATES } from '@/lib/data/workersCompStates'
+import { WORKERS_COMP_STATES, NOINDEXED_WORKERS_COMP_SLUGS } from '@/lib/data/workersCompStates'
+import SourcesSection from '@/components/seo/SourcesSection'
+import sourcesData from '@/lib/data/sources.json'
 
 // E-E-A-T review stamp. Bump this one string when the page is re-verified
 // against current law - nothing else needs to change.
-const LAST_REVIEWED = 'August 2026'
+// Updated 2026-09-24: legal accuracy sprint fixed a stale weekly-cap figure.
+const LAST_REVIEWED = 'September 2026'
+
+const HUB_SOURCES = (sourcesData['workers-comp'] as Record<string, { label: string; url: string; supports: string; tier: 'primary' | 'secondary' }[]>)['main'] ?? []
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
@@ -93,14 +98,6 @@ const breadcrumbSchema = {
 
 const faqSchema = buildWorkersCompFAQSchema(WORKERS_COMP_FAQS)
 
-// ─── Empty ad slot container — no visible text, data-ad-slot for future AdSense ──
-
-function AdSlot({ id }: { id: string }) {
-  return (
-    <div id={id} data-ad-slot={id} aria-hidden="true" />
-  )
-}
-
 // ─── Sidebar glassmorphism card wrapper ───────────────────────────────────────
 
 function SideCard({ children }: { children: React.ReactNode }) {
@@ -168,7 +165,7 @@ export default function WorkersCompCalculatorPage() {
             <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
               {[
                 'No Signup Required',
-                'No Personal Data Collected',
+                'Your Inputs Never Leave Your Browser',
                 'Updated for 2026 State Laws',
                 'Instant Results',
               ].map((signal) => (
@@ -183,8 +180,6 @@ export default function WorkersCompCalculatorPage() {
 
         {/* ── MAIN CONTENT ── */}
         <div className="max-w-7xl mx-auto px-6 sm:px-8 py-8 sm:py-12">
-          
-          <AdSlot id="WC_MAIN_AD_TOP" />
 
           <div className="flex flex-col lg:flex-row gap-8 items-start">
 
@@ -346,7 +341,7 @@ export default function WorkersCompCalculatorPage() {
                 <strong style={{ color: '#E2E8F0' }}>Average Weekly Wage (AWW):</strong> Calculated from your gross earnings (including overtime and bonuses) in the weeks preceding the injury.
               </li>
               <li>
-                <strong style={{ color: '#E2E8F0' }}>Weekly Benefit Amount:</strong> In most states, this is exactly two-thirds (66.67%) of your AWW, subject to a statutory maximum weekly cap set by the state (for example, California caps benefits at $1,619 per week, and Texas caps it at $1,066 per week for 2026).
+                <strong style={{ color: '#E2E8F0' }}>Weekly Benefit Amount:</strong> In most states, this is exactly two-thirds (66.67%) of your AWW, subject to a statutory maximum weekly cap set by the state — each state page on this site shows the current verified cap and its effective period next to it.
               </li>
               <li>
                 <strong style={{ color: '#E2E8F0' }}>Scheduled Body Part Weeks:</strong> Every state maintains a schedule of benefits assigning a maximum number of weeks of compensation for specific body parts (e.g., an arm might be worth 269 weeks in California or 200 weeks in Texas).
@@ -410,6 +405,8 @@ export default function WorkersCompCalculatorPage() {
 
             <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
 
+            <SourcesSection sources={HUB_SOURCES} />
+
             <h2
               className="heading-gradient"
               style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}
@@ -447,7 +444,7 @@ export default function WorkersCompCalculatorPage() {
               Select your state for a workers compensation calculator reflecting local replacement rates, weekly caps, and body part schedules.
             </p>
             <ul className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {WORKERS_COMP_STATES.map((state) => (
+              {WORKERS_COMP_STATES.filter((state) => !NOINDEXED_WORKERS_COMP_SLUGS.has(state.slug)).map((state) => (
                 <li key={state.slug}>
                   <Link
                     href={`/workers-comp-settlement-calculator/${state.slug}/`}
@@ -461,8 +458,6 @@ export default function WorkersCompCalculatorPage() {
               ))}
             </ul>
           </section>
-
-          <AdSlot id="WC_MAIN_AD_BOTTOM" />
 
           <div className="w-full">
             <DisclaimerBanner variant="footer" />

@@ -22,17 +22,22 @@ import CarAccidentCalculator from '@/components/calculator/CarAccidentCalculator
 import FAQAccordion from '@/components/seo/FAQAccordion'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
+import WorkedExample from '@/components/seo/WorkedExample'
+import SourcesSection from '@/components/seo/SourcesSection'
 import {
   getCarAccidentStateBySlug,
   getAllCarAccidentStateSlugs,
   CAR_ACCIDENT_STATES,
 } from '@/lib/data/carAccidentStates'
 import { getCarAccidentFAQs, buildFAQSchema } from '@/lib/data/carAccidentFaqs'
+import { getFaultRuleLabel } from '@/lib/calculations/carAccident'
 import type { FAQItem } from '@/lib/data/faqContent'
+import sourcesData from '@/lib/data/sources.json'
 
 // E-E-A-T review stamp. Bump this one string when state law is re-verified
 // - it stamps every state page generated from this template.
-const LAST_REVIEWED = 'August 2026'
+// Updated 2026-09-24: legal accuracy sprint touched every state's content.
+const LAST_REVIEWED = 'September 2026'
 
 // ─── Static params ─────────────────────────────────────────────────────────────
 
@@ -117,24 +122,6 @@ function SideCard({ children }: { children: React.ReactNode }) {
   )
 }
 
-// ─── Empty ad slot container — no visible text, data-ad-slot for future AdSense ──
-
-function AdSlot({ id }: { id: string }) {
-  return (
-    <div id={id} data-ad-slot={id} aria-hidden="true" />
-  )
-}
-
-// ─── Currency formatter ────────────────────────────────────────────────────────
-
-function formatCurrency(n: number): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0,
-  }).format(n)
-}
-
 // ─── California state-specific FAQs ───────────────────────────────────────────
 
 const CA_CAR_FAQS: FAQItem[] = [
@@ -142,9 +129,9 @@ const CA_CAR_FAQS: FAQItem[] = [
     id: 'ca-car-faq-1',
     question: 'How much is a car accident settlement worth in California?',
     answer:
-      'There is no fixed answer because settlement value depends on your specific injury, your medical costs, your lost wages, the at-fault driver\'s policy limits, and your percentage of fault. Soft tissue injuries with under $10,000 in medical bills often settle in the $15,000 to $35,000 range. Injuries requiring surgery commonly settle between $75,000 and $200,000. Catastrophic and permanent injuries can produce settlements well above $500,000. California settlements trend higher than national averages because of the state\'s high medical costs, pure comparative fault rules, and high-verdict urban jurisdictions.',
+      'There is no reliable published average because settlement value depends on your specific injury, your medical costs, your lost wages, the at-fault driver\'s policy limits, and your percentage of fault — real settlements vary too much to generalize into a single range. See the worked example on this page for how the calculator\'s math actually works, or run your own numbers above.',
     schemaAnswer:
-      'Settlement value depends on injury severity, medical costs, lost wages, the at-fault driver\'s policy limits, and fault percentage. Soft tissue injuries often settle $15,000–$35,000. Injuries requiring surgery commonly settle $75,000–$200,000. Catastrophic injuries can exceed $500,000. California settlements trend higher than national averages due to high medical costs, pure comparative fault, and high-verdict urban venues.',
+      'Settlement value depends on injury severity, medical costs, lost wages, the at-fault driver\'s policy limits, and fault percentage. There is no reliable published average. Use the calculator above for a personalized estimate.',
   },
   {
     id: 'ca-car-faq-2',
@@ -187,9 +174,9 @@ const TX_CAR_FAQS: FAQItem[] = [
     id: 'tx-car-faq-1',
     question: 'How much is a car accident settlement worth in Texas?',
     answer:
-      'There is no fixed amount — settlement value depends on your medical bills, lost wages, future treatment costs, and the severity of your pain and suffering. A minor soft tissue injury with $8,000 in medical bills might settle for $20,000 to $30,000. A serious fracture requiring surgery with $50,000 in medical bills and several months off work might settle for $150,000 to $300,000 or more. Use the calculator above to run your specific numbers.',
+      'There is no fixed amount — settlement value depends on your medical bills, lost wages, future treatment costs, and the severity of your pain and suffering, and there is no reliable published average to generalize from. See the worked example on this page for how the calculator\'s math actually works, or use the calculator above to run your specific numbers.',
     schemaAnswer:
-      'Texas car accident settlement values depend on medical bills, lost wages, future costs, and pain and suffering severity. Minor soft tissue injuries typically settle $20,000–$30,000. Serious fractures with surgery and missed work commonly settle $150,000–$300,000 or more. Use the calculator to run your specific numbers.',
+      'Texas car accident settlement values depend on medical bills, lost wages, future costs, and pain and suffering severity. There is no reliable published average. Use the calculator to run your specific numbers.',
   },
   {
     id: 'tx-car-faq-2',
@@ -232,6 +219,9 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
   const { state } = await params
   const stateData = getCarAccidentStateBySlug(state)
   if (!stateData) notFound()
+
+  const stateSources =
+    (sourcesData['car-accident'] as Record<string, { label: string; url: string; supports: string; tier: 'primary' | 'secondary' }[]>)[stateData.slug] ?? []
 
   // Use state-specific FAQs for Tier 1 launch states; generic set for all others
   const faqs: FAQItem[] =
@@ -360,11 +350,6 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               {stateData.isNoFaultState && (
                 <span className="state-badge state-badge-blue">No-Fault Auto State</span>
               )}
-              {stateData.avgSettlementLow > 0 && stateData.avgSettlementHigh > 0 && (
-                <span className="state-badge state-badge-muted">
-                  Avg. Range {formatCurrency(stateData.avgSettlementLow)}–{formatCurrency(stateData.avgSettlementHigh)}
-                </span>
-              )}
             </div>
           </div>
         </header>
@@ -375,8 +360,6 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
             {/* ── LEFT: state law callout + calculator ── */}
             <div className="w-full lg:flex-1 min-w-0 flex flex-col gap-5 overflow-hidden" style={{ minWidth: 0, overflow: 'hidden' }}>
-
-              <AdSlot id={`CAR_STATE_AD_TOP_${stateData.abbreviation}`} />
 
               {/* State law facts panel */}
               <div
@@ -453,20 +436,6 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                     </div>
                   )}
 
-                  {/* Average settlement range */}
-                  {stateData.avgSettlementLow > 0 && stateData.avgSettlementHigh > 0 && (
-                    <div className="flex gap-2.5">
-                      <span className="flex-shrink-0" style={{ color: '#FBBF24' }}>📊</span>
-                      <div>
-                        <span className="font-semibold" style={{ color: '#E2E8F0' }}>
-                          Observed Settlement Range:{' '}
-                        </span>
-                        Car accident settlements in {stateData.name} typically range from{' '}
-                        <span style={{ color: '#FBBF24' }}>{formatCurrency(stateData.avgSettlementLow)}</span> to{' '}
-                        <span style={{ color: '#FBBF24' }}>{formatCurrency(stateData.avgSettlementHigh)}</span> for moderate injuries. Severe or permanent injuries may exceed this range significantly.
-                      </div>
-                    </div>
-                  )}
 
                   {/* State-specific notes — shown only when non-empty (Tier 1 states) */}
                   {stateData.stateSpecificNotes && (
@@ -581,7 +550,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
             /* ─────────────────────────────────────────────────────────────────
                CALIFORNIA — converted from public/ca-car-accident-content.md
                Front matter ignored. All full URLs converted to relative paths.
-               AD_SLOT comments replaced with styled AdSlot components.
+               No manual ad slots (Auto Ads only, per 2026-09-23 cleanup).
             ───────────────────────────────────────────────────────────────── */
             <article style={{ margin: '0 auto' }}>
 
@@ -593,8 +562,6 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 <Link href="/car-accident-settlement-calculator/" style={{ color: '#60A5FA' }}>car accident settlement calculator</Link>{' '}
                 above to run your own estimate, then read through what California law actually says about what you are owed.
               </p>
-
-              <AdSlot id="CAR_STATE_AD_TOP_CA" />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
@@ -608,7 +575,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 Economic damages are the measurable financial losses you suffered because of the crash. They include your current medical bills, the cost of future treatment or surgery if your injury is ongoing, wages you lost while you were unable to work, your diminished earning capacity if the injury is permanent, vehicle repair or total loss value, rental car expenses, and any out-of-pocket costs that flow directly from the accident.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Non-economic damages cover the losses that do not come with a receipt. Pain and suffering is the largest category here — it accounts for the physical pain, the sleepless nights, the anxiety you feel every time you approach an intersection, and the enjoyment of life you have lost during recovery. California places no cap on non-economic damages in car accident cases. The MICRA cap that limits non-economic damages to $350,000 applies only to medical malpractice claims, not to personal injury claims arising from car accidents. You are entitled to pursue the full value of your pain and suffering.
+                Non-economic damages cover the losses that do not come with a receipt. Pain and suffering is the largest category here — it accounts for the physical pain, the sleepless nights, the anxiety you feel every time you approach an intersection, and the enjoyment of life you have lost during recovery. California places no cap on non-economic damages in car accident cases. The MICRA cap applies only to medical malpractice claims, not to personal injury claims arising from car accidents — and even within medical malpractice, the cap rises every January 1 under a statutory schedule, so any dollar figure quoted for it goes stale within the year. You are entitled to pursue the full value of your pain and suffering.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
                 Understanding{' '}
@@ -635,8 +602,6 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
                 Insurance companies use claims management software — most commonly Colossus — that weights factors like the type of injury, the treating physician&apos;s specialty, the number of office visits, and whether you had a gap in treatment. Colossus tends to undervalue claims. Understanding how it works before you negotiate puts you in a far better position.
               </p>
-
-              <AdSlot id="CAR_STATE_AD_MID_CA" />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
@@ -715,25 +680,17 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Average Car Accident Settlements in California
-              </h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Average settlement figures are often misleading because they blend minor fender-benders with catastrophic injury cases, but the ranges give you a calibration point.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Soft tissue injuries — whiplash, muscle strains, minor sprains — with medical bills under $10,000 typically settle in the $15,000 to $35,000 range in California, assuming clear liability and no gap in treatment. Moderate injuries involving a herniated disc, shoulder tear, or fracture that require surgery often settle in the $75,000 to $200,000 range. Serious injuries — spinal cord damage, traumatic brain injury, permanent disability — regularly produce settlements and verdicts above $500,000 in California, with catastrophic injury cases frequently exceeding $1 million.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                California settlements trend higher than the national average for three structural reasons: higher baseline medical costs, pure comparative fault rules that prevent defendant attorneys from eliminating recovery on technicalities, and high-verdict urban venues that create real trial exposure for insurers.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Your specific case value depends on your injury severity, your treatment documentation, the at-fault driver&apos;s policy limits, and the clarity of liability. The calculator above gives you a starting baseline. An attorney consultation gives you a case-specific number.
-              </p>
-
-              <AdSlot id="CAR_STATE_AD_BOTTOM_CA" />
+              <WorkedExample
+                toolLabel="car accident settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={getFaultRuleLabel(stateData.faultRule).split(' — ')[1] ?? getFaultRuleLabel(stateData.faultRule)}
+                calculatorHref="/car-accident-settlement-calculator/"
+              />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions
@@ -764,7 +721,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
             /* ─────────────────────────────────────────────────────────────────
                TEXAS — converted from public/tx-car-accident-content.md
                Front matter ignored. All full URLs converted to relative paths.
-               AD_SLOT comments replaced with styled AdSlot components.
+               No manual ad slots (Auto Ads only, per 2026-09-23 cleanup).
             ───────────────────────────────────────────────────────────────── */
             <article style={{ margin: '0 auto' }}>
 
@@ -877,21 +834,17 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Average Car Accident Settlements in Texas
-              </h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                There is no reliable statewide average for Texas car accident settlements because settlement values vary so widely by injury severity, liability clarity, and available insurance coverage. Minor rear-end collisions with soft tissue injuries typically settle in the range of $10,000 to $35,000. Moderate injuries involving fractures or disc herniations with surgery commonly settle between $75,000 and $200,000. Catastrophic injuries — traumatic brain injury, spinal cord damage, permanent disability — regularly exceed $500,000 and can reach into the millions when future medical costs and lost earning capacity are factored in.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                These figures are benchmarks, not guarantees. The actual value of your Texas car accident claim depends on your specific damages, the evidence available, and the policy limits in play. The{' '}
-                <Link href="/pain-and-suffering-calculator/texas/" style={{ color: '#60A5FA' }}>Texas pain and suffering calculator</Link>{' '}
-                on Settlebrook will give you a personalized estimate based on your actual numbers.
-              </p>
-
-              <AdSlot id="CAR_STATE_AD_MID_TX" />
+              <WorkedExample
+                toolLabel="car accident settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={getFaultRuleLabel(stateData.faultRule).split(' — ')[1] ?? getFaultRuleLabel(stateData.faultRule)}
+                calculatorHref="/car-accident-settlement-calculator/"
+              />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions
@@ -919,7 +872,6 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 The estimate is free, takes under two minutes, and could be the difference between accepting a lowball offer and knowing exactly what your case is actually worth.
               </p>
 
-              <AdSlot id="CAR_STATE_AD_BOTTOM_TX" />
             </article>
 
           ) : stateData.slug === 'pennsylvania' ? (
@@ -1044,49 +996,17 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Average Car Accident Settlement Tiers in Pennsylvania
-              </h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Because every bodily injury claim features unique medical treatment paths and policy constraints, average settlement numbers across the entire state can be misleading. However, analyzing historical claim data across Pennsylvania courts reveals distinct financial settlement tiers based on diagnostic severity and surgical intervention.
-              </p>
-
-              {/* Settlement tiers table */}
-              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Injury Severity Tier</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Typical Settlement Range</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Primary Value Drivers</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Minor Soft Tissue</td>
-                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$6,500 – $22,000</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Emergency room diagnostics, short-term physical therapy, full recovery within 90 days.</td>
-                    </tr>
-                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Moderate Orthopedic</td>
-                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$35,000 – $85,000</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Herniated lumbar or cervical discs, nerve impingement, facet joint injections, minor fractures.</td>
-                    </tr>
-                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Severe Surgical</td>
-                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$125,000 – $450,000+</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Spinal fusion surgeries, compound fractures requiring internal fixation hardware, mild traumatic brain injury.</td>
-                    </tr>
-                    <tr>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Catastrophic / Fatal</td>
-                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$500,000 – Policy Limits</td>
-                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Permanent paralysis, severe cognitive deficit, amputation, wrongful death survival actions.</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <WorkedExample
+                toolLabel="car accident settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={getFaultRuleLabel(stateData.faultRule).split(' — ')[1] ?? getFaultRuleLabel(stateData.faultRule)}
+                calculatorHref="/car-accident-settlement-calculator/"
+              />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions About Pennsylvania Car Settlements
@@ -1247,23 +1167,17 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Average Illinois Car Accident Settlement Ranges
-              </h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Because private settlement agreements are protected by non-disclosure clauses, calculating a precise statewide average is statistically deceptive. However, reviewing regional settlement data and Cook County litigation filings allows us to establish realistic valuation tiers based on injury pathology.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Minor soft tissue claims involving whiplash, sprains, and emergency room evaluations typically resolve between <strong style={{ color: '#FBBF24' }}>$10,000 and $30,000</strong>. These cases rely heavily on chiropractic or physical therapy records and rarely justify high multipliers.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Moderate injury claims involving non-surgical herniated discs, simple bone fractures, or arthroscopic joint repairs generally settle between <strong style={{ color: '#FBBF24' }}>$50,000 and $150,000</strong>. Valuations in this tier depend heavily on whether the claimant suffered documented wage losses and permanent diagnostic restrictions.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Severe surgical claims involving spinal fusions, complex comminuted fractures requiring surgical hardware installation, or traumatic brain injuries routinely command settlements ranging from <strong style={{ color: '#FBBF24' }}>$200,000 to over $1,000,000</strong>. When evaluating an Illinois car accident settlement, valuations in this catastrophic tier are determined almost entirely by corporate commercial policy limits, multi-vehicle umbrella coverage, and vocational economist projections.
-              </p>
+              <WorkedExample
+                toolLabel="car accident settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={getFaultRuleLabel(stateData.faultRule).split(' — ')[1] ?? getFaultRuleLabel(stateData.faultRule)}
+                calculatorHref="/car-accident-settlement-calculator/"
+              />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions
@@ -1411,6 +1325,8 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
+              <SourcesSection sources={stateSources} />
+
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions
               </h2>
@@ -1552,18 +1468,25 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Understanding Average Settlements and Insurance Limits
+                Insurance Limits and Your Recovery
               </h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Injury victims constantly search for an average settlement amount, but the reality is that an average simply does not exist in personal injury law. Your specific case value is dictated by the severity of your injuries and the hard limits of the available insurance policies. Ohio law requires drivers to carry a minimum liability policy of <strong style={{ color: '#FBBF24' }}>$25,000 per person</strong> and <strong style={{ color: '#FBBF24' }}>$50,000 per accident</strong>. If you suffer $100,000 in surgical damages but the at-fault driver only carries a state-minimum policy, your primary recovery from their carrier is strictly capped at $25,000.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                This dynamic is exactly why state law requires insurance companies to offer Ohio uninsured motorist coverage — a vital protection you can only reject in writing. If the driver who hit you has insufficient insurance or flees the scene entirely, your own uninsured or underinsured motorist policy steps in to cover the financial difference up to your purchased limits. A minor whiplash claim with a few weeks of physical therapy might settle for <strong style={{ color: '#FBBF24' }}>$12,000 to $25,000</strong>, while a surgical case involving commercial trucking negligence routinely settles for <strong style={{ color: '#FBBF24' }}>$250,000 to well over $1,000,000</strong>, provided the right commercial insurance policies are properly identified. You can use our{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: '#60A5FA' }}>car accident settlement calculator</Link>
-                {' '}to adjust these specific financial variables and see exactly how policy limits affect your potential payout.
+                Your specific case value is dictated by the severity of your injuries and the hard limits of the available insurance policies. Ohio law requires drivers to carry a minimum liability policy of <strong style={{ color: '#FBBF24' }}>$25,000 per person</strong> and <strong style={{ color: '#FBBF24' }}>$50,000 per accident</strong>. If you suffer $100,000 in surgical damages but the at-fault driver only carries a state-minimum policy, your primary recovery from their carrier is strictly capped at $25,000. This dynamic is exactly why state law requires insurance companies to offer Ohio uninsured motorist coverage — a vital protection you can only reject in writing. If the driver who hit you has insufficient insurance or flees the scene entirely, your own uninsured or underinsured motorist policy steps in to cover the financial difference up to your purchased limits.
               </p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <WorkedExample
+                toolLabel="car accident settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={getFaultRuleLabel(stateData.faultRule).split(' — ')[1] ?? getFaultRuleLabel(stateData.faultRule)}
+                calculatorHref="/car-accident-settlement-calculator/"
+              />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions
@@ -1724,23 +1647,17 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Average Arizona Car Accident Settlements
-              </h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                It is completely natural to want a baseline expectation for your claim. While every collision features unique biomechanics and medical realities, historical data allows us to group settlements into three general tiers.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                For a minor rear-end collision on I-17 resulting in whiplash, a few urgent care visits, and a month of physical therapy, settlements frequently land between <strong style={{ color: '#FBBF24' }}>$15,000 and $30,000</strong>. The multiplier applied to these soft tissue injuries usually hovers around 1.5.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                If you are involved in a moderate collision resulting in broken bones, herniated discs, or injuries requiring arthroscopic surgery, the financial stakes rise dramatically. A solid case in this tier typically settles anywhere from <strong style={{ color: '#FBBF24' }}>$75,000 to $250,000</strong>.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                For catastrophic collisions involving traumatic brain injuries, spinal cord paralysis, or wrongful death, the numbers push well past the limits of standard auto insurance. Settlements and jury verdicts in this catastrophic tier routinely exceed <strong style={{ color: '#FBBF24' }}>$500,000</strong> and frequently cross the million-dollar threshold.
-              </p>
+              <WorkedExample
+                toolLabel="car accident settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={getFaultRuleLabel(stateData.faultRule).split(' — ')[1] ?? getFaultRuleLabel(stateData.faultRule)}
+                calculatorHref="/car-accident-settlement-calculator/"
+              />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions
@@ -1891,17 +1808,17 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Average Washington State Settlement Tiers
-              </h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                Every human body breaks differently, making average settlements a rough compass rather than an absolute guarantee. For minor soft tissue injuries like standard cervical whiplash requiring a few months of chiropractic care and physical therapy, Washington settlements typically land between <strong style={{ color: '#FBBF24' }}>$12,000 and $25,000</strong>, assuming you make a complete functional recovery.
-              </p>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                If you suffer moderate injuries requiring invasive medical procedures, like a herniated lumbar disc treated with epidural steroid injections or a fractured wrist requiring surgical pins, expect the settlement math to shift upward between <strong style={{ color: '#FBBF24' }}>$65,000 and $140,000</strong>. When crashes result in severe, life-altering trauma like traumatic brain injuries, spinal cord damage, or multi-level surgical fusions, the settlement value easily scales from <strong style={{ color: '#FBBF24' }}>$250,000 into the multi-million dollar range</strong>. In these catastrophic tier cases, the true settlement value is rarely limited by the severity of the injury, but rather constrained completely by the amount of liability and underinsured motorist coverage available to harvest.
-              </p>
+              <WorkedExample
+                toolLabel="car accident settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={getFaultRuleLabel(stateData.faultRule).split(' — ')[1] ?? getFaultRuleLabel(stateData.faultRule)}
+                calculatorHref="/car-accident-settlement-calculator/"
+              />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions
@@ -2058,6 +1975,18 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
+              <WorkedExample
+                toolLabel="car accident settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={getFaultRuleLabel(stateData.faultRule).split(' — ')[1] ?? getFaultRuleLabel(stateData.faultRule)}
+                calculatorHref="/car-accident-settlement-calculator/"
+              />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
+
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions
               </h2>
@@ -2211,6 +2140,18 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <WorkedExample
+                toolLabel="car accident settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={getFaultRuleLabel(stateData.faultRule).split(' — ')[1] ?? getFaultRuleLabel(stateData.faultRule)}
+                calculatorHref="/car-accident-settlement-calculator/"
+              />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions
@@ -2373,12 +2314,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
-              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Average Settlements and Your Unique Case
-              </h2>
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                There is no such thing as an &quot;average&quot; settlement. A minor rear-end collision resulting in whiplash is mathematically incomparable to a multi-vehicle crash involving a commercial truck on I-15. However, the variables remain the same: the clarity of liability, the total cost of your medical care, the duration of your recovery, and the specific venue where your case is heard. By using a car accident settlement calculator, you can establish a baseline for your economic damages, but you must supplement that with a precise analysis of your non-economic losses.
-              </p>
+              <WorkedExample
+                toolLabel="car accident settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={getFaultRuleLabel(stateData.faultRule).split(' — ')[1] ?? getFaultRuleLabel(stateData.faultRule)}
+                calculatorHref="/car-accident-settlement-calculator/"
+              />
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
                 For those who want a more granular look at their specific pain and suffering, our{' '}
                 <Link href="/pain-and-suffering-calculator/nevada/" style={{ color: '#60A5FA' }}>Nevada pain and suffering calculator</Link>
@@ -2386,6 +2328,8 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions
@@ -2528,16 +2472,28 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
-                Average Settlements and Insurance Requirements
+                Insurance Requirements
               </h2>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                North Carolina sets the minimum liability insurance requirements at <strong style={{ color: '#FBBF24' }}>$30,000</strong> per person and <strong style={{ color: '#FBBF24' }}>$60,000</strong> per accident. While these are higher than the minimums in many other states, they are often insufficient to cover the costs of a serious collision.
+                For policies issued or renewed on or after July 1, 2025, North Carolina sets the minimum liability insurance requirements at <strong style={{ color: '#FBBF24' }}>$50,000</strong> per person, <strong style={{ color: '#FBBF24' }}>$100,000</strong> per accident, and <strong style={{ color: '#FBBF24' }}>$50,000</strong> in property damage coverage. Even at these higher minimums, the limits are often insufficient to cover the costs of a serious collision.
               </p>
               <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
                 In cases involving emergency surgery, long-term rehabilitation, or permanent impairment, the medical bills alone can quickly exceed these limits. When the at-fault driver&apos;s insurance is insufficient, your settlement value may depend on your own Uninsured/Underinsured Motorist (UM/UIM) coverage. Because there is no mandatory Personal Injury Protection (PIP) in North Carolina, your ability to pay for your own medical care immediately following an accident often depends on your own policy coverage and your health insurance.
               </p>
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <WorkedExample
+                toolLabel="car accident settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={getFaultRuleLabel(stateData.faultRule).split(' — ')[1] ?? getFaultRuleLabel(stateData.faultRule)}
+                calculatorHref="/car-accident-settlement-calculator/"
+              />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
 
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
                 Frequently Asked Questions
@@ -2595,8 +2551,6 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                Pattern: add stateData.slug === '[state]' branches above here.
             ───────────────────────────────────────────────────────────────── */
             <article style={{ margin: '0 auto' }}>
-              <AdSlot id={`CAR_STATE_AD_MID_${stateData.abbreviation}`} />
-
               <h2
                 className="heading-gradient"
                 style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
@@ -2704,7 +2658,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </h2>
 
               {/* Summary stat grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                 <div
                   className="rounded-2xl p-4 flex flex-col gap-1"
                   style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.12)' }}
@@ -2727,27 +2681,17 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                     {stateData.statuteOfLimitations} Year{stateData.statuteOfLimitations !== 1 ? 's' : ''}
                   </span>
                 </div>
-                <div
-                  className="rounded-2xl p-4 flex flex-col gap-1"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.12)' }}
-                >
-                  <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#64748B' }}>
-                    Typical Range
-                  </span>
-                  <span className="text-sm font-semibold" style={{ color: '#FBBF24' }}>
-                    {formatCurrency(stateData.avgSettlementLow)}–{formatCurrency(stateData.avgSettlementHigh)}
-                  </span>
-                </div>
               </div>
 
-              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
-                <em>
-                  Ranges above are illustrative for moderate car accident injuries in {stateData.name}.
-                  Severe or catastrophic injuries, policy limit situations, or cases going to trial
-                  may produce significantly different outcomes. Use the calculator above with your
-                  actual damage figures for a personalized estimate.
-                </em>
-              </p>
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <WorkedExample
+                toolLabel="car accident settlement"
+                stateName={stateData.name}
+                faultRuleLabel={stateData.faultRuleLabel}
+                faultRuleExplanation={getFaultRuleLabel(stateData.faultRule).split(' — ')[1] ?? getFaultRuleLabel(stateData.faultRule)}
+                calculatorHref="/car-accident-settlement-calculator/"
+              />
 
               <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
@@ -2782,7 +2726,6 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 runs both the multiplier and per diem methods side by side for direct comparison.
               </p>
 
-              <AdSlot id={`CAR_STATE_AD_BOTTOM_${stateData.abbreviation}`} />
             </article>
           )}
 

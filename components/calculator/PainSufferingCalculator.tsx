@@ -110,16 +110,10 @@ export default function PainSufferingCalculator({ stateSlug, stateName, faultRul
     setForm(INITIAL_FORM); setErrors({}); setResult(null); setHasCalc(false)
   }
 
-  // Empty ad slot container — no visible text, no height; data-ad-slot attr preserved for future AdSense
-  const AdSlot = ({ id }: { id: string }) => (
-    <div id={id} data-ad-slot={id} aria-hidden="true" />
-  )
-
   return (
     <div className="mx-auto flex flex-col gap-5" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
 
       <DisclaimerBanner variant="banner" stateName={stateName} />
-      <AdSlot id="AD_SLOT_TOP" />
 
       <section aria-label="Pain and suffering calculator" className="calc-panel">
 
@@ -308,14 +302,11 @@ export default function PainSufferingCalculator({ stateSlug, stateName, faultRul
 
       {result && (
         <section id="calculator-results" aria-label="Your settlement estimate" aria-live="polite" className="scroll-mt-4">
-          <AdSlot id="AD_SLOT_MID" />
           <div className="mt-4">
             <CalculatorResult result={result} activeMethod={activeMethod} />
           </div>
         </section>
       )}
-
-      <AdSlot id="AD_SLOT_BOTTOM" />
     </div>
   )
 }

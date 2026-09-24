@@ -87,7 +87,7 @@ const ARTICLE_SCHEMA = {
   "description": "A complete guide to how pain and suffering damages are calculated in personal injury claims, covering the multiplier method, per diem method, insurance adjuster tactics, documentation strategies, and state law variations.",
   "url": "https://www.settlebrook.com/pain-and-suffering-calculator/guide/",
   "inLanguage": "en-US",
-  "datePublished": "2024-01-01",
+  "datePublished": "2026-05-12",
   "dateModified": "2026-05-12",
   "author": {
     "@type": "Organization",
@@ -186,8 +186,6 @@ export default function GuidePage() {
         </header>
 
         <div className="max-w-7xl mx-auto px-6 sm:px-8 py-8 sm:py-12">
-          
-          <div data-ad-slot="GUIDE_AD_TOP" aria-hidden="true" />
 
           <article style={{ margin: "0 auto" }}>
             
@@ -218,8 +216,7 @@ export default function GuidePage() {
             <p style={{ color: "#94A3B8", lineHeight: 1.8, marginBottom: 20 }}><strong style={{ color: "#E2E8F0" }}>Moderate injury:</strong> You are T-boned at an intersection and sustain a lumbar herniation. You undergo six months of physical therapy and two epidural injections but avoid surgery. Total medical bills: $22,000. Lost wages: $9,500. Special damages total: $31,500. Multiplier: 2.5. Pain and suffering estimate: $78,750. Total settlement demand: $110,250.</p>
             <p style={{ color: "#94A3B8", lineHeight: 1.8, marginBottom: 20 }}><strong style={{ color: "#E2E8F0" }}>Severe injury:</strong> You are struck by a commercial truck and sustain a fractured femur requiring surgery, followed by eight months of physical therapy. You are left with a permanent 15% impairment rating to your leg. Total medical bills: $87,000. Lost wages: $34,000. Future medical costs: $18,000. Special damages total: $139,000. Multiplier: 4. Pain and suffering estimate: $556,000. Total settlement demand: $695,000.</p>
             <p style={{ color: "#94A3B8", lineHeight: 1.8, marginBottom: 20 }}>The multiplier method is flexible by design. It rewards well-documented claims and penalizes gaps in medical treatment. If you stopped treating for six weeks in the middle of your recovery, the adjuster will argue your injuries were not as serious as claimed — and use that gap to push the multiplier down.</p>
-            
-            <div data-ad-slot="GUIDE_AD_MID" aria-hidden="true" />
+
             <hr style={{ borderColor: "rgba(99,179,237,0.15)", margin: "40px 0" }} />
             
             <h2 className="heading-gradient" style={{ fontSize: 28, fontWeight: 700, marginBottom: 16, marginTop: 48 }}>The Per Diem Method</h2>
@@ -328,8 +325,7 @@ export default function GuidePage() {
             <p style={{ color: "#94A3B8", lineHeight: 1.8, marginBottom: 20 }}>Start with numbers you can defend. Use our free <Link href="/pain-and-suffering-calculator/" style={{ color: "#60A5FA" }}>pain and suffering calculator</Link> to estimate your damages using both methods, then consult with a licensed personal injury attorney in your state before accepting any settlement offer.</p>
 
           </article>
-          
-          <div data-ad-slot="GUIDE_AD_BOTTOM" aria-hidden="true" />
+
         </div>
       </main>
     </>
