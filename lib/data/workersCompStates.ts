@@ -120,9 +120,14 @@ export const WORKERS_COMP_STATES: WorkersCompStateData[] = [
     // Illinois uses percentage_of_person for PPD, not the AMA body-part schedule.
     // workersComp.ts branches on this flag for the PPD formula.
     ppdMethod: 'percentage_of_person',
-    maxWeeksTTD: 104,
+    // 820 ILCS 305/8(b): Illinois sets no fixed week cap on TTD — it
+    // continues until the employee reaches maximum medical improvement or
+    // returns to work. Infinity (not an invented finite number) keeps
+    // calculateTTD's existing cap comparison mathematically correct without
+    // modifying that protected file — see lib/calculations/workersComp.ts.
+    maxWeeksTTD: Infinity,
     stateSpecificNotes:
-      'Illinois uses a percentage-of-person PPD method rather than the AMA scheduled weeks table. PPD is calculated as: weekly benefit × 500 whole-body weeks × impairment percentage.',
+      'Illinois uses a percentage-of-person PPD method rather than the AMA scheduled weeks table. PPD is calculated as: weekly benefit × 500 whole-body weeks × impairment percentage. TTD has no fixed week cap under 820 ILCS 305/8(b) — it continues until MMI or return to work.',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
   }),
@@ -133,8 +138,15 @@ export const WORKERS_COMP_STATES: WorkersCompStateData[] = [
     abbreviation: 'PA',
     benefitRate: 0.6667,
     ppdMethod: 'ama_schedule',
-    maxWeeksTTD: 104,
-    stateSpecificNotes: '',
+    // 77 P.S. § 511.3: Pennsylvania sets no fixed week cap on TTD, but the
+    // insurer may request an Impairment Rating Evaluation (IRE) after 104
+    // weeks of total disability, which can convert the claim to a capped
+    // partial-disability status. Infinity (not an invented finite number)
+    // keeps calculateTTD's existing cap comparison mathematically correct
+    // without modifying that protected file — see lib/calculations/workersComp.ts.
+    maxWeeksTTD: Infinity,
+    stateSpecificNotes:
+      'Pennsylvania TTD has no fixed week cap under 77 P.S. § 511.3, but the insurer may request an Impairment Rating Evaluation (IRE) after 104 weeks of total disability, which can convert the claim to capped partial-disability status.',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
   }),
@@ -160,8 +172,15 @@ export const WORKERS_COMP_STATES: WorkersCompStateData[] = [
     abbreviation: 'OH',
     benefitRate: 0.6667,
     ppdMethod: 'ama_schedule',
-    maxWeeksTTD: 200,
-    stateSpecificNotes: '',
+    // R.C. 4123.56(A): Ohio sets no fixed week cap on TTD, but a medical
+    // examination is required after 200 weeks of continuous total disability
+    // to determine whether the claimant has reached maximum medical
+    // improvement. Infinity (not an invented finite number) keeps
+    // calculateTTD's existing cap comparison mathematically correct without
+    // modifying that protected file — see lib/calculations/workersComp.ts.
+    maxWeeksTTD: Infinity,
+    stateSpecificNotes:
+      'Ohio TTD has no fixed week cap under R.C. 4123.56(A), but a medical examination is required after 200 weeks of continuous total disability to determine whether the claimant has reached maximum medical improvement.',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
   }),
@@ -203,9 +222,14 @@ export const WORKERS_COMP_STATES: WorkersCompStateData[] = [
     abbreviation: 'AZ',
     benefitRate: 0.6667,
     ppdMethod: 'ama_schedule',
-    maxWeeksTTD: 455,
+    // A.R.S. § 23-1045: Arizona sets no fixed week cap on TTD — it continues
+    // until the claimant becomes "medically stationary" (Arizona's term for
+    // maximum medical improvement). Infinity (not an invented finite number)
+    // keeps calculateTTD's existing cap comparison mathematically correct
+    // without modifying that protected file — see lib/calculations/workersComp.ts.
+    maxWeeksTTD: Infinity,
     stateSpecificNotes:
-      'Arizona\'s system is based on a monthly Average Monthly Wage, not a weekly figure — the weekly cap shown here is a standard weekly-equivalent conversion (AMW × 12 ÷ 52 × 66⅔%) for comparability with other states, not a figure the Industrial Commission itself publishes as "weekly."',
+      'Arizona\'s system is based on a monthly Average Monthly Wage, not a weekly figure — the weekly cap shown here is a standard weekly-equivalent conversion (AMW × 12 ÷ 52 × 66⅔%) for comparability with other states, not a figure the Industrial Commission itself publishes as "weekly." TTD has no fixed week cap under A.R.S. § 23-1045 — it continues until the claimant becomes medically stationary.',
     hasNonSubscriberSystem: false,
     isMonopolisticFund: false,
   }),
