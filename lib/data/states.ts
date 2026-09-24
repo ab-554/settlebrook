@@ -218,7 +218,10 @@ export const SECONDARY_STATES: StateData[] = [
     faultRuleLabel: 'Modified Comparative Fault (51% Bar)',
     faultRuleExplanation: 'Nevada bars recovery at 51% or more fault. Awards are reduced by your fault percentage below that threshold.',
     statuteOfLimitations: 2,
-    solNotes: '6-month notice deadline for claims against public/government entities.',
+    // Corrected 2026-09-24: NRS 41.036 sets a 2-year notice deadline for
+    // claims against Nevada government entities, not 6 months — see
+    // research/2026-09-24/LEGAL-FIXES.md A.7.
+    solNotes: '2-year notice deadline for claims against public/government entities (NRS 41.036), same as the general personal injury statute of limitations.',
     cpcMultiplier: 1.0,
     metaDescription: 'Nevada pain and suffering calculator — NV personal injury estimate.',
   },
