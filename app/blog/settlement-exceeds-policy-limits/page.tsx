@@ -4,22 +4,26 @@
 // motorist claim". Source draft:
 // research/2026-09-24/posts/post-3-exceeds-policy-limits.md
 //
-// HIDDEN until 2026-09-27: lib/data/blogPosts.ts marks this slug
-// published: false. This page checks that flag itself and calls notFound()
-// when false, so the route returns a real 404 (excluded from index,
-// homepage, sitemap, and cross-links) without deleting the built content.
-// Flip `published` to true (or remove the field) in blogPosts.ts and this
-// page goes live automatically — no changes needed here.
+// SCHEDULED for 2026-09-27: lib/data/blogPosts.ts sets this slug's
+// publishDate to that day. This page checks isPostPublished() itself and
+// calls notFound() until the build date reaches it, so the route returns a
+// real 404 (excluded from index, homepage, sitemap, and cross-links)
+// without deleting the built content. Because this is a static export, the
+// post only actually goes live on a build run on or after 2026-09-27 — see
+// .github/workflows/daily-rebuild.yml. No changes needed here when that day
+// arrives.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
-import { getBlogPostBySlug } from '@/lib/data/blogPosts'
+import { getBlogPostBySlug, isPostPublished, getPostDisplayDate } from '@/lib/data/blogPosts'
 
 const canonicalUrl = '/blog/settlement-exceeds-policy-limits/'
-const PUBLISHED_DATE = '2026-09-27'
+// Read from the shared data rather than duplicated here, so there's one
+// place to change the date.
+const PUBLISHED_DATE = getBlogPostBySlug(canonicalUrl)!.publishDate
 
 const metaDescription =
   "Your damages are worth more than the at-fault driver's insurance will pay. Here's what happens next, and where the rest of the money can come from."
@@ -150,7 +154,7 @@ const ruleStyle = { borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' } as 
 
 export default function SettlementExceedsPolicyLimitsPost() {
   const post = getBlogPostBySlug(canonicalUrl)
-  if (!post || post.published === false) {
+  if (!post || !isPostPublished(post)) {
     notFound()
   }
 
@@ -178,7 +182,7 @@ export default function SettlementExceedsPolicyLimitsPost() {
                 When Your Injury Claim Exceeds the At-Fault Driver&rsquo;s Policy Limits
               </h1>
               <p className="mt-3 text-sm" style={{ color: '#94A3B8' }}>
-                September 27, 2026 · Settlebrook Editorial ·{' '}
+                {getPostDisplayDate(post)} · Settlebrook Editorial ·{' '}
                 <Link href="/methodology/" className="underline transition-colors" style={linkStyle}>
                   How we verify
                 </Link>

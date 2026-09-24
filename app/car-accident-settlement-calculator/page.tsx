@@ -22,13 +22,16 @@ import { getCarAccidentFAQs, buildFAQSchema } from '@/lib/data/carAccidentFaqs'
 import { CAR_ACCIDENT_STATES } from '@/lib/data/carAccidentStates'
 import SourcesSection from '@/components/seo/SourcesSection'
 import sourcesData from '@/lib/data/sources.json'
-import { getBlogPostBySlug } from '@/lib/data/blogPosts'
+import { getBlogPostBySlug, isPostPublished } from '@/lib/data/blogPosts'
 
 // E-E-A-T review stamp. Bump this one string when the page is re-verified
 // against current law - nothing else needs to change.
 const LAST_REVIEWED = 'September 2026'
 
 const HUB_SOURCES = (sourcesData['car-accident'] as Record<string, { label: string; url: string; supports: string; tier: 'primary' | 'secondary' }[]>)['main'] ?? []
+
+const policyLimitsPost = getBlogPostBySlug('/blog/settlement-exceeds-policy-limits/')
+const isPolicyLimitsPostLive = !!policyLimitsPost && isPostPublished(policyLimitsPost)
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
@@ -420,7 +423,7 @@ export default function CarAccidentCalculatorPage() {
               <li style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '8px' }}>
                 <Link href="/blog/diminished-value-claim/" style={{ color: '#60A5FA' }}>Diminished Value Claims After a Car Accident</Link> — how the 17c formula works and how a diminished value figure fits into your total settlement.
               </li>
-              {getBlogPostBySlug('/blog/settlement-exceeds-policy-limits/')?.published !== false && (
+              {isPolicyLimitsPostLive && (
                 <li style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '8px' }}>
                   <Link href="/blog/settlement-exceeds-policy-limits/" style={{ color: '#60A5FA' }}>When Your Injury Claim Exceeds Policy Limits</Link> — where the rest of the money can come from when the at-fault driver&apos;s coverage isn&apos;t enough.
                 </li>

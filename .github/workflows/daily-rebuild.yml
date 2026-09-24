@@ -1,0 +1,37 @@
+# .github/workflows/daily-rebuild.yml
+# Settlebrook is a static export (next build / SSG) — scheduled content like
+# a blog post's publishDate (see lib/data/blogPosts.ts) only actually goes
+# live once the site is rebuilt on or after that date. This workflow POSTs
+# to a Vercel Deploy Hook every day so scheduled posts publish themselves
+# without anyone manually triggering a redeploy.
+#
+# Requires a repository secret named VERCEL_DEPLOY_HOOK containing the
+# Deploy Hook URL for this project's production (main) branch — see
+# Vercel dashboard > Project > Settings > Git > Deploy Hooks.
+
+name: Daily rebuild
+
+on:
+  schedule:
+    # 05:05 UTC daily — after the America/New_York day has rolled over
+    # (00:05 EST / 01:05 EDT), so a post scheduled for "today" in
+    # lib/data/blogPosts.ts is already live by the time this runs.
+    - cron: '5 5 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  trigger-rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST to Vercel Deploy Hook
+        run: |
+          if [ -z "${{ secrets.VERCEL_DEPLOY_HOOK }}" ]; then
+            echo "::error::VERCEL_DEPLOY_HOOK repository secret is not set."
+            exit 1
+          fi
+          status=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}")
+          echo "Vercel responded with HTTP $status"
+          if [ "$status" -ge 300 ]; then
+            echo "::error::Deploy hook request failed with HTTP $status"
+            exit 1
+          fi

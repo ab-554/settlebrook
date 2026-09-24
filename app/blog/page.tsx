@@ -12,7 +12,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
-import { getPublishedBlogPosts } from '@/lib/data/blogPosts'
+import { getPublishedBlogPosts, getPostDisplayDate } from '@/lib/data/blogPosts'
 
 const canonicalUrl = '/blog/'
 
@@ -182,11 +182,11 @@ export default function BlogIndexPage() {
                   className="glass-card block p-6 sm:p-7 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
                 >
                   <time
-                    dateTime={post.dateTime}
+                    dateTime={post.publishDate}
                     className="text-xs font-medium uppercase tracking-widest"
                     style={{ color: '#60A5FA' }}
                   >
-                    {post.date}
+                    {getPostDisplayDate(post)}
                   </time>
                   <h3
                     className="mt-3 font-bold leading-snug"

@@ -13,7 +13,7 @@ import Link from 'next/link'
 import { getPriorityStates, ALL_STATES } from '@/lib/data/states'
 import { CAR_ACCIDENT_STATES } from '@/lib/data/carAccidentStates'
 import { WORKERS_COMP_STATES, NOINDEXED_WORKERS_COMP_SLUGS } from '@/lib/data/workersCompStates'
-import { getLatestBlogPosts } from '@/lib/data/blogPosts'
+import { getLatestBlogPosts, getPostDisplayDate } from '@/lib/data/blogPosts'
 
 export const metadata: Metadata = {
   title: 'Free Personal Injury Settlement Calculators — Settlebrook',
@@ -430,8 +430,8 @@ export default function HomePage() {
                   href={post.slug}
                   className="glass-card block p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
                 >
-                  <time dateTime={post.dateTime} className="text-xs font-medium uppercase tracking-widest" style={{ color: '#60A5FA' }}>
-                    {post.date}
+                  <time dateTime={post.publishDate} className="text-xs font-medium uppercase tracking-widest" style={{ color: '#60A5FA' }}>
+                    {getPostDisplayDate(post)}
                   </time>
                   <h3 className="mt-3 font-bold leading-snug" style={{ fontSize: 18, color: '#E2E8F0', letterSpacing: '-0.01em' }}>
                     {post.title}
