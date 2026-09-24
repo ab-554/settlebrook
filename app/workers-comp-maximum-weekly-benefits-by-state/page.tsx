@@ -12,6 +12,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import wcMaxBenefits from '@/lib/data/wcMaxBenefits2026.json'
+import { getBlogPostBySlug, isPostPublished } from '@/lib/data/blogPosts'
+
+const weeklyBenefitPost = getBlogPostBySlug('/blog/workers-comp-weekly-benefit-calculator/')
+const isWeeklyBenefitPostLive = !!weeklyBenefitPost && isPostPublished(weeklyBenefitPost)
 
 const canonicalUrl = '/workers-comp-maximum-weekly-benefits-by-state/'
 const LAST_VERIFIED = 'September 24, 2026'
@@ -326,6 +330,19 @@ export default function WorkersCompMaxBenefitsPage() {
               </p>
             </div>
           </section>
+
+          {isWeeklyBenefitPostLive && (
+            <section className="flex flex-col gap-4">
+              <h2 className="heading-gradient font-bold" style={{ fontSize: 24, fontWeight: 700 }}>
+                Related Guide
+              </h2>
+              <ul style={{ paddingLeft: 24, listStyleType: 'disc' }}>
+                <li style={{ color: '#94A3B8', lineHeight: '1.8' }}>
+                  <Link href="/blog/workers-comp-weekly-benefit-calculator/" style={{ color: '#60A5FA' }}>How Your Workers&apos; Comp Weekly Check Is Calculated</Link> — how average weekly wage, the compensation rate, and these state caps combine into your actual check.
+                </li>
+              </ul>
+            </section>
+          )}
 
           {/* Related tools */}
           <section className="flex flex-col gap-4">

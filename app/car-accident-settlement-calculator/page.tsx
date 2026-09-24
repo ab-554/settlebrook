@@ -32,6 +32,8 @@ const HUB_SOURCES = (sourcesData['car-accident'] as Record<string, { label: stri
 
 const policyLimitsPost = getBlogPostBySlug('/blog/settlement-exceeds-policy-limits/')
 const isPolicyLimitsPostLive = !!policyLimitsPost && isPostPublished(policyLimitsPost)
+const minorAccidentPost = getBlogPostBySlug('/blog/minor-car-accident-settlement/')
+const isMinorAccidentPostLive = !!minorAccidentPost && isPostPublished(minorAccidentPost)
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
@@ -426,6 +428,11 @@ export default function CarAccidentCalculatorPage() {
               {isPolicyLimitsPostLive && (
                 <li style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '8px' }}>
                   <Link href="/blog/settlement-exceeds-policy-limits/" style={{ color: '#60A5FA' }}>When Your Injury Claim Exceeds Policy Limits</Link> — where the rest of the money can come from when the at-fault driver&apos;s coverage isn&apos;t enough.
+                </li>
+              )}
+              {isMinorAccidentPostLive && (
+                <li style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '8px' }}>
+                  <Link href="/blog/minor-car-accident-settlement/" style={{ color: '#60A5FA' }}>Minor Car Accident Settlements: Soft-Tissue Injuries vs. No Injury</Link> — what changes between a no-injury claim and a diagnosed whiplash claim, plus a worked example.
                 </li>
               )}
             </ul>

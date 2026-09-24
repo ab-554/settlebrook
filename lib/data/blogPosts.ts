@@ -48,17 +48,17 @@ export const BLOG_POSTS: BlogPost[] = [
     publishDate: '2026-09-27',
   },
   {
-    slug: '/blog/workers-comp-weekly-benefit/',
-    title: 'How Your Workers Comp Weekly Benefit Is Calculated',
+    slug: '/blog/workers-comp-weekly-benefit-calculator/',
+    title: "How Your Workers' Comp Weekly Check Is Calculated (2026)",
     description:
-      'How your workers comp weekly benefit amount is actually calculated, why it may be lower than you expect, and how state maximums cap it.',
+      "How workers' comp weekly benefits are calculated in 2026: average weekly wage, the 66 2/3% rate, state max/min caps, waiting periods, and a worked example.",
     publishDate: '2026-09-29',
   },
   {
     slug: '/blog/minor-car-accident-settlement/',
-    title: 'Minor Car Accident Settlement: What to Expect',
+    title: 'Minor Car Accident Settlements: Injury vs. No Injury',
     description:
-      "What a minor car accident settlement actually covers, how insurers value soft-tissue injuries, and what most claims settle for.",
+      "How minor car accident settlements differ when there's a soft-tissue injury versus no injury at all, plus a free calculator to estimate yours.",
     publishDate: '2026-10-01',
   },
   {

@@ -22,6 +22,10 @@ import { WORKERS_COMP_FAQS, buildWorkersCompFAQSchema } from '@/lib/data/workers
 import { WORKERS_COMP_STATES, NOINDEXED_WORKERS_COMP_SLUGS } from '@/lib/data/workersCompStates'
 import SourcesSection from '@/components/seo/SourcesSection'
 import sourcesData from '@/lib/data/sources.json'
+import { getBlogPostBySlug, isPostPublished } from '@/lib/data/blogPosts'
+
+const weeklyBenefitPost = getBlogPostBySlug('/blog/workers-comp-weekly-benefit-calculator/')
+const isWeeklyBenefitPostLive = !!weeklyBenefitPost && isPostPublished(weeklyBenefitPost)
 
 // E-E-A-T review stamp. Bump this one string when the page is re-verified
 // against current law - nothing else needs to change.
@@ -429,6 +433,24 @@ export default function WorkersCompCalculatorPage() {
               Frequently Asked Questions
             </h2>
             <FAQAccordion faqs={WORKERS_COMP_FAQS} />
+
+            {isWeeklyBenefitPostLive && (
+              <>
+                <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
+
+                <h2
+                  className="heading-gradient"
+                  style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}
+                >
+                  Related Guides
+                </h2>
+                <ul style={{ paddingLeft: 24, listStyleType: 'disc' }}>
+                  <li style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '8px' }}>
+                    <Link href="/blog/workers-comp-weekly-benefit-calculator/" style={{ color: '#60A5FA' }}>How Your Workers&apos; Comp Weekly Check Is Calculated</Link> — average weekly wage, the 66 2/3% rate, state max/min caps, and waiting periods explained.
+                  </li>
+                </ul>
+              </>
+            )}
 
             <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
 
