@@ -22,6 +22,7 @@ import { getCarAccidentFAQs, buildFAQSchema } from '@/lib/data/carAccidentFaqs'
 import { CAR_ACCIDENT_STATES } from '@/lib/data/carAccidentStates'
 import SourcesSection from '@/components/seo/SourcesSection'
 import sourcesData from '@/lib/data/sources.json'
+import { getBlogPostBySlug } from '@/lib/data/blogPosts'
 
 // E-E-A-T review stamp. Bump this one string when the page is re-verified
 // against current law - nothing else needs to change.
@@ -406,6 +407,25 @@ export default function CarAccidentCalculatorPage() {
               Frequently Asked Questions
             </h2>
             <FAQAccordion faqs={faqs} />
+
+            <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
+
+            <h2
+              className="heading-gradient"
+              style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}
+            >
+              Related Guides
+            </h2>
+            <ul style={{ paddingLeft: 24, listStyleType: 'disc' }}>
+              <li style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '8px' }}>
+                <Link href="/blog/diminished-value-claim/" style={{ color: '#60A5FA' }}>Diminished Value Claims After a Car Accident</Link> — how the 17c formula works and how a diminished value figure fits into your total settlement.
+              </li>
+              {getBlogPostBySlug('/blog/settlement-exceeds-policy-limits/')?.published !== false && (
+                <li style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '8px' }}>
+                  <Link href="/blog/settlement-exceeds-policy-limits/" style={{ color: '#60A5FA' }}>When Your Injury Claim Exceeds Policy Limits</Link> — where the rest of the money can come from when the at-fault driver&apos;s coverage isn&apos;t enough.
+                </li>
+              )}
+            </ul>
 
             <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
 

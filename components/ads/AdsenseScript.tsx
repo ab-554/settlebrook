@@ -26,8 +26,15 @@ const STATIC_CONTENT_PATHS = new Set([
   '/privacy-policy/',
   '/terms-of-use/',
   '/blog/',
+  '/blog/injury-claim-calculator/',
+  '/blog/diminished-value-claim/',
   '/blog/ppd-settlement-calculator-guide/',
   '/blog/state-farm-pain-and-suffering-calculator/',
+  // '/blog/settlement-exceeds-policy-limits/' intentionally omitted — that
+  // post is published: false in lib/data/blogPosts.ts and its route calls
+  // notFound(), so its pathname currently renders the not-found page. Add
+  // it here in the same change that flips `published` to true, or this
+  // page would load ads on what the browser sees as a 404.
 ])
 
 const PAIN_SUFFERING_SLUGS = new Set(ALL_STATES.map((s) => s.slug))

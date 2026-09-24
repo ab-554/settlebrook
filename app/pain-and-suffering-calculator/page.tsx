@@ -343,6 +343,15 @@ export default function PainSufferingCalculatorPage() {
 
             <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
 
+            <h2 className="heading-gradient" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}>Related Guides</h2>
+            <ul style={{ paddingLeft: 24, listStyleType: 'disc' }}>
+              <li style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '8px' }}>
+                <Link href="/blog/injury-claim-calculator/" style={{ color: '#60A5FA' }}>Injury Claim Calculator: How Insurers Value Your Claim</Link> — a deeper look at how adjusters weigh documentation, comparative fault, and policy limits alongside the multiplier and per diem math.
+              </li>
+            </ul>
+
+            <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '40px 0' }} />
+
             <h2 className="heading-gradient" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '48px' }}>Get Your Estimate Now</h2>
             <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>You deserve to know what your claim is worth before anyone asks you to sign anything. The insurance company already has software running numbers on your case — you should have one too.</p>
             <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '20px' }}>Use our free Pain and Suffering Calculator above to estimate your settlement value in under 2 minutes.</p>

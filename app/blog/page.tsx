@@ -12,7 +12,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
-import { BLOG_POSTS } from '@/lib/data/blogPosts'
+import { getPublishedBlogPosts } from '@/lib/data/blogPosts'
 
 const canonicalUrl = '/blog/'
 
@@ -175,7 +175,7 @@ export default function BlogIndexPage() {
 
             {/* Single column on mobile; the grid holds its shape as posts are added */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {BLOG_POSTS.map((post) => (
+              {getPublishedBlogPosts().map((post) => (
                 <Link
                   key={post.slug}
                   href={post.slug}

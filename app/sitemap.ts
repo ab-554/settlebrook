@@ -30,7 +30,9 @@ const PAIN_SUFFERING_GUIDE_LAST_MODIFIED = '2026-09-24'
 const CAR_ACCIDENT_HUB_LAST_MODIFIED = '2026-09-24'
 const WORKERS_COMP_HUB_LAST_MODIFIED = '2026-09-24'
 const METHODOLOGY_LAST_MODIFIED = '2026-09-24'
-const BLOG_INDEX_LAST_MODIFIED = '2026-09-23'
+const BLOG_INDEX_LAST_MODIFIED = '2026-09-24'
+const BLOG_INJURY_CLAIM_CALCULATOR_LAST_MODIFIED = '2026-09-24'
+const BLOG_DIMINISHED_VALUE_LAST_MODIFIED = '2026-09-24'
 const BLOG_PPD_GUIDE_LAST_MODIFIED = '2026-09-24'
 const BLOG_STATE_FARM_LAST_MODIFIED = '2026-08-19'
 const ABOUT_LAST_MODIFIED = '2026-09-24'
@@ -102,6 +104,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.6,
     },
+    {
+      url: `${BASE_URL}/blog/injury-claim-calculator/`,
+      lastModified: BLOG_INJURY_CLAIM_CALCULATOR_LAST_MODIFIED,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/blog/diminished-value-claim/`,
+      lastModified: BLOG_DIMINISHED_VALUE_LAST_MODIFIED,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    // /blog/settlement-exceeds-policy-limits/ (post 3) is intentionally
+    // omitted — published: false in lib/data/blogPosts.ts until 2026-09-27;
+    // add its sitemap entry back when that flips.
     {
       url: `${BASE_URL}/blog/ppd-settlement-calculator-guide/`,
       lastModified: BLOG_PPD_GUIDE_LAST_MODIFIED,
