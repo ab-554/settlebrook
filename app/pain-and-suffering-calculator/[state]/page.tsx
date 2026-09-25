@@ -10,6 +10,7 @@ import PainSufferingCalculator from '@/components/calculator/PainSufferingCalcul
 import FAQAccordion from '@/components/seo/FAQAccordion'
 import HeroBand, { type HeroFact, type FactTone } from '@/components/ui/HeroBand'
 import EditorialLayout from '@/components/ui/EditorialLayout'
+import { getDamageCapChip } from '@/lib/damageCaps'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import WorkedExample from '@/components/seo/WorkedExample'
 import SourcesSection from '@/components/seo/SourcesSection'
@@ -123,18 +124,17 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
   // Contextual cards shown under a result (built server-side, see lib/nextSteps.ts).
   const nextSteps = buildNextSteps({ tool: 'pain-suffering', stateSlug: stateData.slug })
 
-  // Hero chips — three facts straight from lib/data/states.ts. The fault rule,
-  // deadline and cap chips all jump to the key-facts card (#state-law).
+  // Hero chips — three facts straight from lib/data/states.ts. The cap chip
+  // comes from lib/damageCaps.ts so a medical-malpractice-only cap never reads
+  // as a general cap. All three jump to the key-facts card (#state-law).
   const faultTone: Record<string, FactTone> = {
     'pure-comparative': 'money', 'modified-comparative-50': 'amber', 'modified-comparative-51': 'amber', contributory: 'danger',
   }
-  const capValue = stateData.hasDamageCap
-    ? (stateData.damageCap ? `${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(stateData.damageCap)} non-economic cap` : 'Cap applies — see key facts')
-    : 'No cap on non-economic damages'
+  const capChip = getDamageCapChip(stateData)
   const heroFacts: HeroFact[] = [
     { label: 'Fault rule', value: stateData.faultRuleLabel, icon: 'scale', tone: faultTone[stateData.faultRule] ?? 'default', href: '#state-law' },
     { label: 'Filing deadline', value: `${stateData.statuteOfLimitations}-year statute of limitations`, icon: 'calendar', tone: 'amber', href: '#state-law' },
-    { label: 'Damage cap', value: capValue, icon: 'cap', tone: stateData.hasDamageCap ? 'amber' : 'money', href: '#state-law' },
+    { label: 'Damage cap', value: capChip.value, note: capChip.note, icon: 'cap', tone: capChip.tone, href: '#state-law' },
   ]
 
   // Right rail (sticky from 1200px): the related-links cards that used to be the sidebar.
@@ -224,7 +224,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
         </HeroBand>
 
         {/* ── CALCULATOR (live estimate) ── */}
-        <div className="container-page pt-8 pb-10 sm:pt-10 sm:pb-14">
+        <div className="container-page calc-container pt-8 pb-10 sm:pt-10 sm:pb-14">
           {/* faultRule drives the in-form contributory warning from state data */}
           <PainSufferingCalculator stateSlug={stateData.slug} stateName={stateData.name} faultRule={stateData.faultRule} nextSteps={nextSteps} />
         </div>
@@ -287,7 +287,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
             <article className="editorial">
               <h2 className="heading-display h2-editorial">Introduction</h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>If you were hurt in California and you&apos;re trying to figure out what your pain and suffering is actually worth, you&apos;re probably getting one of two things from the internet: vague law firm pages that won&apos;t give you a number, or settlement calculators that spit out a figure with no explanation of how they got there.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>This page does neither. The <strong style={{ color: 'var(--ink)' }}>pain and suffering calculator California</strong> residents use on Settlebrook applies the same formula methods that California plaintiffs&apos; attorneys and insurance adjusters actually use — the multiplier method and the per diem method — adjusted for how California law treats fault, damages, and caps. Enter your medical bills and injury details, and you&apos;ll get a realistic range with the math shown.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>This page does neither. The <strong style={{ color: 'var(--ink)' }}>pain and suffering calculator California</strong> residents use on Settlebrook applies the multiplier and per diem methods, the two most common ways to estimate pain and suffering, adjusted for how California law treats fault, damages, and caps. Enter your medical bills and injury details, and you&apos;ll get a realistic range with the math shown.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>California personal injury law has a few features that directly change what your claim is worth. This guide explains all of them plainly, with real dollar examples, so you understand your number — not just see it.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />

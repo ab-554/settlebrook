@@ -241,7 +241,7 @@ export default function CarAccidentCalculatorPage() {
         />
 
         {/* ── CALCULATOR (live estimate) ── */}
-        <div className="container-page pt-8 pb-10 sm:pt-10 sm:pb-14">
+        <div className="container-page calc-container pt-8 pb-10 sm:pt-10 sm:pb-14">
           <CarAccidentCalculator nextSteps={NEXT_STEPS} />
         </div>
 
@@ -261,7 +261,7 @@ export default function CarAccidentCalculatorPage() {
               A car accident can reshape your finances overnight. Medical bills start piling up before you even know the full extent of your injuries. The other driver&apos;s insurance company calls quickly — often within days — with a recorded statement request and sometimes a preliminary offer. That offer is rarely the right number. It&apos;s designed to close the file before you fully understand what you&apos;re owed.
             </p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
-              This calculator gives you a grounded, formula-driven estimate of your total claim value before you sign anything. It uses the same multiplier method that insurance adjusters and plaintiff attorneys apply to car accident claims nationwide. The math is transparent, the inputs are yours, and the result is a realistic starting point for negotiation — not a number pulled from a settlement mill.
+              This calculator gives you a grounded, formula-driven estimate of your total claim value before you sign anything. It uses the multiplier method, one of the two most common ways to estimate pain and suffering. The math is transparent, the inputs are yours, and the result is a realistic starting point for negotiation — not a number pulled from a settlement mill.
             </p>
 
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />

@@ -81,7 +81,9 @@ border:        1px solid var(--line)
 border-radius: 14px
 box-shadow:    var(--shadow-card)      (.card; .card-flat omits the shadow; add .card-hover for the lift)
 Notes: .note / .note-info / .note-caution / .note-danger / .note-success (tinted, 10px radius).
-Chips: .fact-chip (label + value, tones is-amber/is-danger/is-money/is-primary; .chip-press when a link).
+Chips: .fact-chip (label + value + optional note, tones is-amber/is-danger/is-money/is-primary;
+.chip-press when a link). The damage-cap chip and the result-card cap notice come from
+lib/damageCaps.ts, which records whether each state's cap is general or med-mal/punitive only.
 Icons: lucide-react (ISC, tree-shaken) — import individual icons, aria-hidden, 16–26px.
 
 ## Brand mark
@@ -95,8 +97,10 @@ Regenerate with design-review/v2/make-icons.mjs (Playwright, no paid tools).
 ## Calculator UX contract
 - Estimate is live: recomputes ~250ms after typing stops; "Show my estimate" only
   reveals validation and scrolls to the result. Formulas never move out of lib/calculations/.
-- Result card: likely amount (count-up, --money), low/likely/high range bar ONLY where the math
-  produces one (multiplier method), breakdown rows, "How this was calculated" → /methodology/,
+- Result card: likely amount (count-up, --money); on the multiplier method only, the
+  "If severity were rated one level lower / higher" range — the same calculateMultiplierMethod()
+  run at the adjacent SEVERITY_CONFIGS levels (lib/severityRange.ts; the ±0.5 rangeLow/rangeHigh
+  fields are not shown); breakdown rows, "How this was calculated" → /methodology/,
   Copy / Print. Next-step cards (lib/nextSteps.ts) render under the calculator on every load,
   three across, large.
 - GA4 events (lib/analytics.ts, no personal data): calculator_start, calculator_complete,
@@ -104,6 +108,8 @@ Regenerate with design-review/v2/make-icons.mjs (Playwright, no paid tools).
 - Every tool/state page, in this order: HeroBand (breadcrumb → H1 → one-line promise →
   TrustLine: Last reviewed · Settlebrook Editorial · N sources · Editorial policy → three
   key-fact chips → "Start calculating") → calculator + live result (full container width) →
+  (on phones the band is compact — 28px H1, two-line promise, single-line trust row, chips as a
+  horizontal snap row, no CTA — so the first input is on screen at 375×812) →
   next-step cards → EditorialLayout (sticky TOC auto-built from H2s · prose · tools rail) →
   sources, FAQ, state grid, disclaimer. The "Back to calculator" pill is position:sticky
   inside the editorial column (never fixed) and hidden ≥1200px where the TOC carries the link,

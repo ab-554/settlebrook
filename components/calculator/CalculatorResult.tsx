@@ -3,8 +3,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // components/calculator/CalculatorResult.tsx
 // Tool #1 result. Maps PainSufferingCalculationResult onto the shared
-// ResultFrame: likely amount, low/likely/high range (multiplier method only —
-// the per diem method produces no range, so none is shown), breakdown,
+// ResultFrame: likely amount, the adjacent-severity range (multiplier method
+// only — the per diem method produces no range, so none is shown), breakdown,
 // formula lines, state-law callouts (wording unchanged), and the alternate
 // method comparison.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -12,6 +12,8 @@
 import { formatCurrency, formatMultiplier } from '@/lib/calculations/painSuffering'
 import { getStateBySlug } from '@/lib/data/states'
 import { getFaultBarStatus, getModifiedBarThreshold } from '@/lib/faultRules'
+import { getAdjacentSeverityRange } from '@/lib/severityRange'
+import { capAppliesToGeneralClaims } from '@/lib/damageCaps'
 import type {
   PainSufferingCalculationResult,
   MultiplierResult,
@@ -60,10 +62,20 @@ export default function CalculatorResult({ result, activeMethod, inputs }: Calcu
   const faultReduction = mResult?.faultReduction ?? 0
   const totalEstimate = isMultiplier ? mResult!.adjustedTotal : primaryResult.totalEstimate
 
-  const range = mResult ? { low: mResult.rangeLow, likely: mResult.adjustedTotal, high: mResult.rangeHigh } : null
+  // Range = the same calculation at the adjacent severity levels (lib/severityRange.ts).
+  // The ±0.5 rangeLow/rangeHigh fields on the result are not part of our methodology and are not shown.
+  const range = mResult
+    ? getAdjacentSeverityRange({
+        medicalBills: inputs.medicalBills, futureMedical: inputs.futureMedical, lostWages: inputs.lostWages,
+        futureLostWages: inputs.futureLostWages, propertyDamage: inputs.propertyDamage,
+        multiplier: mResult.multiplierUsed, plaintiffFaultPercent: inputs.plaintiffFaultPercent,
+      }, mResult.adjustedTotal)
+    : null
 
   const stateData = stateSlug ? getStateBySlug(stateSlug) : null
-  const showDamageCapWarning = stateData?.hasDamageCap && stateData.damageCap !== null && totalEstimate > stateData.damageCap
+  // Cap notice only where the cap applies to general personal injury claims (lib/damageCaps.ts):
+  // several states' damageCap figure is a medical-malpractice-only cap.
+  const showDamageCapWarning = capAppliesToGeneralClaims(stateData) && stateData!.damageCap !== null && totalEstimate > stateData!.damageCap!
   // Fault warnings come from the state's own faultRule via lib/faultRules.ts —
   // pure comparative never bars, modified 50/51 bars at its threshold,
   // contributory bars on any fault. No state names are hardcoded here.
@@ -100,7 +112,8 @@ export default function CalculatorResult({ result, activeMethod, inputs }: Calcu
         `Total before fault = ${formatCurrency(specialDamages)} + ${formatCurrency(painAndSuffering)} = ${formatCurrency(mResult.totalEstimate)}`,
         ...(faultPct > 0 ? [`Fault reduction = ${formatCurrency(mResult.totalEstimate)} × ${faultPct}% = −${formatCurrency(faultReduction)}`] : []),
         `Likely estimate = ${formatCurrency(totalEstimate)}`,
-        `Range = same math at ${formatMultiplier(Math.max(1.0, mResult.multiplierUsed - 0.5))} and ${formatMultiplier(Math.min(6.0, mResult.multiplierUsed + 0.5))} → ${formatCurrency(mResult.rangeLow)} to ${formatCurrency(mResult.rangeHigh)}`,
+        ...(range?.lower ? [`One level lower (${range.lower.label}, ${formatMultiplier(range.lower.multiplier)}) = same math → ${formatCurrency(range.lower.total)}`] : []),
+        ...(range?.higher ? [`One level higher (${range.higher.label}, ${formatMultiplier(range.higher.multiplier)}) = same math → ${formatCurrency(range.higher.total)}`] : []),
       ]
     : [
         `Pain & suffering = ${formatCurrency((primaryResult as PerDiemResult).dailyRateUsed)}/day × ${(primaryResult as PerDiemResult).recoveryDaysUsed.toLocaleString()} days = ${formatCurrency(painAndSuffering)}`,
@@ -112,7 +125,8 @@ export default function CalculatorResult({ result, activeMethod, inputs }: Calcu
     `Settlebrook pain & suffering estimate (${isMultiplier ? 'multiplier method' : 'per diem method'})`,
     stateData ? `State: ${stateData.name}` : null,
     `Likely estimate: ${formatCurrency(totalEstimate)}`,
-    range ? `Range: ${formatCurrency(range.low)} to ${formatCurrency(range.high)}` : null,
+    range?.lower ? `If severity were one level lower (${range.lower.label}, ${formatMultiplier(range.lower.multiplier)}): ${formatCurrency(range.lower.total)}` : null,
+    range?.higher ? `If severity were one level higher (${range.higher.label}, ${formatMultiplier(range.higher.multiplier)}): ${formatCurrency(range.higher.total)}` : null,
     `Economic damages: ${formatCurrency(specialDamages)}`,
     `Pain & suffering: ${formatCurrency(painAndSuffering)}`,
     faultPct > 0 ? `Fault reduction (${faultPct}%): −${formatCurrency(faultReduction)}` : null,

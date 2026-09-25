@@ -196,6 +196,54 @@
     background: var(--grad-hero);
     border-bottom: 1px solid var(--line);
   }
+  .hero-tool-inner { padding-top: 24px; padding-bottom: 36px; }
+  @media (min-width: 640px) { .hero-tool-inner { padding-top: 32px; padding-bottom: 48px; } }
+  .hero-tool-copy { margin-top: 20px; }
+  .hero-tool-promise { margin-top: 16px; }
+  .hero-tool-trust { margin-top: 16px; }
+  .hero-tool-facts { margin-top: 28px; }
+  .hero-cta { margin-top: 28px; }
+  .hero-tool-extra { margin-top: 20px; }
+  @media (max-width: 767px) {
+    .hero-tool-inner { padding-top: 12px; padding-bottom: 16px; }
+    .hero-tool-copy { margin-top: 10px; }
+    .hero-tool h1 { font-size: 28px; line-height: 1.12; }
+    /* Promise: two lines max on phones; the full sentence is still in the DOM. */
+    .hero-tool-promise {
+      margin-top: 6px;
+      font-size: var(--label);
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    /* Trust row: one line that scrolls sideways instead of wrapping. */
+    .hero-tool-trust {
+      margin-top: 8px;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+      font-size: var(--caption) !important;
+      margin-left: calc(-1 * var(--gutter));
+      margin-right: calc(-1 * var(--gutter));
+      padding: 2px var(--gutter);
+    }
+    .hero-tool-trust::-webkit-scrollbar { display: none; }
+    .hero-tool-facts { margin-top: 10px; }
+    /* The calculator is directly below the band — no CTA needed on phones. */
+    .hero-tool .hero-cta { display: none; }
+    .hero-tool-extra { margin-top: 10px; }
+    /* Phones: the header already carries the site nav; the breadcrumb and the
+       badge row under the chips would push the first input below the fold. */
+    .hero-tool nav[aria-label="Breadcrumb"] { display: none; }
+    .hero-tool-copy { margin-top: 0; }
+    .hero-tool h1 { font-size: 26px; line-height: 1.1; }
+    .hero-tool .hero-tool-extra { display: none; }
+    .hero-tool-inner { padding-top: 14px; padding-bottom: 14px; }
+  }
+
   .hero-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -514,6 +562,42 @@
   .fact-chip.is-danger .fact-chip-value { color: var(--danger); }
   .fact-chip.is-money .fact-chip-value  { color: var(--money-deep); }
   .fact-chip.is-primary .fact-chip-value { color: var(--primary); }
+  .fact-chip-note {
+    font-size: var(--caption);
+    color: var(--ink-3);
+    line-height: 1.3;
+    /* One line; long effective-period strings (e.g. Georgia WC) are cut with an
+       ellipsis here and shown in full in the page's key facts. */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* The three key facts: a 3-up grid from 768px, a horizontal snap row below. */
+  .fact-chips {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+  @media (max-width: 767px) {
+    .fact-chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      margin-left: calc(-1 * var(--gutter));
+      margin-right: calc(-1 * var(--gutter));
+      padding: 0 var(--gutter) 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .fact-chips::-webkit-scrollbar { display: none; }
+    .fact-chips > li { flex: 0 0 auto; width: min(72vw, 240px); scroll-snap-align: start; }
+    .fact-chips .fact-chip { min-height: 0; padding: 10px 12px; gap: 2px; box-shadow: none; }
+    .fact-chips .fact-chip-value { font-size: var(--small); }
+  }
   /* Chip press state (interactive chips only) */
   .chip-press { transition: transform var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease); }
   .chip-press:hover { border-color: var(--primary-line); background: var(--primary-tint); }
@@ -852,12 +936,12 @@
   scroll-margin-top: calc(var(--header-h) + 12px);
 }
 .calc-panel-header {
-  padding: 20px 22px;
+  padding: 16px 18px;
   border-bottom: 1px solid var(--line);
   background: var(--surface);
 }
 @media (min-width: 640px) { .calc-panel-header { padding: 24px 28px; } }
-.calc-body { padding: 20px 22px 24px; }
+.calc-body { padding: 18px 18px 22px; }
 @media (min-width: 640px) { .calc-body { padding: 24px 28px 28px; } }
 .calc-label {
   color: var(--ink-3);
@@ -900,6 +984,18 @@
   font-size: var(--small);
   color: var(--ink-3);
   margin: 6px 0 14px 42px;
+}
+@media (max-width: 639px) {
+  .calc-step-hint { margin-left: 0; font-size: var(--caption); margin-bottom: 12px; }
+  .calc-step-title { font-size: 17px; }
+  /* Phones: panel header is the title + progress only. The subtitle and the
+     privacy note are desktop-only here (the privacy note repeats in the footer). */
+  .calc-panel-header { padding: 14px 16px 12px; }
+  .calc-panel-header h2 { font-size: 19px !important; line-height: 1.2; }
+  .calc-panel-header p, .calc-panel-header .calc-privacy { display: none; }
+  .calc-panel-header .mt-3 { margin-top: 10px; }
+  .calc-body { padding: 14px 16px 20px; }
+  .calc-container { padding-top: 12px !important; }
   line-height: 1.5;
 }
 /* Progress: one segment per step, filled as steps are completed */
@@ -980,7 +1076,29 @@
   font-size: var(--label);
   line-height: 1.55;
 }
-/* Low / likely / high range bar — the fill grows in on first render */
+/* "One level lower / higher" range — the fill grows in on first render */
+.range-wrap { margin-top: 22px; }
+.range-caption {
+  font-size: var(--caption);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+}
+.range-sides {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 8px;
+  align-items: start;
+  font-variant-numeric: tabular-nums;
+}
+.range-side { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.range-side.is-right { text-align: right; }
+.range-side.is-likely { text-align: center; }
+.range-side-label { font-size: var(--caption); color: var(--ink-3); line-height: 1.3; }
+.range-side-label.is-muted { font-style: italic; }
+.range-side-sub { font-size: var(--caption); color: var(--ink-2); font-weight: 600; line-height: 1.3; }
+.range-side-value { font-size: var(--small); font-weight: 600; color: var(--ink); }
+.range-side.is-likely .range-side-value { color: var(--money-deep); font-weight: 700; }
 @keyframes range-fill {
   from { transform: scaleX(0); }
   to   { transform: scaleX(1); }
@@ -990,7 +1108,7 @@
   height: 12px;
   border-radius: var(--radius-pill);
   background: var(--money-tint);
-  margin: 24px 0 8px;
+  margin: 10px 0 10px;
 }
 .range-bar-fill {
   position: absolute;
@@ -1450,4 +1568,23 @@ nav[aria-label="Breadcrumb"] a:hover { color: var(--primary); text-decoration: u
   .result-card::before { display: none; }
   .editorial { max-width: none; }
   a { color: inherit; text-decoration: none; }
+}
+
+/* Phone hero (tool/state pages): these sit outside @layer so they override the
+   Tailwind utilities on TrustLine (flex-wrap) and the chip list. */
+@media (max-width: 767px) {
+  .hero-tool .hero-tool-trust {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    font-size: var(--caption);
+    margin-top: 8px;
+    margin-left: calc(-1 * var(--gutter));
+    margin-right: calc(-1 * var(--gutter));
+    padding: 2px var(--gutter);
+    gap: 0 8px;
+  }
+  .hero-tool .hero-tool-trust::-webkit-scrollbar { display: none; }
+  .hero-tool .hero-tool-trust > * { flex: 0 0 auto; }
 }

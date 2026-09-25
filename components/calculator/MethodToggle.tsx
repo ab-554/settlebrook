@@ -12,7 +12,7 @@ interface MethodToggleProps {
 }
 
 const METHODS: Array<{ id: CalculationMethod; label: string; description: string }> = [
-  { id: 'multiplier', label: 'Multiplier method', description: 'Most common — used by insurance adjusters' },
+  { id: 'multiplier', label: 'Multiplier method', description: 'Most common method' },
   { id: 'per-diem',   label: 'Per diem method',   description: 'Daily rate × recovery days' },
 ]
 

@@ -241,7 +241,7 @@ export default function WorkersCompCalculatorPage() {
         />
 
         {/* ── CALCULATOR (live estimate) ── */}
-        <div className="container-page pt-8 pb-10 sm:pt-10 sm:pb-14">
+        <div className="container-page calc-container pt-8 pb-10 sm:pt-10 sm:pb-14">
           <WorkersCompCalculator nextSteps={NEXT_STEPS} />
         </div>
 

@@ -233,7 +233,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
   // Hero chips — three facts straight from lib/data/workersCompStates.ts.
   const heroFacts: HeroFact[] = [
     { label: 'Benefit rate', value: `${(stateData.benefitRate * 100).toFixed(1)}% of your average weekly wage`, icon: 'percent', tone: 'primary' },
-    { label: `Weekly cap (${stateData.weeklyCapEffectivePeriod})`, value: `$${stateData.weeklyCapAmount.toLocaleString()} per week`, icon: 'wallet', tone: 'money' },
+    { label: 'Weekly cap', value: `$${stateData.weeklyCapAmount.toLocaleString()} per week`, note: stateData.weeklyCapEffectivePeriod, icon: 'wallet', tone: 'money' },
     { label: 'Max TTD duration', value: Number.isFinite(stateData.maxWeeksTTD) ? `${stateData.maxWeeksTTD} weeks` : 'No fixed limit', icon: 'clock', tone: 'amber' },
   ]
 
@@ -338,8 +338,16 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
         </HeroBand>
 
         {/* ── CALCULATOR (live estimate) ── */}
-        <div className="container-page pt-8 pb-10 sm:pt-10 sm:pb-14 flex flex-col gap-5">
+        <div className="container-page calc-container pt-8 pb-10 sm:pt-10 sm:pb-14 flex flex-col gap-5">
 
+          <WorkersCompCalculator
+            stateSlug={stateData.slug}
+            stateName={stateData.name}
+            nextSteps={nextSteps}
+          />
+
+          {/* State notices sit under the calculator so the first input stays above the fold on
+              phones; the calculator itself repeats the Texas non-subscriber warning on every result. */}
           {/* Texas non-subscriber warning box */}
           {stateData.hasNonSubscriberSystem && (
             <p className="note note-caution" role="note">
@@ -353,12 +361,6 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <strong>PPD Method Notice:</strong> {stateData.name} calculates Permanent Partial Disability (PPD) benefits using a percentage-of-person method (relying on whole-body impairment) rather than a rigid body-part scheduled weeks table. Your benefit is determined as: <em>Weekly Benefit × 500 Weeks × Impairment %</em>.
             </p>
           )}
-
-          <WorkersCompCalculator
-            stateSlug={stateData.slug}
-            stateName={stateData.name}
-            nextSteps={nextSteps}
-          />
         </div>
 
         {/* ── EDITORIAL — sticky TOC · prose · tools rail (three columns from 1200px) ── */}

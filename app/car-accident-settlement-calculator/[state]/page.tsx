@@ -385,7 +385,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
         />
 
         {/* ── CALCULATOR (live estimate) ── */}
-        <div className="container-page pt-8 pb-10 sm:pt-10 sm:pb-14">
+        <div className="container-page calc-container pt-8 pb-10 sm:pt-10 sm:pb-14">
           {/* Car accident calculator — passes stateSlug, stateName, and faultRule */}
           <CarAccidentCalculator
             stateSlug={stateData.slug}
@@ -2582,8 +2582,8 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Property damage (vehicle repair or total loss) is included in your total economic
                 damages but is intentionally excluded from the multiplier base — it is not appropriate
-                to amplify a vehicle repair cost by a pain and suffering factor. This matches how{' '}
-                {stateData.name} attorneys and insurance adjusters actually calculate claims.
+                to amplify a vehicle repair cost by a pain and suffering factor. This is how the
+                multiplier method treats vehicle damage.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />

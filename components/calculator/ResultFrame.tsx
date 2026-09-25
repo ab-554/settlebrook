@@ -4,8 +4,10 @@
 // components/calculator/ResultFrame.tsx
 // Shared chrome for every calculator result:
 //   • headline amount with count-up (respects prefers-reduced-motion)
-//   • optional low / likely / high range bar (only when the math produces one);
-//     the fill animates in once on first render (design v2)
+//   • optional "if severity were rated one level lower / higher" range
+//     (multiplier method only — the adjacent severity levels from
+//     lib/severityRange.ts; per diem and workers comp show no range); the
+//     fill animates in once on first render
 //   • breakdown rows + proportional bar
 //   • "How this was calculated" <details> linking to /methodology/
 //   • Copy / Print actions (GA4: result_copy, result_print)
@@ -18,9 +20,10 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import Link from 'next/link'
 import { ArrowRight, ChevronDown, ClipboardList, Copy, Printer, TriangleAlert } from 'lucide-react'
-import { formatCurrency } from '@/lib/calculations/painSuffering'
+import { formatCurrency, formatMultiplier } from '@/lib/calculations/painSuffering'
 import { trackEvent, type ToolId } from '@/lib/analytics'
 import type { NextStepCard } from '@/lib/nextSteps'
+import type { SeverityRange } from '@/lib/severityRange'
 import { useCountUp } from './hooks'
 
 export interface BreakdownRow {
@@ -48,7 +51,8 @@ export interface ResultFrameProps {
   amountLabel?: string
   /** Optional second line under the amount */
   amountNote?: ReactNode
-  range?: { low: number; high: number; likely: number } | null
+  /** Adjacent-severity range (multiplier method only); null/undefined hides the bar */
+  range?: SeverityRange | null
   bar?: BarSegment[]
   rows: BreakdownRow[]
   /** Lines shown inside "How this was calculated" */
@@ -72,6 +76,60 @@ export function EmptyResult({ children }: { children: ReactNode }) {
           <ClipboardList aria-hidden="true" size={22} strokeWidth={2} />
         </span>
         <div className="min-w-0">{children}</div>
+      </div>
+    </div>
+  )
+}
+
+/** The "one level lower / higher" range: bar + the two adjacent severity totals. */
+function SeverityRangeBar({ range }: { range: SeverityRange }) {
+  const { lower, higher, likely } = range
+  if (!lower && !higher) return null
+  // Marker: between the two adjacent totals when both exist; pinned to the
+  // end of the scale when the current level is Minor or Catastrophic.
+  const markerPct = lower && higher && higher.total > lower.total
+    ? Math.max(0, Math.min(100, ((likely - lower.total) / (higher.total - lower.total)) * 100))
+    : lower ? 100 : 0
+  const describe = [
+    lower ? `one level lower (${lower.label}, ${formatMultiplier(lower.multiplier)}): ${formatCurrency(lower.total)}` : null,
+    higher ? `one level higher (${higher.label}, ${formatMultiplier(higher.multiplier)}): ${formatCurrency(higher.total)}` : null,
+  ].filter(Boolean).join('; ')
+
+  return (
+    <div className="range-wrap" role="group" aria-label={`If severity were rated ${describe}`}>
+      <p className="range-caption">If severity were rated one level lower / higher</p>
+      <div className="range-bar" aria-hidden="true">
+        <span className="range-bar-fill" />
+        <span className="range-bar-marker" style={{ left: `${markerPct}%` }} />
+      </div>
+      <div className="range-sides" aria-hidden="true">
+        <div className="range-side">
+          {lower ? (
+            <>
+              <span className="range-side-label">One level lower</span>
+              <span className="range-side-sub">{lower.label} · {formatMultiplier(lower.multiplier)}</span>
+              <span className="range-side-value">{formatCurrency(lower.total)}</span>
+            </>
+          ) : (
+            <span className="range-side-label is-muted">Lowest severity level</span>
+          )}
+        </div>
+        <div className="range-side is-likely">
+          <span className="range-side-label">Current rating</span>
+          <span className="range-side-sub">Likely</span>
+          <span className="range-side-value">{formatCurrency(likely)}</span>
+        </div>
+        <div className="range-side is-right">
+          {higher ? (
+            <>
+              <span className="range-side-label">One level higher</span>
+              <span className="range-side-sub">{higher.label} · {formatMultiplier(higher.multiplier)}</span>
+              <span className="range-side-value">{formatCurrency(higher.total)}</span>
+            </>
+          ) : (
+            <span className="range-side-label is-muted">Highest severity level</span>
+          )}
+        </div>
       </div>
     </div>
   )
@@ -105,10 +163,6 @@ export default function ResultFrame({
     window.print()
   }
 
-  const markerPct = range && range.high > range.low
-    ? Math.max(0, Math.min(100, ((range.likely - range.low) / (range.high - range.low)) * 100))
-    : 50
-
   return (
     <div className="flex flex-col gap-4 fade-in">
       <div className="result-card">
@@ -125,19 +179,7 @@ export default function ResultFrame({
             </div>
             {amountNote && <p className="mt-3" style={{ color: 'var(--ink-2)', fontSize: 'var(--small)' }}>{amountNote}</p>}
 
-            {range && (
-              <div aria-label={`Range from ${formatCurrency(range.low)} to ${formatCurrency(range.high)}`}>
-                <div className="range-bar" aria-hidden="true">
-                  <span className="range-bar-fill" />
-                  <span className="range-bar-marker" style={{ left: `${markerPct}%` }} />
-                </div>
-                <div className="range-bar-ticks">
-                  <span><span className="result-range-label">Low </span>{formatCurrency(range.low)}</span>
-                  <strong><span className="result-range-label">Likely </span>{formatCurrency(range.likely)}</strong>
-                  <span><span className="result-range-label">High </span>{formatCurrency(range.high)}</span>
-                </div>
-              </div>
-            )}
+            {range && <SeverityRangeBar range={range} />}
           </div>
 
           <div>

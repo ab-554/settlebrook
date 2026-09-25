@@ -215,8 +215,8 @@ export default function PainSufferingCalculatorPage() {
           promise={<>
             Estimate your pain and suffering damages using the{' '}
             <strong style={{ color: 'var(--ink)' }}>multiplier method</strong> or{' '}
-            <strong style={{ color: 'var(--ink)' }}>per diem method</strong> — the same
-            formulas used by insurance adjusters and plaintiff attorneys across the USA.
+            <strong style={{ color: 'var(--ink)' }}>per diem method</strong> — the two
+            most common ways to estimate pain and suffering.
             Free, instant, no signup required.
           </>}
           reviewed={LAST_REVIEWED}
@@ -226,7 +226,7 @@ export default function PainSufferingCalculatorPage() {
         />
 
         {/* ── CALCULATOR (live estimate) ── */}
-        <div className="container-page pt-8 pb-10 sm:pt-10 sm:pb-14">
+        <div className="container-page calc-container pt-8 pb-10 sm:pt-10 sm:pb-14">
           <PainSufferingCalculator nextSteps={NEXT_STEPS} />
         </div>
 

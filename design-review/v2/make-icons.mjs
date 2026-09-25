@@ -109,7 +109,7 @@ out('public/og-image.png', await shot(1200, 630, `
   <div style="width:1200px;height:630px;background:linear-gradient(180deg,#FFFFFF 0%,#EEF3FF 100%);padding:64px 72px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between">
     <div>${wordmark(64, 52)}</div>
     <div>
-      <div class="display" style="font-size:66px;font-weight:800;letter-spacing:-0.025em;line-height:1.08;color:${INK};max-width:960px">Know what your injury claim is really worth</div>
+      <div class="display" style="font-size:66px;font-weight:800;letter-spacing:-0.025em;line-height:1.08;color:${INK};max-width:960px">Estimate what your injury claim could be worth</div>
       <div class="body" style="font-size:28px;color:#334155;margin-top:20px;max-width:900px">Free settlement calculators. Open formulas, official sources, no signup.</div>
     </div>
     <div style="display:flex;gap:20px">${chip('Pain &amp; suffering', 'Multiplier + per diem')}${chip('Car accident', 'Vehicle damage + policy limits')}${chip('Workers comp', 'TTD · PPD · PTD by state')}</div>

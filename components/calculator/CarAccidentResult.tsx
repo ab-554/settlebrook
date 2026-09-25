@@ -14,6 +14,8 @@ import { formatCurrency, formatMultiplier } from '@/lib/calculations/painSufferi
 import { getCarAccidentStateBySlug } from '@/lib/data/carAccidentStates'
 import { getStateBySlug } from '@/lib/data/states'
 import { getFaultBarStatus, getModifiedBarThreshold } from '@/lib/faultRules'
+import { getAdjacentSeverityRange } from '@/lib/severityRange'
+import { capAppliesToGeneralClaims } from '@/lib/damageCaps'
 import type {
   CarAccidentResult as CarAccidentResultType,
   MultiplierResult,
@@ -48,14 +50,23 @@ export default function CarAccidentResult({ result, activeMethod, inputs }: CarA
   const faultReduction = mResult?.faultReduction ?? 0
   const multiplierUsed = mResult?.multiplierUsed ?? null
   const totalEstimate = isMultiplier ? mResult!.adjustedTotal : primaryResult.totalEstimate
-  const range = mResult ? { low: mResult.rangeLow, likely: mResult.adjustedTotal, high: mResult.rangeHigh } : null
+  // Range = the same calculation at the adjacent severity levels (lib/severityRange.ts).
+  // The ±0.5 rangeLow/rangeHigh fields on the result are not part of our methodology and are not shown.
+  const range = mResult
+    ? getAdjacentSeverityRange({
+        medicalBills: inputs.medicalBills, futureMedical: inputs.futureMedical, lostWages: inputs.lostWages,
+        futureLostWages: inputs.futureLostWages, propertyDamage: inputs.propertyDamage,
+        multiplier: mResult.multiplierUsed, plaintiffFaultPercent: inputs.plaintiffFaultPercent,
+      }, mResult.adjustedTotal)
+    : null
   const pdResult = primaryResult.method === 'per-diem' ? (primaryResult as PerDiemResult) : perDiemResult
 
   const carState = stateSlug ? getCarAccidentStateBySlug(stateSlug) : null
   const stateData = stateSlug ? getStateBySlug(stateSlug) : null
 
-  const showDamageCapWarning =
-    stateData?.hasDamageCap && stateData.damageCap !== null && totalEstimate > stateData.damageCap
+  // Cap notice only where the cap applies to general personal injury claims (lib/damageCaps.ts):
+  // several states' damageCap figure is a medical-malpractice-only cap.
+  const showDamageCapWarning = capAppliesToGeneralClaims(stateData) && stateData!.damageCap !== null && totalEstimate > stateData!.damageCap!
   // Fault warnings come from the state's own faultRule via lib/faultRules.ts —
   // pure comparative never bars, modified 50/51 bars at its threshold,
   // contributory bars on any fault. No state names are hardcoded here.
@@ -92,7 +103,8 @@ export default function CarAccidentResult({ result, activeMethod, inputs }: CarA
         `Total before fault = ${formatCurrency(specialDamages)} + ${formatCurrency(painAndSuffering)} = ${formatCurrency(mResult.totalEstimate)}`,
         ...(faultPct > 0 ? [`Fault reduction = ${formatCurrency(mResult.totalEstimate)} × ${faultPct}% = −${formatCurrency(faultReduction)}`] : []),
         `Likely estimate = ${formatCurrency(totalEstimate)}`,
-        `Range = same math at ${formatMultiplier(Math.max(1.0, mResult.multiplierUsed - 0.5))} and ${formatMultiplier(Math.min(6.0, mResult.multiplierUsed + 0.5))} → ${formatCurrency(mResult.rangeLow)} to ${formatCurrency(mResult.rangeHigh)}`,
+        ...(range?.lower ? [`One level lower (${range.lower.label}, ${formatMultiplier(range.lower.multiplier)}) = same math → ${formatCurrency(range.lower.total)}`] : []),
+        ...(range?.higher ? [`One level higher (${range.higher.label}, ${formatMultiplier(range.higher.multiplier)}) = same math → ${formatCurrency(range.higher.total)}`] : []),
         ...(inputs.insurancePolicyLimit ? [`Policy limit check: ${formatCurrency(totalEstimate)} vs ${formatCurrency(inputs.insurancePolicyLimit)} limit (advisory only)`] : []),
       ]
     : [
@@ -105,7 +117,8 @@ export default function CarAccidentResult({ result, activeMethod, inputs }: CarA
     `Settlebrook car accident settlement estimate (${isMultiplier ? 'multiplier method' : 'per diem method'})`,
     carState ? `State: ${carState.name}` : null,
     `Likely estimate: ${formatCurrency(totalEstimate)}`,
-    range ? `Range: ${formatCurrency(range.low)} to ${formatCurrency(range.high)}` : null,
+    range?.lower ? `If severity were one level lower (${range.lower.label}, ${formatMultiplier(range.lower.multiplier)}): ${formatCurrency(range.lower.total)}` : null,
+    range?.higher ? `If severity were one level higher (${range.higher.label}, ${formatMultiplier(range.higher.multiplier)}): ${formatCurrency(range.higher.total)}` : null,
     `Economic damages (incl. vehicle): ${formatCurrency(specialDamages)}`,
     `Pain & suffering: ${formatCurrency(painAndSuffering)}`,
     faultPct > 0 ? `Fault reduction (${faultPct}%): −${formatCurrency(faultReduction)}` : null,

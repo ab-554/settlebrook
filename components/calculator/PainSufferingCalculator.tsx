@@ -228,7 +228,7 @@ export default function PainSufferingCalculator({ stateSlug, stateName, faultRul
               <StepHeader
                 n={2}
                 title="How severe is the injury?"
-                hint="The multiplier method is what most adjusters use. Per diem prices each day of recovery instead."
+                hint="The multiplier method is the most widely used estimate. Per diem prices each day of recovery instead."
                 state={stateOf(step2Done, step1Done)}
               />
               <MethodToggle active={activeMethod} onChange={changeMethod} />

@@ -60,9 +60,9 @@ const MAIN_PAGE_FAQS: FAQItem[] = [
     id: 'is-calculator-result-accurate',
     question: 'How accurate is this pain and suffering calculator?',
     answer:
-      'This calculator applies the same formulas used by insurance adjusters and plaintiff attorneys — the multiplier method and per diem method. The results are a reasonable estimate based on the inputs you provide. However, actual settlement amounts are influenced by factors this tool cannot capture: liability disputes, your state\'s fault rules, insurance policy limits, the strength of your medical documentation, and attorney negotiation skill.',
+      'This calculator applies the multiplier and per diem methods, the two most common ways to estimate pain and suffering. The results are a reasonable estimate based on the inputs you provide. However, actual settlement amounts are influenced by factors this tool cannot capture: liability disputes, your state\'s fault rules, insurance policy limits, the strength of your medical documentation, and attorney negotiation skill.',
     schemaAnswer:
-      'This calculator applies the multiplier and per diem methods used by insurance adjusters and attorneys. Results are a reasonable estimate. Actual settlements depend on liability disputes, state fault rules, insurance limits, medical documentation quality, and attorney skill.',
+      'This calculator applies the multiplier and per diem methods, the two most common ways to estimate pain and suffering. Results are a reasonable estimate. Actual settlements depend on liability disputes, state fault rules, insurance limits, medical documentation quality, and attorney skill.',
   },
   {
     id: 'do-i-need-a-lawyer',

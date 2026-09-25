@@ -64,7 +64,7 @@ const CHOICES = [
     chooserDesc: 'Slip and fall, dog bite, or any other personal injury claim',
     href: '/pain-and-suffering-calculator/',
     title: 'Pain & Suffering Calculator',
-    description: 'Estimate non-economic damages using the multiplier method or per diem method — the same formulas used by insurance adjusters and plaintiff attorneys.',
+    description: 'Estimate non-economic damages using the multiplier method or per diem method, the two most common ways to estimate pain and suffering.',
     stats: 'Multiplier (1.5×–5×) + Per Diem methods',
     Icon: HeartPulse,
   },
@@ -80,7 +80,7 @@ const TRUST_BADGES = [
 const HOW_IT_WORKS = [
   {
     title: 'Industry Formulas',
-    body: 'Our calculators use the multiplier method and per diem method — the same approaches used by insurance adjusters and plaintiff attorneys.',
+    body: 'Our calculators use the multiplier method and per diem method, the two most common ways to estimate pain and suffering.',
   },
   {
     title: 'State-Specific Laws',
@@ -121,10 +121,10 @@ export default function HomePage() {
               <div>
                 <p className="eyebrow mb-4">Free · No signup · Works for any US state</p>
                 <h1 id="home-heading">
-                  Know what your injury claim is really worth
+                  Estimate what your injury claim could be worth
                 </h1>
                 <p className="lede mt-5 max-w-2xl">
-                  Get a calm, straightforward estimate of your settlement in minutes, using the same formulas insurance adjusters and plaintiff attorneys use. No pressure, no spam.
+                  Get a calm, straightforward estimate of your settlement in minutes, using the multiplier and per diem methods, the two most common ways to estimate pain and suffering. No pressure, no spam.
                 </p>
                 <ul className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3" aria-label="What to expect">
                   {TRUST_BADGES.map((badge) => (
@@ -196,7 +196,7 @@ export default function HomePage() {
               All three tools share the same underlying settlement math, but each one answers a different question, and picking the wrong one will leave money out of your estimate.
             </p>
             <p>
-              <strong>Pain &amp; Suffering</strong> is the general-purpose tool: use it any time you have medical bills, lost wages, and a physical injury but no vehicle involved &mdash; a slip and fall, a dog bite, a workplace injury outside the workers&rsquo; comp system, or any other personal injury claim. It calculates non-economic damages using the multiplier method (the industry standard) or the per diem method, and adds them to your economic damages for a total estimate.
+              <strong>Pain &amp; Suffering</strong> is the general-purpose tool: use it any time you have medical bills, lost wages, and a physical injury but no vehicle involved &mdash; a slip and fall, a dog bite, a workplace injury outside the workers&rsquo; comp system, or any other personal injury claim. It calculates non-economic damages using the multiplier method or the per diem method, and adds them to your economic damages for a total estimate.
             </p>
             <p>
               <strong>Car Accident</strong> is a wrapper around that same pain-and-suffering math, built specifically for collision claims. Use it instead of the general calculator whenever a vehicle is involved &mdash; it adds vehicle damage as a separate line item that&rsquo;s included in your economic total but deliberately excluded from the pain-and-suffering multiplier base, and it lets you enter the at-fault driver&rsquo;s insurance policy limit to see whether your estimate exceeds what their coverage can actually pay.
