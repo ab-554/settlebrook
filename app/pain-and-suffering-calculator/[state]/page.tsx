@@ -173,7 +173,8 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
         {/* ── CALCULATOR (live estimate) ── */}
         <div className="container-page pt-6 pb-8 sm:pt-8 sm:pb-10">
-          <PainSufferingCalculator stateSlug={stateData.slug} stateName={stateData.name} nextSteps={nextSteps} />
+          {/* faultRule drives the in-form contributory warning from state data */}
+          <PainSufferingCalculator stateSlug={stateData.slug} stateName={stateData.name} faultRule={stateData.faultRule} nextSteps={nextSteps} />
         </div>
 
         {/* ── STATE LAW + EDITORIAL + RELATED ── */}
@@ -211,82 +212,6 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
                     {stateData.damageCapNotes}
                   </dd>
                 </div>
-<<<<<<< HEAD
-                <p className="text-xs mt-3 italic" style={{ color: '#475569' }}>
-                  Verify current laws with a licensed {stateData.name} personal injury attorney.
-                </p>
-              </div>
-
-              {/* faultRule drives the in-form contributory warning from state data */}
-              <PainSufferingCalculator stateSlug={stateData.slug} stateName={stateData.name} faultRule={stateData.faultRule} />
-            </div>
-
-            {/* Sidebar */}
-            <aside aria-label="Related state information" className="w-full lg:w-72 flex-shrink-0 flex flex-col gap-5">
-
-              {/* Attorney CTA */}
-              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '16px', padding: '20px' }}>
-                <h3 style={{ color: '#F1F5F9', fontSize: '16px', fontWeight: 700, marginBottom: '8px' }}>
-                  How Is Pain and Suffering Calculated?
-                </h3>
-                <p style={{ color: '#94A3B8', fontSize: '13px', lineHeight: '1.6', marginBottom: '16px' }}>
-                  Learn the multiplier method, per diem method, and what insurance companies actually look at when valuing your claim.
-                </p>
-                <Link href="/pain-and-suffering-calculator/guide/" style={{ display: 'block', textAlign: 'center', padding: '10px 16px', borderRadius: '10px', fontSize: '13px', fontWeight: 600, background: 'linear-gradient(135deg, #3B82F6, #06B6D4)', color: '#FFFFFF', textDecoration: 'none' }}>
-                  Read the Complete Guide →
-                </Link>
-              </div>
-
-              {/* Other states */}
-              <nav aria-label="Other state calculators">
-                <SideCard>
-                  <h2 className="text-sm font-bold mb-4" style={{ color: '#F1F5F9' }}>Other State Calculators</h2>
-                  <ul className="flex flex-col gap-2">
-                    {priorityStates.filter((s) => s.slug !== stateData.slug).map((state) => (
-                      <li key={state.slug}>
-                        <Link
-                          href={`/pain-and-suffering-calculator/${state.slug}/`}
-                          className="text-sm transition-colors hover:opacity-80"
-                          style={{ color: '#60A5FA' }}
-                        >
-                          {state.name}
-                        </Link>
-                      </li>
-                    ))}
-                    <li className="pt-2 mt-1" style={{ borderTop: '1px solid rgba(99,179,237,0.10)' }}>
-                      <Link
-                        href="/pain-and-suffering-calculator/"
-                        className="text-xs transition-colors hover:opacity-80"
-                        style={{ color: '#94A3B8' }}
-                      >
-                        ← All states calculator
-                      </Link>
-                    </li>
-                  </ul>
-                </SideCard>
-              </nav>
-
-              {/* Other calculators */}
-              <nav aria-label="Other calculators">
-                <SideCard>
-                  <h2 className="text-sm font-bold mb-4" style={{ color: '#F1F5F9' }}>Other Calculators</h2>
-                  <ul className="flex flex-col gap-2.5">
-                    <li>
-                      <Link href="/car-accident-settlement-calculator/" className="text-sm hover:opacity-80 transition-colors" style={{ color: '#60A5FA' }}>
-                        Car Accident Settlement Calculator
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/workers-comp-settlement-calculator/" className="text-sm hover:opacity-80 transition-colors" style={{ color: '#60A5FA' }}>
-                        Workers Comp Calculator
-                      </Link>
-                    </li>
-                  </ul>
-                </SideCard>
-              </nav>
-            </aside>
-          </div>
-=======
               )}
               {stateData.hasDamageCap && !stateData.damageCap && (
                 <div>
@@ -305,7 +230,6 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               Verify current laws with a licensed {stateData.name} personal injury attorney.
             </p>
           </section>
->>>>>>> c464fbb (Design refresh: light paper theme, live calculators, brand mark)
 
           {stateData.slug === 'california' ? (
             <article className="editorial">
