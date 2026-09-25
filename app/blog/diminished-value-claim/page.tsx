@@ -16,13 +16,15 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import EditorialLayout from '@/components/ui/EditorialLayout'
+import { getBlogPostBySlug, getPostDisplayDate } from '@/lib/data/blogPosts'
+import CiteThisPage from '@/components/ui/CiteThisPage'
 import BlogRail from '@/components/ui/BlogRail'
 
 const canonicalUrl = '/blog/diminished-value-claim/'
 const PUBLISHED_DATE = '2026-09-24'
 
 const metaDescription =
-  'What a diminished value claim is, how insurers use the 17c formula, and how diminished value fits into your overall car accident settlement.'
+  'What a diminished value claim is, how the 17c formula works, and how diminished value fits into your overall car accident settlement.'
 
 export const metadata: Metadata = {
   title: 'Diminished Value Claims After a Car Accident',
@@ -221,7 +223,7 @@ export default function DiminishedValueClaimPost() {
             <hr style={ruleStyle} />
 
             <h2 className="heading-display h2-editorial">A Hypothetical Example of the 17c Method</h2>
-            <p style={{ ...bodyStyle, fontSize: '15px' }}><em>The following is a hypothetical example to illustrate the arithmetic. It is one method some insurers use — it is not a legal formula required in every state, and it is not how Settlebrook&rsquo;s calculator produces its own results.</em></p>
+            <p style={{ ...bodyStyle, fontSize: '15px' }}><em>The following is a hypothetical example to illustrate the arithmetic. It is one method that appears in diminished value claims — it is not a legal formula required in every state, and it is not how Settlebrook&rsquo;s calculator produces its own results.</em></p>
             <p style={bodyStyle}>Say a car was worth $20,000 right before the accident.</p>
             <ol style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'decimal' }}>
               <li><strong style={{ color: 'var(--ink)' }}>Base loss:</strong> 10% of $20,000 = $2,000</li>
@@ -234,7 +236,7 @@ export default function DiminishedValueClaimPost() {
             <hr style={ruleStyle} />
 
             <h2 className="heading-display h2-editorial">Why the 17c Formula Draws Criticism</h2>
-            <p style={bodyStyle}>The 17c formula is popular with insurers because it&rsquo;s fast and cheap to apply — an adjuster can run the numbers from a repair estimate and a mileage reading without inspecting the car in person. But the same features that make it convenient are what critics point to.</p>
+            <p style={bodyStyle}>The 17c formula persists because it is fast and cheap to apply — the numbers can be run from a repair estimate and a mileage reading without inspecting the car in person. But the same features that make it convenient are what critics point to.</p>
             <p style={bodyStyle}>The NAIC&rsquo;s review flags one criticism in particular: mileage is already priced into the vehicle&rsquo;s NADA retail value before the formula starts, since NADA values already account for the odometer reading. Applying a separate mileage modifier on top of that, the review notes, &ldquo;is viewed by some as a double penalty for mileage.&rdquo; The formula also ignores repair-related diminished value entirely — two vehicles with identical pre-accident value, damage severity, and mileage get the same 17c number, even if one was repaired flawlessly and the other has a visible paint mismatch.</p>
 
             <hr style={ruleStyle} />
@@ -297,6 +299,9 @@ export default function DiminishedValueClaimPost() {
             </ul>
 
           </article>
+
+          {/* Citation block — title, editorial byline, canonical URL, review stamp */}
+          <CiteThisPage title="Diminished Value Claims After a Car Accident" path={canonicalUrl} reviewed={getPostDisplayDate(getBlogPostBySlug(canonicalUrl)!)} className="mt-10" />
           </EditorialLayout>
         </div>
 

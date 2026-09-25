@@ -9,21 +9,32 @@
 //         and already present. Microdata removed here.
 // Design-refresh: native <details> styled as calm paper cards (see .faq-* in
 // globals.css). Answer HTML rendering is unchanged.
+// 2026-09-25: optional `schema` prop. When set, the accordion emits the FAQPage
+// JSON-LD for exactly the FAQs it renders, so the structured data always
+// matches the visible questions (Google requires FAQ markup to reflect the
+// page content). The state templates use it because each state's FAQs are
+// inline JSX, not a shared data module. Default false — every other caller is
+// unchanged and keeps emitting its own <script> at page level.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import type { FAQItem } from '@/lib/data/faqContent'
+import { buildFAQSchema, type FAQItem } from '@/lib/data/faqContent'
 
 interface FAQAccordionProps {
   faqs: FAQItem[]
   openFirstByDefault?: boolean
+  /** Emit the FAQPage JSON-LD for these FAQs alongside the accordion. */
+  schema?: boolean
 }
 
-export function FAQAccordion({ faqs, openFirstByDefault = true }: FAQAccordionProps) {
+export function FAQAccordion({ faqs, openFirstByDefault = true, schema = false }: FAQAccordionProps) {
   if (!faqs.length) return null
 
   return (
     // FIX M7: itemScope and itemType removed — JSON-LD handles schema, not microdata
     <div className="flex flex-col gap-3">
+      {schema && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFAQSchema(faqs)) }} />
+      )}
       {faqs.map((faq, index) => (
         <details
           key={faq.id}

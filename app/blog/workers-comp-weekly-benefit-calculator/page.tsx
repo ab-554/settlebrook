@@ -23,6 +23,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import EditorialLayout from '@/components/ui/EditorialLayout'
+import CiteThisPage from '@/components/ui/CiteThisPage'
 import BlogRail from '@/components/ui/BlogRail'
 import { getBlogPostBySlug, isPostPublished, getPostDisplayDate } from '@/lib/data/blogPosts'
 
@@ -364,6 +365,9 @@ export default function WorkersCompWeeklyBenefitCalculatorPost() {
             </ul>
 
           </article>
+
+          {/* Citation block — title, editorial byline, canonical URL, review stamp */}
+          <CiteThisPage title={"How Your Workers' Comp Weekly Check Is Calculated (2026)"} path={canonicalUrl} reviewed={getPostDisplayDate(post)} className="mt-10" />
           </EditorialLayout>
         </div>
 

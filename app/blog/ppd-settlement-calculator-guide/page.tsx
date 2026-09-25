@@ -15,6 +15,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import EditorialLayout from '@/components/ui/EditorialLayout'
+import CiteThisPage from '@/components/ui/CiteThisPage'
 import BlogRail from '@/components/ui/BlogRail'
 
 const canonicalUrl = '/blog/ppd-settlement-calculator-guide/'
@@ -246,9 +247,12 @@ export default function PPDSettlementCalculatorGuidePost() {
             <hr style={ruleStyle} />
 
             <h2 className="heading-display h2-editorial">Know Your Numbers Before You Settle</h2>
-            <p style={bodyStyle}>Your permanent partial disability payout represents a major financial transition after a workplace injury. You now understand the basic math behind the adjuster&apos;s settlement offer, and you know how your impairment rating, average weekly wage, and state laws control the final figure. The insurance company runs these numbers through their own software to minimize their claim costs. You should run the exact same numbers for yourself to level the playing field. Gather your medical paperwork and your recent pay stubs. Once you have your rating and your wage data, use a <Link href="/workers-comp-settlement-calculator/" style={linkStyle}>workers comp settlement calculator</Link> to see exactly what your claim should be worth.</p>
+            <p style={bodyStyle}>Your permanent partial disability payout represents a major financial transition after a workplace injury. You now understand the basic math behind a PPD settlement offer, and you know how your impairment rating, average weekly wage, and state laws control the final figure. The insurer will have its own figure; running the same numbers yourself levels the playing field. Gather your medical paperwork and your recent pay stubs. Once you have your rating and your wage data, use a <Link href="/workers-comp-settlement-calculator/" style={linkStyle}>workers comp settlement calculator</Link> to see exactly what your claim should be worth.</p>
 
           </article>
+
+          {/* Citation block — title, editorial byline, canonical URL, review stamp */}
+          <CiteThisPage title="PPD Settlement Calculator & Payout Guide" path={canonicalUrl} reviewed={LAST_REVIEWED} className="mt-10" />
           </EditorialLayout>
         </div>
 

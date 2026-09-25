@@ -125,8 +125,8 @@ export default function MethodologyPage() {
             </h2>
             <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
-                Every calculator on Settlebrook uses the two methods actually used in
-                US personal injury practice: the multiplier method, which multiplies
+                Every calculator on Settlebrook uses the two most common ways to estimate
+                pain and suffering: the multiplier method, which multiplies
                 economic damages by a severity factor from 1.5x to 5.0x, and the per
                 diem method, which multiplies a daily rate by the number of recovery
                 days. We do not use proprietary black-box scoring.

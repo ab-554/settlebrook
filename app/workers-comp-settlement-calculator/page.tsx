@@ -18,6 +18,8 @@ import WorkersCompCalculator from '@/components/calculator/WorkersCompCalculator
 import FAQAccordion from '@/components/seo/FAQAccordion'
 import HeroBand, { type HeroFact } from '@/components/ui/HeroBand'
 import EditorialLayout from '@/components/ui/EditorialLayout'
+import CiteThisPage from '@/components/ui/CiteThisPage'
+import StateList from '@/components/ui/StateList'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import { WORKERS_COMP_FAQS, buildWorkersCompFAQSchema } from '@/lib/data/workersCompFaqs'
 import { WORKERS_COMP_STATES, NOINDEXED_WORKERS_COMP_SLUGS } from '@/lib/data/workersCompStates'
@@ -155,23 +157,9 @@ export default function WorkersCompCalculatorPage() {
               </Link>
             </SideCard>
 
+            {/* Every state page, alphabetical — no truncated list (components/ui/StateList.tsx) */}
             <nav aria-label="State-specific workers comp settlement calculators">
-              <SideCard>
-                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Calculator by State</h2>
-                <ul className="flex flex-col">
-                  {WORKERS_COMP_STATES.filter((s) => s.slug === 'california' || s.slug === 'texas' || s.slug === 'florida').map((state) => (
-                    <li key={state.slug}>
-                      <Link href={`/workers-comp-settlement-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
-                        <span>{state.name}</span>
-                        <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
-                      </Link>
-                    </li>
-                  ))}
-                  <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
-                    <a href="#by-state" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>All indexed states ↓</a>
-                  </li>
-                </ul>
-              </SideCard>
+              <StateList tool="workers-comp" title="By state" headingLevel="h2" hubLink={false} />
             </nav>
 
             <nav aria-label="Workers comp benefit rate reference">
@@ -401,7 +389,7 @@ export default function WorkersCompCalculatorPage() {
               Get Your Estimate Now
             </h2>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
-              Your employer&apos;s insurance provider has professionals working to minimize the value of your claim. Arm yourself with standard legal math before negotiating any final settlement.
+              Know the statutory math before negotiating any final settlement.
             </p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
               Scroll up to the calculator to enter your wages and injury parameters for an instant estimate.
@@ -409,30 +397,19 @@ export default function WorkersCompCalculatorPage() {
 
           </article>
 
-          {/* ── STATE GRID ── */}
-          <section
+          {/* ── STATE GRID — every state page, alphabetical, with count badge ── */}
+          <StateList
+            variant="plain"
             id="by-state"
+            tool="workers-comp"
+            headingLevel="h2"
+            title="Workers Comp Settlement Calculator by State"
+            intro="Select your state for a workers compensation calculator reflecting local replacement rates, weekly caps, and body part schedules."
             className="mt-12 prose-col"
-            aria-label="Workers comp settlement calculator by state"
-            style={{ scrollMarginTop: 'calc(var(--header-h) + 12px)' }}
-          >
-            <h2 className="heading-display" style={{ fontSize: 26, marginBottom: 6 }}>
-              Workers Comp Settlement Calculator by State
-            </h2>
-            <p className="text-sm mb-4" style={{ color: 'var(--ink-2)' }}>
-              Select your state for a workers compensation calculator reflecting local replacement rates, weekly caps, and body part schedules.
-            </p>
-            <ul className="flex flex-wrap gap-2">
-              {WORKERS_COMP_STATES.filter((state) => !NOINDEXED_WORKERS_COMP_SLUGS.has(state.slug)).map((state) => (
-                <li key={state.slug}>
-                  <Link href={`/workers-comp-settlement-calculator/${state.slug}/`} className="picker-link" style={{ minHeight: 40 }}>
-                    <span className="text-xs mr-1.5" style={{ color: 'var(--ink-3)' }}>{state.abbreviation}</span>
-                    {state.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
+          />
+
+          {/* Citation block — title, editorial byline, canonical URL, review stamp */}
+          <CiteThisPage title="Workers Comp Settlement Calculator — Free Tool" path="/workers-comp-settlement-calculator/" reviewed={LAST_REVIEWED} className="mt-10 prose-col" />
 
           <DisclaimerBanner variant="footer" />
           </EditorialLayout>

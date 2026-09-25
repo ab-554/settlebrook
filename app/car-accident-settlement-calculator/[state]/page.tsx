@@ -22,17 +22,18 @@ import CarAccidentCalculator from '@/components/calculator/CarAccidentCalculator
 import FAQAccordion from '@/components/seo/FAQAccordion'
 import HeroBand, { type HeroFact, type FactTone } from '@/components/ui/HeroBand'
 import EditorialLayout from '@/components/ui/EditorialLayout'
+import CiteThisPage from '@/components/ui/CiteThisPage'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import WorkedExample from '@/components/seo/WorkedExample'
 import SourcesSection from '@/components/seo/SourcesSection'
+import StateList from '@/components/ui/StateList'
 import BackToCalculator from '@/components/calculator/BackToCalculator'
 import { buildNextSteps } from '@/lib/nextSteps'
 import {
   getCarAccidentStateBySlug,
   getAllCarAccidentStateSlugs,
-  CAR_ACCIDENT_STATES,
 } from '@/lib/data/carAccidentStates'
-import { getCarAccidentFAQs, buildFAQSchema } from '@/lib/data/carAccidentFaqs'
+import { getCarAccidentFAQs } from '@/lib/data/carAccidentFaqs'
 import { getFaultRuleLabel } from '@/lib/calculations/carAccident'
 import type { FAQItem } from '@/lib/data/faqContent'
 import sourcesData from '@/lib/data/sources.json'
@@ -274,11 +275,6 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
     ],
   }
 
-  // Tier-1 launch state link list — CA and TX (excluding current state)
-  const tier1States = CAR_ACCIDENT_STATES.filter(
-    (s) => (s.slug === 'california' || s.slug === 'texas') && s.slug !== stateData.slug,
-  )
-
   // Contextual cards shown under a result (built server-side, see lib/nextSteps.ts).
   const nextSteps = buildNextSteps({ tool: 'car-accident', stateSlug: stateData.slug })
 
@@ -307,28 +303,10 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </Link>
             </SideCard>
 
-            {tier1States.length > 0 && (
-              <nav aria-label="Other state car accident calculators">
-                <SideCard>
-                  <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Other State Calculators</h2>
-                  <ul className="flex flex-col">
-                    {tier1States.map((state) => (
-                      <li key={state.slug}>
-                        <Link href={`/car-accident-settlement-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
-                          <span>{state.name} Car Accident Calculator</span>
-                          <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
-                        </Link>
-                      </li>
-                    ))}
-                    <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
-                      <Link href="/car-accident-settlement-calculator/" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>
-                        ← All states calculator
-                      </Link>
-                    </li>
-                  </ul>
-                </SideCard>
-              </nav>
-            )}
+            {/* Every other state page, alphabetical — no truncated list (components/ui/StateList.tsx) */}
+            <nav aria-label="Other state car accident calculators">
+              <StateList tool="car-accident" title="Other states" headingLevel="h2" currentSlug={stateData.slug} excludeCurrent />
+            </nav>
 
             <nav aria-label="Other settlement calculators">
               <SideCard>
@@ -355,7 +333,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
       {/* ── JSON-LD ── */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApplicationSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFAQSchema(faqs)) }} />
+      {/* FAQPage JSON-LD is emitted by the visible <FAQAccordion schema> below, so it always matches the on-page questions */}
 
       <main className="min-h-screen">
 
@@ -527,7 +505,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 How Car Accident Settlements Are Calculated in California
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                The most common approach insurers and attorneys use is the multiplier method. Your total economic damages — medical bills, future treatment, lost wages, and future lost wages — form the base. That base is multiplied by a factor that reflects injury severity, typically ranging from 1.5x for minor soft tissue injuries to 5.0x for catastrophic injuries. Property damage is tracked separately and added directly to the total without a multiplier applied.
+                The most common way to estimate pain and suffering is the multiplier method. Your total economic damages — medical bills, future treatment, lost wages, and future lost wages — form the base. That base is multiplied by a factor that reflects injury severity, typically ranging from 1.5x for minor soft tissue injuries to 5.0x for catastrophic injuries. Property damage is tracked separately and added directly to the total without a multiplier applied.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 As a concrete example: suppose you had $22,000 in medical bills, $8,000 in lost wages, $6,000 in future physical therapy, and $4,500 in vehicle repair costs. Your multiplier base is $30,000. At a moderate severity multiplier of 2.5x, your pain and suffering estimate is $75,000. Add back your $30,000 economic base and your $4,500 property damage and your gross estimate is $109,500.
@@ -538,7 +516,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 lets you run both.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Insurance companies use claims management software — most commonly Colossus — that weights factors like the type of injury, the treating physician&apos;s specialty, the number of office visits, and whether you had a gap in treatment. Colossus tends to undervalue claims. Understanding how it works before you negotiate puts you in a far better position.
+                Insurers&apos; own valuations vary and are not published. Under any method, the type of injury, the treating physician&apos;s specialty, the number of office visits, and whether you had a gap in treatment all affect the figure. Understanding that before you negotiate puts you in a far better position.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
@@ -592,7 +570,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 Venue matters significantly. Los Angeles, San Francisco, and San Diego are among the highest verdict venues in the country. Juries in these counties return larger verdicts on average than juries in Central Valley or rural counties, and insurers factor expected jury exposure into their settlement offers. If your case could end up in LA County Superior Court, the insurer knows that.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Documentation quality is the second major factor. Consistent medical treatment with no gaps, records from specialists rather than only urgent care, and a treating physician who documents functional limitations in clinical notes all increase claim value. A gap in treatment — even one caused by financial hardship — is used by adjusters to argue your injury was not serious.
+                Documentation quality is the second major factor. Consistent medical treatment with no gaps, records from specialists rather than only urgent care, and a treating physician who documents functional limitations in clinical notes all increase claim value. A gap in treatment — even one caused by financial hardship — is commonly raised to argue your injury was not serious.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Liability clarity is the third. Clean rear-end collisions where fault is obvious settle faster and for more than intersection crashes with disputed liability. Clear liability documentation — police report, photos, witness statements, traffic camera footage — protects your position from the start.
@@ -633,7 +611,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
-              <FAQAccordion faqs={CA_CAR_FAQS} />
+              <FAQAccordion schema faqs={CA_CAR_FAQS} />
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -690,7 +668,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 How Car Accident Settlements Are Calculated in Texas
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                The most common method insurance adjusters and personal injury attorneys use is the multiplier method. Your total economic damages (excluding property damage) are multiplied by a number between 1.5 and 5 depending on injury severity, and that product becomes the pain and suffering figure. The full settlement value is then the sum of all economic damages plus pain and suffering, adjusted for any fault assigned to you.
+                The most common way to estimate pain and suffering is the multiplier method. Your total economic damages (excluding property damage) are multiplied by a number between 1.5 and 5 depending on injury severity, and that product becomes the pain and suffering figure. The full settlement value is then the sum of all economic damages plus pain and suffering, adjusted for any fault assigned to you.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Here is how that plays out with real Texas numbers. Suppose you were rear-ended on I-10 in Houston. Your medical bills total $18,000, you missed $4,000 in wages, and your future physical therapy is estimated at $3,000. Your economic base is $25,000. For a moderate injury — soft tissue, ongoing pain, several months of treatment — a multiplier of 2.5 is reasonable. That produces $62,500 in pain and suffering. Add your $3,200 vehicle repair as a separate property damage claim and your total claim value is approximately $65,200 before any fault reduction.
@@ -713,7 +691,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 Below that threshold, your award is reduced proportionally. If a jury determines your total damages are $80,000 but you were 25% at fault for the collision — perhaps you were slightly over the speed limit when the other driver ran a red light — you recover $60,000 (75% of $80,000).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Insurance adjusters in Texas are trained to argue comparative fault aggressively. Even a minor contributing factor on your part — a slightly wide lane position, a delayed reaction — becomes a tool to reduce what they owe you. Recorded statements given early in the process frequently provide the evidence adjusters use to assign you partial fault. Do not give a recorded statement without first understanding your full claim value.
+                Comparative fault is one of the most common arguments raised against a Texas claim. Even a minor contributing factor on your part — a slightly wide lane position, a delayed reaction — can be raised to reduce what is owed. Recorded statements given early in the process frequently become the evidence for assigning you partial fault. Do not give a recorded statement without first understanding your full claim value.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
@@ -752,7 +730,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 Factors That Affect Texas Car Accident Settlements
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Settlement value is never just a formula. Several practical factors push the number up or down in Texas specifically. The quality and consistency of your medical records is the single largest driver — gaps in treatment or early discharge from care are used by adjusters to argue your injuries were not serious. Conservative jury verdicts in Dallas and Houston compared to California or New York mean that realistic trial value anchors settlement offers lower than in plaintiff-friendly jurisdictions.
+                Settlement value is never just a formula. Several practical factors push the number up or down in Texas specifically. The quality and consistency of your medical records is the single largest driver — gaps in treatment or early discharge from care are commonly raised to argue your injuries were not serious. Conservative jury verdicts in Dallas and Houston compared to California or New York mean that realistic trial value anchors settlement offers lower than in plaintiff-friendly jurisdictions.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 The at-fault driver&apos;s policy limits create a hard ceiling that no negotiation can push through. Pre-existing conditions to the same body area — a prior back injury if you now have a herniated disc — will be used to argue your damages are partially attributable to history rather than the accident. Documenting the difference between your baseline health and your post-accident condition through consistent medical records is how you counter that argument.
@@ -787,7 +765,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
-              <FAQAccordion faqs={TX_CAR_FAQS} />
+              <FAQAccordion schema faqs={TX_CAR_FAQS} />
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -819,7 +797,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
             <article className="editorial">
 
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
-                When you survive a violent collision on the Schuylkill Expressway or a snowy winter pileup on I-80, the physical shock is quickly replaced by financial panic. You are suddenly juggling calls from aggressive insurance adjusters while staring at an emergency room bill that easily surpasses <strong style={{ color: 'var(--amber)' }}>$15,000</strong>. In that moment of vulnerability, insurance adjusters rely on your confusion regarding state insurance statutes to push quick, undervalued settlement checks across the table. Determining the true financial value of your physical injuries requires looking far beyond simple calculator algorithms and understanding how Pennsylvania&apos;s unique statutory framework dictates every dollar you can recover.
+                When you survive a violent collision on the Schuylkill Expressway or a snowy winter pileup on I-80, the physical shock is quickly replaced by financial panic. You are suddenly juggling calls from aggressive insurance adjusters while staring at an emergency room bill that easily surpasses <strong style={{ color: 'var(--amber)' }}>$15,000</strong>. In that moment of vulnerability, confusion about state insurance statutes is exactly what makes a quick, undervalued settlement check tempting. Determining the true financial value of your physical injuries requires looking far beyond simple calculator algorithms and understanding how Pennsylvania&apos;s unique statutory framework dictates every dollar you can recover.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Using a baseline car accident settlement calculator provides a helpful starting point for estimating your claim&apos;s raw economic footprint. However, transforming that raw estimate into a legally enforceable settlement in the Commonwealth requires navigating complex statutory intersections — including choice no-fault insurance rules, binding household tort elections, strict shared fault bars, and stark regional venue disparities.
@@ -881,7 +859,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 Your total hospital, diagnostic, and specialist billing reaches <strong style={{ color: 'var(--amber)' }}>$38,000</strong>. Your own auto insurer pays the mandatory $5,000 PIP limit, leaving $33,000 submitted to your employer-sponsored health insurance. Your health plan pays the contracted rate of $21,000 and asserts a legal subrogation lien against your future settlement. You also missed six weeks of work as an electrical contractor, resulting in <strong style={{ color: 'var(--amber)' }}>$9,000</strong> in documented lost wages. Your baseline economic damages equal <strong style={{ color: 'var(--amber)' }}>$47,000</strong> ($38,000 total medical + $9,000 lost wages).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Because you elected full tort coverage on your household auto policy, your attorney demands non-economic pain and suffering compensation using a standard multiplier of three times your economic losses ($47,000 x 3 = <strong style={{ color: 'var(--amber)' }}>$141,000</strong>). Combining your economic and non-economic claims yields a total case valuation of <strong style={{ color: 'var(--amber)' }}>$188,000</strong>.
+                Because you elected full tort coverage on your household auto policy, your attorney demands non-economic pain and suffering compensation using a multiplier of three times your economic losses ($47,000 x 3 = <strong style={{ color: 'var(--amber)' }}>$141,000</strong>). Combining your economic and non-economic claims yields a total case valuation of <strong style={{ color: 'var(--amber)' }}>$188,000</strong>.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 However, your actual take-home compensation faces a stark reality check: insurance policy limits. Pennsylvania law only requires drivers to carry statutory minimum liability coverage of <strong style={{ color: 'var(--amber)' }}>$15,000 per person</strong> and <strong style={{ color: 'var(--amber)' }}>$30,000 per accident</strong>. If the distracted driver only carries this $15,000 state minimum, your recovery from their insurance company hits a hard brick wall at $15,000. To capture the remaining $173,000 of your damages, your legal team must file a first-party claim against your own auto policy&apos;s Underinsured Motorist (UIM) coverage, assuming you proactively purchased those optional tier protections.
@@ -949,7 +927,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions About Pennsylvania Car Settlements
               </h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'ca-pa-faq-1',
                   question: 'Do I have to pay state or federal taxes on my Pennsylvania car accident check?',
@@ -1120,7 +1098,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'ca-il-faq-1',
                   question: 'Is Illinois a no-fault state for car accidents?',
@@ -1159,7 +1137,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 Take the Next Step Toward Your Maximum Illinois Recovery
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Understanding the statutory math behind an Illinois auto accident settlement is only the first phase of financial recovery. When an insurance adjuster calls you days after a crash, they are not trying to calculate a fair multiplier; they are actively searching for recorded statements that shift 51 percent of the fault onto your driving record. Every day you delay legal representation gives commercial defense adjusters more time to subpoena historical medical records and construct comparative fault defenses.
+                Understanding the statutory math behind an Illinois auto accident settlement is only the first phase of financial recovery. When an insurance adjuster calls you days after a crash, the call is not about agreeing a fair multiplier; recorded statements given at that stage are often used to shift 51 percent of the fault onto your driving record. Every day you delay legal representation gives the defense more time to subpoena historical medical records and construct comparative fault defenses.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 You do not have to navigate complex statutory liens and hostile insurance negotiations alone. Contact our legal team today for a comprehensive, confidential case evaluation. We will audit your medical billing, calculate your true long-term economic special damages, and deploy aggressive litigation strategies to ensure you receive every dollar you are owed under Illinois law. Use our car accident settlement calculator to start exploring your baseline valuation right now.
@@ -1198,10 +1176,10 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 How Your Settlement Is Calculated: The Multiplier Method
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Insurance adjusters do not use a magic crystal ball to calculate your settlement value. Instead, they typically rely on the multiplier method to assign a dollar figure to your intangible suffering. First, they add up all your hard economic damages. Then, they multiply that baseline number by a factor generally ranging between 1.5 and 5, depending on the permanent severity of your physical injuries and the intensity of your medical treatment.
+                There is no magic formula for your settlement value. The most common way to estimate intangible suffering is the multiplier method. First, add up all your hard economic damages. Then multiply that baseline number by a factor generally ranging between 1.5 and 5, depending on the permanent severity of your physical injuries and the intensity of your medical treatment.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Imagine you are struck head-on by a distracted driver on Peachtree Street in Midtown. You require invasive knee surgery followed by three months of grueling rehabilitation. Your total medical bills equal <strong style={{ color: 'var(--amber)' }}>$45,000</strong>, and your documented lost income totals <strong style={{ color: 'var(--amber)' }}>$15,000</strong>. Your hard economic damages sit at <strong style={{ color: 'var(--amber)' }}>$60,000</strong>. Because your injury required surgical intervention and left you with a permanent limp, an adjuster might assign a multiplier of 3 to calculate your pain and suffering. Multiplying your $60,000 economic loss by 3 yields <strong style={{ color: 'var(--amber)' }}>$180,000</strong> in non-economic damages. Adding both figures together gives you a gross settlement valuation of <strong style={{ color: 'var(--amber)' }}>$240,000</strong>. You can experiment with different economic baselines using our{' '}
+                Imagine you are struck head-on by a distracted driver on Peachtree Street in Midtown. You require invasive knee surgery followed by three months of grueling rehabilitation. Your total medical bills equal <strong style={{ color: 'var(--amber)' }}>$45,000</strong>, and your documented lost income totals <strong style={{ color: 'var(--amber)' }}>$15,000</strong>. Your hard economic damages sit at <strong style={{ color: 'var(--amber)' }}>$60,000</strong>. Because your injury required surgical intervention and left you with a permanent limp, a multiplier of 3 might be applied to estimate your pain and suffering. Multiplying your $60,000 economic loss by 3 yields <strong style={{ color: 'var(--amber)' }}>$180,000</strong> in non-economic damages. Adding both figures together gives you a gross settlement valuation of <strong style={{ color: 'var(--amber)' }}>$240,000</strong>. You can experiment with different economic baselines using our{' '}
                 <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>
                 {' '}and isolate the subjective variables by exploring our{' '}
                 <Link href="/pain-and-suffering-calculator/georgia/" style={{ color: 'var(--primary)' }}>Georgia pain and suffering calculator</Link>.
@@ -1268,7 +1246,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'ca-ga-faq-1',
                   question: 'How much is my car accident worth in Georgia?',
@@ -1324,7 +1302,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 When the shattered glass is swept off the asphalt and the adrenaline fades, the insurance company immediately starts doing math. They are calculating exactly how little they can pay to make you go away and protect their corporate profit margins. If you are sitting at your kitchen table staring at a stack of mounting medical bills from Riverside Methodist or the Cleveland Clinic, wondering how much your car accident is worth in Ohio, you need to know exactly how your claim is valued before you sign any release forms. A car accident settlement calculator Ohio residents use can provide a solid baseline for your expectations, but true case valuation requires understanding how the state&apos;s specific tort laws apply directly to your life and your financial losses.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Because Ohio operates as a traditional tort system, the at-fault driver&apos;s insurance carrier is entirely on the hook for your damages. This guide shows you exactly how insurance adjusters, defense attorneys, and local juries look at your medical records to calculate your final payout. From understanding local jury tendencies to fighting back against adjusters who try to blame you for the crash, this page provides the unvarnished truth about maximizing your financial recovery.
+                Because Ohio operates as a traditional tort system, the at-fault driver&apos;s insurance carrier is entirely on the hook for your damages. This guide shows you how your medical records, Ohio law, and local jury tendencies shape your final payout. From understanding local jury tendencies to fighting back against adjusters who try to blame you for the crash, this page provides the unvarnished truth about maximizing your financial recovery.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
@@ -1336,13 +1314,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 Before you can determine a final dollar amount, you have to understand the two primary categories of damages available under state law. <strong style={{ color: 'var(--ink)' }}>Economic damages</strong> represent your hard, calculable financial costs resulting from the crash. These include the initial ambulance ride, the emergency room trauma fees, any necessary orthopedic surgeries, months of physical therapy, and the exact wages you lost while out of work recovering. The calculation does not stop at your past bills. If your orthopedic surgeon testifies that you will require a future spinal fusion five years down the road, the projected cost of that future medical care is calculated and added to your economic total. If your injuries force you to take a lower-paying job, your loss of future earning capacity is also demanded from the defense.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                <strong style={{ color: 'var(--ink)' }}>Non-economic damages</strong> cover the deeply personal, human toll of the crash. This is the financial compensation for the chronic neck pain that keeps you awake at night, the severe anxiety you feel every time you merge onto Interstate 71, and the physical hobbies you can no longer enjoy with your family. Because there is no simple receipt for physical agony or emotional trauma, calculating this portion of your Ohio car accident settlement requires examining the severity, duration, and permanence of your injuries — which is exactly where the industry-standard multiplier method comes into play.
+                <strong style={{ color: 'var(--ink)' }}>Non-economic damages</strong> cover the deeply personal, human toll of the crash. This is the financial compensation for the chronic neck pain that keeps you awake at night, the severe anxiety you feel every time you merge onto Interstate 71, and the physical hobbies you can no longer enjoy with your family. Because there is no simple receipt for physical agony or emotional trauma, calculating this portion of your Ohio car accident settlement requires examining the severity, duration, and permanence of your injuries — which is exactly where the multiplier method, the most common way to estimate these damages, comes into play.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">
-                How Adjusters Calculate Your Claim Value
+                How Your Claim Value Is Estimated
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 To determine a starting point for settlement negotiations, insurance adjusters often utilize the multiplier method. They take your total concrete economic damages and multiply them by a number typically ranging between 1.5 and 5, depending on the severity of your physical injuries, the venue of the crash, and the clarity of the liability evidence.
@@ -1351,7 +1329,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 Imagine you are violently rear-ended at a red light on High Street in Columbus. Your medical bills for a herniated disc, epidural injections, and physical therapy total <strong style={{ color: 'var(--amber)' }}>$30,000</strong>, and you missed <strong style={{ color: 'var(--amber)' }}>$10,000</strong> in wages, leaving you with <strong style={{ color: 'var(--amber)' }}>$40,000</strong> in strict economic losses. Because Franklin County jury verdicts historically favor plaintiffs who present clear, documented evidence of suffering, a claims adjuster might assign a multiplier of 3. They multiply your $40,000 economic loss by 3 to reach <strong style={{ color: 'var(--amber)' }}>$120,000</strong> in non-economic damages. Added together, your total claim valuation sits at a baseline of <strong style={{ color: 'var(--amber)' }}>$160,000</strong>.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Alternatively, if you suffer a severe femur fracture requiring surgical plates and screws in Cuyahoga County, the math shifts aggressively in your favor. A Cleveland car accident settlement for a victim with <strong style={{ color: 'var(--amber)' }}>$80,000</strong> in medical bills and a permanent limp might command a multiplier of 4 or 5. If the adjuster uses a 4, your $80,000 in economic damages generates <strong style={{ color: 'var(--amber)' }}>$320,000</strong> in pain and suffering, creating a <strong style={{ color: 'var(--amber)' }}>$400,000</strong> total settlement target. For a more tailored estimate of the non-economic portion of your specific claim, you can run your unique numbers through our{' '}
+                Alternatively, if you suffer a severe femur fracture requiring surgical plates and screws in Cuyahoga County, the math shifts aggressively in your favor. A Cleveland car accident settlement for a victim with <strong style={{ color: 'var(--amber)' }}>$80,000</strong> in medical bills and a permanent limp might command a multiplier of 4 or 5. At a multiplier of 4, your $80,000 in economic damages generates <strong style={{ color: 'var(--amber)' }}>$320,000</strong> in pain and suffering, creating a <strong style={{ color: 'var(--amber)' }}>$400,000</strong> total settlement target. For a more tailored estimate of the non-economic portion of your specific claim, you can run your unique numbers through our{' '}
                 <Link href="/pain-and-suffering-calculator/ohio/" style={{ color: 'var(--primary)' }}>Ohio pain and suffering calculator</Link>.
               </p>
 
@@ -1388,7 +1366,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 Where your accident happens dramatically impacts the mathematical value of your case. Because Ohio is a traditional at-fault state, you generally file your lawsuit in the county where the negligent driver caused the crash. Insurance adjusters track venue data obsessively because they know that juries in different counties value human pain and suffering very differently.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Urban centers traditionally yield significantly higher payouts. Franklin County jury verdicts in Columbus and Cuyahoga County verdicts in Cleveland consistently rank among the most plaintiff-friendly jurisdictions in the entire state. Juries in these dense metropolitan areas are accustomed to higher costs of living and often hand down substantial awards when the evidence is clear. Consequently, an insurance company is much more likely to offer a premium settlement prior to trial simply to avoid facing a Cleveland or Columbus jury. In stark contrast, if your collision occurs in a rural venue like Holmes County or Vinton County, juries tend to be far more conservative, and an adjuster will often use a lower multiplier, knowing the threat of a massive runaway verdict is statistically much lower.
+                Urban centers traditionally yield significantly higher payouts. Franklin County jury verdicts in Columbus and Cuyahoga County verdicts in Cleveland consistently rank among the most plaintiff-friendly jurisdictions in the entire state. Juries in these dense metropolitan areas are accustomed to higher costs of living and often hand down substantial awards when the evidence is clear. Consequently, an insurance company is much more likely to offer a premium settlement prior to trial simply to avoid facing a Cleveland or Columbus jury. In stark contrast, if your collision occurs in a rural venue like Holmes County or Vinton County, juries tend to be far more conservative, and settlement offers tend to reflect a lower multiplier, since the threat of a large verdict is statistically much lower.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
@@ -1429,7 +1407,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'ca-oh-faq-1',
                   question: 'How do I know if I have a valid car accident claim in Ohio?',
@@ -1509,7 +1487,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 How Your Settlement Is Calculated: The Multiplier Method in Action
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                To understand the math behind your payout, let&apos;s look at a concrete Phoenix car accident settlement scenario. Insurance companies typically use the multiplier method to attach a dollar figure to your intangible pain and suffering. They take your hard economic damages and multiply them by a number between 1.5 and 5, depending on the severity and permanence of your injuries.
+                To understand the math behind your payout, let&apos;s look at a concrete Phoenix car accident settlement scenario. The multiplier method is the most common way to attach a dollar figure to intangible pain and suffering. It takes your hard economic damages and multiplies them by a number between 1.5 and 5, depending on the severity and permanence of your injuries.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Imagine you were T-boned at a busy intersection in downtown Phoenix. You suffer a torn rotator cuff that requires surgery. Your medical bills total <strong style={{ color: 'var(--amber)' }}>$40,000</strong>, and you lose <strong style={{ color: 'var(--amber)' }}>$10,000</strong> in wages during your recovery. Your baseline economic damages are <strong style={{ color: 'var(--amber)' }}>$50,000</strong>. Because your injury required invasive surgery and months of painful rehabilitation, an insurance adjuster or a Maricopa County jury might assign a multiplier of three to your case. You take your $50,000 baseline and multiply it by three, giving you <strong style={{ color: 'var(--amber)' }}>$150,000</strong> in non-economic pain and suffering damages. You then add that $150,000 back to your $50,000 in hard costs. In this scenario, a fair baseline settlement target would be <strong style={{ color: 'var(--amber)' }}>$200,000</strong>. If you want to see how different severity levels impact your specific multiplier, you can run your numbers through our dedicated{' '}
@@ -1600,7 +1578,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'ca-az-faq-1',
                   question: 'How long does it take an insurance company to pay a settlement in Arizona?',
@@ -1676,7 +1654,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 How Your Settlement Is Calculated
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                To predict your potential payout, insurance adjusters and personal injury attorneys generally rely on the multiplier method. This classic formula takes your hard economic losses and multiplies them by a number between 1.5 and 5 to calculate your invisible pain and suffering losses.
+                To estimate your potential payout, the most common approach is the multiplier method. This formula takes your hard economic losses and multiplies them by a number between 1.5 and 5 to calculate your invisible pain and suffering losses.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Let us run a concrete Seattle car accident settlement scenario to see the math in action. Imagine a negligent delivery driver blows through a stop sign in Bellevue and crushes your passenger door. You rack up <strong style={{ color: 'var(--amber)' }}>$18,500</strong> in medical bills for a fractured collarbone and lose <strong style={{ color: 'var(--amber)' }}>$4,500</strong> in salary while recovering at home. This creates a hard economic base of <strong style={{ color: 'var(--amber)' }}>$23,000</strong>. Because your injury was highly painful and required immobilization but you are expected to make a full medical recovery, the insurance adjuster assigns a multiplier of 3. They multiply your $23,000 economic base by 3 to reach <strong style={{ color: 'var(--amber)' }}>$69,000</strong> for your human losses. Add that $69,000 back to your $23,000 out-of-pocket costs, and your estimated baseline settlement value sits at <strong style={{ color: 'var(--amber)' }}>$92,000</strong>. If you want to isolate just the human cost of your trauma without the medical bills muddying the water, our{' '}
@@ -1761,7 +1739,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'ca-wa-faq-1',
                   question: 'How does PIP affect my Washington settlement?',
@@ -1789,8 +1767,8 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 {
                   id: 'ca-wa-faq-5',
                   question: 'Why do I need a lawyer if the insurance company already offered me money?',
-                  answer: 'The adjuster\'s first offer is never their best offer; it is a mathematically calculated lowball designed to see if you are desperate enough to walk away cheaply. Without an attorney leveraging the threat of litigation, the insurance company has absolutely no financial incentive to offer you the true value of your claim. An experienced Washington litigator knows how to uncover hidden commercial policies, force the adjuster to utilize higher multipliers, and aggressively negotiate down your outstanding medical liens so you actually keep the money you are awarded.',
-                  schemaAnswer: 'The first offer is always a lowball. Without litigation threat, insurers have no incentive to pay full value. A Washington attorney uncovers hidden policies, forces higher multipliers, and negotiates medical liens down to maximize your net recovery.',
+                  answer: 'A first offer is often an opening position rather than a final number. An experienced Washington attorney can identify additional coverage (such as commercial or umbrella policies), argue for a higher multiplier on the strength of your records, and negotiate outstanding medical liens so more of any settlement reaches you.',
+                  schemaAnswer: 'A first offer is often an opening position rather than a final number. A Washington attorney can identify additional coverage, argue for a higher multiplier on the strength of your records, and negotiate medical liens so more of any settlement reaches you.'
                 },
               ]} />
 
@@ -1843,7 +1821,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 Calculating Your Claim: The Multiplier Method
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Insurance adjusters often use a multiplier method to arrive at an initial settlement offer. They take your total economic damages — your medical bills and lost earnings — and multiply that figure by a number, typically between 1.5 and 5, to account for your pain and suffering.
+                The multiplier method is the most common way to estimate pain and suffering. It takes your total economic damages — your medical bills and lost earnings — and multiplies that figure by a number, typically between 1.5 and 5.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Imagine you are in a collision in Denver, a venue known for producing some of the highest plaintiff verdicts in the state. You suffer a fractured femur requiring surgery and rehabilitation, resulting in <strong style={{ color: 'var(--amber)' }}>$100,000</strong> in medical expenses and <strong style={{ color: 'var(--amber)' }}>$20,000</strong> in lost wages. Your total economic damage is <strong style={{ color: 'var(--amber)' }}>$120,000</strong>. If an adjuster applies a 3x multiplier due to the severity of your injury and the recovery timeline, they arrive at a total claim value of <strong style={{ color: 'var(--amber)' }}>$480,000</strong>.
@@ -1928,7 +1906,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'ca-co-faq-1',
                   question: 'How long does it typically take to reach a car accident settlement in Colorado?',
@@ -2094,7 +2072,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: "ca-mi-faq-1",
                   question: "What happens if the at-fault driver has no insurance?",
@@ -2181,7 +2159,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 How Settlements Are Calculated: The Multiplier Method
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Insurance adjusters and attorneys often use a multiplier method to determine a baseline for settlement discussions. They look at your total economic damages and apply a multiplier, usually ranging from 1.5 to 5, depending on the severity of your injuries and the clarity of the evidence against the at-fault driver.
+                The multiplier method is the most common way to set a baseline for settlement discussions. It takes your total economic damages and applies a multiplier, usually ranging from 1.5 to 5, depending on the severity of your injuries and the clarity of the evidence against the at-fault driver.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Imagine you are injured in a crash near the Las Vegas Strip involving a rideshare vehicle. You incur <strong style={{ color: 'var(--amber)' }}>$50,000</strong> in medical bills and lost wages. If your injury involves a permanent nerve issue or a traumatic injury that restricts your mobility, a multiplier of 3 might be applied, bringing your potential settlement to <strong style={{ color: 'var(--amber)' }}>$150,000</strong>.
@@ -2272,7 +2250,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: "ca-nv-faq-1",
                   question: "Is Nevada a no-fault state?",
@@ -2345,9 +2323,9 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 <strong style={{ color: 'var(--ink)' }}>Economic damages</strong> are the objective costs of your injury. These include your immediate medical bills — ambulance fees, emergency room charges, physical therapy, and ongoing prescriptions — as well as future medical expenses if your injury results in long-term impairment. These damages also cover your lost wages, including the time taken off work for doctor appointments and the potential loss of future earning capacity if your injuries prevent you from performing your job. Finally, this category includes the repair or replacement costs for your vehicle and any other personal property damaged in the collision.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                <strong style={{ color: 'var(--ink)' }}>Non-economic damages</strong>, often described as pain and suffering, account for the physical and emotional toll the accident has taken on your life. This includes physical pain, mental anguish, loss of enjoyment of life, and the inconvenience caused by your recovery process. Because these damages are subjective, attorneys and insurance adjusters often use a{' '}
+                <strong style={{ color: 'var(--ink)' }}>Non-economic damages</strong>, often described as pain and suffering, account for the physical and emotional toll the accident has taken on your life. This includes physical pain, mental anguish, loss of enjoyment of life, and the inconvenience caused by your recovery process. Because these damages are subjective, a{' '}
                 <Link href="/pain-and-suffering-calculator/north-carolina/" style={{ color: 'var(--primary)' }}>North Carolina pain and suffering calculator</Link>
-                {' '}to assign a concrete value to these experiences, frequently employing a multiplier of your economic losses or a per-diem rate for every day you spent in pain.
+                {' '}is a common way to assign a concrete value to these experiences, applying a multiplier to your economic losses or a per-diem rate for every day you spent in pain.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
@@ -2436,7 +2414,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: "ca-nc-faq-1",
                   question: "What happens if I am 1% at fault for the accident?",
@@ -2639,7 +2617,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               >
                 Frequently Asked Questions
               </h2>
-              <FAQAccordion faqs={faqs} />
+              <FAQAccordion schema faqs={faqs} />
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -2650,9 +2628,8 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 Get Your {stateData.name} Estimate Now
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                The at-fault driver&apos;s insurer is already calculating what your {stateData.name}{' '}
-                claim is worth — and that number is optimized for their bottom line, not yours. Scroll
-                up and enter your actual damages to get a transparent, formula-driven estimate before
+                The at-fault driver&apos;s insurer will arrive at its own figure for your {stateData.name}{' '}
+                claim. Scroll up and enter your actual damages to get a transparent, formula-driven estimate before
                 you accept any offer.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2666,6 +2643,21 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
             </article>
           )}
+
+          {/* ── STATE GRID — every state page, alphabetical, with count badge ── */}
+          <StateList
+            variant="plain"
+            id="by-state"
+            tool="car-accident"
+            headingLevel="h2"
+            title="Car Accident Settlement Calculator by State"
+            intro="State laws vary significantly. Select your state for a calculator that reflects local fault rules, no-fault thresholds, damage caps, and filing deadlines."
+            currentSlug={stateData.slug}
+            className="mt-12 prose-col"
+          />
+
+          {/* Citation block — title, editorial byline, canonical URL, review stamp */}
+          <CiteThisPage title={`${stateData.name} Car Accident Settlement Calculator`} path={canonicalUrl} reviewed={LAST_REVIEWED} className="mt-10 prose-col" />
 
           <DisclaimerBanner variant="footer" stateName={stateData.name} />
           </EditorialLayout>

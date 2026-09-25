@@ -1,23 +1,25 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// components/layout/Footer.tsx — white footer with calculators, states, and
-// every trust page (methodology, editorial policy, about, contact, privacy,
-// terms). Server component.
+// components/layout/Footer.tsx — white footer with calculators, a state-guides
+// band listing EVERY published state per tool (components/ui/StateList.tsx —
+// no truncated "by state" column), and every trust page (methodology,
+// editorial policy, about, contact, privacy, terms). Server component.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import Link from 'next/link'
 import { Lock } from 'lucide-react'
 import { BrandWordmark } from '@/components/ui/Brand'
-import { getPriorityStates } from '@/lib/data/states'
+import { StateChips, StateCountBadge, getToolStates, getToolMeta, type StateListTool } from '@/components/ui/StateList'
+
+const FOOTER_STATE_TOOLS: StateListTool[] = ['pain-suffering', 'car-accident', 'workers-comp']
 
 export default function Footer() {
-  const priorityStates = getPriorityStates()
   const currentYear = new Date().getFullYear()
 
   return (
     <footer className="site-footer mt-auto">
       <div className="container-page py-14">
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 
           <div className="lg:col-span-2 flex flex-col gap-4">
             <Link href="/" className="inline-flex w-fit rounded-md" aria-label="Settlebrook home">
@@ -45,24 +47,6 @@ export default function Footer() {
           </div>
 
           <div>
-            <h2 className="footer-heading">By State</h2>
-            <ul className="flex flex-col">
-              {priorityStates.map((state) => (
-                <li key={state.slug}>
-                  <Link href={`/pain-and-suffering-calculator/${state.slug}/`} className="footer-link">
-                    {state.name} Pain &amp; Suffering
-                  </Link>
-                </li>
-              ))}
-              <li><Link href="/car-accident-settlement-calculator/california/" className="footer-link">California Car Accident</Link></li>
-              <li><Link href="/car-accident-settlement-calculator/texas/" className="footer-link">Texas Car Accident</Link></li>
-              <li><Link href="/workers-comp-settlement-calculator/california/" className="footer-link">California Workers Comp</Link></li>
-              <li><Link href="/workers-comp-settlement-calculator/texas/" className="footer-link">Texas Workers Comp</Link></li>
-              <li><Link href="/workers-comp-settlement-calculator/florida/" className="footer-link">Florida Workers Comp</Link></li>
-            </ul>
-          </div>
-
-          <div>
             <h2 className="footer-heading">Settlebrook</h2>
             <ul className="flex flex-col">
               <li><Link href="/methodology/" className="footer-link">Methodology</Link></li>
@@ -76,6 +60,26 @@ export default function Footer() {
           </div>
 
         </div>
+
+        {/* State guides — every published state page, per tool */}
+        <nav className="footer-states" aria-label="State guides">
+          <h2 className="footer-heading">State guides</h2>
+          <div className="footer-states-groups">
+            {FOOTER_STATE_TOOLS.map((tool) => {
+              const meta = getToolMeta(tool)
+              const count = getToolStates(tool).length
+              return (
+                <div key={tool} className="footer-states-group">
+                  <p className="flex items-center gap-2 mb-1 font-semibold" style={{ color: 'var(--ink)', fontSize: 'var(--label)' }}>
+                    <Link href={meta.hub} className="footer-link" style={{ padding: 0 }}>{meta.short}</Link>
+                    <StateCountBadge count={count} />
+                  </p>
+                  <StateChips tool={tool} variant="inline" ariaLabel={`${meta.label} state pages`} />
+                </div>
+              )
+            })}
+          </div>
+        </nav>
 
         {/* Disclaimer */}
         <div className="pt-6" style={{ borderTop: '1px solid var(--line)' }}>

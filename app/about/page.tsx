@@ -86,8 +86,8 @@ export default function AboutPage() {
                 Settlebrook is a free set of settlement estimate tools for people with
                 injury claims in the United States. Three calculators cover the most
                 common claim types: pain and suffering, car accident settlements, and
-                workers compensation. Each one runs the same arithmetic that adjusters
-                and plaintiff attorneys use, in your browser, in about two minutes.
+                workers compensation. Each one runs transparent, published formulas in your browser, in about
+                two minutes.
                 There is no signup and no paywall. Your calculator inputs are never
                 transmitted anywhere — all figures stay in your browser. The site
                 itself runs on Google Analytics and Google AdSense, and our{' '}

@@ -13,9 +13,11 @@ import PainSufferingCalculator from '@/components/calculator/PainSufferingCalcul
 import FAQAccordion from '@/components/seo/FAQAccordion'
 import HeroBand, { type HeroFact } from '@/components/ui/HeroBand'
 import EditorialLayout from '@/components/ui/EditorialLayout'
+import CiteThisPage from '@/components/ui/CiteThisPage'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import { getMainPageFAQs, buildFAQSchema } from '@/lib/data/faqContent'
-import { getPriorityStates, ALL_STATES } from '@/lib/data/states'
+import { ALL_STATES } from '@/lib/data/states'
+import StateList from '@/components/ui/StateList'
 import SourcesSection from '@/components/seo/SourcesSection'
 import BackToCalculator from '@/components/calculator/BackToCalculator'
 import { buildNextSteps } from '@/lib/nextSteps'
@@ -78,7 +80,6 @@ export const metadata: Metadata = {
 }
 
 const faqs = getMainPageFAQs()
-const priorityStates = getPriorityStates()
 
 const webApplicationSchema = {
   '@context': 'https://schema.org',
@@ -140,30 +141,16 @@ export default function PainSufferingCalculatorPage() {
             <SideCard>
               <h3 className="font-body font-semibold mb-1" style={{ fontSize: 16 }}>How Is Pain and Suffering Calculated?</h3>
               <p className="text-sm mb-3" style={{ color: 'var(--ink-2)' }}>
-                Learn exactly how insurance companies calculate your damages — multiplier method, per diem method, and what raises or lowers your number.
+                Learn the multiplier method, the per diem method, and what raises or lowers your number.
               </p>
               <Link href="/pain-and-suffering-calculator/guide/" className="btn-secondary btn-sm w-full">
                 Read the Complete Guide →
               </Link>
             </SideCard>
 
+            {/* Every state page, alphabetical — no truncated list (components/ui/StateList.tsx) */}
             <nav aria-label="State-specific pain and suffering calculators">
-              <SideCard>
-                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Calculator by State</h2>
-                <ul className="flex flex-col">
-                  {priorityStates.map((state) => (
-                    <li key={state.slug}>
-                      <Link href={`/pain-and-suffering-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
-                        <span>{state.name}</span>
-                        <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
-                      </Link>
-                    </li>
-                  ))}
-                  <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
-                    <a href="#by-state" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>All {ALL_STATES.length} states ↓</a>
-                  </li>
-                </ul>
-              </SideCard>
+              <StateList tool="pain-suffering" title="By state" headingLevel="h2" hubLink={false} />
             </nav>
 
             <nav aria-label="Other settlement calculators">
@@ -240,7 +227,7 @@ export default function PainSufferingCalculatorPage() {
             <h2 className="heading-display h2-editorial">When Everything Feels Uncertain After an Injury</h2>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Getting hurt changes everything — and fast. One day you&apos;re fine, and the next you&apos;re dealing with doctor visits, missed work, and a stack of bills while an insurance adjuster is already calling you. It&apos;s overwhelming, and if you&apos;re wondering what your pain and suffering is actually <strong style={{ color: 'var(--ink)' }}>worth</strong>, you&apos;re not alone. That&apos;s exactly what this pain and suffering calculator is built for — to give you a real, grounded estimate of your non-economic damages before you sign anything or accept a lowball offer.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Pain and suffering is real money. It&apos;s not a vague bonus tacked onto your claim — it&apos;s often the largest part of a personal injury settlement. And yet most injury victims have no idea how it&apos;s calculated, which means they have no idea when they&apos;re being underpaid.</p>
-            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>This tool uses the same formulas insurance companies use internally. It won&apos;t replace an attorney, and it won&apos;t give you a guaranteed number — no calculator can do that. But it will give you a defensible starting point, so you walk into negotiations knowing your range, not guessing at it.</p>
+            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>This tool applies the multiplier and per diem methods, the two most common ways to estimate pain and suffering. It won&apos;t replace an attorney, and it won&apos;t give you a guaranteed number — no calculator can do that. But it will give you a defensible starting point, so you walk into negotiations knowing your range, not guessing at it.</p>
 
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
@@ -269,15 +256,15 @@ export default function PainSufferingCalculatorPage() {
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>The daily rate is usually tied to your actual daily earnings. If you make $200 a day, the argument is that your pain is worth at least that much per day, since you&apos;d reasonably trade a day&apos;s pay to not experience it.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>So if you earned $200/day and your recovery took 180 days of real, documented pain, your per diem calculation yields $36,000 in pain and suffering.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>This method works best when your recovery has a clear endpoint — a fracture that healed, a surgery with a defined recovery window. It&apos;s harder to apply when injuries are ongoing or permanent, because multiplying a daily rate by an indefinite number of future days becomes speculative.</p>
-            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Some personal injury attorneys use per diem specifically to counter lowball multiplier offers from insurance companies. If the per diem number comes out higher, it gives you a stronger argument in negotiation. Our <Link href='/pain-and-suffering-calculator/' style={{ color: 'var(--primary)' }}>Pain and Suffering Calculator</Link> runs both methods so you can see which one produces a stronger estimate for your specific situation.</p>
+            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>The per diem method can produce a higher figure than the multiplier method for a long recovery, which makes it a useful second reference point in negotiation. Our <Link href='/pain-and-suffering-calculator/' style={{ color: 'var(--primary)' }}>Pain and Suffering Calculator</Link> runs both methods so you can see which one produces a stronger estimate for your specific situation.</p>
 
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
             <h2 className="heading-display h2-editorial">How Insurance Companies Calculate Pain and Suffering</h2>
-            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Here&apos;s something most injury victims never find out until it&apos;s too late: insurance companies don&apos;t sit down and thoughtfully consider your suffering. They run it through software.</p>
-            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>The dominant program in the industry is called Colossus, and it&apos;s used by many of the largest insurers in the country. An insurance adjuster enters your medical codes, treatment history, injury type, and claim details — and the software spits out a settlement range. The adjuster then works from that range, typically starting at the low end.</p>
-            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Colossus weighs certain factors heavily. Documented treatment from a licensed physician counts for more than chiropractic-only care. Consistent, uninterrupted treatment strengthens your value. Objective findings — an MRI showing a herniated disc, an X-ray confirming a fracture — carry more weight than pain complaints alone.</p>
-            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>What hurts your value in the system? Gaps in treatment longer than 30 days (the software reads these as evidence you weren&apos;t really that hurt). Treatment from providers the system doesn&apos;t weight highly. Injuries that don&apos;t match the accident mechanism. And any documented pre-existing condition in the same area.</p>
+            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Insurers do not publish how they value pain and suffering, and their valuations vary by company, adjuster, and claim. What is consistent is that the process is documentation-driven: what is written in your medical file carries far more weight than how you describe your pain.</p>
+            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Some insurers have used claims-evaluation software (Colossus is the best-known example) to produce a settlement range from medical codes, treatment history, and injury type; how any given insurer weights those inputs is not public. Whatever the method, an initial offer is a negotiating position, not a valuation you have to accept.</p>
+            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Under any method, some factors carry more weight. Documented treatment from a licensed physician counts for more than chiropractic-only care. Consistent, uninterrupted treatment strengthens your position. Objective findings — an MRI showing a herniated disc, an X-ray confirming a fracture — carry more weight than pain complaints alone.</p>
+            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>What weakens a claim under any method? Gaps in treatment (they are read as evidence you weren&apos;t really that hurt), injuries that don&apos;t match the accident mechanism, and any documented pre-existing condition in the same area.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Adjusters are also trained to ask you recorded questions early — before you&apos;ve fully treated — specifically to lock in statements that minimize your claim. The number they first offer you is not their honest assessment. It&apos;s their opening bid in a negotiation, anchored to a software output designed to protect their bottom line.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Knowing how the calculation works is your first line of defense.</p>
 
@@ -318,36 +305,24 @@ export default function PainSufferingCalculatorPage() {
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
             <h2 className="heading-display h2-editorial">Get Your Estimate Now</h2>
-            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>You deserve to know what your claim is worth before anyone asks you to sign anything. The insurance company already has software running numbers on your case — you should have one too.</p>
+            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>You deserve to know what your claim is worth before anyone asks you to sign anything, and to see how that number was built.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Use our free Pain and Suffering Calculator above to estimate your settlement value in under 2 minutes.</p>
 
           </article>
 
-          {/* ── STATE GRID ── */}
-          <section
+          {/* ── STATE GRID — every state page, alphabetical, with count badge ── */}
+          <StateList
+            variant="plain"
             id="by-state"
+            tool="pain-suffering"
+            headingLevel="h2"
+            title="Pain & Suffering Calculator by State"
+            intro="State laws vary significantly. Select your state for a calculator that reflects local fault rules, damage caps, and filing deadlines."
             className="mt-12 prose-col"
-            aria-label="Pain and suffering calculator by state"
-            style={{ scrollMarginTop: 'calc(var(--header-h) + 12px)' }}
-          >
-            <h2 className="heading-display" style={{ fontSize: 26, marginBottom: 6 }}>
-              Pain &amp; Suffering Calculator by State
-            </h2>
-            <p className="text-sm mb-4" style={{ color: 'var(--ink-2)' }}>
-              State laws vary significantly. Select your state for a calculator that reflects local fault
-              rules, damage caps, and filing deadlines.
-            </p>
-            <ul className="flex flex-wrap gap-2">
-              {ALL_STATES.map((state) => (
-                <li key={state.slug}>
-                  <Link href={`/pain-and-suffering-calculator/${state.slug}/`} className="picker-link" style={{ minHeight: 40 }}>
-                    <span className="text-xs mr-1.5" style={{ color: 'var(--ink-3)' }}>{state.abbreviation}</span>
-                    {state.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
+          />
+
+          {/* Citation block — title, editorial byline, canonical URL, review stamp */}
+          <CiteThisPage title="Pain & Suffering Calculator — Free Estimate" path="/pain-and-suffering-calculator/" reviewed={LAST_REVIEWED} className="mt-10 prose-col" />
 
           <DisclaimerBanner variant="footer" />
           </EditorialLayout>

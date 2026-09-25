@@ -30,14 +30,14 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: '/blog/injury-claim-calculator/',
     title: 'Injury Claim Calculator: How Insurers Value Your Claim',
     description:
-      'See how insurers actually calculate a personal injury claim, then use our free injury claim calculator to estimate your own settlement range.',
+      'See how injury claims are valued, then use our free injury claim calculator to estimate your own settlement range.',
     publishDate: '2026-09-24',
   },
   {
     slug: '/blog/diminished-value-claim/',
     title: 'Diminished Value Claims After a Car Accident',
     description:
-      'What a diminished value claim is, how insurers use the 17c formula, and how diminished value fits into your overall car accident settlement.',
+      'What a diminished value claim is, how the 17c formula works, and how diminished value fits into your overall car accident settlement.',
     publishDate: '2026-09-24',
   },
   {
@@ -72,7 +72,7 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: '/blog/state-farm-pain-and-suffering-calculator/',
     title: 'How State Farm Calculates Pain and Suffering',
     description:
-      'There is no official state farm pain and suffering calculator, but its internal evaluation process is known. Learn how to estimate your true payout now.',
+      'There is no official State Farm pain and suffering calculator. This guide explains what shapes a bodily injury offer and how to estimate your own pain and suffering figure.',
     publishDate: '2026-08-20',
   },
 ]

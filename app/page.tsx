@@ -11,9 +11,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, Car, Check, HardHat, HeartPulse, Landmark, MapPin, FileText } from 'lucide-react'
-import { getPriorityStates, ALL_STATES } from '@/lib/data/states'
-import { CAR_ACCIDENT_STATES } from '@/lib/data/carAccidentStates'
-import { WORKERS_COMP_STATES, NOINDEXED_WORKERS_COMP_SLUGS } from '@/lib/data/workersCompStates'
+import BalancedGrid from '@/components/ui/BalancedGrid'
+import StateList from '@/components/ui/StateList'
 import { getLatestBlogPosts, getPostDisplayDate } from '@/lib/data/blogPosts'
 
 export const metadata: Metadata = {
@@ -92,11 +91,7 @@ const HOW_IT_WORKS = [
   },
 ]
 
-// Only indexed state pages are linked — see NOINDEXED_WORKERS_COMP_SLUGS.
-const painSufferingStates = getPriorityStates()
-const carAccidentStates = CAR_ACCIDENT_STATES.filter((s) => s.slug === 'california' || s.slug === 'texas' || s.slug === 'florida' || s.slug === 'new-york')
-const workersCompStates = WORKERS_COMP_STATES.filter((s) => !NOINDEXED_WORKERS_COMP_SLUGS.has(s.slug))
-
+// State-guide cards list EVERY published state per tool (components/ui/StateList.tsx).
 const latestPosts = getLatestBlogPosts(6)
 
 const SITE_SCHEMA = {
@@ -169,7 +164,8 @@ export default function HomePage() {
             </div>
             <Link href="/methodology/" className="text-link font-semibold whitespace-nowrap" style={{ fontSize: 'var(--label)' }}>See how the math works →</Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* Balanced grid: 3 across from 1024px, 1 featured + 2 on tablets, one column on phones */}
+          <BalancedGrid count={CHOICES.length} maxCols={3}>
             {CHOICES.map(({ id, href, kicker, title, description, stats, Icon }) => (
               <Link key={id} href={href} className="tool-card card-hover">
                 <span className="icon-tile">
@@ -185,7 +181,7 @@ export default function HomePage() {
                 </span>
               </Link>
             ))}
-          </div>
+          </BalancedGrid>
         </section>
 
         {/* ── WHICH CALCULATOR SHOULD YOU USE ── */}
@@ -279,49 +275,12 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <div className="card-flat card-pad">
-              <h3 className="font-body font-bold mb-3" style={{ fontSize: 18 }}>Pain &amp; Suffering</h3>
-              <ul className="flex flex-col">
-                {painSufferingStates.map((state) => (
-                  <li key={state.slug}>
-                    <Link href={`/pain-and-suffering-calculator/${state.slug}/`} className="text-link inline-block py-1.5" style={{ fontSize: 'var(--label)' }}>{state.name}</Link>
-                  </li>
-                ))}
-              </ul>
-              <Link href="/pain-and-suffering-calculator/" className="inline-flex items-center gap-1.5 mt-4 font-semibold" style={{ color: 'var(--ink-3)', fontSize: 'var(--small)' }}>
-                See all {ALL_STATES.length} states <ArrowRight aria-hidden="true" size={15} strokeWidth={2.4} />
-              </Link>
-            </div>
-
-            <div className="card-flat card-pad">
-              <h3 className="font-body font-bold mb-3" style={{ fontSize: 18 }}>Car Accident</h3>
-              <ul className="flex flex-col">
-                {carAccidentStates.map((state) => (
-                  <li key={state.slug}>
-                    <Link href={`/car-accident-settlement-calculator/${state.slug}/`} className="text-link inline-block py-1.5" style={{ fontSize: 'var(--label)' }}>{state.name}</Link>
-                  </li>
-                ))}
-              </ul>
-              <Link href="/car-accident-settlement-calculator/" className="inline-flex items-center gap-1.5 mt-4 font-semibold" style={{ color: 'var(--ink-3)', fontSize: 'var(--small)' }}>
-                See all {CAR_ACCIDENT_STATES.length} states <ArrowRight aria-hidden="true" size={15} strokeWidth={2.4} />
-              </Link>
-            </div>
-
-            <div className="card-flat card-pad">
-              <h3 className="font-body font-bold mb-3" style={{ fontSize: 18 }}>Workers Comp</h3>
-              <ul className="flex flex-col">
-                {workersCompStates.map((state) => (
-                  <li key={state.slug}>
-                    <Link href={`/workers-comp-settlement-calculator/${state.slug}/`} className="text-link inline-block py-1.5" style={{ fontSize: 'var(--label)' }}>{state.name}</Link>
-                  </li>
-                ))}
-              </ul>
-              <Link href="/workers-comp-settlement-calculator/" className="inline-flex items-center gap-1.5 mt-4 font-semibold" style={{ color: 'var(--ink-3)', fontSize: 'var(--small)' }}>
-                See all indexed states <ArrowRight aria-hidden="true" size={15} strokeWidth={2.4} />
-              </Link>
-            </div>
-          </div>
+          {/* Three equal-height cards, every state per tool, alphabetical with a count badge */}
+          <BalancedGrid count={3} maxCols={3} aria-label="State guides by calculator">
+            <StateList tool="pain-suffering" />
+            <StateList tool="car-accident" />
+            <StateList tool="workers-comp" />
+          </BalancedGrid>
         </section>
 
         {/* ── LATEST GUIDES ── */}
@@ -333,7 +292,8 @@ export default function HomePage() {
               </h2>
               <Link href="/blog/" className="text-link font-semibold whitespace-nowrap" style={{ fontSize: 'var(--label)' }}>All guides →</Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+            {/* Balanced grid: rows stay full whatever the post count (4 → 2×2, 5 → 1+4, 6 → 3×2) */}
+            <BalancedGrid count={latestPosts.length} maxCols={3}>
               {latestPosts.map((post) => (
                 <Link key={post.slug} href={post.slug} className="card card-pad card-hover flex flex-col" style={{ textDecoration: 'none' }}>
                   <time dateTime={post.publishDate} className="eyebrow">
@@ -350,7 +310,7 @@ export default function HomePage() {
                   </span>
                 </Link>
               ))}
-            </div>
+            </BalancedGrid>
           </section>
         )}
 

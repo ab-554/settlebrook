@@ -24,6 +24,7 @@ import { formatCurrency, formatMultiplier } from '@/lib/calculations/painSufferi
 import { trackEvent, type ToolId } from '@/lib/analytics'
 import type { NextStepCard } from '@/lib/nextSteps'
 import type { SeverityRange } from '@/lib/severityRange'
+import BalancedGrid from '@/components/ui/BalancedGrid'
 import { useCountUp } from './hooks'
 
 export interface BreakdownRow {
@@ -255,11 +256,12 @@ export function NextSteps({ cards, tool, stateSlug }: { cards: NextStepCard[]; t
         <h2 className="heading-display" style={{ fontSize: 'var(--h3)' }}>Next steps</h2>
         <span style={{ color: 'var(--ink-3)', fontSize: 'var(--small)' }}>Continue with what matters most for your claim</span>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Balanced grid: 3 cards → 3 across from 1024px, 1 featured + 2 on tablets; 2 cards → 2 across */}
+      <BalancedGrid count={cards.length} maxCols={3} gap={16}>
         {cards.map((card) => (
           <NextStepLink key={card.id} card={card} tool={tool} stateSlug={stateSlug} />
         ))}
-      </div>
+      </BalancedGrid>
     </nav>
   )
 }

@@ -15,13 +15,15 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import EditorialLayout from '@/components/ui/EditorialLayout'
+import { getBlogPostBySlug, getPostDisplayDate } from '@/lib/data/blogPosts'
+import CiteThisPage from '@/components/ui/CiteThisPage'
 import BlogRail from '@/components/ui/BlogRail'
 
 const canonicalUrl = '/blog/injury-claim-calculator/'
 const PUBLISHED_DATE = '2026-09-24'
 
 const metaDescription =
-  "See how insurers actually calculate a personal injury claim, then use our free injury claim calculator to estimate your own settlement range."
+  "See how injury claims are valued, then use our free injury claim calculator to estimate your own settlement range."
 
 export const metadata: Metadata = {
   title: 'Injury Claim Calculator: How Insurers Value Your Claim',
@@ -341,6 +343,9 @@ export default function InjuryClaimCalculatorPost() {
             </ol>
 
           </article>
+
+          {/* Citation block — title, editorial byline, canonical URL, review stamp */}
+          <CiteThisPage title="Injury Claim Calculator: How Insurers Value Your Claim" path={canonicalUrl} reviewed={getPostDisplayDate(getBlogPostBySlug(canonicalUrl)!)} className="mt-10" />
           </EditorialLayout>
         </div>
 

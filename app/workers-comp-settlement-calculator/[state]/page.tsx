@@ -22,16 +22,17 @@ import WorkersCompCalculator from '@/components/calculator/WorkersCompCalculator
 import FAQAccordion from '@/components/seo/FAQAccordion'
 import HeroBand, { type HeroFact } from '@/components/ui/HeroBand'
 import EditorialLayout from '@/components/ui/EditorialLayout'
+import CiteThisPage from '@/components/ui/CiteThisPage'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import WorkedExampleWorkersComp from '@/components/seo/WorkedExampleWorkersComp'
 import SourcesSection from '@/components/seo/SourcesSection'
+import StateList from '@/components/ui/StateList'
 import StatePPDSection from '@/components/calculator/StatePPDSection'
 import BackToCalculator from '@/components/calculator/BackToCalculator'
 import { buildNextSteps } from '@/lib/nextSteps'
 import {
   getWorkersCompStateBySlug,
   getAllWorkersCompStateSlugs,
-  WORKERS_COMP_STATES,
   NOINDEXED_WORKERS_COMP_SLUGS,
   NON_GENERIC_PPD_SLUGS,
 } from '@/lib/data/workersCompStates'
@@ -222,11 +223,6 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
   const activeFaqs = getWorkersCompFaqsForState(stateData.slug)
   const faqSchema = buildWorkersCompFAQSchema(activeFaqs)
 
-  // Tier-1 launch state link list — CA, TX, and FL (excluding current state)
-  const tier1States = WORKERS_COMP_STATES.filter(
-    (s) => (s.slug === 'california' || s.slug === 'texas' || s.slug === 'florida') && s.slug !== stateData.slug,
-  )
-
   // Contextual cards shown under a result (built server-side, see lib/nextSteps.ts).
   const nextSteps = buildNextSteps({ tool: 'workers-comp', stateSlug: stateData.slug })
 
@@ -260,28 +256,10 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </SideCard>
             </nav>
 
-            {tier1States.length > 0 && (
-              <nav aria-label="Other state workers comp calculators">
-                <SideCard>
-                  <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Other State Calculators</h2>
-                  <ul className="flex flex-col">
-                    {tier1States.map((state) => (
-                      <li key={state.slug}>
-                        <Link href={`/workers-comp-settlement-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
-                          <span>{state.name} Workers Comp Calculator</span>
-                          <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
-                        </Link>
-                      </li>
-                    ))}
-                    <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
-                      <Link href="/workers-comp-settlement-calculator/" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>
-                        ← All states calculator
-                      </Link>
-                    </li>
-                  </ul>
-                </SideCard>
-              </nav>
-            )}
+            {/* Every other state page, alphabetical — no truncated list (components/ui/StateList.tsx) */}
+            <nav aria-label="Other state workers comp calculators">
+              <StateList tool="workers-comp" title="Other states" headingLevel="h2" currentSlug={stateData.slug} excludeCurrent />
+            </nav>
 
             <nav aria-label="Other settlement calculators">
               <SideCard>
@@ -767,7 +745,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               {/* ── Introduction ── */}
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
-                When you suffer a devastating injury on the job in the Sunshine State, the physical pain is quickly overshadowed by a tidal wave of financial anxiety. You are suddenly unable to work, the medical bills are piling up, and the insurance adjuster treating your claim acts like every authorized treatment is coming out of their own pocket. You need to know exactly how much your case is worth, but the insurance company is using complex statutory formulas to minimize their payout. By utilizing a reliable{' '}
+                When you suffer a devastating injury on the job in the Sunshine State, the physical pain is quickly overshadowed by a tidal wave of financial anxiety. You are suddenly unable to work, the medical bills are piling up, and the insurance adjuster treating your claim acts like every authorized treatment is coming out of their own pocket. You need to know exactly how much your case is worth, but the statutory formulas that set your benefits are complex. By utilizing a reliable{' '}
                 <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--primary)' }}>workers comp settlement calculator</Link>
                 {', '}you can strip away the adjuster&apos;s advantage and gain a clear, mathematical understanding of the dollars you are legally owed.
               </p>
@@ -1414,7 +1392,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 The financial stakes of this single exam are massive. If the doctor concludes your impairment rating is 35 percent or higher, you retain your total disability status, and your weekly checks continue without a timeline. But if the doctor assigns a rating of less than 35 percent — which happens in the overwhelming majority of insurance-demanded evaluations — the carrier will petition the state to officially change your status from total disability to partial disability.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Your weekly check amount might remain exactly the same after this status change, but a deadly clock starts ticking. The state strictly caps partial disability benefits at a maximum of <strong style={{ color: 'var(--ink)' }}>500 weeks</strong>, which equates to roughly nine and a half years. Once you consume those 500 weeks, your wage loss benefits vanish permanently, even if your spine is still fused and you cannot physically tolerate sitting at a desk. When adjusters calculate a Pennsylvania impairment rating workers comp settlement, they are hyper-focused on this 500-week cap. They will never voluntarily offer a settlement that exceeds their remaining financial exposure under that 500-week limit.
+                Your weekly check amount might remain exactly the same after this status change, but a deadly clock starts ticking. The state strictly caps partial disability benefits at a maximum of <strong style={{ color: 'var(--ink)' }}>500 weeks</strong>, which equates to roughly nine and a half years. Once you consume those 500 weeks, your wage loss benefits vanish permanently, even if your spine is still fused and you cannot physically tolerate sitting at a desk. In a Pennsylvania impairment rating workers comp settlement, this 500-week cap defines the insurer&apos;s remaining exposure, and settlement offers are generally negotiated within that exposure.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
@@ -1854,7 +1832,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 Take the Next Step in Your Claim
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                The insurance adjuster is already calculating the absolute minimum they have to pay to close your file. You cannot afford to guess about the statutory value of your body parts or the long-term cost of your future medical care. Leverage the{' '}
+                The insurer will arrive at its own figure for closing your file. You cannot afford to guess about the statutory value of your body parts or the long-term cost of your future medical care. Leverage the{' '}
                 <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--primary)' }}>North Carolina workers comp settlement calculator</Link>
                 {' '}to establish your baseline, review your Average Weekly Wage documentation, and ensure your PPD rating accurately reflects the physical damage you have suffered. If you are facing a permanent injury, reaching out for a professional legal consultation is the safest way to ensure the North Carolina Industrial Commission approves a clincher agreement that truly protects your financial future.
               </p>
@@ -3432,36 +3410,26 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
             Get Your {stateData.name} Estimate Now
           </h2>
           <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-            Insurance adjusters utilize detailed tables and calculator software to establish standard payouts. Make sure you understand the statutory rates and caps that apply to your case.
+            Workers&apos; comp payouts are set by statutory rate tables and caps. Make sure you understand the rates and caps that apply to your case.
           </p>
           <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
             Scroll back to the top of the page to enter your wages and compute a localized workers&apos; comp settlement range.
           </p>
 
-          {/* State grid */}
-          <section
+          {/* ── STATE GRID — every state page, alphabetical, with count badge ── */}
+          <StateList
+            variant="plain"
             id="by-state"
+            tool="workers-comp"
+            headingLevel="h2"
+            title="Workers Comp Settlement Calculator by State"
+            intro="Select your state for a workers compensation calculator reflecting local replacement rates, weekly caps, and body part schedules."
+            currentSlug={stateData.slug}
             className="mt-12 prose-col"
-            aria-label="Workers comp settlement calculator by state"
-            style={{ scrollMarginTop: 'calc(var(--header-h) + 12px)' }}
-          >
-            <h2 className="heading-display" style={{ fontSize: 26, marginBottom: 6 }}>
-              Workers Comp Settlement Calculator by State
-            </h2>
-            <p className="text-sm mb-4" style={{ color: 'var(--ink-2)' }}>
-              Select your state for a workers compensation calculator reflecting local replacement rates, weekly caps, and body part schedules.
-            </p>
-            <ul className="flex flex-wrap gap-2">
-              {WORKERS_COMP_STATES.filter((state) => !NOINDEXED_WORKERS_COMP_SLUGS.has(state.slug)).map((state) => (
-                <li key={state.slug}>
-                  <Link href={`/workers-comp-settlement-calculator/${state.slug}/`} className="picker-link" style={{ minHeight: 40 }} aria-current={state.slug === stateData.slug ? 'page' : undefined}>
-                    <span className="text-xs mr-1.5" style={{ color: 'var(--ink-3)' }}>{state.abbreviation}</span>
-                    {state.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
+          />
+
+          {/* Citation block — title, editorial byline, canonical URL, review stamp */}
+          <CiteThisPage title={`${stateData.name} Workers Comp Settlement Calculator`} path={canonicalUrl} reviewed={LAST_REVIEWED} className="mt-10 prose-col" />
 
           <DisclaimerBanner variant="footer" stateName={stateData.name} />
           </EditorialLayout>

@@ -10,14 +10,16 @@ import PainSufferingCalculator from '@/components/calculator/PainSufferingCalcul
 import FAQAccordion from '@/components/seo/FAQAccordion'
 import HeroBand, { type HeroFact, type FactTone } from '@/components/ui/HeroBand'
 import EditorialLayout from '@/components/ui/EditorialLayout'
-import { getDamageCapChip } from '@/lib/damageCaps'
+import CiteThisPage from '@/components/ui/CiteThisPage'
+import { getDamageCapChip, getDamageCapScope, getGeneralCapSummary } from '@/lib/damageCaps'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import WorkedExample from '@/components/seo/WorkedExample'
 import SourcesSection from '@/components/seo/SourcesSection'
+import StateList from '@/components/ui/StateList'
 import BackToCalculator from '@/components/calculator/BackToCalculator'
 import { buildNextSteps } from '@/lib/nextSteps'
-import { getStateBySlug, getAllStateSlugs, getPriorityStates } from '@/lib/data/states'
-import { getStateFAQs, buildFAQSchema } from '@/lib/data/faqContent'
+import { getStateBySlug, getAllStateSlugs } from '@/lib/data/states'
+import { getStateFAQs } from '@/lib/data/faqContent'
 import sourcesData from '@/lib/data/sources.json'
 
 // E-E-A-T review stamp. Bump this one string when state law is re-verified
@@ -98,7 +100,6 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
     faultRuleExplanation: stateData.faultRuleExplanation,
   })
 
-  const priorityStates = getPriorityStates()
   const canonicalUrl   = `/pain-and-suffering-calculator/${stateData.slug}/`
 
   // FIX M5: datePublished + dateModified added to WebApplication schema
@@ -131,6 +132,11 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
     'pure-comparative': 'money', 'modified-comparative-50': 'amber', 'modified-comparative-51': 'amber', contributory: 'danger',
   }
   const capChip = getDamageCapChip(stateData)
+  // Key-facts wording follows the cap's scope: a med-mal-only or punitive-only
+  // cap (California, Texas, Michigan, Nevada, North Carolina, Florida) is
+  // presented as "no general cap", never as a cap on this claim.
+  const capScope = getDamageCapScope(stateData)
+  const capSummary = getGeneralCapSummary(stateData)
   const heroFacts: HeroFact[] = [
     { label: 'Fault rule', value: stateData.faultRuleLabel, icon: 'scale', tone: faultTone[stateData.faultRule] ?? 'default', href: '#state-law' },
     { label: 'Filing deadline', value: `${stateData.statuteOfLimitations}-year statute of limitations`, icon: 'calendar', tone: 'amber', href: '#state-law' },
@@ -143,32 +149,16 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
             <SideCard>
               <h3 className="font-body font-semibold mb-1" style={{ fontSize: 16 }}>How Is Pain and Suffering Calculated?</h3>
               <p className="text-sm mb-3" style={{ color: 'var(--ink-2)' }}>
-                Learn the multiplier method, per diem method, and what insurance companies actually look at when valuing your claim.
+                Learn the multiplier method, the per diem method, and what raises or lowers your number.
               </p>
               <Link href="/pain-and-suffering-calculator/guide/" className="btn-secondary btn-sm w-full">
                 Read the Complete Guide →
               </Link>
             </SideCard>
 
+            {/* Every other state page, alphabetical — no truncated list (components/ui/StateList.tsx) */}
             <nav aria-label="Other state calculators">
-              <SideCard>
-                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Other State Calculators</h2>
-                <ul className="flex flex-col">
-                  {priorityStates.filter((s) => s.slug !== stateData.slug).map((state) => (
-                    <li key={state.slug}>
-                      <Link href={`/pain-and-suffering-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
-                        <span>{state.name}</span>
-                        <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
-                      </Link>
-                    </li>
-                  ))}
-                  <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
-                    <Link href="/pain-and-suffering-calculator/" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>
-                      ← All states calculator
-                    </Link>
-                  </li>
-                </ul>
-              </SideCard>
+              <StateList tool="pain-suffering" title="Other states" headingLevel="h2" currentSlug={stateData.slug} excludeCurrent />
             </nav>
 
             <nav aria-label="Other calculators">
@@ -195,7 +185,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApplicationSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFAQSchema(faqs)) }} />
+      {/* FAQPage JSON-LD is emitted by the visible <FAQAccordion schema> below, so it always matches the on-page questions */}
 
       <main className="min-h-screen">
 
@@ -255,23 +245,19 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
                 </dt>
                 <dd className="inline">{stateData.solNotes}</dd>
               </div>
-              {stateData.hasDamageCap && stateData.damageCap && (
+              {capScope === 'general' && (
                 <div>
-                  <dt className="font-semibold inline" style={{ color: 'var(--ink)' }}>Damage Cap: </dt>
-                  <dd className="inline">
-                    Non-economic damages may be capped at{' '}
-                    {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(stateData.damageCap)}.{' '}
-                    {stateData.damageCapNotes}
-                  </dd>
+                  <dt className="font-semibold inline" style={{ color: 'var(--amber)' }}>Damage Cap: </dt>
+                  <dd className="inline">{capSummary} {stateData.damageCapNotes}</dd>
                 </div>
               )}
-              {stateData.hasDamageCap && !stateData.damageCap && (
+              {(capScope === 'med-mal' || capScope === 'med-mal-punitive' || capScope === 'punitive') && (
                 <div>
-                  <dt className="font-semibold inline" style={{ color: 'var(--ink)' }}>Damage Cap: </dt>
+                  <dt className="font-semibold inline" style={{ color: 'var(--ink)' }}>No General Damage Cap: </dt>
                   <dd className="inline">{stateData.damageCapNotes}</dd>
                 </div>
               )}
-              {!stateData.hasDamageCap && (
+              {capScope === 'none' && (
                 <div>
                   <dt className="font-semibold inline" style={{ color: 'var(--ink)' }}>No Damage Cap: </dt>
                   <dd className="inline">{stateData.name} does not cap non-economic damages for general personal injury cases.</dd>
@@ -301,7 +287,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">How Pain and Suffering Is Calculated in California</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>California attorneys and insurance companies use two primary methods to calculate pain and suffering. Neither is mandated by law — they&apos;re industry standards — but understanding both helps you evaluate any offer you receive.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The two most common ways to estimate pain and suffering in California are the multiplier method and the per diem method. Neither is mandated by law, but understanding both helps you evaluate any offer you receive.</p>
 
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>The Multiplier Method</strong></p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Your total economic damages (medical bills paid and anticipated, lost wages, out-of-pocket costs) are multiplied by a number between 1.5 and 5. The multiplier reflects injury severity, recovery time, permanence, and impact on daily life.</p>
@@ -338,7 +324,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Injury type and permanence.</strong> Soft tissue injuries settle in the lower multiplier range. Herniated discs, fractures, injuries requiring surgery but with good recovery, and any injury with permanent effects justify higher multipliers and tend to settle for more.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Liability clarity.</strong> If fault is disputed or shared, expect a longer negotiation and a lower initial offer. Clear liability — a rear-end collision, a documented premises defect — accelerates settlement and strengthens your position.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Venue.</strong> Where in California your case would be tried matters enormously. Los Angeles and San Francisco juries historically return higher verdicts than juries in rural Central Valley counties. Insurance companies track verdict data by venue and price their settlement offers accordingly. A $100,000 case in Los Angeles may settle for more than the same case in Fresno.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Insurance bad faith exposure.</strong> California has strong insurance bad faith laws. If an insurer unreasonably delays or denies a valid claim, they may face punitive damages exposure. Experienced California plaintiffs&apos; attorneys use this as leverage in negotiations.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Insurance bad faith exposure.</strong> California has strong insurance bad faith laws. If an insurer unreasonably delays or denies a valid claim, they may face punitive damages exposure. That exposure is a factor in California settlement negotiations.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -365,12 +351,12 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <SourcesSection sources={stateSources} />
 
               <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'ca-faq-1',
                   question: 'How is pain and suffering calculated in California?',
-                  answer: 'California uses two methods: the multiplier method (your total medical bills and economic losses multiplied by 1.5 to 5, based on injury severity) and the per diem method (a daily dollar rate multiplied by your recovery days). Neither is legally mandated — they\'re the standard industry approach used by both plaintiffs\' attorneys and insurance adjusters. Our how pain and suffering is calculated guide covers both methods in full detail.',
-                  schemaAnswer: 'California uses two methods: the multiplier method (your total medical bills and economic losses multiplied by 1.5 to 5, based on injury severity) and the per diem method (a daily dollar rate multiplied by your recovery days). Neither is legally mandated — they\'re the standard industry approach used by both plaintiffs\' attorneys and insurance adjusters. Our how pain and suffering is calculated guide covers both methods in full detail.'
+                  answer: 'The two most common ways to estimate pain and suffering in California are the multiplier method (your total medical bills and economic losses multiplied by 1.5 to 5, based on injury severity) and the per diem method (a daily dollar rate multiplied by your recovery days). Neither is legally mandated, and insurers\' own valuations vary. Our how pain and suffering is calculated guide covers both methods in full detail.',
+                  schemaAnswer: 'The two most common ways to estimate pain and suffering in California are the multiplier method (your total medical bills and economic losses multiplied by 1.5 to 5, based on injury severity) and the per diem method (a daily dollar rate multiplied by your recovery days). Neither is legally mandated, and insurers\' own valuations vary. Our how pain and suffering is calculated guide covers both methods in full detail.'
                 },
                 {
                   id: 'ca-faq-2',
@@ -426,7 +412,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">How Pain and Suffering Is Calculated in Texas</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Texas courts and insurance companies use two primary methods to calculate pain and suffering. Neither is written into Texas law — they are industry standards used in negotiation and presented to juries as frameworks.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The two most common ways to estimate pain and suffering in Texas are the multiplier method and the per diem method. Neither is written into Texas law; they are frameworks for negotiation and for presenting a figure to a jury.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>The Multiplier Method</strong></p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>You add up all your economic damages (medical bills plus lost wages) and multiply by a number between 1.5 and 5. The multiplier reflects injury severity.</p>
               <ul style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', paddingLeft: '24px', listStyleType: 'disc' }}>
@@ -437,12 +423,12 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Texas example:</strong> You suffer a herniated disc in a rear-end collision on I-10 in Houston. Your medical bills total $28,000 and you missed six weeks of work, losing $9,000 in wages. Total economic damages: $37,000. At a 3x multiplier for a moderate injury requiring an epidural injection and physical therapy, your pain and suffering estimate is $111,000, bringing the total claim to $148,000.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>The Per Diem Method</strong></p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>You assign a daily dollar value to your pain — often your daily wage — and multiply by the number of days you suffered. If you earn $200 per day and suffered for 180 days, your per diem pain and suffering estimate is $36,000.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Texas juries respond to both methods. Your attorney will typically use whichever produces the stronger number and is easier to justify with your medical records.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Either method can be presented to a Texas jury; the one that is easier to justify with your medical records usually carries more weight.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">Texas Modified Comparative Fault — The 51% Rule</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Texas follows a modified comparative fault system under Chapter 33 of the Texas Civil Practice and Remedies Code. This rule directly affects how much you can recover, and insurance adjusters use it aggressively to reduce settlements.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Texas follows a modified comparative fault system under Chapter 33 of the Texas Civil Practice and Remedies Code. This rule directly affects how much you can recover, and shared fault is one of the most common arguments raised to reduce a settlement offer.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Here is how it works: if you are found partially at fault for your own injury, your damages are reduced by your percentage of fault. If you are found 51% or more at fault, you recover <strong style={{ color: 'var(--ink)' }}>nothing</strong>.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Example:</strong> You are hit by a driver running a red light, but you were also slightly speeding. A jury finds you 20% at fault and the other driver 80% at fault. If your total damages are $100,000, you recover $80,000.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Now change the facts: the other driver argues you were actually 55% responsible for the accident because you failed to brake in time. Under Texas law, that finding eliminates your entire recovery.</p>
@@ -489,12 +475,12 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <SourcesSection sources={stateSources} />
 
               <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'tx-faq-1',
                   question: 'How is pain and suffering calculated in Texas?',
-                  answer: 'Texas does not prescribe a formula by statute. In practice, attorneys and insurance companies use the multiplier method — adding your medical bills and lost wages, then multiplying by 1.5 to 5 based on injury severity — or the per diem method, which assigns a daily dollar value to your suffering and multiplies it by the duration. Juries hear both approaches and decide what is reasonable. The multiplier method is more common in Texas insurance negotiations.',
-                  schemaAnswer: 'Texas does not prescribe a formula by statute. In practice, attorneys and insurance companies use the multiplier method — adding your medical bills and lost wages, then multiplying by 1.5 to 5 based on injury severity — or the per diem method, which assigns a daily dollar value to your suffering and multiplies it by the duration. Juries hear both approaches and decide what is reasonable. The multiplier method is more common in Texas insurance negotiations.'
+                  answer: 'Texas does not prescribe a formula by statute. The two most common ways to estimate it are the multiplier method — adding your medical bills and lost wages, then multiplying by 1.5 to 5 based on injury severity — and the per diem method, which assigns a daily dollar value to your suffering and multiplies it by the duration. Juries hear both approaches and decide what is reasonable; our calculator runs both.',
+                  schemaAnswer: 'Texas does not prescribe a formula by statute. The two most common ways to estimate it are the multiplier method — adding your medical bills and lost wages, then multiplying by 1.5 to 5 based on injury severity — and the per diem method, which assigns a daily dollar value to your suffering and multiplies it by the duration. Juries hear both approaches and decide what is reasonable; our calculator runs both.'
                 },
                 {
                   id: 'tx-faq-2',
@@ -505,8 +491,8 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
                 {
                   id: 'tx-faq-3',
                   question: 'What is the 51% rule in Texas personal injury cases?',
-                  answer: 'Under Texas modified comparative fault law (Chapter 33, Texas Civil Practice and Remedies Code), you can only recover damages if you are found 50% or less at fault for your own injury. Your damages are reduced proportionally by your fault percentage. If you are assigned 51% or more of the fault, you are completely barred from recovery. Insurance adjusters routinely use this rule as leverage — if they can argue you were primarily responsible, your claim becomes worthless.',
-                  schemaAnswer: 'Under Texas modified comparative fault law (Chapter 33, Texas Civil Practice and Remedies Code), you can only recover damages if you are found 50% or less at fault for your own injury. Your damages are reduced proportionally by your fault percentage. If you are assigned 51% or more of the fault, you are completely barred from recovery. Insurance adjusters routinely use this rule as leverage — if they can argue you were primarily responsible, your claim becomes worthless.'
+                  answer: 'Under Texas modified comparative fault law (Chapter 33, Texas Civil Practice and Remedies Code), you can only recover damages if you are found 50% or less at fault for your own injury. Your damages are reduced proportionally by your fault percentage. If you are assigned 51% or more of the fault, you are completely barred from recovery. Because of this rule, any argument that you were primarily responsible can eliminate the claim entirely, so shared fault is a common point of dispute in negotiations.',
+                  schemaAnswer: 'Under Texas modified comparative fault law (Chapter 33, Texas Civil Practice and Remedies Code), you can only recover damages if you are found 50% or less at fault for your own injury. Your damages are reduced proportionally by your fault percentage. If you are assigned 51% or more of the fault, you are completely barred from recovery. Because of this rule, any argument that you were primarily responsible can eliminate the claim entirely, so shared fault is a common point of dispute in negotiations.'
                 },
                 {
                   id: 'tx-faq-4',
@@ -555,11 +541,11 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">How Pain and Suffering Is Calculated in Florida</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Florida does not mandate a specific formula. In practice, attorneys and insurance adjusters use two methods.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Florida does not mandate a specific formula. The two most common ways to estimate pain and suffering are the multiplier method and the per diem method.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>The Multiplier Method</strong> takes your total economic damages — medical bills, lost wages, future treatment costs — and multiplies them by a number between 1.5 and 5. The multiplier rises with injury severity. A permanent partial disability with ongoing physical limitations might draw a 3x multiplier. A catastrophic injury with total loss of function might push toward 5x.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Example: If your medical bills total $40,000 and your lost wages are $10,000, your economic damages are $50,000. At a 3x multiplier, your pain and suffering estimate is $150,000, and your total claim value is $200,000.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>The Per Diem Method</strong> assigns a daily dollar value to your pain — often your daily wage — and multiplies it by the number of days you suffered. For a person earning $200 per day who suffered significant pain for 365 days, that is $73,000 in pain and suffering alone.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Insurance adjusters in Florida tend to start lower than these calculations. They also run claims through proprietary software (Colossus is the most common) that compresses multipliers for soft tissue injuries and rewards cases with consistent medical treatment documented in records.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Initial offers in Florida often come in below these estimates; insurers&apos; own valuations vary and are not published. Under any method, soft tissue injuries draw the lowest multipliers, and cases with consistent medical treatment documented in the records fare better.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -602,12 +588,12 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <SourcesSection sources={stateSources} />
 
               <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'fl-faq-1',
                   question: 'How is pain and suffering calculated in Florida?',
-                  answer: 'Florida does not prescribe a formula. The two most common methods are the multiplier method — your total economic damages multiplied by 1.5 to 5 based on injury severity — and the per diem method, which assigns a daily dollar value to your suffering and multiplies it by the duration. Insurance companies also use proprietary claims software that applies internal multipliers. An experienced Florida personal injury attorney can tell you which method produces the stronger number for your specific injuries.',
-                  schemaAnswer: 'Florida does not prescribe a formula. The two most common methods are the multiplier method — your total economic damages multiplied by 1.5 to 5 based on injury severity — and the per diem method, which assigns a daily dollar value to your suffering and multiplies it by the duration. Insurance companies also use proprietary claims software that applies internal multipliers. An experienced Florida personal injury attorney can tell you which method produces the stronger number for your specific injuries.'
+                  answer: 'Florida does not prescribe a formula. The two most common methods are the multiplier method — your total economic damages multiplied by 1.5 to 5 based on injury severity — and the per diem method, which assigns a daily dollar value to your suffering and multiplies it by the duration. Insurers\' own valuations vary and are not published. An experienced Florida personal injury attorney can tell you which method produces the stronger number for your specific injuries.',
+                  schemaAnswer: 'Florida does not prescribe a formula. The two most common methods are the multiplier method — your total economic damages multiplied by 1.5 to 5 based on injury severity — and the per diem method, which assigns a daily dollar value to your suffering and multiplies it by the duration. Insurers\' own valuations vary and are not published. An experienced Florida personal injury attorney can tell you which method produces the stronger number for your specific injuries.'
                 },
                 {
                   id: 'fl-faq-2',
@@ -681,10 +667,10 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">How Pain and Suffering Is Calculated in New York</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>New York courts and insurance adjusters use two primary methods.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The two most common ways to estimate pain and suffering in New York are the multiplier method and the per diem method.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Multiplier method:</strong> Your total economic damages (medical bills, lost wages, future medical costs) are multiplied by a factor between 1.5 and 5, depending on injury severity and permanency. A New York City construction worker with $40,000 in medical bills and a documented herniated disc with 30% permanent limitation might see a multiplier of 3 to 4, producing a pain and suffering estimate of $120,000 to $160,000 — on top of economic damages.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Per diem method:</strong> A daily rate — often $200 to $500 in New York City — is assigned to each day of pain and suffering from the date of injury through maximum medical improvement. A victim who suffered for 18 months before reaching a plateau at $300/day accumulates $164,250 in per diem pain and suffering.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Defense counsel and insurance companies almost always use the multiplier method internally because per diem calculations compound quickly. Plaintiff attorneys in high-value New York City cases often use both methods as arguments at trial.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Per diem figures compound quickly over a long recovery, which is why the two methods can diverge sharply in high-value New York City cases; running both shows you the spread. Our calculator applies 1.5× (minor) through 5.0× (catastrophic) for the multiplier method.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -739,12 +725,12 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <SourcesSection sources={stateSources} />
 
               <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'ny-faq-1',
                   question: 'How is pain and suffering calculated in New York?',
-                  answer: 'New York does not use a fixed formula. The two standard methods are the multiplier method — where total economic damages are multiplied by 1.5 to 5 based on injury severity — and the per diem method, where a daily dollar rate is assigned to each day of documented pain and suffering. In practice, insurance adjusters use the multiplier method internally, and plaintiff attorneys use both methods as leverage in negotiation and at trial.',
-                  schemaAnswer: 'New York does not use a fixed formula. The two standard methods are the multiplier method — where total economic damages are multiplied by 1.5 to 5 based on injury severity — and the per diem method, where a daily dollar rate is assigned to each day of documented pain and suffering. In practice, insurance adjusters use the multiplier method internally, and plaintiff attorneys use both methods as leverage in negotiation and at trial.'
+                  answer: 'New York does not use a fixed formula. The two standard methods are the multiplier method — where total economic damages are multiplied by 1.5 to 5 based on injury severity — and the per diem method, where a daily dollar rate is assigned to each day of documented pain and suffering. Insurers\' valuations vary and are not published; our calculator applies multipliers from 1.5 (minor) to 5.0 (catastrophic) and runs both methods so you can compare them.',
+                  schemaAnswer: 'New York does not use a fixed formula. The two standard methods are the multiplier method — where total economic damages are multiplied by 1.5 to 5 based on injury severity — and the per diem method, where a daily dollar rate is assigned to each day of documented pain and suffering. Insurers\' valuations vary and are not published; our calculator applies multipliers from 1.5 (minor) to 5.0 (catastrophic) and runs both methods so you can compare them.'
                 },
                 {
                   id: 'ny-faq-2',
@@ -813,7 +799,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">How Pain and Suffering Is Calculated in Pennsylvania</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Once you have confirmed you can pursue pain and suffering — either through full tort or by meeting the serious injury threshold under limited tort — Pennsylvania courts and insurers use two primary methods to calculate non-economic damages.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Once you have confirmed you can pursue pain and suffering — either through full tort or by meeting the serious injury threshold under limited tort — the two most common ways to estimate non-economic damages are the multiplier method and the per diem method.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>The multiplier method</strong> is the most common. An adjuster or attorney takes your total economic damages (medical bills, lost wages, out-of-pocket costs) and multiplies them by a number between 1.5 and 5 to arrive at a pain and suffering figure. The multiplier depends on injury severity, treatment duration, whether surgery was required, and the permanence of your injuries.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>A real example: you suffered a herniated disc in a rear-end collision in Philadelphia. Your medical bills total $28,000 and you lost $6,000 in wages during your recovery. Your total economic damages are $34,000. A moderate multiplier of 3 produces a pain and suffering estimate of $102,000, for a total claim value of $136,000.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>The per diem method</strong> assigns a daily dollar value to your pain and suffering — often your daily wage — and multiplies it by the number of days you experienced pain. If you earned $250 per day and suffered for 180 days, the per diem calculation yields $45,000 in pain and suffering.</p>
@@ -823,7 +809,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <h2 className="heading-display h2-editorial">Pennsylvania Modified Comparative Fault</h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Pennsylvania follows a modified comparative fault rule with a 51% bar. If you were partially at fault for the accident, your damages are reduced by your percentage of fault. If you were 25% at fault, you recover 75% of your total damages. If you were 51% or more at fault, you are completely barred from recovering anything.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Insurance adjusters use comparative fault aggressively during negotiations. If you made a lane change without signaling, if you were slightly speeding, or if any contributing factor can be attributed to your conduct, expect the adjuster to assign you fault and reduce the offer accordingly. An attorney can challenge those assignments, and juries can reject them — but you need to anticipate this argument before you accept any settlement.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Comparative fault is one of the most common arguments raised during negotiations. If you made a lane change without signaling, if you were slightly speeding, or if any contributing factor can be attributed to your conduct, expect the adjuster to assign you fault and reduce the offer accordingly. An attorney can challenge those assignments, and juries can reject them — but you need to anticipate this argument before you accept any settlement.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Pennsylvania&apos;s 51% bar is the same threshold used in Texas and most other comparative fault states. It is more favorable to plaintiffs than states with a 50% bar, but only marginally so.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
@@ -858,12 +844,12 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <SourcesSection sources={stateSources} />
 
               <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'pa-faq-1',
                   question: 'How is pain and suffering calculated in Pennsylvania?',
-                  answer: 'Pennsylvania insurers and courts use the multiplier method most frequently. Your total economic damages (medical bills plus lost wages) are multiplied by a factor of 1.5 to 5 depending on injury severity. A serious injury with surgery and long-term impairment may command a multiplier of 4 or 5. A soft-tissue injury with a clean recovery may receive 1.5 to 2. The per diem method is an alternative that assigns a daily dollar value to your pain and assigns it across the days of your suffering.',
-                  schemaAnswer: 'Pennsylvania insurers and courts use the multiplier method most frequently. Your total economic damages (medical bills plus lost wages) are multiplied by a factor of 1.5 to 5 depending on injury severity. A serious injury with surgery and long-term impairment may command a multiplier of 4 or 5. A soft-tissue injury with a clean recovery may receive 1.5 to 2. The per diem method is an alternative that assigns a daily dollar value to your pain and assigns it across the days of your suffering.'
+                  answer: 'The multiplier method is the most common way to estimate pain and suffering in Pennsylvania. Your total economic damages (medical bills plus lost wages) are multiplied by a factor of 1.5 to 5 depending on injury severity. A serious injury with surgery and long-term impairment may command a multiplier of 4 or 5. A soft-tissue injury with a clean recovery may receive 1.5 to 2. The per diem method is an alternative that assigns a daily dollar value to your pain and assigns it across the days of your suffering.',
+                  schemaAnswer: 'The multiplier method is the most common way to estimate pain and suffering in Pennsylvania. Your total economic damages (medical bills plus lost wages) are multiplied by a factor of 1.5 to 5 depending on injury severity. A serious injury with surgery and long-term impairment may command a multiplier of 4 or 5. A soft-tissue injury with a clean recovery may receive 1.5 to 2. The per diem method is an alternative that assigns a daily dollar value to your pain and assigns it across the days of your suffering.'
                 },
                 {
                   id: 'pa-faq-2',
@@ -923,7 +909,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">How Pain and Suffering Is Calculated in Illinois</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Illinois insurers and attorneys use two standard methods to calculate pain and suffering. Understanding both helps you evaluate whether an offer is fair.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The two most common ways to estimate pain and suffering in Illinois are the multiplier method and the per diem method. Understanding both helps you evaluate whether an offer is fair.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>The Multiplier Method</strong></p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The most common approach multiplies your total economic damages by a number between 1.5 and 5, depending on injury severity. A multiplier of 1.5 typically applies to soft tissue injuries with a short recovery. A multiplier of 4 or 5 applies to permanent injuries, surgeries, or significant long-term limitations.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Example: You were rear-ended on I-90 near Chicago. Your medical bills total $22,000, and you missed six weeks of work worth $9,000. Your total economic damages are $31,000. At a multiplier of 3 — reasonable for a herniated disc requiring physical therapy — your pain and suffering estimate comes to $93,000, and your total settlement estimate is $124,000.</p>
@@ -960,7 +946,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Medical malpractice:</strong> 2 years from the date you discovered, or reasonably should have discovered, the injury — but subject to a 4-year absolute statute of repose from the date of the negligent act. Whichever expires first controls. If a surgeon made an error in 2021 and you discovered it in 2024, you have until 2025 (2 years from discovery) — unless the 4-year repose period from the act has already expired, in which case you are barred entirely. 735 ILCS 5/13-212.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Wrongful death:</strong> 2 years from the date of death. 740 ILCS 180/2.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Minors:</strong> The statute of limitations is tolled — paused — until the minor reaches age 18. A child injured at age 10 has until age 20 to file. Medical malpractice cases involving minors have a separate rule and are more complex; consult an attorney.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Do not wait.</strong> Evidence degrades, witnesses become unavailable, and insurance companies use delay against you. Two years sounds like a long time until it is not.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Do not wait.</strong> Evidence degrades, witnesses become unavailable, and delay rarely helps the injured party. Two years sounds like a long time until it is not.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -982,7 +968,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <SourcesSection sources={stateSources} />
 
               <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'il-faq-1',
                   question: 'Is there a cap on pain and suffering in Illinois?',
@@ -992,8 +978,8 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
                 {
                   id: 'il-faq-2',
                   question: 'How is pain and suffering calculated in Illinois?',
-                  answer: 'Illinois attorneys and insurers use two methods. The multiplier method takes your total economic damages and multiplies them by a factor between 1.5 and 5 based on injury severity. The per diem method assigns a daily dollar value — often your daily wage — and multiplies it by recovery days. Multipliers above 3 typically require surgical intervention, permanent limitations, or documented psychological harm.',
-                  schemaAnswer: 'Illinois attorneys and insurers use two methods. The multiplier method takes your total economic damages and multiplies them by a factor between 1.5 and 5 based on injury severity. The per diem method assigns a daily dollar value — often your daily wage — and multiplies it by recovery days. Multipliers above 3 typically require surgical intervention, permanent limitations, or documented psychological harm.'
+                  answer: 'The two most common ways to estimate pain and suffering in Illinois are the multiplier method and the per diem method. The multiplier method takes your total economic damages and multiplies them by a factor between 1.5 and 5 based on injury severity. The per diem method assigns a daily dollar value — often your daily wage — and multiplies it by recovery days. Multipliers above 3 typically require surgical intervention, permanent limitations, or documented psychological harm.',
+                  schemaAnswer: 'The two most common ways to estimate pain and suffering in Illinois are the multiplier method and the per diem method. The multiplier method takes your total economic damages and multiplies them by a factor between 1.5 and 5 based on injury severity. The per diem method assigns a daily dollar value — often your daily wage — and multiplies it by recovery days. Multipliers above 3 typically require surgical intervention, permanent limitations, or documented psychological harm.'
                 },
                 {
                   id: 'il-faq-3',
@@ -1025,7 +1011,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
           ) : stateData.slug === 'ohio' ? (
             <article className="editorial">
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Use our free <Link href="/pain-and-suffering-calculator/" style={{ color: 'var(--primary)' }}>Pain and Suffering Calculator</Link> to estimate your noneconomic damages under Ohio law. Ohio is one of a small number of states with a statutory cap on pain and suffering awards — and the formula is more nuanced than most injured Ohioans realize. Whether your injury happened in Columbus, Cleveland, or Cincinnati, understanding <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--primary)' }}>how pain and suffering is calculated</Link> before you enter settlement negotiations can be the difference between accepting far less than you deserve and knowing exactly where you stand.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Ohio limits noneconomic damages in most personal injury cases, but the cap is not absolute. Catastrophic injuries are fully exempt, and even for capped claims, the formula can produce a significantly higher number than the base $250,000 figure. This page explains the Ohio damage cap, how the formula works, and what factors courts and insurers use to value pain and suffering in Ohio personal injury cases.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Ohio limits noneconomic damages in most personal injury cases, but the cap is not absolute. Catastrophic injuries are fully exempt, and even for capped claims, the formula can produce a significantly higher number than the base $250,000 figure. This page explains the Ohio damage cap, how the formula works, and what factors affect how pain and suffering is valued in Ohio personal injury cases.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -1054,10 +1040,10 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">How Pain and Suffering Is Calculated in Ohio</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Ohio attorneys and insurance adjusters use two primary methods to arrive at a pain and suffering number before the cap is applied.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The two most common ways to estimate a pain and suffering figure before the cap is applied are the multiplier method and the per diem method.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>The multiplier method</strong> is the most common. You add up all verifiable economic damages — medical expenses, lost income, future treatment — and multiply by a factor between 1.5 and 5. A minor soft-tissue injury with a short recovery typically draws a multiplier near 1.5. A permanent injury requiring ongoing care can justify a multiplier of 4 or 5. A $90,000 economic damages figure multiplied by 3 produces a $270,000 pain and suffering estimate.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>The per diem method</strong> assigns a daily dollar value to your pain and suffering and multiplies it by the number of days you suffered. If your recovery took 18 months and you assign $150 per day to your pain, the per diem calculation produces $81,900. This approach works well for injuries with defined recovery timelines.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Insurance adjusters in Ohio, particularly for larger claims, often use Colossus software to generate an internal damages figure. Colossus weighs injury codes, treatment duration, and medical documentation — which is why thorough, continuous medical records directly affect your settlement value.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Insurers&apos; own valuations vary and are not published. Under any method, thorough, continuous medical records directly affect your settlement value.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -1097,12 +1083,12 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <SourcesSection sources={stateSources} />
 
               <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'oh-faq-1',
                   question: 'How is pain and suffering calculated in Ohio?',
-                  answer: 'Ohio attorneys and insurers primarily use the multiplier method — total economic damages multiplied by a factor between 1.5 and 5 based on injury severity and permanence. The per diem method, which assigns a daily dollar value to your suffering, is used for injuries with clearly defined recovery periods. The resulting figure is then evaluated against the Ohio noneconomic damage cap under ORC 2315.18 to determine whether the statutory limit applies.',
-                  schemaAnswer: 'Ohio attorneys and insurers primarily use the multiplier method — total economic damages multiplied by a factor between 1.5 and 5 based on injury severity and permanence. The per diem method, which assigns a daily dollar value to your suffering, is used for injuries with clearly defined recovery periods. The resulting figure is then evaluated against the Ohio noneconomic damage cap under ORC 2315.18 to determine whether the statutory limit applies.'
+                  answer: 'The most common way to estimate pain and suffering in Ohio is the multiplier method — total economic damages multiplied by a factor between 1.5 and 5 based on injury severity and permanence. The per diem method, which assigns a daily dollar value to your suffering, is used for injuries with clearly defined recovery periods. The resulting figure is then evaluated against the Ohio noneconomic damage cap under ORC 2315.18 to determine whether the statutory limit applies.',
+                  schemaAnswer: 'The most common way to estimate pain and suffering in Ohio is the multiplier method — total economic damages multiplied by a factor between 1.5 and 5 based on injury severity and permanence. The per diem method, which assigns a daily dollar value to your suffering, is used for injuries with clearly defined recovery periods. The resulting figure is then evaluated against the Ohio noneconomic damage cap under ORC 2315.18 to determine whether the statutory limit applies.'
                 },
                 {
                   id: 'oh-faq-2',
@@ -1160,8 +1146,8 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">How Pain and Suffering Is Calculated in Georgia</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Georgia courts and insurance adjusters primarily use two methods to calculate pain and suffering. Understanding <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--primary)' }}>how pain and suffering is calculated</Link> before entering negotiations gives you a significant advantage.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Multiplier Method:</strong> Your total economic damages — medical expenses, lost wages, future medical costs — are multiplied by a number between 1.5 and 5. The multiplier reflects injury severity. A soft tissue injury with full recovery typically draws a multiplier of 1.5 to 2. A permanent disability or catastrophic injury can push the multiplier to 4 or 5. Insurance company software, including Colossus, automates much of this calculation, which is why thorough medical documentation drives settlement values more than subjective pain descriptions.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The two most common ways to estimate pain and suffering in Georgia are the multiplier method and the per diem method. Understanding <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--primary)' }}>how pain and suffering is calculated</Link> before entering negotiations gives you a significant advantage.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Multiplier Method:</strong> Your total economic damages — medical expenses, lost wages, future medical costs — are multiplied by a number between 1.5 and 5. The multiplier reflects injury severity. A soft tissue injury with full recovery typically draws a multiplier of 1.5 to 2. A permanent disability or catastrophic injury can push the multiplier to 4 or 5. Insurers&apos; own valuations vary and are not published, but under any method thorough medical documentation drives settlement values more than subjective pain descriptions.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Per Diem Method:</strong> A daily dollar rate is assigned to your pain and suffering — often tied to your daily wage — and multiplied by the number of days you experienced pain during recovery. A $200 per diem rate applied to a 180-day recovery produces $36,000 in non-economic damages before any comparative fault reduction.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Both methods produce estimates. Georgia juries are not bound by either formula and can award any amount supported by the evidence.</p>
 
@@ -1208,12 +1194,12 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <SourcesSection sources={stateSources} />
 
               <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'ga-faq-1',
                   question: 'How is pain and suffering calculated in Georgia?',
-                  answer: 'Georgia insurers and courts use either the multiplier method or the per diem method. The multiplier method multiplies your total economic damages by a factor between 1.5 and 5 based on injury severity. The per diem method assigns a daily dollar value to your pain and multiplies it by the number of days you suffered. Neither method produces a binding figure — insurance adjusters negotiate from these estimates, and Georgia juries can award any amount they find supported by the evidence.',
-                  schemaAnswer: 'Georgia insurers and courts use either the multiplier method or the per diem method. The multiplier method multiplies your total economic damages by a factor between 1.5 and 5 based on injury severity. The per diem method assigns a daily dollar value to your pain and multiplies it by the number of days you suffered. Neither method produces a binding figure — insurance adjusters negotiate from these estimates, and Georgia juries can award any amount they find supported by the evidence.'
+                  answer: 'The two most common ways to estimate pain and suffering in Georgia are the multiplier method and the per diem method. The multiplier method multiplies your total economic damages by a factor between 1.5 and 5 based on injury severity. The per diem method assigns a daily dollar value to your pain and multiplies it by the number of days you suffered. Neither method produces a binding figure — insurance adjusters negotiate from these estimates, and Georgia juries can award any amount they find supported by the evidence.',
+                  schemaAnswer: 'The two most common ways to estimate pain and suffering in Georgia are the multiplier method and the per diem method. The multiplier method multiplies your total economic damages by a factor between 1.5 and 5 based on injury severity. The per diem method assigns a daily dollar value to your pain and multiplies it by the number of days you suffered. Neither method produces a binding figure — insurance adjusters negotiate from these estimates, and Georgia juries can award any amount they find supported by the evidence.'
                 },
                 {
                   id: 'ga-faq-2',
@@ -1264,17 +1250,17 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <h2 className="heading-display h2-editorial">North Carolina Contributory Negligence — The Harshest Fault Rule in America</h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Most states use some form of comparative fault, which means your damages are reduced in proportion to your share of responsibility. If you were 20% at fault in a Texas car accident, you recover 80% of your damages. North Carolina does not work that way.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>North Carolina is one of only four or five states — alongside Alabama, Maryland, Virginia, and the District of Columbia — that still applies pure contributory negligence. Under this rule, any fault on your part is a complete bar to recovery. If you were 1% negligent and the defendant was 99% negligent, you walk away with nothing.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>In practice, this means North Carolina insurance adjusters are trained to look for any evidence of plaintiff fault and use it aggressively. Common contributory negligence arguments include: you were speeding even slightly at the time of the crash, you were not wearing a seatbelt, you were texting, you failed to notice an obvious hazard, or you delayed seeking medical treatment in a way that worsened your condition. Each of these arguments, if accepted by a jury, results in a zero verdict regardless of how badly you were hurt.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>In practice, this means any evidence of plaintiff fault becomes a central issue in a North Carolina claim. Common contributory negligence arguments include: you were speeding even slightly at the time of the crash, you were not wearing a seatbelt, you were texting, you failed to notice an obvious hazard, or you delayed seeking medical treatment in a way that worsened your condition. Each of these arguments, if accepted by a jury, results in a zero verdict regardless of how badly you were hurt.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>There is a narrow last clear chance doctrine that can sometimes overcome a contributory negligence defense — if the defendant had the final opportunity to avoid the harm and failed to take it, the plaintiff may still recover. But this is a limited exception and difficult to prove.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The practical consequence for settlement negotiations is significant. Because a contributory negligence finding eliminates your entire claim, insurance companies in North Carolina have enormous leverage. An attorney who understands how to preempt these arguments and document the defendant&apos;s sole fault is not optional in a serious North Carolina personal injury case — it is essential.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">How Pain and Suffering Is Calculated in North Carolina</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Assuming your contributory negligence defense is neutralized, North Carolina attorneys and insurance adjusters use the same two valuation methods used nationally.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Assuming your contributory negligence defense is neutralized, the two most common ways to estimate pain and suffering in North Carolina are the same ones used nationally: the multiplier method and the per diem method.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The multiplier method is the most common. You add up your total economic damages — all medical expenses, lost income, and future costs — and multiply that figure by a number between 1.5 and 5. Minor soft-tissue injuries with full recovery typically draw multipliers between 1.5 and 2. Serious injuries requiring surgery, producing permanent limitations, or resulting in long-term psychiatric harm regularly draw multipliers of 3 to 5 or higher. A $40,000 medical bill with a 3x multiplier produces a $120,000 pain and suffering figure and a $160,000 total claim.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The per diem method assigns a daily dollar rate — often the injured person&apos;s daily wage — to each day they lived with pain, then multiplies it by the duration of recovery. A $200 daily rate across 365 days produces $73,000 in pain and suffering alone.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Insurance software, including Colossus, assigns its own internal multipliers that frequently undervalue claims. Whatever figure an adjuster offers first, it is almost never the ceiling.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Insurers&apos; own valuations vary and are not published. Whatever figure is offered first, it is rarely the ceiling.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -1320,12 +1306,12 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <SourcesSection sources={stateSources} />
 
               <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'nc-faq-1',
                   question: 'How is pain and suffering calculated in North Carolina?',
-                  answer: 'North Carolina attorneys use the multiplier method or the per diem method. The multiplier method multiplies total economic damages by a factor of 1.5 to 5 based on injury severity. The per diem method assigns a daily dollar rate to each day you lived with pain. Insurance adjusters also use proprietary software like Colossus that frequently produces lowball figures. Neither method produces a fixed number — the final settlement depends on the strength of your liability evidence, the quality of your medical documentation, and whether the defendant can raise a credible contributory negligence argument.',
-                  schemaAnswer: 'North Carolina attorneys use the multiplier method or the per diem method. The multiplier method multiplies total economic damages by a factor of 1.5 to 5 based on injury severity. The per diem method assigns a daily dollar rate to each day you lived with pain. Insurance adjusters also use proprietary software like Colossus that frequently produces lowball figures. Neither method produces a fixed number — the final settlement depends on the strength of your liability evidence, the quality of your medical documentation, and whether the defendant can raise a credible contributory negligence argument.'
+                  answer: 'The two most common ways to estimate pain and suffering in North Carolina are the multiplier method and the per diem method. The multiplier method multiplies total economic damages by a factor of 1.5 to 5 based on injury severity. The per diem method assigns a daily dollar rate to each day you lived with pain. Insurers\' own valuations vary and are not published. Neither method produces a fixed number — the final settlement depends on the strength of your liability evidence, the quality of your medical documentation, and whether the defendant can raise a credible contributory negligence argument.',
+                  schemaAnswer: 'The two most common ways to estimate pain and suffering in North Carolina are the multiplier method and the per diem method. The multiplier method multiplies total economic damages by a factor of 1.5 to 5 based on injury severity. The per diem method assigns a daily dollar rate to each day you lived with pain. Insurers\' own valuations vary and are not published. Neither method produces a fixed number — the final settlement depends on the strength of your liability evidence, the quality of your medical documentation, and whether the defendant can raise a credible contributory negligence argument.'
                 },
                 {
                   id: 'nc-faq-2',
@@ -1362,13 +1348,13 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
             </article>
           ) : stateData.slug === 'michigan' ? (
             <article className="editorial">
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Michigan has one of the most complex personal injury systems in the United States. As a no-fault state, Michigan requires drivers to carry Personal Injury Protection (PIP) coverage that pays your own medical bills and lost wages regardless of who caused the accident — but that same no-fault system also restricts your right to sue the at-fault driver for pain and suffering. To step outside the no-fault system and pursue noneconomic damages, your injuries must clear a legal threshold that Michigan courts have defined through decades of case law. Understanding how that threshold works, how the state caps noneconomic damages, and how modified comparative fault can reduce your recovery is essential before you use our <Link href="/pain-and-suffering-calculator/" style={{ color: 'var(--primary)' }}>Pain and Suffering Calculator</Link> to estimate your claim.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Michigan has one of the most complex personal injury systems in the United States. As a no-fault state, Michigan requires drivers to carry Personal Injury Protection (PIP) coverage that pays your own medical bills and lost wages regardless of who caused the accident — but that same no-fault system also restricts your right to sue the at-fault driver for pain and suffering. To step outside the no-fault system and pursue noneconomic damages, your injuries must clear a legal threshold that Michigan courts have defined through decades of case law. Understanding how that threshold works, why Michigan has no general cap on noneconomic damages in an ordinary injury claim, and how modified comparative fault can reduce your recovery is essential before you use our <Link href="/pain-and-suffering-calculator/" style={{ color: 'var(--primary)' }}>Pain and Suffering Calculator</Link> to estimate your claim.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">Pain and Suffering Damages Under Michigan Law</h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>In Michigan, pain and suffering falls under the category of noneconomic damages — compensation for the human cost of your injuries rather than their financial cost. Noneconomic damages can include physical pain, mental anguish, emotional distress, disfigurement, permanent scarring, loss of consortium, and loss of the ability to enjoy daily activities and relationships.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Michigan does not compensate noneconomic damages automatically in every personal injury case. Because the state operates a no-fault insurance system, your right to sue for pain and suffering depends entirely on whether your injury meets the legal definition of a serious impairment of body function. If it does not, your recovery is limited to the economic benefits your own PIP coverage provides. If it does, you can pursue noneconomic damages from the at-fault driver — subject to the state&apos;s statutory damage caps. To understand <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--primary)' }}>how pain and suffering is calculated</Link> more broadly, our full guide walks through both the multiplier method and the per diem method.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Michigan does not compensate noneconomic damages automatically in every personal injury case. Because the state operates a no-fault insurance system, your right to sue for pain and suffering depends entirely on whether your injury meets the legal definition of a serious impairment of body function. If it does not, your recovery is limited to the economic benefits your own PIP coverage provides. If it does, you can pursue noneconomic damages from the at-fault driver, and Michigan places no general statutory cap on that recovery in an ordinary negligence claim. To understand <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--primary)' }}>how pain and suffering is calculated</Link> more broadly, our full guide walks through both the multiplier method and the per diem method.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -1381,19 +1367,19 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-display h2-editorial">Michigan Noneconomic Damage Cap</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Michigan imposes a statutory cap on noneconomic damages in personal injury cases (MCL 600.1483). The cap is adjusted annually based on the Consumer Price Index and applies to the vast majority of motor vehicle accident claims — check the statute directly for the current-year dollar figure before relying on a specific number.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>A separate, higher cap applies when the plaintiff has suffered a catastrophic injury. Michigan law defines catastrophic injuries eligible for the elevated cap as: paraplegia or quadriplegia resulting in the permanent loss of or damage to both legs, both arms, or one leg and one arm; permanent cognitive incapacity; or permanent loss of or damage to a reproductive organ resulting in an inability to procreate.</p>
+              <h2 className="heading-display h2-editorial">Does Michigan Cap Noneconomic Damages?</h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Michigan has no general cap on noneconomic damages in ordinary personal injury claims.</strong> The statute people usually have in mind, MCL 600.1483, caps noneconomic damages in <strong style={{ color: 'var(--ink)' }}>medical malpractice cases only</strong>. It does not apply to an ordinary injury claim or to a motor vehicle negligence claim against an at-fault driver.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Within medical malpractice, that statute sets two tiers: a standard cap, and a higher cap for specified severe injuries — hemiplegia, paraplegia, or quadriplegia with total permanent functional loss of one or more limbs; permanently impaired cognitive capacity; or permanent loss of or damage to a reproductive organ resulting in an inability to procreate. Both figures are adjusted annually for inflation by the state treasurer, so check the statute or the Michigan Department of Treasury&apos;s annual notice for current-year amounts if your claim is against a health care provider.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>In practical terms, the standard cap is the ceiling for most serious injury claims — even those involving significant permanent injuries that fall short of the catastrophic definitions above. A plaintiff with a severe spinal injury, a traumatic brain injury, or permanent scarring that is life-altering in impact but does not meet the statutory catastrophic definition will be capped at the standard noneconomic-damages figure, regardless of what a jury might otherwise award.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>These caps apply only to noneconomic damages. <strong style={{ color: 'var(--ink)' }}>Economic damages in Michigan are uncapped</strong> — medical bills, future medical costs, lost wages, and lost earning capacity are fully recoverable without a ceiling.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>What limits a Michigan auto claim is a threshold, not a dollar cap. Under MCL 500.3135, you can recover noneconomic damages from an at-fault driver only for death, serious impairment of body function, or permanent serious disfigurement. Once that threshold is met, neither noneconomic damages nor economic damages are capped: <strong style={{ color: 'var(--ink)' }}>medical bills, future medical costs, lost wages, and lost earning capacity are fully recoverable without a ceiling</strong>.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">How Pain and Suffering Is Calculated in Michigan</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Once you have cleared the serious impairment threshold and your case proceeds toward settlement or trial, adjusters and attorneys calculate your noneconomic damages using two primary methods.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The <strong style={{ color: 'var(--ink)' }}>multiplier method</strong> takes your total special damages — documented medical bills and lost wages — and multiplies them by a factor that reflects the severity and permanence of your injuries. In Michigan, multipliers typically range from 1.5x for moderate recoverable injuries to 4x or 5x for severe permanent conditions. Insurance carriers use claims software such as Colossus to generate multiplier recommendations based on injury codes, treatment duration, and documentation quality.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The <strong style={{ color: 'var(--ink)' }}>per diem method</strong> assigns a daily dollar rate to your pain — often equivalent to your daily wage — and multiplies it by the number of days you suffered. Per diem calculations are more commonly used by plaintiff attorneys during demand letters and trial preparation than by insurance adjusters.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>In either method, the noneconomic damage cap functions as a hard ceiling. If the multiplier calculation produces a figure above the standard cap but your claim does not meet the catastrophic injury definition, your noneconomic recovery is limited to that standard cap regardless.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Once you have cleared the serious impairment threshold and your case proceeds toward settlement or trial, your noneconomic damages are usually estimated using two primary methods.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The <strong style={{ color: 'var(--ink)' }}>multiplier method</strong> takes your total special damages — documented medical bills and lost wages — and multiplies them by a factor that reflects the severity and permanence of your injuries. In Michigan, multipliers typically range from 1.5x for moderate recoverable injuries to 4x or 5x for severe permanent conditions; our calculator applies 1.5× (minor) through 5.0× (catastrophic). Insurers&apos; own valuations vary and are not published, so treat any multiplier figure as a starting point for negotiation.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The <strong style={{ color: 'var(--ink)' }}>per diem method</strong> assigns a daily dollar rate to your pain — often equivalent to your daily wage — and multiplies it by the number of days you suffered. Per diem figures often appear in demand letters and trial presentations, where a day-by-day account of the injury can be laid out.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>In an ordinary Michigan injury or auto negligence claim, neither figure is subject to a statutory cap. The MCL 600.1483 cap operates as a hard ceiling only in medical malpractice cases, where a verdict above the applicable tier is reduced to it after trial.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -1408,14 +1394,14 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Several variables beyond the legal framework directly influence what a Michigan personal injury claim settles for in practice.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Jurisdiction</strong> is a major factor. Wayne County (Detroit) has historically produced higher plaintiff verdicts than rural Michigan counties, and that settlement premium is built into demand letters filed in that jurisdiction. Grand Rapids (Kent County) and Lansing (Ingham County) fall in the middle tier.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>The at-fault driver&apos;s policy limits</strong> set a practical ceiling in most cases. If the defendant carries minimum liability coverage and has no substantial assets, your recovery is constrained regardless of the merit of your claim. <strong style={{ color: 'var(--ink)' }}>Underinsured motorist coverage</strong> on your own policy can bridge the gap.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Documentation quality</strong> — consistent treatment, complete medical records, and objective imaging evidence — directly affects how adjusters score your claim in software like Colossus. Gaps in treatment are interpreted as evidence that your injuries were not serious.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>Documentation quality</strong> — consistent treatment, complete medical records, and objective imaging evidence — directly affects how your claim is valued under any method. Gaps in treatment are interpreted as evidence that your injuries were not serious.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">Michigan Statute of Limitations</h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The statute of limitations for personal injury claims in Michigan is <strong style={{ color: 'var(--ink)' }}>three years from the date of the accident</strong>, under MCL 600.5805(2). If you do not file suit within three years, the court will dismiss your claim regardless of its merits, and you permanently lose your right to recover.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Several exceptions apply. Claims against a government entity — a city, county, or the state itself — require a <strong style={{ color: 'var(--ink)' }}>60-day notice of intent</strong> filed before the three-year period runs, and the shorter notice deadline can effectively accelerate your timeline. Claims on behalf of minors are tolled until the minor reaches age 18, at which point the three-year period begins. Wrongful death claims under MCL 600.5852 are subject to a separate three-year period running from the appointment of a personal representative of the estate.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Do not rely on the three-year window as a comfortable buffer. Evidence degrades, witnesses become unavailable, and insurance companies use delay to their advantage. Consulting a Michigan personal injury attorney within the first 90 days of your injury preserves your options.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Do not rely on the three-year window as a comfortable buffer. Evidence degrades, witnesses become unavailable, and delay rarely helps the injured party. Consulting a Michigan personal injury attorney within the first 90 days of your injury preserves your options.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -1426,19 +1412,19 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
                 faultRuleExplanation={stateData.faultRuleExplanation}
                 calculatorHref="/pain-and-suffering-calculator/"
               />
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Remember the noneconomic damage cap applies regardless of what a jury awards — even a verdict above the statutory ceiling is reduced to it on post-verdict motions.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Remember that in an auto claim the no-fault threshold comes first: if the injury does not qualify as a serious impairment of body function, permanent serious disfigurement, or death, there is no noneconomic recovery from the at-fault driver at all, however the numbers work out.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <SourcesSection sources={stateSources} />
 
               <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'mi-faq-1',
                   question: 'How is pain and suffering calculated in Michigan?',
-                  answer: 'Michigan attorneys and insurance adjusters use either the multiplier method or the per diem method. The multiplier method multiplies your total economic damages (medical bills plus lost wages) by a factor between 1.5 and 5, depending on injury severity and permanence. The per diem method assigns a daily dollar value to your suffering and multiplies it by the number of days affected. Both calculations are subject to Michigan\'s noneconomic damage cap (MCL 600.1483), which adjusts annually for inflation — check the statute for the current figure.',
-                  schemaAnswer: 'Michigan attorneys and insurance adjusters use either the multiplier method or the per diem method: economic damages multiplied by 1.5-5x, or a daily rate multiplied by days affected. Both are subject to Michigan\'s noneconomic damage cap (MCL 600.1483), which adjusts annually for inflation.'
+                  answer: 'The two most common ways to estimate pain and suffering in Michigan are the multiplier method and the per diem method. The multiplier method multiplies your total economic damages (medical bills plus lost wages) by a factor between 1.5 and 5, depending on injury severity and permanence. The per diem method assigns a daily dollar value to your suffering and multiplies it by the number of days affected. Michigan has no general cap on noneconomic damages in an ordinary injury claim; in an auto case, your injury must first meet the no-fault tort threshold in MCL 500.3135.',
+                  schemaAnswer: 'The two most common ways to estimate pain and suffering in Michigan are the multiplier method (economic damages multiplied by 1.5-5x) and the per diem method (a daily rate multiplied by days affected). Michigan has no general cap on noneconomic damages in an ordinary injury claim; auto claims must first meet the no-fault tort threshold in MCL 500.3135.'
                 },
                 {
                   id: 'mi-faq-2',
@@ -1449,8 +1435,8 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
                 {
                   id: 'mi-faq-3',
                   question: 'Is there a cap on pain and suffering in Michigan?',
-                  answer: 'Yes. Michigan caps noneconomic damages for standard personal injury claims under MCL 600.1483, with a separate elevated cap for catastrophic injuries: paraplegia, quadriplegia, permanent cognitive incapacity, or permanent loss of a reproductive organ. Both caps adjust annually based on the Consumer Price Index — check the statute for the current-year dollar figures rather than relying on a fixed number. Economic damages — medical bills, lost wages, future care costs — are not capped.',
-                  schemaAnswer: 'Yes. Michigan caps noneconomic damages under MCL 600.1483, with a higher cap for catastrophic injuries (paraplegia, quadriplegia, permanent cognitive incapacity, or permanent loss of a reproductive organ). Both adjust annually for inflation. Economic damages are not capped.'
+                  answer: 'Not in ordinary personal injury claims. Michigan\'s noneconomic damages cap, MCL 600.1483, applies to medical malpractice cases only — a standard cap plus a higher cap for specified severe injuries, both adjusted annually for inflation. It does not apply to an ordinary injury or motor vehicle negligence claim. Auto negligence claims must instead meet the no-fault tort threshold in MCL 500.3135: death, serious impairment of body function, or permanent serious disfigurement. Economic damages — medical bills, lost wages, future care costs — are not capped.',
+                  schemaAnswer: 'Not in ordinary personal injury claims. MCL 600.1483 caps noneconomic damages in medical malpractice cases only (with a higher cap for specified severe injuries), adjusted annually; it does not apply to ordinary injury or motor vehicle claims. Auto negligence claims must instead meet the no-fault tort threshold in MCL 500.3135 (death, serious impairment of body function, or permanent serious disfigurement). Economic damages are not capped.'
                 },
                 {
                   id: 'mi-faq-4',
@@ -1469,7 +1455,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">Use the Michigan Pain and Suffering Calculator</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Michigan&apos;s no-fault threshold, noneconomic damage cap, and modified comparative fault rule make it one of the more complex states for estimating personal injury damages. Use our <Link href="/pain-and-suffering-calculator/" style={{ color: 'var(--primary)' }}>Pain and Suffering Calculator</Link> to generate a range estimate based on your economic damages and injury severity. For a complete breakdown of the multiplier and per diem methods before you run your numbers, read our guide on <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--primary)' }}>how pain and suffering is calculated</Link>. If your accident occurred in another no-fault state, the <Link href="/pain-and-suffering-calculator/florida/" style={{ color: 'var(--primary)' }}>Florida pain and suffering calculator</Link> covers Florida&apos;s distinct threshold and cap rules.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Michigan&apos;s no-fault threshold and modified comparative fault rule make it one of the more complex states for estimating personal injury damages. Use our <Link href="/pain-and-suffering-calculator/" style={{ color: 'var(--primary)' }}>Pain and Suffering Calculator</Link> to generate a range estimate based on your economic damages and injury severity. For a complete breakdown of the multiplier and per diem methods before you run your numbers, read our guide on <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--primary)' }}>how pain and suffering is calculated</Link>. If your accident occurred in another no-fault state, the <Link href="/pain-and-suffering-calculator/florida/" style={{ color: 'var(--primary)' }}>Florida pain and suffering calculator</Link> covers Florida&apos;s distinct threshold and cap rules.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The calculator produces an estimate for informational purposes only. It is not legal advice. If your injuries meet or approach the serious impairment threshold, consult a licensed Michigan personal injury attorney before accepting any settlement offer.</p>
             </article>
           ) : stateData.slug === 'washington' ? (
@@ -1494,10 +1480,10 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">How Pain and Suffering Is Calculated in Washington</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Washington courts and insurance adjusters use two primary methods to calculate pain and suffering damages.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The two most common ways to estimate pain and suffering damages in Washington are the multiplier method and the per diem method.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The <strong style={{ color: 'var(--ink)' }}>multiplier method</strong> is the most widely used approach. Your total economic damages — medical expenses, lost wages, and future costs — are multiplied by a factor between 1.5 and 5. The multiplier reflects injury severity, recovery duration, and long-term impact on your life. A soft-tissue whiplash injury with a full recovery may attract a 1.5x multiplier. A spinal cord injury requiring permanent care may reach 4x or 5x. Washington&apos;s absence of a damages cap means high-multiplier outcomes are legally permissible, and Seattle juries have awarded multimillion-dollar verdicts for catastrophic injuries.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The <strong style={{ color: 'var(--ink)' }}>per diem method</strong> assigns a fixed daily dollar amount to your pain and suffering for each day you lived with the injury. A common benchmark is your daily wage rate. If you earned $300 per day and suffered for 180 days before reaching maximum medical improvement, the per diem calculation produces $54,000 in non-economic damages.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Insurance companies also use proprietary claims software — most commonly Colossus — which weights factors including injury type, treatment duration, and documented functional limitations. Strong medical records, consistent treatment, and documented gaps in daily function all push the software output higher.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Insurers&apos; own valuations vary and are not published. Under any method, strong medical records, consistent treatment, and documented limits on daily function support a higher figure.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -1530,12 +1516,12 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <SourcesSection sources={stateSources} />
 
               <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'wa-faq-1',
                   question: 'How is pain and suffering calculated in Washington?',
-                  answer: 'Washington adjusters and courts use two methods. The multiplier method multiplies your total economic damages by a factor between 1.5 and 5, depending on injury severity and long-term impact. The per diem method assigns a daily dollar value to your suffering for each day you were affected. Insurance companies also process claims through software like Colossus, which generates an internal valuation based on injury codes, treatment records, and documented functional limitations. Neither method produces a binding number — both are starting points for negotiation.',
-                  schemaAnswer: 'Washington adjusters and courts use two methods. The multiplier method multiplies your total economic damages by a factor between 1.5 and 5, depending on injury severity and long-term impact. The per diem method assigns a daily dollar value to your suffering for each day you were affected. Insurance companies also process claims through software like Colossus, which generates an internal valuation based on injury codes, treatment records, and documented functional limitations. Neither method produces a binding number — both are starting points for negotiation.'
+                  answer: 'The two most common ways to estimate pain and suffering in Washington are the multiplier method and the per diem method. The multiplier method multiplies your total economic damages by a factor between 1.5 and 5, depending on injury severity and long-term impact. The per diem method assigns a daily dollar value to your suffering for each day you were affected. Insurers\' own valuations vary and are not published. Neither method produces a binding number — both are starting points for negotiation.',
+                  schemaAnswer: 'The two most common ways to estimate pain and suffering in Washington are the multiplier method and the per diem method. The multiplier method multiplies your total economic damages by a factor between 1.5 and 5, depending on injury severity and long-term impact. The per diem method assigns a daily dollar value to your suffering for each day you were affected. Insurers\' own valuations vary and are not published. Neither method produces a binding number — both are starting points for negotiation.'
                 },
                 {
                   id: 'wa-faq-2',
@@ -1595,8 +1581,8 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">How Pain and Suffering Is Calculated in Colorado</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Colorado courts and insurance adjusters use two primary methods to calculate pain and suffering, both of which are available through our <Link href="/pain-and-suffering-calculator/" style={{ color: 'var(--primary)' }}>Pain and Suffering Calculator</Link>.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The <strong style={{ color: 'var(--ink)' }}>multiplier method</strong> is the more commonly used approach. Your total economic damages — medical bills, lost wages, future treatment — are multiplied by a number typically between 1.5 and 5. The multiplier reflects the severity of your injuries. A soft-tissue strain that resolved in six weeks might warrant a 1.5x multiplier. A permanent spinal injury requiring lifetime care could justify a 4x or 5x multiplier. Insurance software such as Colossus, which many Colorado carriers use to evaluate claims, applies its own internal multiplier logic based on injury codes, treatment duration, and medical documentation.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The two most common ways to estimate pain and suffering in Colorado are the multiplier method and the per diem method, both of which are available through our <Link href="/pain-and-suffering-calculator/" style={{ color: 'var(--primary)' }}>Pain and Suffering Calculator</Link>.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The <strong style={{ color: 'var(--ink)' }}>multiplier method</strong> is the more commonly used approach. Your total economic damages — medical bills, lost wages, future treatment — are multiplied by a number typically between 1.5 and 5. The multiplier reflects the severity of your injuries. A soft-tissue strain that resolved in six weeks might warrant a 1.5x multiplier. A permanent spinal injury requiring lifetime care could justify a 4x or 5x multiplier. Our calculator applies 1.5× (minor) through 5.0× (catastrophic); insurers&apos; own valuations vary and are not published.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The <strong style={{ color: 'var(--ink)' }}>per diem method</strong> assigns a daily dollar value to your pain and assigns that rate for each day you experienced suffering, from the date of injury through maximum medical improvement. For example, if your daily rate is $200 and your recovery lasted 300 days, your per diem pain and suffering figure would be $60,000.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Neither method produces a guaranteed result. Colorado&apos;s $1.5 million cap places an absolute ceiling on noneconomic recovery regardless of which formula you use, and your actual settlement will depend on the strength of your medical documentation, liability clarity, and the at-fault party&apos;s insurance policy limits.</p>
 
@@ -1644,12 +1630,12 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <SourcesSection sources={stateSources} />
 
               <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'co-faq-1',
                   question: 'How is pain and suffering calculated in Colorado?',
-                  answer: 'Colorado does not mandate a single calculation method. Attorneys and insurers most commonly use the multiplier method — multiplying your total economic damages by a factor between 1.5 and 5 based on injury severity, duration, and impact on daily life. The per diem method is an alternative that assigns a daily dollar rate to your suffering for each day you experienced it. Insurance carriers in Colorado often use claims management software that applies their own internal multiplier logic. Our free Pain and Suffering Calculator lets you run both methods so you can compare results.',
-                  schemaAnswer: 'Colorado does not mandate a single calculation method. Attorneys and insurers most commonly use the multiplier method — multiplying your total economic damages by a factor between 1.5 and 5 based on injury severity, duration, and impact on daily life. The per diem method is an alternative that assigns a daily dollar rate to your suffering for each day you experienced it. Insurance carriers in Colorado often use claims management software that applies their own internal multiplier logic.'
+                  answer: 'Colorado does not mandate a single calculation method. The most common way to estimate it is the multiplier method — multiplying your total economic damages by a factor between 1.5 and 5 based on injury severity, duration, and impact on daily life. The per diem method is an alternative that assigns a daily dollar rate to your suffering for each day you experienced it. Insurers\' own valuations vary and are not published. Our free Pain and Suffering Calculator lets you run both methods so you can compare results.',
+                  schemaAnswer: 'Colorado does not mandate a single calculation method. The most common way to estimate it is the multiplier method — multiplying your total economic damages by a factor between 1.5 and 5 based on injury severity, duration, and impact on daily life. The per diem method is an alternative that assigns a daily dollar rate to your suffering for each day you experienced it. Insurers\' own valuations vary and are not published.'
                 },
                 {
                   id: 'co-faq-2',
@@ -1686,7 +1672,7 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
             </article>
           ) : stateData.slug === 'nevada' ? (
             <article className="editorial">
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Use our free <Link href="/pain-and-suffering-calculator/" style={{ color: 'var(--primary)' }}>Pain and Suffering Calculator</Link> to estimate your noneconomic damages under Nevada law. The sections below explain exactly how Nevada courts and insurers calculate pain and suffering, which damage caps apply to your claim, and what affects your final settlement value.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Use our free <Link href="/pain-and-suffering-calculator/" style={{ color: 'var(--primary)' }}>Pain and Suffering Calculator</Link> to estimate your noneconomic damages under Nevada law. The sections below explain how pain and suffering is estimated in Nevada, which damage caps apply to your claim, and what affects your final settlement value.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -1707,11 +1693,11 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">How Pain and Suffering Is Calculated in Nevada</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Nevada does not mandate a single calculation method for pain and suffering. In practice, attorneys and insurance adjusters use two primary approaches, both of which you can model using our guide on <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--primary)' }}>how pain and suffering is calculated</Link>.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Nevada does not mandate a single calculation method for pain and suffering. The two most common ways to estimate it are the multiplier method and the per diem method, both of which you can model using our guide on <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--primary)' }}>how pain and suffering is calculated</Link>.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>The multiplier method</strong> is the most widely used approach in Nevada. Your total economic damages — medical expenses, lost income, future treatment costs — are multiplied by a factor between 1.5 and 5. The multiplier reflects injury severity, recovery duration, and the permanence of any disability. A soft tissue injury with full recovery might draw a 1.5 multiplier. A spinal cord injury requiring lifelong care could justify a 4 or 5 multiplier.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>For example, if you sustained a herniated disc with $60,000 in medical expenses and $20,000 in lost wages, your economic damages total $80,000. Applying a 3x multiplier produces a pain and suffering estimate of $240,000, for a total claim value of $320,000.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}><strong style={{ color: 'var(--ink)' }}>The per diem method</strong> assigns a daily dollar value to your pain — often equal to your daily wage — and multiplies it by the number of days you suffered. This method works best for injuries with a clear recovery endpoint.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Insurance carriers that handle Nevada claims also run values through Colossus and similar claims software, which weight treatment type, injury codes, and documentation quality. Strong medical records from consistent treatment will always produce a higher software-generated value than gaps in care.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Insurers&apos; own valuations vary and are not published. Under any method, strong medical records from consistent treatment support a higher figure than gaps in care.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -1754,12 +1740,12 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <SourcesSection sources={stateSources} />
 
               <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'nv-faq-1',
                   question: 'How is pain and suffering calculated in Nevada?',
-                  answer: 'Nevada uses two primary methods. The multiplier method multiplies your total economic damages by a factor between 1.5 and 5, depending on injury severity and permanence. The per diem method assigns a daily dollar value to your suffering and multiplies it by the number of days affected. Insurance carriers also use claims software like Colossus to generate internal valuations. Both methods reward thorough, consistent medical documentation.',
-                  schemaAnswer: 'Nevada uses two primary methods. The multiplier method multiplies your total economic damages by a factor between 1.5 and 5, depending on injury severity and permanence. The per diem method assigns a daily dollar value to your suffering and multiplies it by the number of days affected. Insurance carriers also use claims software like Colossus to generate internal valuations. Both methods reward thorough, consistent medical documentation.'
+                  answer: 'The two most common ways to estimate pain and suffering in Nevada are the multiplier method and the per diem method. The multiplier method multiplies your total economic damages by a factor between 1.5 and 5, depending on injury severity and permanence. The per diem method assigns a daily dollar value to your suffering and multiplies it by the number of days affected. Insurers\' own valuations vary and are not published. Both methods reward thorough, consistent medical documentation.',
+                  schemaAnswer: 'The two most common ways to estimate pain and suffering in Nevada are the multiplier method and the per diem method. The multiplier method multiplies your total economic damages by a factor between 1.5 and 5, depending on injury severity and permanence. The per diem method assigns a daily dollar value to your suffering and multiplies it by the number of days affected. Insurers\' own valuations vary and are not published. Both methods reward thorough, consistent medical documentation.'
                 },
                 {
                   id: 'nv-faq-2',
@@ -1815,10 +1801,10 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2 className="heading-display h2-editorial">How Pain and Suffering Is Calculated in Arizona</h2>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Arizona personal injury attorneys and insurance carriers use two primary methods to calculate pain and suffering.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The multiplier method takes your total economic damages and multiplies them by a number between 1.5 and 5. The multiplier reflects the severity of your injury. A soft-tissue whiplash injury with a short recovery period typically draws a multiplier between 1.5 and 2.5. A traumatic brain injury, spinal cord injury, or permanent impairment can support multipliers of 4 or 5 — and in catastrophic cases, even higher. Insurance carriers in Arizona frequently use Colossus software to generate initial settlement offers. Colossus applies its own multipliers based on injury codes, treatment duration, and medical provider documentation. Knowing this, consistent and well-documented medical treatment significantly increases the calculated value of your claim.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The two most common ways to estimate pain and suffering in Arizona are the multiplier method and the per diem method.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The multiplier method takes your total economic damages and multiplies them by a number between 1.5 and 5. The multiplier reflects the severity of your injury. A soft-tissue whiplash injury with a short recovery period typically draws a multiplier between 1.5 and 2.5. A traumatic brain injury, spinal cord injury, or permanent impairment can support multipliers of 4 or 5 — and in catastrophic cases, even higher. Insurers&apos; own valuations vary and are not published. Under any method, consistent and well-documented medical treatment supports a higher estimate.</p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The per diem method assigns a daily dollar rate to your pain — often your daily wages — and multiplies it by the number of days you suffered. This method is more persuasive for injuries with a clear endpoint and a well-documented recovery timeline.</p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>Most Arizona attorneys use the multiplier method as the primary framework, with per diem as a supporting argument in front of juries.</p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>The multiplier method is the more common framework; a per diem figure is often presented alongside it as a second reference point.</p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -1849,12 +1835,12 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
               <SourcesSection sources={stateSources} />
 
               <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
-              <FAQAccordion faqs={[
+              <FAQAccordion schema faqs={[
                 {
                   id: 'az-faq-1',
                   question: 'How is pain and suffering calculated in Arizona?',
-                  answer: 'Arizona attorneys use two methods. The multiplier method multiplies your total medical bills and economic losses by a factor of 1.5 to 5 based on injury severity. The per diem method assigns a daily dollar value to your suffering and multiplies it by recovery days. Most Arizona claims use the multiplier method, and insurance software like Colossus applies its own version of this formula during the adjuster\'s evaluation.',
-                  schemaAnswer: 'Arizona attorneys use two methods. The multiplier method multiplies your total medical bills and economic losses by a factor of 1.5 to 5 based on injury severity. The per diem method assigns a daily dollar value to your suffering and multiplies it by recovery days. Most Arizona claims use the multiplier method, and insurance software like Colossus applies its own version of this formula during the adjuster\'s evaluation.'
+                  answer: 'The two most common ways to estimate pain and suffering in Arizona are the multiplier method and the per diem method. The multiplier method multiplies your total medical bills and economic losses by a factor of 1.5 to 5 based on injury severity. The per diem method assigns a daily dollar value to your suffering and multiplies it by recovery days. Insurers\' own valuations vary and are not published; our calculator runs both methods so you can compare them.',
+                  schemaAnswer: 'The two most common ways to estimate pain and suffering in Arizona are the multiplier method and the per diem method. The multiplier method multiplies your total medical bills and economic losses by a factor of 1.5 to 5 based on injury severity. The per diem method assigns a daily dollar value to your suffering and multiplies it by recovery days. Insurers\' own valuations vary and are not published; our calculator runs both methods so you can compare them.'
                 },
                 {
                   id: 'az-faq-2',
@@ -1901,9 +1887,11 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
                     In {stateData.name}, pain and suffering damages are classified as{' '}
                     <strong style={{ color: 'var(--ink)' }}>non-economic damages</strong> — compensation for
                     physical pain, emotional distress, and diminished quality of life.
-                    {stateData.hasDamageCap
+                    {capScope === 'general'
                       ? ` ${stateData.name} limits these damages: ${stateData.damageCapNotes}`
-                      : ` ${stateData.name} places no statutory cap on non-economic damages for general personal injury cases.`}
+                      : capScope === 'none'
+                      ? ` ${stateData.name} places no statutory cap on non-economic damages for general personal injury cases.`
+                      : ` ${stateData.damageCapNotes}`}
                   </p>
                   <p>
                     {stateData.faultRuleExplanation}
@@ -1930,10 +1918,25 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
                   {stateData.name} Pain &amp; Suffering — FAQs
                 </h2>
                 {/* FAQAccordion uses .faq-question / .faq-answer classes for guaranteed text visibility */}
-                <FAQAccordion faqs={faqs} />
+                <FAQAccordion schema faqs={faqs} />
               </section>
             </>
           )}
+
+          {/* ── STATE GRID — every state page, alphabetical, with count badge ── */}
+          <StateList
+            variant="plain"
+            id="by-state"
+            tool="pain-suffering"
+            headingLevel="h2"
+            title="Pain & Suffering Calculator by State"
+            intro="State laws vary significantly. Select your state for a calculator that reflects local fault rules, damage caps, and filing deadlines."
+            currentSlug={stateData.slug}
+            className="mt-12 prose-col"
+          />
+
+          {/* Citation block — title, editorial byline, canonical URL, review stamp */}
+          <CiteThisPage title={`${stateData.name} Pain & Suffering Calculator`} path={canonicalUrl} reviewed={LAST_REVIEWED} className="mt-10 prose-col" />
 
           <DisclaimerBanner variant="footer" stateName={stateData.name} />
           </EditorialLayout>

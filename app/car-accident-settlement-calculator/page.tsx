@@ -18,6 +18,8 @@ import CarAccidentCalculator from '@/components/calculator/CarAccidentCalculator
 import FAQAccordion from '@/components/seo/FAQAccordion'
 import HeroBand, { type HeroFact } from '@/components/ui/HeroBand'
 import EditorialLayout from '@/components/ui/EditorialLayout'
+import CiteThisPage from '@/components/ui/CiteThisPage'
+import StateList from '@/components/ui/StateList'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import { getCarAccidentFAQs, buildFAQSchema } from '@/lib/data/carAccidentFaqs'
 import { CAR_ACCIDENT_STATES } from '@/lib/data/carAccidentStates'
@@ -160,23 +162,9 @@ export default function CarAccidentCalculatorPage() {
               </Link>
             </SideCard>
 
+            {/* Every state page, alphabetical — no truncated list (components/ui/StateList.tsx) */}
             <nav aria-label="State-specific car accident settlement calculators">
-              <SideCard>
-                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Calculator by State</h2>
-                <ul className="flex flex-col">
-                  {CAR_ACCIDENT_STATES.filter((s) => s.slug === 'california' || s.slug === 'texas').map((state) => (
-                    <li key={state.slug}>
-                      <Link href={`/car-accident-settlement-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
-                        <span>{state.name}</span>
-                        <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
-                      </Link>
-                    </li>
-                  ))}
-                  <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
-                    <a href="#by-state" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>All {CAR_ACCIDENT_STATES.length} states ↓</a>
-                  </li>
-                </ul>
-              </SideCard>
+              <StateList tool="car-accident" title="By state" headingLevel="h2" hubLink={false} />
             </nav>
 
             <nav aria-label="Other settlement calculators">
@@ -261,7 +249,7 @@ export default function CarAccidentCalculatorPage() {
               A car accident can reshape your finances overnight. Medical bills start piling up before you even know the full extent of your injuries. The other driver&apos;s insurance company calls quickly — often within days — with a recorded statement request and sometimes a preliminary offer. That offer is rarely the right number. It&apos;s designed to close the file before you fully understand what you&apos;re owed.
             </p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
-              This calculator gives you a grounded, formula-driven estimate of your total claim value before you sign anything. It uses the multiplier method, one of the two most common ways to estimate pain and suffering. The math is transparent, the inputs are yours, and the result is a realistic starting point for negotiation — not a number pulled from a settlement mill.
+              This calculator gives you a grounded, formula-driven estimate of your total claim value before you sign anything. It uses the multiplier method, one of the two most common ways to estimate pain and suffering. The math is transparent, the inputs are yours, and the result is a starting point for negotiation — not a number pulled from a settlement mill.
             </p>
 
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
@@ -292,7 +280,7 @@ export default function CarAccidentCalculatorPage() {
               How the Multiplier Method Works for Car Accident Claims
             </h2>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
-              The multiplier method is the industry standard for calculating pain and suffering in car accident cases. Here&apos;s exactly how it works.
+              The multiplier method is one of the two most common ways to estimate pain and suffering in car accident cases. Here&apos;s exactly how it works.
             </p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
               First, you sum your medical damages and lost income — but not vehicle damage. Property damage is included in your total economic damages, but it is excluded from the multiplier base. The reasoning is sound: multiplying your vehicle repair cost by a pain and suffering factor doesn&apos;t make legal sense, because a dented car doesn&apos;t cause you physical pain. The multiplier applies only to the human cost of the accident.
@@ -389,38 +377,26 @@ export default function CarAccidentCalculatorPage() {
               Get Your Estimate Now
             </h2>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
-              The at-fault driver&apos;s insurer already has software calculating what your claim is worth — and their number is designed to protect their bottom line, not yours. Use this calculator to run the same math before you agree to anything.
+              The at-fault driver&apos;s insurer will arrive at its own figure for your claim. Use this calculator to see the math for yourself before you agree to anything.
             </p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
               Scroll up to enter your damages and get an instant estimate. It takes under two minutes and requires no signup.
             </p>
           </article>
 
-          {/* ── STATE GRID ── */}
-          <section
+          {/* ── STATE GRID — every state page, alphabetical, with count badge ── */}
+          <StateList
+            variant="plain"
             id="by-state"
+            tool="car-accident"
+            headingLevel="h2"
+            title="Car Accident Settlement Calculator by State"
+            intro="State laws vary significantly. Select your state for a calculator that reflects local fault rules, no-fault thresholds, damage caps, and filing deadlines."
             className="mt-12 prose-col"
-            aria-label="Car accident settlement calculator by state"
-            style={{ scrollMarginTop: 'calc(var(--header-h) + 12px)' }}
-          >
-            <h2 className="heading-display" style={{ fontSize: 26, marginBottom: 6 }}>
-              Car Accident Settlement Calculator by State
-            </h2>
-            <p className="text-sm mb-4" style={{ color: 'var(--ink-2)' }}>
-              State laws vary significantly. Select your state for a calculator that reflects local
-              fault rules, no-fault thresholds, damage caps, and filing deadlines.
-            </p>
-            <ul className="flex flex-wrap gap-2">
-              {CAR_ACCIDENT_STATES.map((state) => (
-                <li key={state.slug}>
-                  <Link href={`/car-accident-settlement-calculator/${state.slug}/`} className="picker-link" style={{ minHeight: 40 }}>
-                    <span className="text-xs mr-1.5" style={{ color: 'var(--ink-3)' }}>{state.abbreviation}</span>
-                    {state.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
+          />
+
+          {/* Citation block — title, editorial byline, canonical URL, review stamp */}
+          <CiteThisPage title="Car Accident Settlement Calculator — Free Tool" path="/car-accident-settlement-calculator/" reviewed={LAST_REVIEWED} className="mt-10 prose-col" />
 
           <DisclaimerBanner variant="footer" />
           </EditorialLayout>

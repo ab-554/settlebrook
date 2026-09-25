@@ -14,6 +14,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import TrustLine from '@/components/ui/TrustLine'
+import CiteThisPage from '@/components/ui/CiteThisPage'
 import wcMaxBenefits from '@/lib/data/wcMaxBenefits2026.json'
 import { getBlogPostBySlug, isPostPublished } from '@/lib/data/blogPosts'
 
@@ -309,6 +310,9 @@ export default function WorkersCompMaxBenefitsPage() {
               </Link>
             </div>
           </section>
+
+          {/* Citation block — title, editorial byline, canonical URL, verification stamp */}
+          <CiteThisPage title="Workers Comp Maximum Weekly Benefits by State (2026)" path={canonicalUrl} reviewed={LAST_VERIFIED} className="max-w-3xl" />
 
         </article>
 

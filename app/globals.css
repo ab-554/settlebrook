@@ -1527,6 +1527,200 @@ details[open] .faq-icon { transform: rotate(180deg); }
 @media (min-width: 768px) { .step-numeral { font-size: 64px; } }
 
 /* ─────────────────────────────────────────────────────────────────────────────
+   BALANCED GRID — the one card-grid rule (components/ui/BalancedGrid.tsx)
+   Rows are always full: the component picks, per breakpoint, a column count
+   that divides the item count, or "features" the first card across the full
+   row and divides the rest. Column classes: .bgrid-c-{sm|lg|xl}-{1..4};
+   featured flags: .bgrid-f-{sm|lg|xl}. Below 640px everything is one column.
+   ───────────────────────────────────────────────────────────────────────────── */
+.bgrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--bgrid-gap, 20px);
+  align-items: stretch;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.bgrid > * { min-width: 0; }
+@media (min-width: 640px) {
+  .bgrid-c-sm-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bgrid-c-sm-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .bgrid-c-sm-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .bgrid-f-sm > :first-child { grid-column: 1 / -1; }
+}
+@media (min-width: 1024px) {
+  .bgrid-c-lg-1 { grid-template-columns: minmax(0, 1fr); }
+  .bgrid-c-lg-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bgrid-c-lg-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .bgrid-c-lg-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .bgrid > :first-child { grid-column: auto; }
+  .bgrid-f-lg > :first-child { grid-column: 1 / -1; }
+}
+@media (min-width: 1280px) {
+  .bgrid-c-xl-1 { grid-template-columns: minmax(0, 1fr); }
+  .bgrid-c-xl-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bgrid-c-xl-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .bgrid-c-xl-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .bgrid > :first-child { grid-column: auto; }
+  .bgrid-f-xl > :first-child { grid-column: 1 / -1; }
+}
+/* A featured (full-row) card keeps its copy readable: cap the text run so a
+   single card spanning 1300px does not become one very long line. */
+.bgrid > :first-child > * { max-width: 100%; }
+@media (min-width: 640px) {
+  .bgrid-f-sm > :first-child .choice-desc,
+  .bgrid-f-sm > :first-child .next-step-desc,
+  .bgrid-f-sm > :first-child p { max-width: 62ch; }
+}
+@media (min-width: 1024px) {
+  .bgrid > :first-child .choice-desc,
+  .bgrid > :first-child .next-step-desc,
+  .bgrid > :first-child p { max-width: none; }
+  .bgrid-f-lg > :first-child .choice-desc,
+  .bgrid-f-lg > :first-child .next-step-desc,
+  .bgrid-f-lg > :first-child p { max-width: 62ch; }
+}
+@media (min-width: 1280px) {
+  .bgrid > :first-child .choice-desc,
+  .bgrid > :first-child .next-step-desc,
+  .bgrid > :first-child p { max-width: none; }
+  .bgrid-f-xl > :first-child .choice-desc,
+  .bgrid-f-xl > :first-child .next-step-desc,
+  .bgrid-f-xl > :first-child p { max-width: 62ch; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   STATE LISTS — every state a tool covers (components/ui/StateList.tsx)
+   Chips sit in a 2–3 column grid that adapts to the container: never fewer
+   than two columns above ~300px, never more than three. 44px touch targets.
+   ───────────────────────────────────────────────────────────────────────────── */
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--primary-tint);
+  border: 1px solid var(--primary-line);
+  color: var(--primary);
+  font-size: var(--caption);
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.state-chips-wrap { container-type: inline-size; }
+.state-chips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  /* min column = max(150px, 30% of the list width), never more than half:
+     ≈375px card → 2 columns · ≥ ~520px (hub sections, featured cards) → 3 */
+  grid-template-columns: repeat(auto-fill, minmax(clamp(150px, 30%, 50%), 1fr));
+  gap: 6px 8px;
+}
+/* Narrow containers (phone cards, the 320px rail): two tighter columns, no
+   abbreviation, 14px text — still 44px tall. Browsers without container
+   queries fall back to the auto-fill rule above (one column there). */
+@container (max-width: 359px) {
+  .state-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .state-chip { font-size: var(--caption); padding: 6px 8px; gap: 6px; }
+  .state-chip-abbr { display: none; }
+}
+.state-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: var(--small);
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  transition: background-color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.state-chip-abbr {
+  flex-shrink: 0;
+  min-width: 26px;
+  font-size: var(--caption);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  text-decoration: none;
+}
+a.state-chip:hover { background: var(--primary-tint); border-color: var(--primary-line); color: var(--primary); }
+a.state-chip:hover .state-chip-abbr { color: var(--primary); }
+@media (prefers-reduced-motion: no-preference) {
+  a.state-chip:active { transform: scale(0.98); }
+}
+.state-chip.is-current { background: var(--primary-tint); border-color: var(--primary-line); color: var(--primary); cursor: default; }
+.state-chip.is-current .state-chip-abbr { color: var(--primary); }
+/* Card variant: equal height inside a grid, hub link pinned to the bottom. */
+.state-list-card { display: flex; flex-direction: column; height: 100%; }
+.state-list-card .state-chips { align-content: start; }
+.state-list-hub {
+  margin-top: auto;
+  padding-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: var(--small);
+  text-decoration: none;
+}
+.state-list-hub:hover { text-decoration: underline; text-underline-offset: 3px; }
+/* Inline variant (footer): a wrapped run of small links. */
+.state-inline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 0;
+}
+.state-inline li { display: inline-flex; align-items: center; }
+.state-inline li:not(:last-child)::after { content: '·'; color: var(--line-strong); margin: 0 8px; }
+.state-inline-link {
+  display: inline-block;
+  padding: 6px 0;
+  font-size: var(--small);
+  line-height: 1.3;
+  text-decoration: none;
+}
+.footer-states { border-top: 1px solid var(--line); padding-top: 32px; margin-bottom: 40px; }
+.footer-states-group + .footer-states-group { margin-top: 20px; }
+@media (min-width: 1024px) {
+  .footer-states-groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  .footer-states-group + .footer-states-group { margin-top: 0; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CITE THIS PAGE — quiet citation block at the end of every hub, state page,
+   blog post and the benefits table (components/ui/CiteThisPage.tsx).
+   ───────────────────────────────────────────────────────────────────────────── */
+.cite-block {
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  padding: 16px 18px;
+  color: var(--ink-3);
+  font-size: var(--small);
+  line-height: 1.55;
+}
+.cite-block .cite-title { color: var(--ink); font-weight: 600; }
+.cite-block .cite-url { color: var(--primary); word-break: break-all; text-decoration: none; }
+.cite-block .cite-url:hover { text-decoration: underline; text-underline-offset: 3px; }
+.cite-block .cite-meta { color: var(--ink-3); }
+
+/* ─────────────────────────────────────────────────────────────────────────────
    FOOTER
    ───────────────────────────────────────────────────────────────────────────── */
 .site-footer {

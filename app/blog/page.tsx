@@ -12,6 +12,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import BalancedGrid from '@/components/ui/BalancedGrid'
 import { getPublishedBlogPosts, getPostDisplayDate } from '@/lib/data/blogPosts'
 
 const canonicalUrl = '/blog/'
@@ -20,12 +21,12 @@ export const metadata: Metadata = {
   // Title stays short — the root layout template appends " | Settlebrook" (13 chars)
   title: 'Settlement Guides & Insights — Blog',
   description:
-    'Plain-English guides on how insurers value injury claims, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
+    'Plain-English guides on how injury claims are valued, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
   alternates: { canonical: canonicalUrl },
   openGraph: {
     title: 'Settlement Guides & Insights — Blog | Settlebrook',
     description:
-      'Plain-English guides on how insurers value injury claims, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
+      'Plain-English guides on how injury claims are valued, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
     url: canonicalUrl,
     siteName: 'Settlebrook',
     locale: 'en_US',
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Settlement Guides & Insights — Blog | Settlebrook',
     description:
-      'Plain-English guides on how insurers value injury claims, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
+      'Plain-English guides on how injury claims are valued, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
     images: ['/og-image.png'],
   },
 }
@@ -56,7 +57,7 @@ const webPageSchema = {
   name: 'Settlement Guides & Insights — Blog',
   url: canonicalUrl,
   description:
-    'Plain-English guides on how insurers value injury claims, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
+    'Plain-English guides on how injury claims are valued, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
   inLanguage: 'en-US',
   isPartOf: {
     '@type': 'WebSite',
@@ -80,6 +81,7 @@ const breadcrumbSchema = {
 }
 
 export default function BlogIndexPage() {
+  const posts = getPublishedBlogPosts()
   return (
     <>
       <script
@@ -114,19 +116,17 @@ export default function BlogIndexPage() {
           <div className="editorial">
             <p>
               Our calculators give you a number. These guides explain where that number
-              comes from and what the person on the other side of the table is looking at
-              when they decide what your claim is worth. An insurance adjuster and a
-              plaintiff attorney are working from the same playbook &mdash; multiplier
-              methods, impairment ratings, statutory rate tables &mdash; and the gap between
-              a lowball first offer and a fair settlement usually comes down to who
-              understands that playbook better.
+              comes from and how the figures that shape a settlement are built &mdash; multiplier
+              methods, impairment ratings, statutory rate tables &mdash; and why the gap between
+              a first offer and a fair settlement usually comes down to who understands
+              those figures better.
             </p>
             <p>
               Everything here is written in plain English, using the same formulas and
               official sources we publish on our{' '}
               <Link href="/methodology/">methodology page</Link>
-              . We cover how specific insurers evaluate claims, how individual benefit
-              types (like permanent partial disability) are actually calculated
+              . We cover what shapes a specific insurer&rsquo;s offer, how individual benefit
+              types (like permanent partial disability) are calculated
               state-by-state, and the mechanics behind the multiplier and per diem
               methods our tools use. Every guide is reviewed against current law and
               cites its sources &mdash; see our{' '}
@@ -141,10 +141,10 @@ export default function BlogIndexPage() {
               Published guides
             </h2>
 
-            {/* Single column on mobile; the grid holds its shape as posts are added */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {getPublishedBlogPosts().map((post) => (
-                <Link key={post.slug} href={post.slug} className="card card-pad card-hover block">
+            {/* Balanced grid — rows stay full as posts are added (4 → 2×2, 5 → 1 featured + 4, 7 → 1 + 6) */}
+            <BalancedGrid count={posts.length} maxCols={3} gap={16}>
+              {posts.map((post) => (
+                <Link key={post.slug} href={post.slug} className="card card-pad card-hover flex flex-col">
                   <time dateTime={post.publishDate} className="eyebrow">
                     {getPostDisplayDate(post)}
                   </time>
@@ -154,12 +154,12 @@ export default function BlogIndexPage() {
                   <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--ink-2)' }}>
                     {post.description}
                   </p>
-                  <span className="mt-3 inline-block text-sm font-semibold" style={{ color: 'var(--primary)' }}>
+                  <span className="mt-auto pt-3 inline-block text-sm font-semibold" style={{ color: 'var(--primary)' }}>
                     Read the guide →
                   </span>
                 </Link>
               ))}
-            </div>
+            </BalancedGrid>
           </section>
 
         </div>

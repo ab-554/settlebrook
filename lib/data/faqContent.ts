@@ -28,9 +28,9 @@ const MAIN_PAGE_FAQS: FAQItem[] = [
     id: 'how-is-pain-and-suffering-calculated',
     question: 'How is pain and suffering calculated?',
     answer:
-      'There are two widely used methods. The **multiplier method** multiplies your total economic damages (medical bills + lost wages + future costs) by a number between 1.5 and 5, depending on injury severity. The **per diem method** assigns a daily dollar value to your suffering and multiplies it by the number of days you were in recovery. Insurance companies most often use the multiplier method. Attorneys may present either method — or both — to maximize your claim.',
+      'There are two widely used methods. The **multiplier method** multiplies your total economic damages (medical bills + lost wages + future costs) by a number between 1.5 and 5, depending on injury severity. The **per diem method** assigns a daily dollar value to your suffering and multiplies it by the number of days you were in recovery. The multiplier method is the more common of the two; either method — or both — can be presented in a demand.',
     schemaAnswer:
-      'There are two widely used methods. The multiplier method multiplies your total economic damages by a number between 1.5 and 5 based on injury severity. The per diem method assigns a daily dollar value to your suffering and multiplies it by your recovery days. Insurance companies most often use the multiplier method.',
+      'There are two widely used methods. The multiplier method multiplies your total economic damages by a number between 1.5 and 5 based on injury severity. The per diem method assigns a daily dollar value to your suffering and multiplies it by your recovery days. The multiplier method is the more common of the two.',
   },
   {
     id: 'what-multiplier-is-used',
@@ -108,9 +108,9 @@ const GENERIC_STATE_FAQ_TEMPLATES: Array<{
     id: 'state-calculator-accuracy',
     question: (s) => `How accurate is this ${s} pain and suffering calculator?`,
     answer: (s) =>
-      `This calculator applies the multiplier and per diem methods used by ${s} insurance adjusters and personal injury attorneys, incorporating ${s}-specific factors including the state's fault rule and any applicable damage caps. Results are estimates — actual settlement amounts depend on your specific evidence, insurance policy limits, and negotiation.`,
-    schemaAnswer: (s) =>
-      `This calculator applies the multiplier and per diem methods used by ${s} insurance adjusters and attorneys, incorporating state-specific fault rules and damage caps. Results are estimates — actual settlements depend on evidence, policy limits, and negotiation.`,
+      `This calculator applies the multiplier and per diem methods, the two most common ways to estimate pain and suffering, incorporating ${s}-specific factors including the state's fault rule and any applicable damage caps. Results are estimates — actual settlement amounts depend on your specific evidence, insurance policy limits, and negotiation.`,
+    schemaAnswer: () =>
+      `This calculator applies the multiplier and per diem methods, the two most common ways to estimate pain and suffering, incorporating state-specific fault rules and damage caps. Results are estimates — actual settlements depend on evidence, policy limits, and negotiation.`,
   },
 ]
 

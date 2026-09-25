@@ -23,6 +23,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import EditorialLayout from '@/components/ui/EditorialLayout'
+import CiteThisPage from '@/components/ui/CiteThisPage'
 import BlogRail from '@/components/ui/BlogRail'
 import { getBlogPostBySlug, isPostPublished, getPostDisplayDate } from '@/lib/data/blogPosts'
 
@@ -322,6 +323,9 @@ fault-adjusted    = total × (100 − fault%) / 100`}
             </ol>
 
           </article>
+
+          {/* Citation block — title, editorial byline, canonical URL, review stamp */}
+          <CiteThisPage title="Minor Car Accident Settlements: Injury vs. No Injury" path={canonicalUrl} reviewed={getPostDisplayDate(post)} className="mt-10" />
           </EditorialLayout>
         </div>
 

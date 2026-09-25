@@ -15,7 +15,7 @@ import { getCarAccidentStateBySlug } from '@/lib/data/carAccidentStates'
 import { getStateBySlug } from '@/lib/data/states'
 import { getFaultBarStatus, getModifiedBarThreshold } from '@/lib/faultRules'
 import { getAdjacentSeverityRange } from '@/lib/severityRange'
-import { capAppliesToGeneralClaims } from '@/lib/damageCaps'
+import { getGeneralCapNotice } from '@/lib/damageCaps'
 import type {
   CarAccidentResult as CarAccidentResultType,
   MultiplierResult,
@@ -65,8 +65,10 @@ export default function CarAccidentResult({ result, activeMethod, inputs }: CarA
   const stateData = stateSlug ? getStateBySlug(stateSlug) : null
 
   // Cap notice only where the cap applies to general personal injury claims (lib/damageCaps.ts):
-  // several states' damageCap figure is a medical-malpractice-only cap.
-  const showDamageCapWarning = capAppliesToGeneralClaims(stateData) && stateData!.damageCap !== null && totalEstimate > stateData!.damageCap!
+  // several states' damageCap figure is a medical-malpractice-only cap. The notice compares the
+  // pain & suffering figure (what the cap limits) with the cap that applies — Ohio's is a formula.
+  const capNotice = getGeneralCapNotice(stateData, specialDamages, painAndSuffering)
+  const showDamageCapWarning = capNotice !== null
   // Fault warnings come from the state's own faultRule via lib/faultRules.ts —
   // pure comparative never bars, modified 50/51 bars at its threshold,
   // contributory bars on any fault. No state names are hardcoded here.
@@ -166,7 +168,7 @@ export default function CarAccidentResult({ result, activeMethod, inputs }: CarA
           {showDamageCapWarning && stateData && (
             <div className="note note-caution">
               <p className="font-semibold mb-1" style={{ color: 'var(--amber)' }}>{stateData.name} Damage Cap Notice:</p>
-              <p>{stateData.name} limits pain &amp; suffering damages to {formatCurrency(stateData.damageCap!)}. Your estimate exceeds this limit. Actual recovery may be reduced. {stateData.damageCapNotes}</p>
+              <p>{capNotice!.text}</p>
             </div>
           )}
           {showContributoryWarning && stateData && (
