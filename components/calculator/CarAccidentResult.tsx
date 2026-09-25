@@ -13,6 +13,7 @@
 import { formatCurrency, formatMultiplier } from '@/lib/calculations/painSuffering'
 import { getCarAccidentStateBySlug } from '@/lib/data/carAccidentStates'
 import { getStateBySlug } from '@/lib/data/states'
+import { getFaultBarStatus, getModifiedBarThreshold } from '@/lib/faultRules'
 import type {
   CarAccidentResult,
   MultiplierResult,
@@ -62,11 +63,12 @@ export default function CarAccidentResult({ result, activeMethod }: CarAccidentR
   // State-specific warning flags (mirrors CalculatorResult.tsx logic)
   const showDamageCapWarning =
     stateData?.hasDamageCap && stateData.damageCap !== null && totalEstimate > stateData.damageCap
-  const showContributoryWarning =
-    stateData?.faultRule === 'contributory' && faultPct > 0
-  const showModifiedComparativeWarning =
-    (stateData?.faultRule === 'modified-comparative-50' && faultPct >= 50) ||
-    (stateData?.faultRule === 'modified-comparative-51' && faultPct > 50)
+  // Fault warnings come from the state's own faultRule via lib/faultRules.ts —
+  // pure comparative never bars, modified 50/51 bars at its threshold,
+  // contributory bars on any fault. No state names are hardcoded here.
+  const faultBar = getFaultBarStatus(stateData?.faultRule, faultPct)
+  const showContributoryWarning = faultBar === 'contributory'
+  const showModifiedComparativeWarning = faultBar === 'modified-bar'
   // Car-accident-specific: no-fault serious-injury threshold notice
   const showNoFaultThresholdNotice = carState?.isNoFaultState === true
 
@@ -259,7 +261,7 @@ export default function CarAccidentResult({ result, activeMethod }: CarAccidentR
               <p className="text-sm font-semibold mb-1" style={{ color: '#FCA5A5' }}>⚠️ Recovery Barred:</p>
               <p className="text-xs leading-relaxed" style={{ color: '#FCA5A5' }}>
                 In {stateData.name}, being {faultPct}% at fault exceeds the{' '}
-                {stateData.faultRule === 'modified-comparative-50' ? '50' : '51'}% threshold.
+                {getModifiedBarThreshold(stateData.faultRule)}% threshold.
                 Under {stateData.name} law you would not be able to recover damages.
               </p>
             </div>

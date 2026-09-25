@@ -7,6 +7,7 @@
 
 import { formatCurrency, formatMultiplier } from '@/lib/calculations/painSuffering'
 import { getStateBySlug } from '@/lib/data/states'
+import { getFaultBarStatus, getModifiedBarThreshold } from '@/lib/faultRules'
 import type {
   PainSufferingCalculationResult,
   MultiplierResult,
@@ -46,10 +47,12 @@ export default function CalculatorResult({ result, activeMethod }: CalculatorRes
   const stateData = stateSlug ? getStateBySlug(stateSlug) : null
 
   const showDamageCapWarning = stateData?.hasDamageCap && stateData.damageCap !== null && totalEstimate > stateData.damageCap
-  const showContributoryWarning = stateData?.faultRule === 'contributory' && faultPct > 0
-  const showModifiedComparativeWarning = 
-    (stateData?.faultRule === 'modified-comparative-50' && faultPct >= 50) ||
-    (stateData?.faultRule === 'modified-comparative-51' && faultPct > 50)
+  // Fault warnings come from the state's own faultRule via lib/faultRules.ts —
+  // pure comparative never bars, modified 50/51 bars at its threshold,
+  // contributory bars on any fault. No state names are hardcoded here.
+  const faultBar = getFaultBarStatus(stateData?.faultRule, faultPct)
+  const showContributoryWarning = faultBar === 'contributory'
+  const showModifiedComparativeWarning = faultBar === 'modified-bar'
   const showNoFaultNotice = stateData?.isNoFaultState === true
   const showFloridaNotice = stateData?.slug === 'florida'
 
@@ -197,14 +200,14 @@ export default function CalculatorResult({ result, activeMethod }: CalculatorRes
           {showContributoryWarning && (
             <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)' }}>
               <p className="text-sm font-semibold mb-1" style={{ color: '#FCA5A5' }}>⚠️ Critical:</p>
-              <p className="text-xs leading-relaxed" style={{ color: '#FCA5A5' }}>North Carolina follows pure contributory negligence. Any fault on your part — even 1% — completely bars recovery. Your estimate above assumes zero fault on your part.</p>
+              <p className="text-xs leading-relaxed" style={{ color: '#FCA5A5' }}>{stateData.name} follows pure contributory negligence. Any fault on your part — even 1% — completely bars recovery. Your estimate above assumes zero fault on your part.</p>
             </div>
           )}
 
           {showModifiedComparativeWarning && (
             <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)' }}>
               <p className="text-sm font-semibold mb-1" style={{ color: '#FCA5A5' }}>⚠️ Recovery Barred:</p>
-              <p className="text-xs leading-relaxed" style={{ color: '#FCA5A5' }}>In {stateData.name}, being {faultPct}% at fault exceeds the {stateData.faultRule === 'modified-comparative-50' ? '50' : '51'}% threshold. You would not be able to recover damages under {stateData.name} law.</p>
+              <p className="text-xs leading-relaxed" style={{ color: '#FCA5A5' }}>In {stateData.name}, being {faultPct}% at fault exceeds the {getModifiedBarThreshold(stateData.faultRule)}% threshold. You would not be able to recover damages under {stateData.name} law.</p>
             </div>
           )}
 

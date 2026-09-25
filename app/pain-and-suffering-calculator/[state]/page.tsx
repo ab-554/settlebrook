@@ -260,7 +260,8 @@ export default async function StatePainSufferingPage({ params }: { params: Promi
                 </p>
               </div>
 
-              <PainSufferingCalculator stateSlug={stateData.slug} stateName={stateData.name} />
+              {/* faultRule drives the in-form contributory warning from state data */}
+              <PainSufferingCalculator stateSlug={stateData.slug} stateName={stateData.name} faultRule={stateData.faultRule} />
             </div>
 
             {/* Sidebar */}
