@@ -7,6 +7,8 @@
 //         for the same content. Google's documentation explicitly recommends
 //         choosing one format. JSON-LD wins: it's cleaner, easier to maintain,
 //         and already present. Microdata removed here.
+// Design-refresh: native <details> styled as calm paper cards (see .faq-* in
+// globals.css). Answer HTML rendering is unchanged.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { FAQItem } from '@/lib/data/faqContent'

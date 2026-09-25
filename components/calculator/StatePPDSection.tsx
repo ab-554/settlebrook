@@ -99,13 +99,11 @@ function getBodyPartOptions(state: ScheduledLossStateSlug): { value: string; lab
     .sort((a, b) => a.label.localeCompare(b.label))
 }
 
-const bodyStyle = { color: '#94A3B8', lineHeight: '1.7' } as const
-
 function ResultRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between py-2" style={{ borderBottom: '1px solid rgba(99,179,237,0.10)' }}>
-      <span className="text-sm" style={{ color: '#94A3B8' }}>{label}</span>
-      <span className="text-sm font-semibold" style={{ color: '#F1F5F9' }}>{value}</span>
+    <div className="breakdown-row">
+      <span className="label">{label}</span>
+      <span className="value">{value}</span>
     </div>
   )
 }
@@ -161,96 +159,72 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
   const stateName = isMinnesota ? 'Minnesota' : scheduledState!.name
 
   return (
-    <div
-      className="rounded-2xl p-5 sm:p-6 mt-4"
-      style={{
-        background: 'rgba(255,255,255,0.04)',
-        backdropFilter: 'blur(16px)',
-        border: '1px solid rgba(99,179,237,0.15)',
-        borderRadius: '16px',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-      }}
-    >
-      <h3 className="text-base font-bold mb-1" style={{ color: '#F1F5F9' }}>
+    <div className="card card-pad mt-4 mb-6">
+      <h3 className="heading-serif" style={{ fontSize: 20, marginBottom: 4 }}>
         {stateName} PPD Estimator
       </h3>
-      <p className="text-xs mb-4" style={{ color: '#64748B' }}>
+      <p className="text-sm mb-4" style={{ color: 'var(--ink-3)' }}>
         Uses {stateName}&apos;s own statutory schedule, not the generic AMA-based calculator above.
       </p>
 
       {isMinnesota ? (
         <>
           <CalculatorInput
-            label="Whole-Body Impairment Rating"
+            label="Whole-body impairment rating"
             name="mn-rating"
             value={ratingPercent}
             onChange={setRatingPercent}
             suffix="%"
             placeholder="10"
+            format="decimal"
             helpText="Rated under Minn. Rules ch. 5223, as a percentage of the whole body"
           />
           <div className="mb-4">
-            <label htmlFor={dateId} className="block text-sm font-medium mb-1.5" style={{ color: '#94A3B8' }}>
-              Date of Injury
-              <span className="block text-xs mt-0.5" style={{ color: '#64748B' }}>
-                Determines which 2026 benefit table applies
-              </span>
-            </label>
+            <label htmlFor={dateId} className="field-label">Date of injury</label>
+            <span className="field-help">Determines which 2026 benefit table applies</span>
             <input
               id={dateId}
               type="date"
               value={injuryDate}
               onChange={(e) => setInjuryDate(e.target.value)}
-              className="dark-input px-4 py-3 rounded-xl"
+              className="field-input"
             />
           </div>
         </>
       ) : (
         <>
           <div className="mb-4">
-            <label htmlFor={selectId} className="block text-sm font-medium mb-1.5" style={{ color: '#94A3B8' }}>
-              Injured Body Part
-            </label>
-            <div className="relative">
+            <label htmlFor={selectId} className="field-label">Injured body part</label>
+            <div className="field-select-wrap">
               <select
                 id={selectId}
                 value={bodyPart}
                 onChange={(e) => setBodyPart(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
-                style={{
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(99,179,237,0.22)',
-                  color: '#F1F5F9',
-                  fontSize: '14px',
-                  cursor: 'pointer',
-                }}
+                className="field-select"
               >
                 {bodyPartOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value} style={{ background: '#0D1526', color: '#E2E8F0' }}>
-                    {opt.label}
-                  </option>
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
                 ))}
               </select>
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" style={{ color: '#60A5FA' }}>
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
+              <span className="field-select-chevron" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
               </span>
             </div>
           </div>
 
           <CalculatorInput
-            label={state === 'georgia' ? 'AMA Impairment Rating' : 'Percentage of Loss'}
+            label={state === 'georgia' ? 'AMA impairment rating' : 'Percentage of loss'}
             name="loss-percent"
             value={lossPercent}
             onChange={setLossPercent}
             suffix="%"
             placeholder="20"
+            format="decimal"
           />
 
           {(state === 'virginia' || state === 'georgia' || state === 'new-york') && (
             <CalculatorInput
-              label="Average Weekly Wage (AWW)"
+              label="Average weekly wage (AWW)"
               name="aww"
               value={aww}
               onChange={setAww}
@@ -262,7 +236,7 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
 
           {state === 'michigan' && (
             <CalculatorInput
-              label="Your Weekly Compensation Rate"
+              label="Your weekly compensation rate"
               name="weekly-rate-override"
               value={weeklyRateOverride}
               onChange={setWeeklyRateOverride}
@@ -273,9 +247,9 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
           )}
 
           {state === 'new-jersey' && (
-            <p className="text-xs mb-4" style={bodyStyle}>
+            <p className="text-sm mb-4" style={{ color: 'var(--ink-2)' }}>
               New Jersey&apos;s weekly rate depends on the total weeks awarded — see the{' '}
-              <a href={officialUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>
+              <a href={officialUrl} target="_blank" rel="noopener noreferrer" className="text-link">
                 official 2026 schedule
               </a>
               . This estimator shows weeks only.
@@ -285,35 +259,30 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
       )}
 
       {state === 'colorado' && (
-        <div
-          className="rounded-xl px-4 py-3 mt-4"
-          style={{ background: 'rgba(96,165,250,0.06)', border: '1px solid rgba(96,165,250,0.15)' }}
-        >
-          <p className="text-xs leading-relaxed" style={{ color: '#93C5FD' }}>
-            <strong>Injuries not on this schedule (whole-person impairment):</strong> {COLORADO_WHOLE_PERSON_EXPLANATION}
-          </p>
-        </div>
+        <p className="note note-info mt-2">
+          <strong>Injuries not on this schedule (whole-person impairment):</strong> {COLORADO_WHOLE_PERSON_EXPLANATION}
+        </p>
       )}
 
       {(scheduledResult || minnesotaResult) && (
-        <div className="mt-5 pt-4" style={{ borderTop: '1px solid rgba(99,179,237,0.15)' }}>
+        <div className="mt-5 pt-2" style={{ borderTop: '1px solid var(--line)' }} aria-live="polite">
           {scheduledResult && (
             <>
-              <ResultRow label="Scheduled Weeks" value={formatWeeks(scheduledResult.weeks)} />
+              <ResultRow label="Scheduled weeks" value={formatWeeks(scheduledResult.weeks)} />
               <ResultRow
-                label="Weekly Rate"
+                label="Weekly rate"
                 value={scheduledResult.weeklyRate !== null ? formatCurrency(scheduledResult.weeklyRate) : 'Not computed'}
               />
-              <div className="flex items-center justify-between py-2">
-                <span className="text-sm font-semibold" style={{ color: '#94A3B8' }}>Estimated Total</span>
-                <span className="text-lg font-bold" style={{ color: '#FBBF24' }}>
+              <div className="breakdown-row is-total">
+                <span className="label">Estimated total</span>
+                <span className="value text-lg" style={{ color: 'var(--accent)' }}>
                   {scheduledResult.total !== null ? formatCurrency(scheduledResult.total) : 'Not computed'}
                 </span>
               </div>
               {scheduledResult.notes.length > 0 && (
                 <ul className="mt-2 flex flex-col gap-1">
                   {scheduledResult.notes.map((note, i) => (
-                    <li key={i} className="text-xs" style={{ color: '#64748B' }}>{note}</li>
+                    <li key={i} className="text-xs" style={{ color: 'var(--ink-3)' }}>{note}</li>
                   ))}
                 </ul>
               )}
@@ -321,12 +290,12 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
           )}
           {minnesotaResult && (
             <>
-              <ResultRow label={`Table ${minnesotaResult.table} Band Amount`} value={formatCurrency(minnesotaResult.bandAmount)} />
-              <div className="flex items-center justify-between py-2">
-                <span className="text-sm font-semibold" style={{ color: '#94A3B8' }}>Estimated Lump Sum</span>
-                <span className="text-lg font-bold" style={{ color: '#FBBF24' }}>{formatCurrency(minnesotaResult.total)}</span>
+              <ResultRow label={`Table ${minnesotaResult.table} band amount`} value={formatCurrency(minnesotaResult.bandAmount)} />
+              <div className="breakdown-row is-total">
+                <span className="label">Estimated lump sum</span>
+                <span className="value text-lg" style={{ color: 'var(--accent)' }}>{formatCurrency(minnesotaResult.total)}</span>
               </div>
-              <p className="mt-2 text-xs" style={{ color: '#64748B' }}>
+              <p className="mt-2 text-xs" style={{ color: 'var(--ink-3)' }}>
                 Minimum-rate rules not applied.
               </p>
             </>
@@ -334,9 +303,9 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
         </div>
       )}
 
-      <p className="mt-4 text-xs leading-relaxed" style={{ color: '#64748B' }}>
+      <p className="mt-4 text-xs leading-relaxed" style={{ color: 'var(--ink-3)' }}>
         Estimate only. Not legal advice.{' '}
-        <a href={officialUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>
+        <a href={officialUrl} target="_blank" rel="noopener noreferrer" className="text-link">
           {citation}
         </a>
       </p>

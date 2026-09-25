@@ -1,26 +1,28 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// app/layout.tsx  —  Root layout: Inter + Bitter fonts, metadata, Header, Footer
+// app/layout.tsx  —  Root layout: Source Serif 4 + Inter fonts, metadata,
+// Header, Footer. Design-refresh (2026-09): light paper theme.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata } from 'next'
-import { Playfair_Display, Inter } from 'next/font/google'
+import { Source_Serif_4, Inter } from 'next/font/google'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import AdsenseScript from '@/components/ads/AdsenseScript'
 import './globals.css'
 
-const playfair = Playfair_Display({
+// Both are variable fonts: one file each, self-hosted by next/font, no
+// third-party request at runtime.
+const sourceSerif = Source_Serif_4({
   subsets: ['latin'],
   variable: '--font-display',
-  weight: ['600', '700', '800'],
+  weight: ['600', '700'],
   display: 'swap',
 })
 
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-body',
-  weight: ['400', '500', '600', '700'],
   display: 'swap',
 })
 
@@ -78,16 +80,25 @@ export const metadata: Metadata = {
   },
   // FIX M1: Added twitter.site handle
   twitter: { card: 'summary_large_image', site: '@settlebrook', images: ['/og-image.png'] },
-  icons: { icon: '/favicon.ico', shortcut: '/favicon-16x16.png', apple: '/apple-touch-icon.png' },
+  // app/icon.svg (file convention) adds the SVG icon link automatically; the
+  // ICO carries 16/32/48 for older browsers and Google's ≥48px requirement.
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '48x48 32x32 16x16', type: 'image/x-icon' },
+      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
   manifest: '/site.webmanifest',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="en" className={`${sourceSerif.variable} ${inter.variable}`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#050A18" />
+        <meta name="theme-color" content="#FAF7F2" />
         <meta name="google-site-verification" content="cGsiOQ_EMINsvgTrz-26yjwmn03QBNsuYxVK5cJrPzQ" />
         {/* FIX C1: Organization JSON-LD on every page for E-E-A-T signals */}
         <script
@@ -95,14 +106,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body
-        className="antialiased min-h-screen flex flex-col"
-        style={{ backgroundColor: '#080D1A', color: '#E2E8F0', fontFamily: 'var(--font-body)' }}
-      >
+      <body className="antialiased min-h-screen flex flex-col font-body" style={{ backgroundColor: 'var(--paper)', color: 'var(--ink-2)' }}>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 text-white text-sm font-semibold px-4 py-2 rounded-lg z-50"
-          style={{ background: 'linear-gradient(135deg, #3B82F6, #06B6D4)' }}
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 text-sm font-semibold px-4 py-3 rounded-lg z-50"
+          style={{ background: 'var(--ink)', color: '#FFFFFF' }}
         >
           Skip to main content
         </a>

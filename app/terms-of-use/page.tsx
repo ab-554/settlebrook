@@ -31,62 +31,31 @@ const EFFECTIVE_DATE = "September 23, 2026";
 
 export default function TermsOfUsePage() {
   return (
-    <main className="min-h-screen" style={{ backgroundColor: "#050A18" }}>
+    <main className="min-h-screen">
 
-        {/* ── HERO ── */}
-        <section
-          className="relative overflow-hidden flex flex-col items-center justify-center text-center px-4"
-          style={{
-            minHeight: '52vh',
-            background: 'radial-gradient(ellipse at top, #1E3A5F 0%, #050A18 70%)',
-          }}
-        >
-          {/* Orbs */}
-          <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none select-none">
-            <div className="orb-1 absolute rounded-full" style={{ width: 480, height: 480, top: '-10%', left: '-8%', background: 'radial-gradient(circle, rgba(96,165,250,0.18) 0%, transparent 70%)', filter: 'blur(48px)' }} />
-            <div className="orb-2 absolute rounded-full" style={{ width: 380, height: 380, bottom: '5%', right: '-5%', background: 'radial-gradient(circle, rgba(52,211,153,0.14) 0%, transparent 70%)', filter: 'blur(48px)' }} />
-            <div className="orb-3 absolute rounded-full" style={{ width: 300, height: 300, top: '45%', left: '55%', background: 'radial-gradient(circle, rgba(96,165,250,0.10) 0%, transparent 70%)', filter: 'blur(40px)' }} />
-          </div>
-
-          <div className="relative max-w-5xl mx-auto py-20 sm:py-24 flex flex-col items-center gap-8">
-            {/* Badge */}
-            <div className="animate-fade-in-up">
-              <span className="trust-pill">
-                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#34D399', animation: 'pulseGlow 2s infinite' }} />
-                Legal · Estimates Only
-              </span>
-            </div>
-
-            {/* H1 */}
-            <h1
-              className="animate-fade-in-up-d1 heading-gradient"
-              style={{ fontSize: 'clamp(36px, 6vw, 56px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em' }}
-            >
-              Terms of Use
-            </h1>
-
-            {/* Subheading */}
-            <p
-              className="animate-fade-in-up-d2 max-w-2xl text-lg leading-relaxed"
-              style={{ color: '#94A3B8' }}
-            >
+        {/* ── HEADER BAND ── */}
+        <header className="page-band">
+          <div className="container-page py-8 sm:py-12">
+            <p className="eyebrow mb-2">Legal · Estimates Only</p>
+            <h1>Terms of Use</h1>
+            <p className="lede mt-3 max-w-2xl">
               Please read these terms before using Settlebrook&rsquo;s free calculators.
             </p>
           </div>
-        </section>
+        </header>
 
-      <article className="max-w-3xl mx-auto px-6 sm:px-8 py-14 flex flex-col gap-10">
+      <article className="editorial mx-auto px-4 sm:px-6 py-10 sm:py-14 flex flex-col gap-8">
 
         {/* Header */}
         <header>
-          <p className="text-sm flex gap-5 mb-6" style={{ color: "#64748B" }}>
+          <p className="text-sm flex gap-5 mb-6" style={{ color: 'var(--ink-3)' }}>
             <span>Effective: <time dateTime="2026-09-23">{EFFECTIVE_DATE}</time></span>
             <span>Last updated: <time dateTime="2026-09-23">{LAST_UPDATED}</time></span>
           </p>
-          <p className="mt-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <p className="mt-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             These Terms of Use (&ldquo;Terms&rdquo;) govern your access to and use of the
             Settlebrook website located at{" "}
-            <Link href="/" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+            <Link href="/" className="hover:opacity-80" style={{ color: 'var(--accent)' }}>
               settlebrook.com
             </Link>{" "}
             and all associated pages, tools, and content (collectively, the &ldquo;Site&rdquo;).
@@ -102,12 +71,12 @@ export default function TermsOfUsePage() {
           style={{ background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.25)" }}
         >
           <h2 id="no-legal-advice-heading" className="text-lg font-bold mb-3"
-            style={{ color: "#F87171" }}>
+            style={{ color: 'var(--danger)' }}>
             1. Not Legal Advice — Estimates Only
           </h2>
-          <div className="flex flex-col gap-3 text-sm leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-3 text-sm leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>
-              <strong style={{ color: "#F1F5F9" }}>
+              <strong style={{ color: 'var(--ink)' }}>
                 Settlebrook is not a law firm. We do not provide legal advice. Nothing
                 on this Site — including calculator outputs, articles, guides, or any
                 other content — constitutes legal advice, legal opinion, or a
@@ -129,7 +98,7 @@ export default function TermsOfUsePage() {
               settlement you receive.
             </p>
             <p>
-              <strong style={{ color: "#F1F5F9" }}>
+              <strong style={{ color: 'var(--ink)' }}>
                 You should consult a licensed personal injury attorney in your state
                 before making any decision about your claim.
               </strong>{" "}
@@ -140,11 +109,11 @@ export default function TermsOfUsePage() {
 
         {/* 2. Acceptance */}
         <section aria-labelledby="acceptance-heading">
-          <h2 id="acceptance-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="acceptance-heading" className="heading-serif mb-3"
+            style={{ fontSize: 24 }}>
             2. Acceptance of Terms
           </h2>
-          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>
               By using this Site, you represent that you are at least 18 years of age
               and have the legal capacity to enter into this agreement. If you are
@@ -164,11 +133,11 @@ export default function TermsOfUsePage() {
 
         {/* 3. No Liability */}
         <section aria-labelledby="liability-heading">
-          <h2 id="liability-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="liability-heading" className="heading-serif mb-3"
+            style={{ fontSize: 24 }}>
             3. Limitation of Liability and Disclaimers
           </h2>
-          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>
               THE SITE AND ALL CONTENT, TOOLS, AND CALCULATORS ARE PROVIDED &ldquo;AS IS&rdquo;
               AND &ldquo;AS AVAILABLE&rdquo; WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -202,11 +171,11 @@ export default function TermsOfUsePage() {
 
         {/* 4. Intellectual Property */}
         <section aria-labelledby="ip-heading">
-          <h2 id="ip-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="ip-heading" className="heading-serif mb-3"
+            style={{ fontSize: 24 }}>
             4. Intellectual Property
           </h2>
-          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>
               All content on the Site — including text, calculator logic, code,
               design elements, graphics, and the &ldquo;Settlebrook&rdquo; name and any associated
@@ -218,7 +187,7 @@ export default function TermsOfUsePage() {
               access and use the Site for personal, non-commercial informational
               purposes only. You may not:
             </p>
-            <ul className="flex flex-col gap-2 pl-4 text-sm" style={{ color: "#94A3B8", listStyleType: "disc" }}>
+            <ul className="flex flex-col gap-2 pl-4 text-sm" style={{ color: 'var(--ink-2)', listStyleType: "disc" }}>
               <li>Reproduce, copy, or distribute Site content for commercial purposes without written permission</li>
               <li>Reverse-engineer, decompile, or extract the calculator logic for use in competing products</li>
               <li>Scrape, crawl, or systematically harvest Site content through automated means</li>
@@ -235,13 +204,13 @@ export default function TermsOfUsePage() {
 
         {/* 5. Acceptable Use */}
         <section aria-labelledby="acceptable-use-heading">
-          <h2 id="acceptable-use-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="acceptable-use-heading" className="heading-serif mb-3"
+            style={{ fontSize: 24 }}>
             5. Acceptable Use
           </h2>
-          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>You agree not to use the Site to:</p>
-            <ul className="flex flex-col gap-2 pl-4 text-sm" style={{ color: "#94A3B8", listStyleType: "disc" }}>
+            <ul className="flex flex-col gap-2 pl-4 text-sm" style={{ color: 'var(--ink-2)', listStyleType: "disc" }}>
               <li>Violate any applicable federal, state, or local law or regulation</li>
               <li>Transmit any unsolicited or unauthorized advertising or promotional material</li>
               <li>Impersonate any person or entity or misrepresent your affiliation</li>
@@ -261,11 +230,11 @@ export default function TermsOfUsePage() {
 
         {/* 6. Third-Party Links */}
         <section aria-labelledby="links-heading">
-          <h2 id="links-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="links-heading" className="heading-serif mb-3"
+            style={{ fontSize: 24 }}>
             6. Third-Party Links and Advertising
           </h2>
-          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>
               The Site may contain links to third-party websites and may display
               third-party advertisements through Google AdSense. These third-party
@@ -284,11 +253,11 @@ export default function TermsOfUsePage() {
 
         {/* 7. Governing Law */}
         <section aria-labelledby="governing-law-heading">
-          <h2 id="governing-law-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="governing-law-heading" className="heading-serif mb-3"
+            style={{ fontSize: 24 }}>
             7. Governing Law
           </h2>
-          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>
               These Terms shall be governed by and construed in accordance with the
               laws of the State of Delaware, United States, without regard to its
@@ -307,15 +276,15 @@ export default function TermsOfUsePage() {
 
         {/* 8. Dispute Resolution */}
         <section aria-labelledby="dispute-heading">
-          <h2 id="dispute-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="dispute-heading" className="heading-serif mb-3"
+            style={{ fontSize: 24 }}>
             8. Dispute Resolution
           </h2>
-          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>
               Before initiating any formal legal proceeding, we encourage you to
               contact us at{" "}
-              <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+              <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: 'var(--accent)' }}>
                 contact@settlebrook.com
               </a>{" "}
               to attempt informal resolution of any dispute. Most issues can be
@@ -340,22 +309,22 @@ export default function TermsOfUsePage() {
 
         {/* 9. Contact */}
         <section aria-labelledby="terms-contact-heading">
-          <h2 id="terms-contact-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="terms-contact-heading" className="heading-serif mb-3"
+            style={{ fontSize: 24 }}>
             9. Contact Information
           </h2>
-          <div className="flex flex-col gap-3 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-3 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>Questions about these Terms should be directed to:</p>
             <div className="rounded-xl p-4 text-sm flex flex-col gap-1"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(99,179,237,0.15)" }}>
-              <p className="font-semibold" style={{ color: "#F1F5F9" }}>Settlebrook</p>
+              style={{ background: 'var(--surface)', border: "1px solid var(--line)" }}>
+              <p className="font-semibold" style={{ color: 'var(--ink)' }}>Settlebrook</p>
               <p>Email:{" "}
-                <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+                <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: 'var(--accent)' }}>
                   contact@settlebrook.com
                 </a>
               </p>
               <p>Website:{" "}
-                <a href="/contact" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+                <a href="/contact" className="hover:opacity-80" style={{ color: 'var(--accent)' }}>
                   settlebrook.com/contact
                 </a>
               </p>

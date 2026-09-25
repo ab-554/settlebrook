@@ -84,46 +84,20 @@ export default function EditorialPolicyPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <main className="min-h-screen" style={{ backgroundColor: '#050A18' }}>
+      <main className="min-h-screen">
 
-        {/* ── HERO ── */}
-        <section
-          className="relative overflow-hidden flex flex-col items-center justify-center text-center px-4"
-          style={{
-            minHeight: '46vh',
-            background: 'radial-gradient(ellipse at top, #1E3A5F 0%, #050A18 70%)',
-          }}
-        >
-          <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none select-none">
-            <div className="orb-1 absolute rounded-full" style={{ width: 480, height: 480, top: '-10%', left: '-8%', background: 'radial-gradient(circle, rgba(96,165,250,0.18) 0%, transparent 70%)', filter: 'blur(48px)' }} />
-            <div className="orb-2 absolute rounded-full" style={{ width: 380, height: 380, bottom: '5%', right: '-5%', background: 'radial-gradient(circle, rgba(52,211,153,0.14) 0%, transparent 70%)', filter: 'blur(48px)' }} />
-          </div>
-
-          <div className="relative max-w-5xl mx-auto py-16 sm:py-20 flex flex-col items-center gap-6">
-            <div className="animate-fade-in-up">
-              <span className="trust-pill">
-                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#34D399', animation: 'pulseGlow 2s infinite' }} />
-                Sourcing &amp; Corrections Standards
-              </span>
-            </div>
-
-            <h1
-              className="animate-fade-in-up-d1 heading-gradient"
-              style={{ fontSize: 'clamp(36px, 6vw, 56px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em' }}
-            >
-              Editorial Policy
-            </h1>
-
-            <p
-              className="animate-fade-in-up-d2 max-w-2xl text-lg leading-relaxed"
-              style={{ color: '#94A3B8' }}
-            >
+        {/* ── HEADER BAND ── */}
+        <header className="page-band">
+          <div className="container-page py-8 sm:py-12">
+            <p className="eyebrow mb-2">Sourcing &amp; Corrections Standards</p>
+            <h1>Editorial Policy</h1>
+            <p className="lede mt-3 max-w-2xl">
               How we source legal figures, how often we check them, and what happens when we get one wrong.
             </p>
           </div>
-        </section>
+        </header>
 
-        <article className="max-w-7xl mx-auto px-6 sm:px-8 py-14 flex flex-col gap-12">
+        <article className="container-page py-10 sm:py-14 flex flex-col gap-10">
 
           <BreadcrumbNav
             items={[
@@ -136,18 +110,18 @@ export default function EditorialPolicyPage() {
           <section aria-labelledby="sourcing-heading">
             <h2
               id="sourcing-heading"
-              className="heading-gradient font-bold mb-4"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-3"
+              style={{ fontSize: 26 }}
             >
               How We Source Legal and Statutory Figures
             </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: '#94A3B8' }}>
+            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 Every statutory figure on Settlebrook &mdash; damage caps, comparative fault rules, statutes of limitations, workers&rsquo; comp benefit rates and duration caps &mdash; is checked against a primary source: the state&rsquo;s own statute text, a state court decision, or an official state agency page (a workers&rsquo; compensation board, insurance department, or labor department). We do not source legal figures from aggregator sites, law-firm marketing pages, or other calculator websites, and we do not repeat a commonly cited figure without independently confirming it on an official page first.
               </p>
               <p>
                 Where an official source could not be independently confirmed &mdash; a page blocked from automated access, a scanned or image-only document, a JavaScript-rendered table with no extractable text &mdash; we say so on the page rather than publish a guessed number. Our{' '}
-                <Link href="/workers-comp-maximum-weekly-benefits-by-state/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                <Link href="/workers-comp-maximum-weekly-benefits-by-state/" className="text-link">
                   workers&rsquo; comp maximum weekly benefits table
                 </Link>
                 {' '}is a working example of this: figures that couldn&rsquo;t be confirmed against an official source are marked &ldquo;Pending official confirmation&rdquo; instead of filled in.
@@ -159,12 +133,12 @@ export default function EditorialPolicyPage() {
           <section aria-labelledby="review-cycle-heading">
             <h2
               id="review-cycle-heading"
-              className="heading-gradient font-bold mb-4"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-3"
+              style={{ fontSize: 26 }}
             >
               Our Review Cycle and the &ldquo;Last Reviewed&rdquo; Date
             </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: '#94A3B8' }}>
+            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 The three calculator pages and every state-specific page display a &ldquo;Last reviewed&rdquo; stamp under the headline. That date marks the last time someone at Settlebrook re-checked the page&rsquo;s legal claims against current law and current official sources &mdash; not the last time the page&rsquo;s wording or design changed. A page can be edited for clarity or formatting without its review date moving; only a legal re-verification updates it.
               </p>
@@ -178,19 +152,19 @@ export default function EditorialPolicyPage() {
           <section aria-labelledby="corrections-heading">
             <h2
               id="corrections-heading"
-              className="heading-gradient font-bold mb-4"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-3"
+              style={{ fontSize: 26 }}
             >
               How to Submit a Correction
             </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: '#94A3B8' }}>
+            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 If you find a figure on Settlebrook that&rsquo;s outdated, mis-sourced, or wrong, use the{' '}
-                <Link href="/contact/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                <Link href="/contact/" className="text-link">
                   contact form
                 </Link>
                 {' '}or email{' '}
-                <a href="mailto:contact@settlebrook.com" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                <a href="mailto:contact@settlebrook.com" className="text-link">
                   contact@settlebrook.com
                 </a>
                 {' '}with the page URL, the figure you believe is wrong, and the correct figure with its source if you have one. Corrections to legal and statutory figures are prioritized over other feedback and are typically reviewed within 2 business days.
@@ -205,12 +179,12 @@ export default function EditorialPolicyPage() {
           <section aria-labelledby="not-advice-heading">
             <h2
               id="not-advice-heading"
-              className="heading-gradient font-bold mb-4"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-3"
+              style={{ fontSize: 26 }}
             >
               This Is Not Legal Advice
             </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: '#94A3B8' }}>
+            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 Settlebrook&rsquo;s calculators and editorial content are informational tools, not legal advice, and using them does not create an attorney-client relationship. We verify the legal figures we cite, but we cannot assess the specific facts of any individual case &mdash; liability, evidence quality, venue, and negotiation all affect a real settlement in ways no calculator can. Anyone with an active claim should consult a licensed attorney in their state before making a decision.
               </p>
@@ -221,19 +195,19 @@ export default function EditorialPolicyPage() {
           <section aria-labelledby="byline-heading">
             <h2
               id="byline-heading"
-              className="heading-gradient font-bold mb-4"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-3"
+              style={{ fontSize: 26 }}
             >
               Byline Policy
             </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: '#94A3B8' }}>
+            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 Content on Settlebrook is published under a single byline, &ldquo;Settlebrook Editorial,&rdquo; rather than attributed to individual writers. This reflects how the site is actually produced: every page goes through the same sourcing and review process described above regardless of who drafted it, so the byline names the process and the publication, not a person. See our{' '}
-                <Link href="/methodology/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                <Link href="/methodology/" className="text-link">
                   methodology page
                 </Link>
                 {' '}for the formulas and calculation logic behind each tool, and our{' '}
-                <Link href="/about/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                <Link href="/about/" className="text-link">
                   about page
                 </Link>
                 {' '}for who runs the site.

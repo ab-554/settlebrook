@@ -89,53 +89,22 @@ export default function MethodologyPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <main className="min-h-screen" style={{ backgroundColor: '#050A18' }}>
+      <main className="min-h-screen">
 
-        {/* ── HERO ── */}
-        <section
-          className="relative overflow-hidden flex flex-col items-center justify-center text-center px-4"
-          style={{
-            minHeight: '52vh',
-            background: 'radial-gradient(ellipse at top, #1E3A5F 0%, #050A18 70%)',
-          }}
-        >
-          {/* Orbs */}
-          <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none select-none">
-            <div className="orb-1 absolute rounded-full" style={{ width: 480, height: 480, top: '-10%', left: '-8%', background: 'radial-gradient(circle, rgba(96,165,250,0.18) 0%, transparent 70%)', filter: 'blur(48px)' }} />
-            <div className="orb-2 absolute rounded-full" style={{ width: 380, height: 380, bottom: '5%', right: '-5%', background: 'radial-gradient(circle, rgba(52,211,153,0.14) 0%, transparent 70%)', filter: 'blur(48px)' }} />
-            <div className="orb-3 absolute rounded-full" style={{ width: 300, height: 300, top: '45%', left: '55%', background: 'radial-gradient(circle, rgba(96,165,250,0.10) 0%, transparent 70%)', filter: 'blur(40px)' }} />
-          </div>
-
-          <div className="relative max-w-5xl mx-auto py-20 sm:py-24 flex flex-col items-center gap-8">
-            {/* Badge */}
-            <div className="animate-fade-in-up">
-              <span className="trust-pill">
-                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#34D399', animation: 'pulseGlow 2s infinite' }} />
-                Open Formulas · Cited Sources · No Data Collection
-              </span>
-            </div>
-
-            {/* H1 */}
-            <h1
-              className="animate-fade-in-up-d1 heading-gradient"
-              style={{ fontSize: 'clamp(36px, 6vw, 56px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em' }}
-            >
-              How Settlebrook Works
-            </h1>
-
-            {/* Subheading */}
-            <p
-              className="animate-fade-in-up-d2 max-w-2xl text-lg leading-relaxed"
-              style={{ color: '#94A3B8' }}
-            >
+        {/* ── HEADER BAND ── */}
+        <header className="page-band">
+          <div className="container-page py-8 sm:py-12">
+            <p className="eyebrow mb-2">Open Formulas · Cited Sources · No Data Collection</p>
+            <h1>How Settlebrook Works</h1>
+            <p className="lede mt-3 max-w-2xl">
               Every formula we run, every source we verify against, and every limit
               on what these tools can tell you.
             </p>
           </div>
-        </section>
+        </header>
 
         {/* Main content */}
-        <article className="max-w-7xl mx-auto px-6 sm:px-8 py-14 flex flex-col gap-12">
+        <article className="container-page py-10 sm:py-14 flex flex-col gap-10">
 
           {/* Breadcrumb */}
           <BreadcrumbNav
@@ -149,12 +118,12 @@ export default function MethodologyPage() {
           <section aria-labelledby="formulas-heading">
             <h2
               id="formulas-heading"
-              className="heading-gradient font-bold mb-4"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-3"
+              style={{ fontSize: 26 }}
             >
               Our Formulas Are Public
             </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: '#94A3B8' }}>
+            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 Every calculator on Settlebrook uses the two methods actually used in
                 US personal injury practice: the multiplier method, which multiplies
@@ -174,12 +143,12 @@ export default function MethodologyPage() {
           <section aria-labelledby="sources-heading">
             <h2
               id="sources-heading"
-              className="heading-gradient font-bold mb-4"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-3"
+              style={{ fontSize: 26 }}
             >
               State Law Figures Come From Official Sources
             </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: '#94A3B8' }}>
+            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 Statutory figures on Settlebrook state pages — maximum weekly benefit
                 rates, damage caps, statutes of limitations, and fault rules — are
@@ -203,12 +172,12 @@ export default function MethodologyPage() {
           <section aria-labelledby="review-heading">
             <h2
               id="review-heading"
-              className="heading-gradient font-bold mb-4"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-3"
+              style={{ fontSize: 26 }}
             >
               How Often Content Is Reviewed
             </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: '#94A3B8' }}>
+            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 State pages are reviewed against current law on a rolling basis, and
                 each page displays its last review date. When a legislature changes a
@@ -222,12 +191,12 @@ export default function MethodologyPage() {
           <section aria-labelledby="boundaries-heading">
             <h2
               id="boundaries-heading"
-              className="heading-gradient font-bold mb-4"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-3"
+              style={{ fontSize: 26 }}
             >
               What Settlebrook Deliberately Does Not Do
             </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: '#94A3B8' }}>
+            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 Settlebrook does not provide legal advice, does not evaluate individual
                 cases, does not connect users with law firms in exchange for fees, and
@@ -246,12 +215,12 @@ export default function MethodologyPage() {
           <section aria-labelledby="who-heading">
             <h2
               id="who-heading"
-              className="heading-gradient font-bold mb-4"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-3"
+              style={{ fontSize: 26 }}
             >
               Who Runs Settlebrook
             </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: '#94A3B8' }}>
+            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 Settlebrook is an independent editorial project. Content is produced and
                 reviewed under the standards on this page, and every calculator page
@@ -259,11 +228,11 @@ export default function MethodologyPage() {
               </p>
               <p>
                 Questions or corrections: use the{' '}
-                <Link href="/contact/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                <Link href="/contact/" className="text-link">
                   contact page
                 </Link>
                 . Corrections to legal figures are prioritized. See our{' '}
-                <Link href="/editorial-policy/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
+                <Link href="/editorial-policy/" className="text-link">
                   editorial policy
                 </Link>
                 {' '}for our full sourcing standards, review cycle, and corrections process.

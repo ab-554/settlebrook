@@ -1,7 +1,7 @@
 'use client'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// components/calculator/MethodToggle.tsx  —  Tab toggle, dark glass
+// components/calculator/MethodToggle.tsx — multiplier / per diem segmented control
 // ─────────────────────────────────────────────────────────────────────────────
 
 export type CalculationMethod = 'multiplier' | 'per-diem'
@@ -12,55 +12,33 @@ interface MethodToggleProps {
 }
 
 const METHODS: Array<{ id: CalculationMethod; label: string; description: string }> = [
-  { id: 'multiplier', label: 'Multiplier Method',  description: 'Most common — used by insurance adjusters' },
-  { id: 'per-diem',  label: 'Per Diem Method',     description: 'Daily rate × recovery days' },
+  { id: 'multiplier', label: 'Multiplier method', description: 'Most common — used by insurance adjusters' },
+  { id: 'per-diem',   label: 'Per diem method',   description: 'Daily rate × recovery days' },
 ]
 
 export default function MethodToggle({ active, onChange }: MethodToggleProps) {
+  function onKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft' || e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      onChange(active === 'multiplier' ? 'per-diem' : 'multiplier')
+    }
+  }
   return (
-    <div
-      role="tablist"
-      aria-label="Calculation method"
-      className="grid grid-cols-2 gap-1 rounded-2xl p-1.5"
-      style={{
-        background: 'rgba(255,255,255,0.04)',
-        border: '1px solid rgba(99,179,237,0.15)',
-      }}
-    >
+    <div role="radiogroup" aria-label="Calculation method" className="seg" style={{ gridTemplateColumns: '1fr 1fr' }} onKeyDown={onKeyDown}>
       {METHODS.map((method) => {
         const isActive = method.id === active
         return (
           <button
             key={method.id}
             type="button"
-            role="tab"
-            aria-selected={isActive}
+            role="radio"
+            aria-checked={isActive}
+            tabIndex={isActive ? 0 : -1}
             onClick={() => onChange(method.id)}
-            className="flex flex-col items-center gap-1 rounded-xl px-3 py-3 text-center transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1"
-            style={
-              isActive
-                ? {
-                    background: 'linear-gradient(135deg, rgba(59,130,246,0.25), rgba(6,182,212,0.18))',
-                    border: '1px solid rgba(96,165,250,0.35)',
-                  }
-                : {
-                    background: 'transparent',
-                    border: '1px solid transparent',
-                  }
-            }
+            className="seg-btn"
           >
-            <span
-              className="text-sm font-semibold leading-tight"
-              style={{ color: isActive ? '#F1F5F9' : '#94A3B8' }}
-            >
-              {method.label}
-            </span>
-            <span
-              className="text-xs leading-tight"
-              style={{ color: isActive ? '#94A3B8' : '#64748B' }}
-            >
-              {method.description}
-            </span>
+            {method.label}
+            <span className="seg-sub">{method.description}</span>
           </button>
         )
       })}

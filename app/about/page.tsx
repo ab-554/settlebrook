@@ -56,63 +56,32 @@ const TOOLS = [
 export default function AboutPage() {
   return (
     <>
-      <main className="min-h-screen" style={{ backgroundColor: "#050A18" }}>
+      <main className="min-h-screen">
 
-        {/* ── HERO ── */}
-        <section
-          className="relative overflow-hidden flex flex-col items-center justify-center text-center px-4"
-          style={{
-            minHeight: '52vh',
-            background: 'radial-gradient(ellipse at top, #1E3A5F 0%, #050A18 70%)',
-          }}
-        >
-          {/* Orbs */}
-          <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none select-none">
-            <div className="orb-1 absolute rounded-full" style={{ width: 480, height: 480, top: '-10%', left: '-8%', background: 'radial-gradient(circle, rgba(96,165,250,0.18) 0%, transparent 70%)', filter: 'blur(48px)' }} />
-            <div className="orb-2 absolute rounded-full" style={{ width: 380, height: 380, bottom: '5%', right: '-5%', background: 'radial-gradient(circle, rgba(52,211,153,0.14) 0%, transparent 70%)', filter: 'blur(48px)' }} />
-            <div className="orb-3 absolute rounded-full" style={{ width: 300, height: 300, top: '45%', left: '55%', background: 'radial-gradient(circle, rgba(96,165,250,0.10) 0%, transparent 70%)', filter: 'blur(40px)' }} />
-          </div>
-
-          <div className="relative max-w-5xl mx-auto py-20 sm:py-24 flex flex-col items-center gap-8">
-            {/* Badge */}
-            <div className="animate-fade-in-up">
-              <span className="trust-pill">
-                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#34D399', animation: 'pulseGlow 2s infinite' }} />
-                Trusted · Free · No Signup
-              </span>
-            </div>
-
-            {/* H1 */}
-            <h1
-              className="animate-fade-in-up-d1 heading-gradient"
-              style={{ fontSize: 'clamp(36px, 6vw, 56px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em' }}
-            >
-              About Settlebrook — Free Legal Settlement Calculators
-            </h1>
-
-            {/* Subheading */}
-            <p
-              className="animate-fade-in-up-d2 max-w-2xl text-lg leading-relaxed"
-              style={{ color: '#94A3B8' }}
-            >
+        {/* ── HEADER BAND ── */}
+        <header className="page-band">
+          <div className="container-page py-8 sm:py-12">
+            <p className="eyebrow mb-2">Trusted · Free · No Signup</p>
+            <h1>About Settlebrook — Free Legal Settlement Calculators</h1>
+            <p className="lede mt-3 max-w-2xl">
               Free legal settlement calculators built for everyday Americans — not lawyers.
             </p>
           </div>
-        </section>
+        </header>
 
         {/* Main content */}
-        <article className="max-w-7xl mx-auto px-6 sm:px-8 py-14 flex flex-col gap-12">
+        <article className="container-page py-10 sm:py-14 flex flex-col gap-10">
 
           {/* What Settlebrook is */}
           <section aria-labelledby="what-heading">
             <h2
               id="what-heading"
-              className="heading-gradient font-bold mb-4"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-3"
+              style={{ fontSize: 26 }}
             >
               What Settlebrook Is
             </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 Settlebrook is a free set of settlement estimate tools for people with
                 injury claims in the United States. Three calculators cover the most
@@ -122,11 +91,11 @@ export default function AboutPage() {
                 There is no signup and no paywall. Your calculator inputs are never
                 transmitted anywhere — all figures stay in your browser. The site
                 itself runs on Google Analytics and Google AdSense, and our{' '}
-                <Link href="/contact/" className="underline transition-colors" style={{ color: "#60A5FA" }}>
+                <Link href="/contact/" className="text-link">
                   contact form
                 </Link>{' '}
                 is processed by Formspree; see our{' '}
-                <Link href="/privacy-policy/" className="underline transition-colors" style={{ color: "#60A5FA" }}>
+                <Link href="/privacy-policy/" className="text-link">
                   privacy policy
                 </Link>{' '}
                 for details.
@@ -138,12 +107,12 @@ export default function AboutPage() {
           <section aria-labelledby="why-heading">
             <h2
               id="why-heading"
-              className="heading-gradient font-bold mb-4"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-3"
+              style={{ fontSize: 26 }}
             >
               Why It Exists
             </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 Search for what your claim is worth and most of what you find is law
                 firm marketing. Those pages rank because someone paid to rank them,
@@ -160,12 +129,12 @@ export default function AboutPage() {
           <section aria-labelledby="accuracy-heading">
             <h2
               id="accuracy-heading"
-              className="heading-gradient font-bold mb-4"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-3"
+              style={{ fontSize: 26 }}
             >
               How We Keep It Accurate
             </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 Statutory figures — benefit caps, damage caps, filing deadlines, fault
                 rules — are checked against state statutes, state workers compensation
@@ -174,7 +143,7 @@ export default function AboutPage() {
                 re-checked on a rolling basis as legislatures change the numbers. The
                 formulas, the sources, and the review schedule are written out in full
                 in{" "}
-                <Link href="/methodology/" className="underline transition-colors" style={{ color: "#60A5FA" }}>
+                <Link href="/methodology/" className="text-link">
                   our methodology
                 </Link>
                 .
@@ -186,12 +155,12 @@ export default function AboutPage() {
           <section aria-labelledby="not-heading">
             <h2
               id="not-heading"
-              className="heading-gradient font-bold mb-4"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-3"
+              style={{ fontSize: 26 }}
             >
               What Settlebrook Is Not
             </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+            <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 Settlebrook is not a law firm and does not give legal advice. We do not
                 evaluate individual cases, and we do not sell leads or refer users to
@@ -208,18 +177,18 @@ export default function AboutPage() {
             aria-labelledby="disclaimer-heading"
             className="rounded-2xl p-6"
             style={{
-              background: "rgba(251,191,36,0.07)",
-              border: "1px solid rgba(251,191,36,0.25)",
+              background: 'var(--amber-tint)',
+              border: '1px solid var(--amber-line)',
             }}
           >
             <h2
               id="disclaimer-heading"
               className="text-lg font-bold mb-3"
-              style={{ color: "#FBBF24" }}
+              style={{ color: 'var(--amber)' }}
             >
               Important Accuracy Disclaimer
             </h2>
-            <div className="flex flex-col gap-3 text-sm leading-relaxed" style={{ color: "#94A3B8" }}>
+            <div className="flex flex-col gap-3 text-sm leading-relaxed" style={{ color: 'var(--ink-2)' }}>
               <p>
                 Settlebrook calculators produce estimates based on general industry
                 formulas and publicly documented settlement benchmarks. They are
@@ -248,8 +217,8 @@ export default function AboutPage() {
           <section aria-labelledby="tools-heading">
             <h2
               id="tools-heading"
-              className="heading-gradient font-bold mb-6"
-              style={{ fontSize: 24, fontWeight: 700 }}
+              className="heading-serif mb-4"
+              style={{ fontSize: 26 }}
             >
               Our Free Calculators
             </h2>
@@ -258,15 +227,15 @@ export default function AboutPage() {
                 <Link
                   key={tool.href}
                   href={tool.href}
-                  className="glass-card flex flex-col gap-2 p-5 no-underline"
+                  className="card flex flex-col gap-2 p-5 no-underline"
                 >
-                  <h3 className="text-sm font-bold" style={{ color: "#F1F5F9" }}>
+                  <h3 className="text-sm font-bold" style={{ color: 'var(--ink)' }}>
                     {tool.title}
                   </h3>
-                  <p className="text-xs leading-relaxed" style={{ color: "#94A3B8" }}>
+                  <p className="text-xs leading-relaxed" style={{ color: 'var(--ink-2)' }}>
                     {tool.desc}
                   </p>
-                  <span className="mt-auto text-xs font-semibold" style={{ color: "#60A5FA" }}>
+                  <span className="mt-auto text-xs font-semibold" style={{ color: 'var(--accent)' }}>
                     Use calculator →
                   </span>
                 </Link>

@@ -120,20 +120,24 @@ Organization JSON-LD, GA4 (`G-K3PV0YLHFG`), the AdSense script (`ca-pub-96425254
 
 ## Design system — do not change without instruction
 
+Light paper theme (design-refresh, September 2026). Canonical tokens are CSS custom
+properties in `app/globals.css`; `AGENTS.md` → Design System carries the full table with
+measured contrast ratios. Use `var(--token)` inline or the Tailwind aliases.
+
 ```
-Background        #050A18                 Body text     #E2E8F0
-Card background   rgba(255,255,255,0.04) + backdrop-blur 16px
-Card border       rgba(99,179,237,0.15)
-Primary accent    #60A5FA                 Muted text    #94A3B8
-Secondary accent  #34D399                 Gold/amounts  #FBBF24
-Button gradient   linear-gradient(135deg, #3B82F6, #06B6D4)
-Font display      Playfair Display (--font-display) — headings, logo, H1–H3
-Font body         Inter (--font-body) — body text, labels, inputs, nav
+Paper            #FAF7F2  (--paper)      Ink / headings   #1B2430  (--ink)
+Paper band       #F3EEE6  (--paper-2)    Body prose       #334151  (--ink-2)
+Surface / cards  #FFFFFF  (--surface)    Muted / labels   #5B6774  (--ink-3)
+Hairline         #E3DCD0  (--line)       Accent (links, buttons, result amount)  #0E5E52 (--accent)
+Amber (deadlines) #8A5200 (--amber)      Danger (errors)  #B3261E  (--danger)
+Font display     Source Serif 4 (--font-display) — H1–H3, wordmark
+Font body        Inter (--font-body) — body, UI, inputs, nav; money uses tabular-nums
 ```
 
-Glassmorphism for all cards/panels: the card background + blur + border above, `border-radius: 16px`, `box-shadow: 0 8px 32px rgba(0,0,0,0.3)`.
-
-Note that `tailwind.config.ts` defines a `brand.*` palette with slightly different hex values than the list above, and most pages set the design-system colors inline instead. Match whatever the surrounding file already does rather than converting between the two.
+Cards: `.card` (surface, 1px `--line`, 12px radius, `--shadow-card`); `.card-flat` without shadow.
+Notes: `.note`, `.note-info`, `.note-caution`, `.note-danger`. Buttons: `.btn-primary`,
+`.btn-secondary`, `.btn-ghost` (44px min). Prose: wrap long-form content in `.editorial`.
+No gradients, no glassmorphism, no floating animations; motion respects `prefers-reduced-motion`.
 
 ## SEO targets
 

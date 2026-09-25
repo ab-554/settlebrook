@@ -1,141 +1,138 @@
 'use client'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// components/layout/Header.tsx  —  Glassmorphism sticky nav
+// components/layout/Header.tsx — sticky paper header
+// Desktop: brand · three calculators · States (searchable) · Guides ·
+// Benefits table. Mobile: brand + a real <button> menu (aria-expanded) that
+// opens a panel with the same links and the inline state picker.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import { useEffect, useId, useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { BrandWordmark } from '@/components/ui/Brand'
+import StatePicker, { StatePickerList } from './StatePicker'
 
 const CALC_NAV = [
-  { label: 'Pain & Suffering', href: '/pain-and-suffering-calculator/', short: 'Pain & Suffering' },
-  { label: 'Car Accident',     href: '/car-accident-settlement-calculator/', short: 'Car Accident' },
-  { label: 'Workers Comp',     href: '/workers-comp-settlement-calculator/', short: 'Workers Comp' },
+  { label: 'Pain & Suffering', href: '/pain-and-suffering-calculator/' },
+  { label: 'Car Accident',     href: '/car-accident-settlement-calculator/' },
+  { label: 'Workers Comp',     href: '/workers-comp-settlement-calculator/' },
 ]
 
-const SITE_NAV = [
-  { label: 'About',   href: '/about/',   short: 'About' },
-  { label: 'Contact', href: '/contact/', short: 'Contact' },
+const MORE_NAV = [
+  { label: 'Guides',         href: '/blog/' },
+  { label: 'Benefits table', href: '/workers-comp-maximum-weekly-benefits-by-state/' },
 ]
-
-const ALL_NAV_ITEMS = [...CALC_NAV, ...SITE_NAV]
 
 export default function Header() {
-  const pathname = usePathname()
-  const isActive = (href: string) => pathname.startsWith(href)
+  const pathname = usePathname() ?? '/'
+  const [open, setOpen] = useState(false)
+  const menuId = useId()
+
+  // Close the mobile menu on route change and on Escape.
+  useEffect(() => { setOpen(false) }, [pathname])
+  useEffect(() => {
+    if (!open) return
+    function onKey(e: KeyboardEvent) { if (e.key === 'Escape') setOpen(false) }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
+
+  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
 
   return (
-    <header
-      className="sticky top-0 z-40"
-      style={{
-        background: 'rgba(5, 10, 24, 0.82)',
-        backdropFilter: 'blur(18px)',
-        WebkitBackdropFilter: 'blur(18px)',
-        borderBottom: '1px solid rgba(99,179,237,0.12)',
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-6 sm:px-8">
-        <div className="flex items-center justify-between h-15" style={{ height: '60px' }}>
+    <header className="site-header">
+      <div className="container-page">
+        <div className="flex items-center justify-between" style={{ height: 'var(--header-h)' }}>
 
-          {/* Logo */}
-          <Link href="/" className="flex items-center flex-shrink-0 group" aria-label="Settlebrook home">
-            <Image src="/logo.png" alt="Settlebrook" width={160} height={40} priority />
+          <Link href="/" className="flex items-center flex-shrink-0 rounded-md" aria-label="Settlebrook home">
+            <BrandWordmark size={28} />
           </Link>
 
           {/* Desktop nav */}
-          <nav aria-label="Main navigation" className="hidden sm:flex items-center gap-1">
-            {CALC_NAV.map((item) => {
-              const active = isActive(item.href)
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={active ? 'page' : undefined}
-                  className="px-3 py-1.5 rounded-xl text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-                  style={
-                    active
-                      ? { background: 'rgba(96,165,250,0.15)', color: '#60A5FA', border: '1px solid rgba(96,165,250,0.30)' }
-                      : { color: '#94A3B8', border: '1px solid transparent' }
-                  }
-                >
-                  {item.short}
-                </Link>
-              )
-            })}
-            {/* Divider */}
-            <span className="mx-1 h-4 w-px" style={{ backgroundColor: 'rgba(99,179,237,0.18)' }} aria-hidden="true" />
-            {SITE_NAV.map((item) => {
-              const active = pathname === item.href || pathname === item.href.slice(0, -1)
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={active ? 'page' : undefined}
-                  className="px-3 py-1.5 rounded-xl text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-                  style={
-                    active
-                      ? { background: 'rgba(96,165,250,0.15)', color: '#60A5FA', border: '1px solid rgba(96,165,250,0.30)' }
-                      : { color: '#94A3B8', border: '1px solid transparent' }
-                  }
-                >
-                  {item.short}
-                </Link>
-              )
-            })}
+          <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-0.5">
+            {CALC_NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="nav-link"
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <span aria-hidden="true" className="mx-1 h-5 w-px" style={{ background: 'var(--line-strong)' }} />
+            <StatePicker />
+            {MORE_NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="nav-link"
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
 
-          {/* Mobile hamburger */}
-          <div className="sm:hidden">
-            <input type="checkbox" id="mobile-menu-toggle" className="peer sr-only" />
-            <label
-              htmlFor="mobile-menu-toggle"
-              className="flex flex-col justify-center items-center w-8 h-8 gap-1.5 cursor-pointer rounded"
-              aria-label="Toggle navigation"
-            >
-              <span className="w-5 h-0.5 rounded-full" style={{ backgroundColor: '#94A3B8' }} />
-              <span className="w-5 h-0.5 rounded-full" style={{ backgroundColor: '#94A3B8' }} />
-              <span className="w-5 h-0.5 rounded-full" style={{ backgroundColor: '#94A3B8' }} />
-            </label>
-            <nav
-              aria-label="Mobile navigation"
-              className="absolute top-[60px] left-0 right-0 hidden peer-checked:block shadow-2xl z-50"
-              style={{
-                background: 'rgba(5,10,24,0.97)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                borderBottom: '1px solid rgba(99,179,237,0.12)',
-              }}
-            >
-              <ul className="max-w-7xl mx-auto px-6 py-3 flex flex-col gap-1">
-                {ALL_NAV_ITEMS.map((item, idx) => {
-                  const active = isActive(item.href)
-                  const isFirstSite = idx === CALC_NAV.length
-                  return (
-                    <li key={item.href}>
-                      {isFirstSite && (
-                        <div className="my-1 mx-4 h-px" style={{ backgroundColor: 'rgba(99,179,237,0.12)' }} aria-hidden="true" />
-                      )}
-                      <Link
-                        href={item.href}
-                        aria-current={active ? 'page' : undefined}
-                        className="block px-4 py-2.5 rounded-xl text-sm font-medium transition-colors"
-                        style={
-                          active
-                            ? { background: 'rgba(96,165,250,0.15)', color: '#60A5FA' }
-                            : { color: '#94A3B8' }
-                        }
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  )
-                })}
-              </ul>
-            </nav>
-          </div>
-
+          {/* Mobile menu button */}
+          <button
+            type="button"
+            className="lg:hidden btn-ghost"
+            style={{ minWidth: 44, padding: '0 10px' }}
+            aria-expanded={open}
+            aria-controls={menuId}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
+            <span className="text-sm font-semibold mr-1.5" aria-hidden="true">Menu</span>
+            {open ? (
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round">
+                <path d="M6 6l12 12M18 6 6 18" />
+              </svg>
+            ) : (
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round">
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+            )}
+          </button>
         </div>
+      </div>
+
+      {/* Mobile panel */}
+      <div
+        id={menuId}
+        hidden={!open}
+        className="lg:hidden"
+        style={{ borderTop: '1px solid var(--line)', background: 'var(--paper)' }}
+      >
+        <nav aria-label="Mobile navigation" className="container-page py-3">
+          <p className="eyebrow px-3 pt-1 pb-1">Calculators</p>
+          <ul className="flex flex-col">
+            {CALC_NAV.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="nav-menu-item" aria-current={isActive(item.href) ? 'page' : undefined}>
+                  {item.label}
+                  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="m9 6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </Link>
+              </li>
+            ))}
+            {MORE_NAV.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="nav-menu-item" aria-current={isActive(item.href) ? 'page' : undefined}>
+                  {item.label}
+                  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="m9 6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--line)' }}>
+            <p className="eyebrow px-3 pb-2">Find your state</p>
+            <div className="px-3 pb-2">
+              <StatePickerList onNavigate={() => setOpen(false)} />
+            </div>
+          </div>
+        </nav>
       </div>
     </header>
   )
