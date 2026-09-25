@@ -14,6 +14,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import EditorialLayout from '@/components/ui/EditorialLayout'
+import BlogRail from '@/components/ui/BlogRail'
 
 const canonicalUrl = '/blog/ppd-settlement-calculator-guide/'
 
@@ -134,7 +136,7 @@ const faqSchema = {
 // ─── Shared inline styles (match the [state] editorial templates) ─────────────
 
 const bodyStyle = { color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' } as const
-const linkStyle = { color: 'var(--accent)' } as const
+const linkStyle = { color: 'var(--primary)' } as const
 const ruleStyle = { borderColor: 'var(--line)', margin: '36px 0' } as const
 
 export default function PPDSettlementCalculatorGuidePost() {
@@ -152,7 +154,7 @@ export default function PPDSettlementCalculatorGuidePost() {
       <main className="min-h-screen">
 
         {/* ── PAGE HEADER ── */}
-        <header className="page-band">
+        <header className="hero-band">
           <div className="container-page py-8 sm:py-10">
             <BreadcrumbNav items={[
               { label: 'Home', href: '/' },
@@ -174,8 +176,9 @@ export default function PPDSettlementCalculatorGuidePost() {
         </header>
 
         {/* ── ARTICLE ── */}
-        <article className="container-page py-10 sm:py-12">
-          <div className="editorial">
+        <div className="container-page py-10 sm:py-14">
+          <EditorialLayout rootId="editorial-root" rail={<BlogRail currentSlug={canonicalUrl} />}>
+          <article className="editorial">
 
             <p style={bodyStyle}>Your doctor says you have reached maximum medical improvement, and they assign you an impairment rating on a medical form. You hold this piece of paper and wonder what it means for your bank account. A permanent partial disability settlement represents compensation for a lasting injury that does not leave you totally disabled, but figuring out exactly how much money that rating is worth can be confusing. The short answer depends entirely on the specific formula used in your state.</p>
             <p style={bodyStyle}>A ppd settlement calculator models this state-level math to give you a clearer picture of your expected payout. This guide explains the exact machinery behind those calculations so you can see where the numbers come from. You will understand how insurance companies translate a doctor&apos;s medical opinion into a strict dollar figure.</p>
@@ -183,14 +186,14 @@ export default function PPDSettlementCalculatorGuidePost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">What Is a PPD Rating and Who Assigns It?</h2>
+            <h2 className="heading-display h2-editorial">What Is a PPD Rating and Who Assigns It?</h2>
             <p style={bodyStyle}>A permanent partial disability rating is a strict medical assessment translated into a numerical percentage. Your primary treating physician assigns this rating at the end of your active treatment, but they do this only after you reach maximum medical improvement. This medical milestone means your condition has stabilized completely, and the doctor determines that further medical treatment will not significantly change or improve your physical recovery status. At this exact point, they evaluate whatever permanent physical loss remains in your body.</p>
             <p style={bodyStyle}>Physicians use formal medical guidelines to ensure consistency in these evaluations across different patients. Most states require doctors to reference the AMA Guides to the Evaluation of Permanent Impairment, though the specific edition they use varies entirely by state. Some states mandate the strict use of the Sixth Edition, while others rely exclusively on the Fifth or Fourth Edition. The specific edition your doctor uses directly impacts your final impairment rating settlement.</p>
             <p style={bodyStyle}>The doctor assigns your numerical rating in one of two distinct ways. They might give you a scheduled body part rating, which looks like a percentage of loss to your arm, hand, leg, or foot. Alternatively, they might assign a whole person impairment rating. A scheduled rating applies to extremities and eyes in most legal jurisdictions, whereas a whole person rating generally applies to spine injuries, head injuries, or severe internal organ damage. A 10 percent rating to an arm means something very different than a 10 percent whole person rating. The type of rating dictates exactly which part of the state formula applies to your workers comp impairment rating.</p>
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">The Basic PPD Formula Most States Use</h2>
+            <h2 className="heading-display h2-editorial">The Basic PPD Formula Most States Use</h2>
             <p style={bodyStyle}>Every state handles workers compensation differently, yet most jurisdictions still rely on a very similar mathematical framework to determine your final payout. An impairment rating payout calculator typically requires three main variables to run the math: the number of weeks assigned to your specific injury, your medical impairment percentage, and your weekly compensation rate.</p>
             <p style={bodyStyle}>The state legislature assigns a maximum number of weeks of pay for the total loss of a specific body part or the whole person. Your personal impairment rating is then multiplied by that maximum number of statutory weeks, giving you the exact number of weeks you will receive benefit checks. Finally, you multiply that resulting number of weeks by your exact weekly compensation rate. This rate is typically two-thirds of your pre-injury average weekly wage, though most states cap it at a statutory maximum limit.</p>
             <p style={bodyStyle}>We can look at one fully worked illustrative example to show how the mechanics of a ppd rating payout actually function in the real world. Imagine you suffer a severe shoulder injury on a construction site, and the treating doctor assigns a 10 percent impairment to your arm after you finish physical therapy. The state formula assigns a total of 220 weeks for the complete physical loss of an arm. Your pre-injury average weekly wage was $900 based on your payroll records, which means your calculated compensation rate sits at $600. This $600 is exactly two-thirds of your average weekly wage.</p>
@@ -199,7 +202,7 @@ export default function PPDSettlementCalculatorGuidePost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Why the Same Injury Pays Differently by State</h2>
+            <h2 className="heading-display h2-editorial">Why the Same Injury Pays Differently by State</h2>
             <p style={bodyStyle}>You might suffer the exact same injury as someone in a neighboring state and walk away with a vastly different settlement amount. State borders dictate the entire financial value of a workers compensation claim, because the main variables in the standard formula change completely the moment you cross a state line.</p>
             <p style={bodyStyle}>State legislatures assign completely different statutory weeks for the exact same body parts. One state legislature might value an arm at 220 weeks, while a neighboring state might value that exact same arm at 312 weeks. The maximum weekly compensation rates also vary wildly across the country. High cost-of-living states often set high maximum weekly caps to protect workers, whereas other states keep those weekly wage caps relatively low. A high earner in a low-cap state loses a significant portion of their potential settlement value. You can see how these differences compound when you run your personal numbers through a general <Link href="/workers-comp-settlement-calculator/" style={linkStyle}>workers comp settlement calculator</Link>.</p>
             <p style={bodyStyle}>Different AMA Guides editions also alter the final mathematical outcome. A serious knee injury evaluated under the Fourth Edition often yields a very different impairment percentage than the exact same knee injury evaluated under the Sixth Edition. Some jurisdictions even abandon the impairment-based formula entirely and use a wage-loss system instead. In a wage-loss system, your final compensation depends on your actual reduction in earning capacity rather than a strict medical percentage point.</p>
@@ -207,7 +210,7 @@ export default function PPDSettlementCalculatorGuidePost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Lump Sum vs Structured PPD Settlements</h2>
+            <h2 className="heading-display h2-editorial">Lump Sum vs Structured PPD Settlements</h2>
             <p style={bodyStyle}>You often face a choice between receiving ongoing weekly checks or accepting a single lump sum payout. The standard state formula calculates your total benefit amount in weeks of pay, and the insurance company can simply mail you a check every single week until those calculated weeks run out. Many injured workers prefer to negotiate a lump sum settlement that pays the entire remaining amount all at once.</p>
             <p style={bodyStyle}>Insurance companies generally prefer to close claims completely. A lump sum settlement often requires you to sign a compromise and release agreement, which closes your claim permanently. Some states also allow settlements that pay a lump sum while leaving future medical coverage open, so the terms matter as much as the number. Under a full compromise and release, you receive a single large check upfront, but you give up your right to future medical care paid by the workers compensation insurer. You also surrender the right to reopen the claim if your physical condition worsens years down the road.</p>
             <p style={bodyStyle}>When you negotiate a lump sum, the insurance company will often apply present value discounting to the math. Money paid to you today is worth more than money paid out slowly over several years, so the insurer will reduce the total mathematical value of your weekly checks by a specific percentage to account for the immediate cash payout.</p>
@@ -215,7 +218,7 @@ export default function PPDSettlementCalculatorGuidePost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">What Can Change Your PPD Payout</h2>
+            <h2 className="heading-display h2-editorial">What Can Change Your PPD Payout</h2>
             <p style={bodyStyle}>The standard formula provides a firm mathematical baseline, but several real-world factors can still change what you actually walk away with. Your initial medical impairment rating is rarely the final word if a financial dispute arises. Insurance companies frequently disagree with high ratings from treating physicians and will demand an independent medical examination. Their chosen doctor will almost always assign a lower impairment percentage to your injury, which creates an immediate dispute over the true workers comp impairment rating.</p>
             <p style={bodyStyle}>Attorney involvement significantly shifts the settlement dynamics. A lawyer will often push back against a low independent medical examination rating, and they might negotiate a financial compromise between the two conflicting medical ratings. They might also take the medical dispute to a formal hearing before a judge. The insurance company knows that fighting a represented worker costs real money and introduces risk. This reality often leads to higher settlement offers to avoid ongoing litigation costs.</p>
             <p style={bodyStyle}>Returning to work also influences the final payout in many specific jurisdictions. If you return to work at your exact same wages, some states limit your compensation strictly to the impairment rating figures. Conversely, if you return to work at reduced wages because of your new injury restrictions, you might qualify for additional wage loss benefits on top of the standard impairment rating payout.</p>
@@ -223,30 +226,31 @@ export default function PPDSettlementCalculatorGuidePost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">FAQ</h2>
+            <h2 className="heading-display h2-editorial">FAQ</h2>
 
-            <h3 className="heading-serif h3-editorial">How is a PPD settlement calculated?</h3>
+            <h3 className="heading-display h3-editorial">How is a PPD settlement calculated?</h3>
             <p style={bodyStyle}>A settlement is calculated by multiplying three main numbers together. You take the maximum weeks assigned to your injured body part by state law, and you multiply those weeks by your specific medical impairment rating percentage. You then multiply that result by your weekly compensation rate. The compensation rate is typically two-thirds of your pre-injury average weekly wage. This basic mathematical formula produces the baseline total value of your permanent partial disability benefits.</p>
 
-            <h3 className="heading-serif h3-editorial">What is a good impairment rating settlement?</h3>
+            <h3 className="heading-display h3-editorial">What is a good impairment rating settlement?</h3>
             <p style={bodyStyle}>A good settlement represents the accurate mathematical value of your true medical impairment under your specific state laws. It should use your highest pre-injury average weekly wage and reflect an impairment rating from a doctor who fully documented your permanent physical restrictions. A good lump sum offer will also include additional money to cover your estimated future medical expenses if you agree to permanently close out your medical care rights.</p>
 
-            <h3 className="heading-serif h3-editorial">Can I get a lump sum for permanent partial disability?</h3>
+            <h3 className="heading-display h3-editorial">Can I get a lump sum for permanent partial disability?</h3>
             <p style={bodyStyle}>You can usually get a lump sum payment if the insurance company agrees to settle the claim. Insurers frequently offer lump sums because they want to close their files and eliminate the financial risk of future medical costs. You are trading your right to weekly benefit checks and future medical coverage for a single immediate payout. The insurance company will usually discount the total statutory amount slightly for paying it all upfront.</p>
 
-            <h3 className="heading-serif h3-editorial">Is a 10 percent impairment rating a lot?</h3>
+            <h3 className="heading-display h3-editorial">Is a 10 percent impairment rating a lot?</h3>
             <p style={bodyStyle}>A 10 percent rating can represent a significant financial payout or a modest one, since the exact dollar value depends on the injured body part and your state laws. A 10 percent whole person rating often yields substantial financial compensation, while a 10 percent rating to a single finger will result in a much smaller dollar amount. The financial impact depends entirely on your state maximum limits, your weekly wages, and the specific rating type.</p>
 
-            <h3 className="heading-serif h3-editorial">Do I need a lawyer for a PPD settlement?</h3>
+            <h3 className="heading-display h3-editorial">Do I need a lawyer for a PPD settlement?</h3>
             <p style={bodyStyle}>You do not legally need a lawyer to settle a workers compensation claim, and you can accept the insurance company offer based on the undisputed medical rating. A lawyer helps immensely when the insurer forces you to see their doctor for a lower rating. A lawyer also helps ensure your average weekly wage was calculated correctly by the adjuster. Unrepresented workers frequently miss future medical value when negotiating their own lump sum claim closures.</p>
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Know Your Numbers Before You Settle</h2>
+            <h2 className="heading-display h2-editorial">Know Your Numbers Before You Settle</h2>
             <p style={bodyStyle}>Your permanent partial disability payout represents a major financial transition after a workplace injury. You now understand the basic math behind the adjuster&apos;s settlement offer, and you know how your impairment rating, average weekly wage, and state laws control the final figure. The insurance company runs these numbers through their own software to minimize their claim costs. You should run the exact same numbers for yourself to level the playing field. Gather your medical paperwork and your recent pay stubs. Once you have your rating and your wage data, use a <Link href="/workers-comp-settlement-calculator/" style={linkStyle}>workers comp settlement calculator</Link> to see exactly what your claim should be worth.</p>
 
-          </div>
-        </article>
+          </article>
+          </EditorialLayout>
+        </div>
 
       </main>
     </>

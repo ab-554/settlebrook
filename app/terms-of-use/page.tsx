@@ -55,7 +55,7 @@ export default function TermsOfUsePage() {
           <p className="mt-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             These Terms of Use (&ldquo;Terms&rdquo;) govern your access to and use of the
             Settlebrook website located at{" "}
-            <Link href="/" className="hover:opacity-80" style={{ color: 'var(--accent)' }}>
+            <Link href="/" className="hover:opacity-80" style={{ color: 'var(--primary)' }}>
               settlebrook.com
             </Link>{" "}
             and all associated pages, tools, and content (collectively, the &ldquo;Site&rdquo;).
@@ -109,8 +109,8 @@ export default function TermsOfUsePage() {
 
         {/* 2. Acceptance */}
         <section aria-labelledby="acceptance-heading">
-          <h2 id="acceptance-heading" className="heading-serif mb-3"
-            style={{ fontSize: 24 }}>
+          <h2 id="acceptance-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             2. Acceptance of Terms
           </h2>
           <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
@@ -133,8 +133,8 @@ export default function TermsOfUsePage() {
 
         {/* 3. No Liability */}
         <section aria-labelledby="liability-heading">
-          <h2 id="liability-heading" className="heading-serif mb-3"
-            style={{ fontSize: 24 }}>
+          <h2 id="liability-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             3. Limitation of Liability and Disclaimers
           </h2>
           <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
@@ -171,8 +171,8 @@ export default function TermsOfUsePage() {
 
         {/* 4. Intellectual Property */}
         <section aria-labelledby="ip-heading">
-          <h2 id="ip-heading" className="heading-serif mb-3"
-            style={{ fontSize: 24 }}>
+          <h2 id="ip-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             4. Intellectual Property
           </h2>
           <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
@@ -204,8 +204,8 @@ export default function TermsOfUsePage() {
 
         {/* 5. Acceptable Use */}
         <section aria-labelledby="acceptable-use-heading">
-          <h2 id="acceptable-use-heading" className="heading-serif mb-3"
-            style={{ fontSize: 24 }}>
+          <h2 id="acceptable-use-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             5. Acceptable Use
           </h2>
           <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
@@ -230,8 +230,8 @@ export default function TermsOfUsePage() {
 
         {/* 6. Third-Party Links */}
         <section aria-labelledby="links-heading">
-          <h2 id="links-heading" className="heading-serif mb-3"
-            style={{ fontSize: 24 }}>
+          <h2 id="links-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             6. Third-Party Links and Advertising
           </h2>
           <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
@@ -253,8 +253,8 @@ export default function TermsOfUsePage() {
 
         {/* 7. Governing Law */}
         <section aria-labelledby="governing-law-heading">
-          <h2 id="governing-law-heading" className="heading-serif mb-3"
-            style={{ fontSize: 24 }}>
+          <h2 id="governing-law-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             7. Governing Law
           </h2>
           <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
@@ -276,15 +276,15 @@ export default function TermsOfUsePage() {
 
         {/* 8. Dispute Resolution */}
         <section aria-labelledby="dispute-heading">
-          <h2 id="dispute-heading" className="heading-serif mb-3"
-            style={{ fontSize: 24 }}>
+          <h2 id="dispute-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             8. Dispute Resolution
           </h2>
           <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>
               Before initiating any formal legal proceeding, we encourage you to
               contact us at{" "}
-              <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: 'var(--accent)' }}>
+              <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: 'var(--primary)' }}>
                 contact@settlebrook.com
               </a>{" "}
               to attempt informal resolution of any dispute. Most issues can be
@@ -309,8 +309,8 @@ export default function TermsOfUsePage() {
 
         {/* 9. Contact */}
         <section aria-labelledby="terms-contact-heading">
-          <h2 id="terms-contact-heading" className="heading-serif mb-3"
-            style={{ fontSize: 24 }}>
+          <h2 id="terms-contact-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             9. Contact Information
           </h2>
           <div className="flex flex-col gap-3 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
@@ -319,12 +319,12 @@ export default function TermsOfUsePage() {
               style={{ background: 'var(--surface)', border: "1px solid var(--line)" }}>
               <p className="font-semibold" style={{ color: 'var(--ink)' }}>Settlebrook</p>
               <p>Email:{" "}
-                <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: 'var(--accent)' }}>
+                <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: 'var(--primary)' }}>
                   contact@settlebrook.com
                 </a>
               </p>
               <p>Website:{" "}
-                <a href="/contact" className="hover:opacity-80" style={{ color: 'var(--accent)' }}>
+                <a href="/contact" className="hover:opacity-80" style={{ color: 'var(--primary)' }}>
                   settlebrook.com/contact
                 </a>
               </p>

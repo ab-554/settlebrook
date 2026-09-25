@@ -37,7 +37,7 @@ export default function WorkedExampleWorkersComp({
 
   return (
     <section aria-labelledby="worked-example-heading">
-      <h2 id="worked-example-heading" className="heading-serif h2-editorial">
+      <h2 id="worked-example-heading" className="heading-display h2-editorial">
         Example: How an Estimate Works in {stateName}
       </h2>
       <p>
@@ -54,7 +54,7 @@ export default function WorkedExampleWorkersComp({
           <li className="breakdown-row"><span className="label">Benefit type</span><span className="value">Temporary Total Disability (TTD)</span></li>
           <li className="breakdown-row"><span className="label">Hypothetical treatment period</span><span className="value">{EXAMPLE_TREATMENT_WEEKS} weeks</span></li>
           <li className="breakdown-row"><span className="label">Weekly benefit ({stateName}&apos;s rate, capped at the state max)</span><span className="value">{formatCurrency(result.weeklyBenefit)}/wk</span></li>
-          <li className="breakdown-row is-total"><span className="label">Base estimate ({EXAMPLE_TREATMENT_WEEKS} wks × weekly benefit)</span><span className="value" style={{ color: 'var(--accent)' }}>{formatCurrency(result.baseSettlement)}</span></li>
+          <li className="breakdown-row is-total"><span className="label">Base estimate ({EXAMPLE_TREATMENT_WEEKS} wks × weekly benefit)</span><span className="value" style={{ color: 'var(--primary)' }}>{formatCurrency(result.baseSettlement)}</span></li>
         </ul>
       </div>
       <p>

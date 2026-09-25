@@ -120,24 +120,33 @@ Organization JSON-LD, GA4 (`G-K3PV0YLHFG`), the AdSense script (`ca-pub-96425254
 
 ## Design system — do not change without instruction
 
-Light paper theme (design-refresh, September 2026). Canonical tokens are CSS custom
-properties in `app/globals.css`; `AGENTS.md` → Design System carries the full table with
-measured contrast ratios. Use `var(--token)` inline or the Tailwind aliases.
+Design v2 (25 September 2026): cool, clean, financial-trust. Canonical tokens are CSS
+custom properties in `app/globals.css`; `AGENTS.md` → Design System carries the full table
+with measured contrast ratios. Use `var(--token)` inline or the Tailwind aliases.
 
 ```
-Paper            #FAF7F2  (--paper)      Ink / headings   #1B2430  (--ink)
-Paper band       #F3EEE6  (--paper-2)    Body prose       #334151  (--ink-2)
-Surface / cards  #FFFFFF  (--surface)    Muted / labels   #5B6774  (--ink-3)
-Hairline         #E3DCD0  (--line)       Accent (links, buttons, result amount)  #0E5E52 (--accent)
-Amber (deadlines) #8A5200 (--amber)      Danger (errors)  #B3261E  (--danger)
-Font display     Source Serif 4 (--font-display) — H1–H3, wordmark
+Page bg          #F6F8FB  (--bg)         Ink / headings   #0F1B2D  (--ink)
+Alt band         #EEF3FF  (--bg-2)       Body prose       #334155  (--ink-2)
+Surface / cards  #FFFFFF  (--surface)    Muted / labels   #5B6776  (--ink-3)
+Hairline         #E2E8F0  (--line)       Primary (links, buttons, focus)  #1D4ED8 (--primary)
+Primary deep     #1E3A8A  (--primary-deep)  Primary tint  #EAF0FF (--primary-tint)
+Money (result figures, success)  #047857 (--money)     Money tint #E7F6EF (--money-tint)
+Amber (deadlines) #B45309 (--amber)      Danger (errors)  #B91C1C  (--danger)
+Font display     Plus Jakarta Sans 700/800 (--font-display) — H1–H3, wordmark
 Font body        Inter (--font-body) — body, UI, inputs, nav; money uses tabular-nums
+Scale            body 18px (17px < 480px) · labels 16px · inputs 18px · H1 clamp(36px,5vw,60px)
+                 H2 clamp(28px,3.4vw,40px) · H3 22px · result clamp(44px,7vw,64px) · nothing < 14px
+Layout           container 1360px (24px / 16px gutters) · controls 52px · prose 760px
+                 editorial 3 columns from 1200px (TOC · prose · rail) · calc 7/12 + result 5/12 from 1024px
 ```
 
-Cards: `.card` (surface, 1px `--line`, 12px radius, `--shadow-card`); `.card-flat` without shadow.
-Notes: `.note`, `.note-info`, `.note-caution`, `.note-danger`. Buttons: `.btn-primary`,
-`.btn-secondary`, `.btn-ghost` (44px min). Prose: wrap long-form content in `.editorial`.
-No gradients, no glassmorphism, no floating animations; motion respects `prefers-reduced-motion`.
+Cards: `.card` (surface, 1px `--line`, 14px radius, `--shadow-card`); `.card-flat` without shadow;
+`.card-hover` adds the lift. Notes: `.note`, `.note-info`, `.note-caution`, `.note-danger`,
+`.note-success`. Buttons: `.btn-primary` (the one gradient button), `.btn-secondary`, `.btn-ghost`
+(52px; `.btn-sm` 44px). Chips: `.fact-chip`. Prose: wrap long-form content in `.editorial`; use
+`EditorialLayout` for the three-column shell and `HeroBand` for tool/state page tops.
+Only three gradients exist (hero band, primary button, result-card accent line). No glassmorphism,
+no floating animations; every transition is off under `prefers-reduced-motion`.
 
 ## SEO targets
 

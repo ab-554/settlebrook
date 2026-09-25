@@ -56,7 +56,7 @@ export default function MultiplierSelector({ selected, onSelect }: MultiplierSel
               tabIndex={isSelected ? 0 : -1}
               onClick={() => onSelect(level)}
               className="seg-btn"
-              style={{ padding: '8px 4px', fontSize: 13 }}
+              style={{ padding: '8px 4px', fontSize: 14 }}
             >
               {config.label}
               <span className="seg-sub tabular-nums">{formatMultiplier(config.multiplier)}</span>

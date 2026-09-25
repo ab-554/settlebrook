@@ -42,7 +42,7 @@ export default function WorkedExample({
 
   return (
     <section aria-labelledby="worked-example-heading">
-      <h2 id="worked-example-heading" className="heading-serif h2-editorial">
+      <h2 id="worked-example-heading" className="heading-display h2-editorial">
         Example: How an Estimate Works in {stateName}
       </h2>
       <p>
@@ -59,7 +59,7 @@ export default function WorkedExample({
           <li className="breakdown-row"><span className="label">Severity</span><span className="value">{EXAMPLE_SEVERITY.label} ({EXAMPLE_SEVERITY.multiplier}× multiplier)</span></li>
           <li className="breakdown-row"><span className="label">Special damages (medical + wages)</span><span className="value">{formatCurrency(result.specialDamages)}</span></li>
           <li className="breakdown-row"><span className="label">Pain &amp; suffering (special damages × multiplier)</span><span className="value">{formatCurrency(result.painAndSuffering)}</span></li>
-          <li className="breakdown-row is-total"><span className="label">Total estimate, 0% fault</span><span className="value" style={{ color: 'var(--accent)' }}>{formatCurrency(result.totalEstimate)}</span></li>
+          <li className="breakdown-row is-total"><span className="label">Total estimate, 0% fault</span><span className="value" style={{ color: 'var(--primary)' }}>{formatCurrency(result.totalEstimate)}</span></li>
         </ul>
       </div>
       <p>

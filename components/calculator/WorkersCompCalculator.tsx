@@ -248,7 +248,7 @@ export default function WorkersCompCalculator({
           <div className="calc-panel-header">
             <div className="flex items-start justify-between gap-3 flex-wrap">
               <div>
-                <h2 className="heading-serif" style={{ fontSize: 20 }}>
+                <h2 className="heading-display" style={{ fontSize: 22 }}>
                   {propStateName ? `${propStateName} workers comp estimate` : 'Your workers comp estimate'}
                 </h2>
                 <p className="text-sm mt-0.5" style={{ color: 'var(--ink-3)' }}>
@@ -316,14 +316,14 @@ export default function WorkersCompCalculator({
 
               {/* State benefit rate summary — shown after state selection */}
               {selectedState && (
-                <dl className="card-flat grid grid-cols-3 gap-3 text-sm" style={{ padding: '12px 14px', background: 'var(--paper-2)' }}>
+                <dl className="card-flat grid grid-cols-3 gap-3 text-sm" style={{ padding: '12px 14px', background: 'var(--bg-2)' }}>
                   <div>
                     <dt className="result-range-label">State rate</dt>
                     <dd className="font-semibold tabular-nums" style={{ color: 'var(--ink)' }}>{(selectedState.benefitRate * 100).toFixed(1)}% of AWW</dd>
                   </div>
                   <div>
                     <dt className="result-range-label">Weekly cap</dt>
-                    <dd className="font-semibold tabular-nums" style={{ color: 'var(--accent)' }}>${selectedState.weeklyCapAmount.toLocaleString()}/wk</dd>
+                    <dd className="font-semibold tabular-nums" style={{ color: 'var(--primary)' }}>${selectedState.weeklyCapAmount.toLocaleString()}/wk</dd>
                     <dd className="text-xs" style={{ color: 'var(--ink-3)' }}>{selectedState.weeklyCapEffectivePeriod}</dd>
                   </div>
                   <div>
@@ -518,7 +518,7 @@ export default function WorkersCompCalculator({
         >
           {result && showNonGenericPPD && resultState ? (
             <div className="note note-info flex flex-col gap-2" style={{ padding: '16px' }}>
-              <p className="font-semibold" style={{ color: 'var(--accent)' }}>
+              <p className="font-semibold" style={{ color: 'var(--primary)' }}>
                 {resultState.name} PPD isn&apos;t calculated by this tool yet
               </p>
               <p className="text-sm leading-relaxed">
@@ -552,7 +552,7 @@ export default function WorkersCompCalculator({
         </div>
       </div>
 
-      {result && !showNonGenericPPD && <NextSteps cards={dynamicSteps} tool={TOOL} stateSlug={propStateSlug} />}
+      {!showNonGenericPPD && <NextSteps cards={dynamicSteps} tool={TOOL} stateSlug={propStateSlug} />}
     </div>
   )
 }

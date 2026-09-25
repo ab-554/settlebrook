@@ -20,12 +20,12 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import WorkersCompCalculator from '@/components/calculator/WorkersCompCalculator'
 import FAQAccordion from '@/components/seo/FAQAccordion'
-import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import HeroBand, { type HeroFact } from '@/components/ui/HeroBand'
+import EditorialLayout from '@/components/ui/EditorialLayout'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import WorkedExampleWorkersComp from '@/components/seo/WorkedExampleWorkersComp'
 import SourcesSection from '@/components/seo/SourcesSection'
 import StatePPDSection from '@/components/calculator/StatePPDSection'
-import TrustLine from '@/components/ui/TrustLine'
 import BackToCalculator from '@/components/calculator/BackToCalculator'
 import { buildNextSteps } from '@/lib/nextSteps'
 import {
@@ -230,6 +230,79 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
   // Contextual cards shown under a result (built server-side, see lib/nextSteps.ts).
   const nextSteps = buildNextSteps({ tool: 'workers-comp', stateSlug: stateData.slug })
 
+  // Hero chips — three facts straight from lib/data/workersCompStates.ts.
+  const heroFacts: HeroFact[] = [
+    { label: 'Benefit rate', value: `${(stateData.benefitRate * 100).toFixed(1)}% of your average weekly wage`, icon: 'percent', tone: 'primary' },
+    { label: `Weekly cap (${stateData.weeklyCapEffectivePeriod})`, value: `$${stateData.weeklyCapAmount.toLocaleString()} per week`, icon: 'wallet', tone: 'money' },
+    { label: 'Max TTD duration', value: Number.isFinite(stateData.maxWeeksTTD) ? `${stateData.maxWeeksTTD} weeks` : 'No fixed limit', icon: 'clock', tone: 'amber' },
+  ]
+
+  // Right rail (sticky from 1200px): the related-links cards that used to be the sidebar.
+  const rail = (
+    <>
+            <SideCard>
+              <h3 className="font-body font-semibold mb-1" style={{ fontSize: 16 }}>How Are {stateData.name} Workers&apos; Comp Settlements Calculated?</h3>
+              <p className="text-sm mb-3" style={{ color: 'var(--ink-2)' }}>
+                Learn how AWW, state rates, impairment ratings, and benefit caps determine your settlement value under {stateData.name} rules.
+              </p>
+              <Link href="/pain-and-suffering-calculator/guide/" className="btn-secondary btn-sm w-full">
+                Read the Complete Guide →
+              </Link>
+            </SideCard>
+
+            <nav aria-label="Workers comp benefit rate reference">
+              <SideCard>
+                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Benefit Rate Reference</h2>
+                <Link href="/workers-comp-maximum-weekly-benefits-by-state/" className="flex flex-col py-1">
+                  <span className="text-sm font-semibold" style={{ color: 'var(--primary)' }}>Max Weekly Benefits by State (2026)</span>
+                  <span className="text-xs" style={{ color: 'var(--ink-3)' }}>See {stateData.name}&apos;s official max/min TTD rate alongside every other state</span>
+                </Link>
+              </SideCard>
+            </nav>
+
+            {tier1States.length > 0 && (
+              <nav aria-label="Other state workers comp calculators">
+                <SideCard>
+                  <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Other State Calculators</h2>
+                  <ul className="flex flex-col">
+                    {tier1States.map((state) => (
+                      <li key={state.slug}>
+                        <Link href={`/workers-comp-settlement-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
+                          <span>{state.name} Workers Comp Calculator</span>
+                          <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
+                        </Link>
+                      </li>
+                    ))}
+                    <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
+                      <Link href="/workers-comp-settlement-calculator/" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>
+                        ← All states calculator
+                      </Link>
+                    </li>
+                  </ul>
+                </SideCard>
+              </nav>
+            )}
+
+            <nav aria-label="Other settlement calculators">
+              <SideCard>
+                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Other Calculators</h2>
+                <ul className="flex flex-col">
+                  <li>
+                    <Link href="/pain-and-suffering-calculator/" className="inline-block text-sm font-semibold py-2" style={{ color: 'var(--primary)' }}>
+                      Pain &amp; Suffering Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/car-accident-settlement-calculator/" className="inline-block text-sm font-semibold py-2" style={{ color: 'var(--primary)' }}>
+                      Car Accident Calculator
+                    </Link>
+                  </li>
+                </ul>
+              </SideCard>
+            </nav>
+    </>
+  )
+
   return (
     <>
       {/* ── JSON-LD ── */}
@@ -239,43 +312,33 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
       <main className="min-h-screen">
 
-        {/* ── PAGE HEADER — kept short so the calculator sits above the fold on mobile ── */}
-        <header className="page-band">
-          <div className="container-page pt-5 pb-6 sm:pt-7 sm:pb-8">
-            <BreadcrumbNav items={[
-              { label: 'Home', href: '/' },
-              { label: 'Workers Comp Settlement Calculator', href: '/workers-comp-settlement-calculator/' },
-              { label: stateData.name, href: `/workers-comp-settlement-calculator/${stateData.slug}/` },
-            ]} />
-            <h1 className="mt-4">{stateData.name} Workers Comp Settlement Calculator</h1>
-            <p className="lede mt-2 max-w-2xl">
-              Estimate your {stateData.name} workers compensation benefits. Covers Temporary Total Disability (TTD), Permanent Partial Disability (PPD), and Permanent Total Disability (PTD) benefits based on 2026 laws.
-            </p>
-            <TrustLine reviewed={LAST_REVIEWED} className="mt-3" />
-            {/* State law badge row */}
-            <div className="mt-3 flex flex-wrap gap-2">
-              <span className="state-badge state-badge-green">
-                {(stateData.benefitRate * 100).toFixed(1)}% Benefit Rate
-              </span>
-              <span className="state-badge state-badge-muted">
-                ${stateData.weeklyCapAmount.toLocaleString()}/wk Cap ({stateData.weeklyCapEffectivePeriod})
-              </span>
-              <span className="state-badge state-badge-blue">
-                {NON_GENERIC_PPD_SLUGS.has(stateData.slug)
-                  ? `${stateData.name}'s Own PPD Schedule`
-                  : stateData.ppdMethod === 'ama_schedule' ? 'AMA Scheduled Weeks' : 'Percentage of Person'}
-              </span>
-              <span className="state-badge state-badge-muted">
-                {Number.isFinite(stateData.maxWeeksTTD)
-                  ? `Max TTD: ${stateData.maxWeeksTTD} Weeks`
-                  : 'Max TTD: No Fixed Limit'}
-              </span>
-            </div>
+        {/* ── HERO BAND — breadcrumb · H1 · promise · trust line · key facts · CTA ── */}
+        <HeroBand
+          breadcrumb={[
+            { label: 'Home', href: '/' },
+            { label: 'Workers Comp Settlement Calculator', href: '/workers-comp-settlement-calculator/' },
+            { label: stateData.name, href: `/workers-comp-settlement-calculator/${stateData.slug}/` },
+          ]}
+          title={<>{stateData.name} Workers Comp Settlement Calculator</>}
+          promise={<>
+            Estimate your {stateData.name} workers compensation benefits. Covers Temporary Total Disability (TTD), Permanent Partial Disability (PPD), and Permanent Total Disability (PTD) benefits based on 2026 laws.
+          </>}
+          reviewed={LAST_REVIEWED}
+          sourcesCount={stateSources.length}
+          facts={heroFacts}
+          factsLabel={`${stateData.name} key facts`}
+        >
+          <div className="mt-5 flex flex-wrap gap-2">
+            <span className="state-badge state-badge-blue">
+              {NON_GENERIC_PPD_SLUGS.has(stateData.slug)
+                ? `${stateData.name}'s Own PPD Schedule`
+                : stateData.ppdMethod === 'ama_schedule' ? 'AMA Scheduled Weeks' : 'Percentage of Person'}
+            </span>
           </div>
-        </header>
+        </HeroBand>
 
         {/* ── CALCULATOR (live estimate) ── */}
-        <div className="container-page pt-6 pb-8 sm:pt-8 sm:pb-10 flex flex-col gap-5">
+        <div className="container-page pt-8 pb-10 sm:pt-10 sm:pb-14 flex flex-col gap-5">
 
           {/* Texas non-subscriber warning box */}
           {stateData.hasNonSubscriberSystem && (
@@ -298,17 +361,17 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
           />
         </div>
 
-        {/* ── EDITORIAL + RELATED ── */}
-        <div className="container-page pb-12 sm:pb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          <div className="lg:col-span-8 min-w-0">
+        {/* ── EDITORIAL — sticky TOC · prose · tools rail (three columns from 1200px) ── */}
+        <div className="container-page pb-14 sm:pb-20">
+          <BackToCalculator targetId="calculator" />
+          <EditorialLayout rootId="editorial-root" backHref="#calculator" rail={rail}>
 
           {/* ── STATE-SPECIFIC EDITORIAL CONTENT ── */}
           {stateData.slug === 'california' ? (
             <article className="editorial">
 
               {/* ── Introduction ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Introduction
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -318,7 +381,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── How California Workers Comp Benefits Work ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How California Workers&apos; Comp Benefits Work
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -326,14 +389,14 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 In addition to regular wage replacement checks, the system guarantees 100% coverage for all authorized medical care without deductibles or co-pays, alongside a $6,000 Supplemental Job Displacement Benefit voucher for educational retraining if your injury prevents you from returning to your former occupation. One critical limitation that shocks many injured employees is that California workers&apos; compensation strictly prohibits financial recovery for physical pain, emotional trauma, or diminished enjoyment of life. If you want to understand how standard civil claims outside the workplace evaluate human loss, our{' '}
-                <Link href="/pain-and-suffering-calculator/california/" style={{ color: 'var(--accent)' }}>California pain and suffering calculator</Link>
+                <Link href="/pain-and-suffering-calculator/california/" style={{ color: 'var(--primary)' }}>California pain and suffering calculator</Link>
                 {' '}illustrates how traditional tort damages differ from administrative workers&apos; compensation awards.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── California TTD Benefits ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 California TTD Benefits — Temporary Total Disability
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -342,14 +405,14 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 To maintain economic balance, the California Department of Industrial Relations enforces statutory income floors and ceilings. For workplace injuries occurring in 2026, your weekly TTD benefit is strictly capped at a maximum of <strong style={{ color: 'var(--ink)' }}>${stateData.weeklyCapAmount.toLocaleString()} per week</strong> ({stateData.weeklyCapEffectivePeriod}). Consider a real dollar example: if you earned $1,800 per week as a union ironworker before shattering your ankle, two-thirds of your wage equals $1,200. Because this amount falls below the state threshold, you will receive $1,200 every week. However, if you earned $3,000 per week as a specialized commercial pilot, two-thirds of your wage equals $2,000. Because this calculated figure exceeds the statutory ceiling, your actual payments will be restricted to the ${stateData.weeklyCapAmount.toLocaleString()} weekly cap. Under state law, TTD payments are legally restricted to a maximum duration of <strong style={{ color: 'var(--ink)' }}>104 weeks within a five-year window</strong> from your injury date.
               </p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', fontSize: '14px' }}>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', fontSize: '15px' }}>
                 <em>Certain severe injuries — including acute and chronic hepatitis B or C, amputations, severe burns, HIV, high-velocity eye injuries, chronic lung disease, and pulmonary or heart disease — extend that limit up to 240 weeks (Lab. Code § 4656(c)).</em>
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── California PPD Benefits ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 California PPD Benefits — Permanent Partial Disability
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -365,7 +428,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Compromise and Release vs Stipulated Award ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Compromise and Release vs Stipulated Award
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -381,7 +444,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Factors That Affect Settlements ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Factors That Affect California Workers&apos; Comp Settlements
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -389,14 +452,14 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Another massive financial factor is <strong style={{ color: 'var(--ink)' }}>third-party liability</strong>. While workers&apos; compensation statutes legally bar you from suing your direct employer, you retain the absolute right to file a traditional civil lawsuit against negligent third parties who caused your accident. If you were driving a company van and got rear-ended by a distracted corporate delivery driver, or tripped over unprotected wiring left by an outside sub-contractor on a construction site, you can pursue simultaneous claims. Third-party civil lawsuits allow you to recover full emotional damages and 100% of your lost wages. You can review{' '}
-                <Link href="/pain-and-suffering-calculator/california/" style={{ color: 'var(--accent)' }}>how pain and suffering is calculated in civil courts</Link>
+                <Link href="/pain-and-suffering-calculator/california/" style={{ color: 'var(--primary)' }}>how pain and suffering is calculated in civil courts</Link>
                 {' '}to see why pursuing both legal tracks is vital to maximizing your household&apos;s total recovery.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Statute of Limitations ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 California Workers&apos; Comp Statute of Limitations
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -419,7 +482,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <SourcesSection sources={stateSources} />
 
               {/* ── FAQ ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -458,12 +521,12 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── CTA ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Get Your California Workers&apos; Comp Estimate Now
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Insurance carriers employ dedicated teams of adjusters and defense attorneys whose sole professional objective is to minimize your financial recovery. You do not have to navigate this hostile administrative bureaucracy on your own. Take control of your financial future right now by utilizing our free{' '}
-                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--accent)' }}>workers comp settlement calculator</Link>
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--primary)' }}>workers comp settlement calculator</Link>
                 {' '}to estimate the baseline legal value of your wage loss and permanent impairment. If you are struggling with denied medical treatment requests, lowball settlement offers, or disputed medical evaluator ratings, connect with an experienced California workers&apos; compensation attorney today to protect your rights and demand the maximum financial compensation you deserve.
               </p>
 
@@ -480,14 +543,14 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Before you accept any offer, you need to understand the exact statutory math that governs your payout. Running your numbers through a{' '}
-                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--accent)' }}>workers comp settlement calculator</Link>
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--primary)' }}>workers comp settlement calculator</Link>
                 {' '}is a smart first step, but to truly protect your financial future, you have to understand the hard rules of the Texas Labor Code.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── How Texas Workers Comp Works ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Texas Workers&apos; Comp Works
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -503,7 +566,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Texas TTD Benefits ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Texas TTD Benefits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -519,7 +582,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Impairment Income Benefits ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Impairment Income Benefits (IIBs)
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -540,30 +603,30 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Settlement Variable</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Statutory Calculation</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Settlement Variable</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Statutory Calculation</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>Impairment Rating</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>15 percent</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>Impairment Rating</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>15 percent</td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>Duration Formula</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>3 weeks per percentage point</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>Duration Formula</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>3 weeks per percentage point</td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>Total Weeks Paid</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>45 weeks</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>Total Weeks Paid</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>45 weeks</td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>Weekly IIB Rate</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$1,050</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>Weekly IIB Rate</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$1,050</td>
                     </tr>
                     <tr>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink)', fontSize: '14px', fontWeight: 600 }}>Total IIB Payout</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$47,250</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink)', fontSize: '15px', fontWeight: 600 }}>Total IIB Payout</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$47,250</td>
                     </tr>
                   </tbody>
                 </table>
@@ -576,7 +639,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Non-Subscriber System ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Non-Subscriber System
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -590,14 +653,14 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Most importantly, civil lawsuits allow you to recover damages that the DWC administrative system outright bans. Workers&apos; comp does NOT cover pain and suffering for subscribers. If you lose a limb in a subscriber factory, you get your medical bills paid and a formulaic IIB check. If you lose a limb in a non-subscriber factory, a jury can award you millions of dollars for the sheer physical agony and emotional devastation of the accident. Evaluating this massive difference is why many injured workers utilize a{' '}
-                <Link href="/pain-and-suffering-calculator/texas/" style={{ color: 'var(--accent)' }}>Texas pain and suffering calculator</Link>
+                <Link href="/pain-and-suffering-calculator/texas/" style={{ color: 'var(--primary)' }}>Texas pain and suffering calculator</Link>
                 {' '}to understand their true civil case value.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Factors Affecting Settlement Value ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Factors Affecting Your Settlement Value
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -616,7 +679,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Statute of Limitations ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Texas Workers&apos; Comp Statute of Limitations
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -628,7 +691,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Subscriber vs. Non-Subscriber Outcomes
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -648,7 +711,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <SourcesSection sources={stateSources} />
 
               {/* ── FAQ ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -687,12 +750,12 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── CTA ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Maximize Your Texas Injury Claim Today
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 You cannot afford to guess when dealing with the complexities of subscriber caps and non-subscriber civil lawsuits. One missed deadline or one accepted lowball impairment rating can cost you tens of thousands of dollars. Use our{' '}
-                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--accent)' }}>workers comp settlement calculator</Link>
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--primary)' }}>workers comp settlement calculator</Link>
                 {' '}to establish a baseline for your potential IIB payout, and then seek aggressive legal representation to hold the insurance company accountable for every single dollar you are legally owed.
               </p>
 
@@ -703,7 +766,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               {/* ── Introduction ── */}
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
                 When you suffer a devastating injury on the job in the Sunshine State, the physical pain is quickly overshadowed by a tidal wave of financial anxiety. You are suddenly unable to work, the medical bills are piling up, and the insurance adjuster treating your claim acts like every authorized treatment is coming out of their own pocket. You need to know exactly how much your case is worth, but the insurance company is using complex statutory formulas to minimize their payout. By utilizing a reliable{' '}
-                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--accent)' }}>workers comp settlement calculator</Link>
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--primary)' }}>workers comp settlement calculator</Link>
                 {', '}you can strip away the adjuster&apos;s advantage and gain a clear, mathematical understanding of the dollars you are legally owed.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -713,7 +776,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── How FL System Works ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How the Florida Workers&apos; Comp System Actually Works
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -726,7 +789,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── TTD Benefits ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Calculating Your Temporary Total Disability (TTD) Benefits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -739,7 +802,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Impairment Income Benefits and MMI ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Navigating Florida Impairment Income Benefits and MMI
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -755,7 +818,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Permanent Total Disability ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Harsh Reality of Florida Permanent Total Disability
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -771,12 +834,12 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Key Factors ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Key Factors Driving Your Florida Workers&apos; Comp Settlement
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 When you and the insurance company finally decide to close out your case, you will negotiate a lump-sum Florida workers&apos; comp settlement. This settlement completely buys out your future rights to wage replacement and, usually, your right to future medical care on the insurance company&apos;s dime. A baseline{' '}
-                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--accent)' }}>workers comp settlement calculator</Link>
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--primary)' }}>workers comp settlement calculator</Link>
                 {' '}will look at two main buckets of money: your projected future wage loss and the projected cost of your future medical treatment.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -787,13 +850,13 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 However, there is a major exception. If your workplace injury was caused by the negligence of a third party — such as a reckless delivery driver who rear-ended your company truck, or the manufacturer of a defective power tool — you possess the right to file a separate civil personal injury lawsuit against that specific third party. In that civil lawsuit, you can demand massive financial compensation for your physical agony, emotional distress, and loss of enjoyment of life. To see how a third-party civil claim could drastically expand your overall financial recovery, you can run your scenario through a specialized{' '}
-                <Link href="/pain-and-suffering-calculator/florida/" style={{ color: 'var(--accent)' }}>Florida pain and suffering calculator</Link>.
+                <Link href="/pain-and-suffering-calculator/florida/" style={{ color: 'var(--primary)' }}>Florida pain and suffering calculator</Link>.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Attorney Fees ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Understanding Statutory Attorney Fee Caps
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -806,7 +869,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Statute of Limitations ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Unforgiving Florida Workers&apos; Comp Statute of Limitations
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -829,7 +892,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <SourcesSection sources={stateSources} />
 
               {/* ── FAQ ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -868,12 +931,12 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── CTA ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Take Control of Your Financial Future Today
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 The insurance adjuster analyzing your file has an entire team of actuaries and corporate lawyers dedicated to minimizing your payout. You cannot afford to guess at the value of your shattered knee or your spinal fusion. You need concrete numbers. Use our{' '}
-                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--accent)' }}>workers comp settlement calculator</Link>
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--primary)' }}>workers comp settlement calculator</Link>
                 {' '}to establish your baseline worth, document every single medical bill, and never let the insurance company bully you into accepting a fraction of what Florida law mandates you are owed. Protect your rights, demand total financial accountability, and secure the capital you need to rebuild your life.
               </p>
 
@@ -884,7 +947,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
             ───────────────────────────────────────────────────────────────── */
             <article className="editorial">
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Much Is Your New York Workers Comp Claim Worth?
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -899,7 +962,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How New York Workers Comp Works: The Grand Bargain
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -907,7 +970,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 However, this grand bargain comes with a massive financial catch: workers comp does not cover pain and suffering in New York. If your fractured wrist leaves you with a dull ache every rainy morning, or the stress of the accident keeps you awake at night, the WCB assigns a legal value of zero dollars to those hardships. To learn how pain and suffering is calculated using traditional legal multipliers, you would need to look outside the workers&apos; compensation system entirely — our{' '}
-                <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--accent)' }}>pain and suffering multiplier guide</Link>{' '}
+                <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--primary)' }}>pain and suffering multiplier guide</Link>{' '}
                 explains how that math works in civil personal injury claims.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -916,7 +979,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Calculating Your Lost Wages: TTD Benefits and the 2026 Cap
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -934,24 +997,24 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Worker Profile</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Pre-Accident Gross Wage</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Statutory 66.67% Rate</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Actual Weekly TTD Check</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Worker Profile</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Pre-Accident Gross Wage</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Statutory 66.67% Rate</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Actual Weekly TTD Check</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>Worker A: Retail Supervisor</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>$1,200 / week ($62,400/yr)</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$800.04</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$800.04 (Fully paid under the cap)</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>Worker A: Retail Supervisor</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>$1,200 / week ($62,400/yr)</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$800.04</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$800.04 (Fully paid under the cap)</td>
                     </tr>
                     <tr>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>Worker B: Union Electrician</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>$2,400 / week ($124,800/yr)</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$1,600.08</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>${stateData.weeklyCapAmount.toLocaleString()} (Capped at current maximum)</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>Worker B: Union Electrician</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>$2,400 / week ($124,800/yr)</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$1,600.08</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>${stateData.weeklyCapAmount.toLocaleString()} (Capped at current maximum)</td>
                     </tr>
                   </tbody>
                 </table>
@@ -963,7 +1026,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Big Payout: Schedule Loss of Use (SLU) Awards
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -997,7 +1060,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Non-Schedule Injuries and Section 32 Lump Sum Settlements
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1018,35 +1081,35 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 4 Critical Factors Affecting Your New York WCB Settlement
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 When you sit down at the negotiating table, your final payout will swing tens of thousands of dollars based on four distinct leverage points:
               </p>
 
-              <h3 className="heading-serif" style={{ fontSize: '20px', fontWeight: 600, marginBottom: '12px', marginTop: '24px' }}>
+              <h3 className="heading-display" style={{ fontSize: '22px', fontWeight: 600, marginBottom: '12px', marginTop: '24px' }}>
                 1. The IME Battle
               </h3>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Your treating doctor is your advocate; the New York IME doctor is a defense witness. If your doctor says you need a <strong style={{ color: 'var(--amber)' }}>$45,000</strong> spinal fusion and the IME doctor claims you just have mild arthritis that requires over-the-counter ibuprofen, your settlement value stalls. Winning a high settlement requires hiring legal counsel who can cross-examine the IME physician on their flawed orthopedic testing methods during WCB depositions.
               </p>
 
-              <h3 className="heading-serif" style={{ fontSize: '20px', fontWeight: 600, marginBottom: '12px', marginTop: '24px' }}>
+              <h3 className="heading-display" style={{ fontSize: '22px', fontWeight: 600, marginBottom: '12px', marginTop: '24px' }}>
                 2. Medicare Set-Aside (MSA) Requirements
               </h3>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 If you are currently a Medicare beneficiary, or you expect to enroll within 30 months of settlement, federal law prevents you from shifting your future accident-related medical bills onto the taxpayers. Your Section 32 agreement must include a legally structured Medicare Set-Aside account. This isolates a specific portion of your settlement cash — say, <strong style={{ color: 'var(--amber)' }}>$25,000</strong> — that can only be used to buy Medicare-approved medications and treatments for your work injury.
               </p>
 
-              <h3 className="heading-serif" style={{ fontSize: '20px', fontWeight: 600, marginBottom: '12px', marginTop: '24px' }}>
+              <h3 className="heading-display" style={{ fontSize: '22px', fontWeight: 600, marginBottom: '12px', marginTop: '24px' }}>
                 3. Return to Work Capacity
               </h3>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Adjusters aggressively monitor your social media profiles and surveillance footage. If you claim you cannot lift 10 pounds due to a lumbar injury, but investigators videotape you carrying bags of fertilizer into your garage, your negotiating leverage evaporates instantly. Conversely, if vocational experts prove your physical restrictions permanently bar you from your trade and you lack the education for desk work, your case value skyrockets.
               </p>
 
-              <h3 className="heading-serif" style={{ fontSize: '20px', fontWeight: 600, marginBottom: '12px', marginTop: '24px' }}>
+              <h3 className="heading-display" style={{ fontSize: '22px', fontWeight: 600, marginBottom: '12px', marginTop: '24px' }}>
                 4. Outstanding Medical Liens
               </h3>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1055,7 +1118,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Don&apos;t Miss the Clock: New York Workers Comp Statute of Limitations
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1086,7 +1149,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -1124,7 +1187,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Secure Every Dollar You Are Owed Under New York Law
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1151,7 +1214,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Illinois Workers Comp Works
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1166,7 +1229,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 TTD Benefits: Your Immediate Wage Replacement
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1181,7 +1244,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Illinois PPD Percentage of Person Method
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1202,7 +1265,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Critical Factors Affecting Your Settlement Value
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1216,13 +1279,13 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Furthermore, you must investigate whether a negligent third party contributed to your accident. If you were injured on a multi-contractor job site by a careless crane operator from another company, or if your delivery van was rear-ended by a drunk driver while you were on the clock, you are not trapped exclusively inside the workers compensation system. You can file a separate civil lawsuit against the negligent third party alongside your IWCC claim. Because civil personal injury lawsuits allow you to recover uncapped subjective damages, you will want to cross-reference your civil claim using an{' '}
-                <Link href="/pain-and-suffering-calculator/illinois/" style={{ color: 'var(--accent)' }}>Illinois pain and suffering calculator</Link>{' '}
+                <Link href="/pain-and-suffering-calculator/illinois/" style={{ color: 'var(--primary)' }}>Illinois pain and suffering calculator</Link>{' '}
                 to understand the true combined value of your legal actions.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Chicago vs Downstate Settlement Realities
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1234,7 +1297,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Illinois Workers Comp Statute of Limitations
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1256,7 +1319,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -1294,7 +1357,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Do Not Face the Insurance Company Alone
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1315,7 +1378,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Pennsylvania Workers Comp Works
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1327,7 +1390,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Temporary Total Disability Benefits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1339,7 +1402,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Pennsylvania IRE System and Partial Disability
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1354,7 +1417,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Pennsylvania Specific Loss Benefits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1366,7 +1429,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Compromise and Release (C&amp;R) Settlements
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1378,12 +1441,12 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Factors Affecting Your Settlement and Third-Party Lawsuits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 A harsh reality of the workers compensation system is that it does not care about your trauma. You cannot recover financial damages for your physical agony, emotional distress, or the fact that you can no longer play catch with your children. If you want to understand what those non-economic damages are worth in a civil courtroom, you can review a{' '}
-                <Link href="/pain-and-suffering-calculator/pennsylvania/" style={{ color: 'var(--accent)' }}>Pennsylvania pain and suffering calculator</Link>
+                <Link href="/pain-and-suffering-calculator/pennsylvania/" style={{ color: 'var(--primary)' }}>Pennsylvania pain and suffering calculator</Link>
                 {', '}but those damages are strictly barred from workers comp claims.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1392,7 +1455,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Pennsylvania Workers Comp Statute of Limitations
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1413,7 +1476,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -1451,12 +1514,12 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Protect Your Future
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Fighting a multi-billion dollar insurance conglomerate on your own is the fastest way to bankrupt your family. Adjusters are highly trained corporate negotiators whose sole directive is to close your file for pennies on the dollar. Before you give a recorded statement, submit to an independent medical exam, or consider signing a Compromise and Release, you need a precise accounting of your future losses. Use a{' '}
-                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--accent)' }}>workers comp settlement calculator</Link>
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--primary)' }}>workers comp settlement calculator</Link>
                 {' '}to establish the baseline mathematics of your wages and impairment rating, then demand the maximum financial compensation that Pennsylvania law mandates.
               </p>
 
@@ -1474,7 +1537,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Ohio BWC Monopolistic System
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1486,7 +1549,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Understanding Your TTD Benefits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1498,7 +1561,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Ohio PPD Awards and Scheduled Losses
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1513,7 +1576,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Negotiating an Ohio Workers Comp Lump Sum Settlement
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1525,7 +1588,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Trap of Ohio Allowed Conditions
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1537,7 +1600,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Statute of Limitations and Filing the FROI
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1546,7 +1609,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Permanent Total Disability Applications
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1555,17 +1618,17 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Leveraging Settlement Calculators
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Accurately pricing a final buyout requires projecting decades of future medical inflation and lost earning potential. When you use a reliable{' '}
-                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--accent)' }}>workers comp settlement calculator</Link>
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--primary)' }}>workers comp settlement calculator</Link>
                 {', '}you gain a baseline understanding of what your future wage loss and medical care actually cost in today&apos;s dollars.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 However, you must remember a critical legal truth: workers comp does not cover pain and suffering. If you are looking to be compensated for the emotional trauma, the physical agony of the accident itself, or the loss of enjoyment of your life, you are looking in the wrong venue. You can explore our{' '}
-                <Link href="/pain-and-suffering-calculator/ohio/" style={{ color: 'var(--accent)' }}>Ohio pain and suffering calculator</Link>
+                <Link href="/pain-and-suffering-calculator/ohio/" style={{ color: 'var(--primary)' }}>Ohio pain and suffering calculator</Link>
                 {' '}for third-party personal injury claims against negligent outsiders, but inside the BWC system, your settlement is based strictly on concrete medical bills, impairment ratings, and mathematical wage loss figures.
               </p>
 
@@ -1581,7 +1644,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -1619,7 +1682,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Take Control of Your Claim Today
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1643,7 +1706,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How the North Carolina Workers Comp System Operates
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1651,7 +1714,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Because you cannot file a traditional personal injury lawsuit against your boss, the workers comp system entirely excludes compensation for your emotional distress and physical agony. Workers comp does not cover pain and suffering. If your workplace injury was caused by a negligent third party, such as an outside delivery driver who backed into you on the loading dock or a subcontractor who dropped a tool on your head, you can step outside the workers comp system and file a third-party lawsuit against that specific person or company. In those specific third-party scenarios, you can pursue damages for your physical agony, and running your numbers through a{' '}
-                <Link href="/pain-and-suffering-calculator/north-carolina/" style={{ color: 'var(--accent)' }}>North Carolina pain and suffering calculator</Link>
+                <Link href="/pain-and-suffering-calculator/north-carolina/" style={{ color: 'var(--primary)' }}>North Carolina pain and suffering calculator</Link>
                 {' '}becomes highly relevant. But if your claim is strictly against your employer, your financial recovery is limited to medical coverage and wage replacement.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1660,7 +1723,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Calculating Your Temporary Total Disability (TTD) Benefits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1669,13 +1732,13 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Consider a concrete mathematical scenario. Imagine you work as a heavy equipment operator making a gross average of <strong style={{ color: 'var(--amber)' }}>$1,200 per week</strong>. If you suffer a severe herniated disc and require spinal fusion surgery, your TTD compensation rate will be exactly <strong style={{ color: 'var(--amber)' }}>$800 per week</strong>. These checks are completely tax-free. However, North Carolina law imposes a cap on these wage replacement benefits to protect the insurance system from astronomical payouts to high-income earners. For {stateData.weeklyCapEffectivePeriod}, the maximum weekly benefit is capped at <strong style={{ color: 'var(--amber)' }}>${stateData.weeklyCapAmount.toLocaleString()}</strong>, subject to annual adjustment by the state. If you are an executive making <strong style={{ color: 'var(--amber)' }}>$4,000 a week</strong>, you will not receive two-thirds of your actual wage; you will hit that statutory ceiling and receive the maximum allowable weekly rate.
               </p>
-              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', fontSize: '14px' }}>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', fontSize: '15px' }}>
                 <em>Standard TTD is limited to 500 weeks, but extended compensation may be available beyond that for total and permanent disability once the injured worker has received 425 weeks of benefits (G.S. 97-29).</em>
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Your North Carolina PPD Rating and the Body Part Schedule
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1693,7 +1756,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 North Carolina Clincher Agreements for a Full Lump Sum
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1711,7 +1774,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Strict North Carolina Workers Comp Statute of Limitations
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1723,7 +1786,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Navigating Attorney Fees
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1747,7 +1810,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -1785,12 +1848,12 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Take the Next Step in Your Claim
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 The insurance adjuster is already calculating the absolute minimum they have to pay to close your file. You cannot afford to guess about the statutory value of your body parts or the long-term cost of your future medical care. Leverage the{' '}
-                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--accent)' }}>North Carolina workers comp settlement calculator</Link>
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--primary)' }}>North Carolina workers comp settlement calculator</Link>
                 {' '}to establish your baseline, review your Average Weekly Wage documentation, and ensure your PPD rating accurately reflects the physical damage you have suffered. If you are facing a permanent injury, reaching out for a professional legal consultation is the safest way to ensure the North Carolina Industrial Commission approves a clincher agreement that truly protects your financial future.
               </p>
 
@@ -1811,7 +1874,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Arizona Workers Comp Works
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1823,7 +1886,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Temporary Total Disability Benefits and the Wage Cap
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1838,7 +1901,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Scheduled vs. Unscheduled Injuries: The Core of Arizona Value
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1856,7 +1919,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Securing an Arizona Workers Comp Lump Sum Settlement
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1868,7 +1931,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Key Factors That Alter Your Claim&apos;s Value
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1876,13 +1939,13 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Second, you must look beyond the workers compensation system to maximize your financial outcome. While the ICA system absolutely does not cover pain and suffering, you might have strong legal grounds for a third-party lawsuit. If an outside vendor, a negligent delivery driver, or the manufacturer of a defective piece of heavy machinery caused your workplace accident, you can sue that specific entity directly in civil court. Arizona is a pure comparative fault state, which means you can successfully recover civil damages even if you were 90% to blame for your own accident, though your final jury award will simply be reduced by your percentage of fault. A third-party civil claim is the only legal avenue where you can demand massive compensation for your physical agony and mental trauma — and running your numbers through an{' '}
-                <Link href="/pain-and-suffering-calculator/arizona/" style={{ color: 'var(--accent)' }}>Arizona pain and suffering calculator</Link>
+                <Link href="/pain-and-suffering-calculator/arizona/" style={{ color: 'var(--primary)' }}>Arizona pain and suffering calculator</Link>
                 {' '}becomes highly relevant in those scenarios.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Unforgiving Arizona Workers Comp Statute of Limitations
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1906,7 +1969,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -1944,7 +2007,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Take Control of Your Work Injury Claim
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1952,7 +2015,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Use a dedicated{' '}
-                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--accent)' }}>workers comp settlement calculator</Link>
+                <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--primary)' }}>workers comp settlement calculator</Link>
                 {' '}to estimate your baseline numbers and understand your worst-case scenario. However, always consult with an ICA-regulated legal professional to ensure the insurance carrier is correctly calculating your average monthly wage and accurately classifying your injury as unscheduled whenever possible. Fighting for your financial future means demanding every single dollar the statutes allow.
               </p>
 
@@ -1962,73 +2025,73 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
             <article className="editorial">
 
               {/* ── Workers' comp in Georgia at a glance ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Workers&apos; Comp in Georgia at a Glance
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Georgia&apos;s workers&apos; compensation system is run by the{' '}
                 <strong style={{ color: 'var(--ink)' }}>State Board of Workers&apos; Compensation (SBWC)</strong>, the state agency that reviews claims, approves settlements, and sets the benefit rates used below (
-                <a href="https://sbwc.georgia.gov/about-us" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>SBWC About Us</a>
+                <a href="https://sbwc.georgia.gov/about-us" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>SBWC About Us</a>
                 ). The system is governed by Title 34, Chapter 9 of the Official Code of Georgia Annotated (O.C.G.A.), often just called &quot;the Act.&quot;
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Coverage is broad but not universal. The Act applies to employers, including public corporations and nonprofits, that regularly have <strong style={{ color: 'var(--ink)' }}>three or more employees</strong>, whether full-time or part-time — count doesn&apos;t distinguish between the two (
-                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-1/section-34-9-2/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>O.C.G.A. §34-9-2</a>
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-1/section-34-9-2/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>O.C.G.A. §34-9-2</a>
                 {' '}(statute text via Justia);{' '}
-                <a href="https://sbwc.georgia.gov/about-us" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>SBWC About Us</a>
+                <a href="https://sbwc.georgia.gov/about-us" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>SBWC About Us</a>
                 ). If you were hurt on the job in Georgia and your employer meets that threshold, you&apos;re almost certainly covered from your first day of work — there&apos;s no waiting period for eligibility, only a waiting period before wage checks start.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 The SBWC has been around since 1920 and, by its own account, currently serves more than a quarter million Georgia employers and roughly 3.8 million workers (
-                <a href="https://sbwc.georgia.gov/about-us" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>SBWC About Us</a>
+                <a href="https://sbwc.georgia.gov/about-us" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>SBWC About Us</a>
                 ). It&apos;s funded through assessments on insurers and self-insured employers, not general tax revenue, which is part of why claims move through an administrative Board process rather than straight into court.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Temporary disability benefits ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Temporary Disability Benefits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 If your injury keeps you out of work, Georgia pays <strong style={{ color: 'var(--ink)' }}>temporary total disability (TTD)</strong> at <strong style={{ color: 'var(--ink)' }}>two-thirds (66 2/3%) of your average weekly wage (AWW)</strong>, subject to a state maximum and minimum (
-                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-261/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>O.C.G.A. §34-9-261</a>
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-261/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>O.C.G.A. §34-9-261</a>
                 {' '}(statute text via Justia)). For 2026 injuries, that maximum is <strong style={{ color: 'var(--ink)' }}>${stateData.weeklyCapAmount.toLocaleString()} per week</strong>, and the minimum is <strong style={{ color: 'var(--ink)' }}>$50 per week</strong>. Those figures took effect July 1, 2023, and the SBWC&apos;s most recent published summary (revised July 1, 2025) confirms no rate change since — so $800/$50 is still the operative cap for injuries happening now (
-                <a href="https://sbwc.georgia.gov/document/publication/provisionspdf/download" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>SBWC Summary of Workers&apos; Compensation Provisions</a>
+                <a href="https://sbwc.georgia.gov/document/publication/provisionspdf/download" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>SBWC Summary of Workers&apos; Compensation Provisions</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 There&apos;s also a <strong style={{ color: 'var(--ink)' }}>temporary partial disability (TPD)</strong> benefit for workers who can do some work but earn less than before — it&apos;s capped separately at <strong style={{ color: 'var(--ink)' }}>$533 per week</strong> (
-                <a href="https://sbwc.georgia.gov/document/publication/provisionspdf/download" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>SBWC Summary of Provisions</a>
+                <a href="https://sbwc.georgia.gov/document/publication/provisionspdf/download" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>SBWC Summary of Provisions</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Your AWW itself is normally calculated by taking your total wages over the <strong style={{ color: 'var(--ink)' }}>13 weeks immediately before the injury</strong> and dividing by 13 — as long as you worked substantially the whole of that period for the same employer (
-                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-260/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>O.C.G.A. §34-9-260</a>
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-260/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>O.C.G.A. §34-9-260</a>
                 {' '}(statute text via Justia)). That 13-week average, not your most recent paycheck, is what feeds the two-thirds calculation above.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Waiting period.</strong> You don&apos;t get paid for the first 7 days you&apos;re out of work. If your disability lasts more than 21 consecutive days from the date of injury, though, that first week becomes payable retroactively — you&apos;re made whole for the whole period (
-                <a href="https://sbwc.georgia.gov/document/publication/provisionspdf/download" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>SBWC Summary of Provisions</a>
+                <a href="https://sbwc.georgia.gov/document/publication/provisionspdf/download" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>SBWC Summary of Provisions</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>How long it lasts.</strong> For most injuries, TTD is capped at <strong style={{ color: 'var(--ink)' }}>400 weeks from the date of injury</strong> — a little over 7.5 years (
-                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-261/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>O.C.G.A. §34-9-261</a>
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-261/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>O.C.G.A. §34-9-261</a>
                 {' '}(statute text via Justia)). That cap disappears entirely for injuries the SBWC classifies as <strong style={{ color: 'var(--ink)' }}>catastrophic</strong> — things like spinal cord injuries with severe paralysis, amputation, severe traumatic brain injury, severe burns, total blindness, or any injury severe enough that it keeps you from doing your old job or any other work that exists in meaningful numbers in the national economy (
-                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-6/part-1/section-34-9-200-1/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>O.C.G.A. §34-9-200.1</a>
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-6/part-1/section-34-9-200-1/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>O.C.G.A. §34-9-200.1</a>
                 {' '}(statute text via Justia)). Catastrophic-injury TTD instead continues &quot;until such time as the employee undergoes a change in condition for the better,&quot; with no fixed week count.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Permanent partial disability (PPD) ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Permanent Partial Disability (PPD)
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Georgia&apos;s PPD system is different from a lot of states in one important way: it uses a specific, named medical standard. Your treating doctor (or an independent medical examiner) rates the percentage of impairment to the injured body part using the <strong style={{ color: 'var(--ink)' }}>AMA Guides to the Evaluation of Permanent Impairment, 5th Edition</strong> — the statute names that exact edition, not a newer one (
-                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>O.C.G.A. §34-9-263(d)</a>
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>O.C.G.A. §34-9-263(d)</a>
                 {' '}(statute text via Justia)).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2036,7 +2099,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Importantly, PPD checks don&apos;t start immediately. Georgia law is explicit that PPD income benefits &quot;shall not become payable so long as the employee is entitled to&quot; TTD or TPD benefits for the same injury — so PPD is paid <strong style={{ color: 'var(--ink)' }}>after</strong> your temporary benefits stop, not alongside them (
-                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>O.C.G.A. §34-9-263(b)</a>
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>O.C.G.A. §34-9-263(b)</a>
                 {' '}(statute text via Justia)).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2047,8 +2110,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Scheduled Weeks</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Scheduled Weeks</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -2058,16 +2121,16 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                       ['Hearing, both ears', '150'], ['Vision, one eye', '150'], ['Body as a whole', '300'],
                     ].map(([part, weeks], i, arr) => (
                       <tr key={part} style={i < arr.length - 1 ? { borderBottom: '1px solid var(--line)' } : undefined}>
-                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>{part}</td>
-                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>{weeks}</td>
+                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>{part}</td>
+                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>{weeks}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <p style={{ color: 'var(--ink-3)', lineHeight: '1.6', marginBottom: '18px', fontSize: '13px' }}>
+              <p style={{ color: 'var(--ink-3)', lineHeight: '1.6', marginBottom: '18px', fontSize: '14px' }}>
                 Source for the full schedule:{' '}
-                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>O.C.G.A. §34-9-263</a>
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>O.C.G.A. §34-9-263</a>
                 {' '}(statute text via Justia).
               </p>
 
@@ -2076,36 +2139,36 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Permanent total disability ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Permanent Total Disability
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Georgia doesn&apos;t have a separate PPD-style schedule for &quot;permanent total disability&quot; — instead, certain severe losses trigger a legal presumption. The loss of both arms, hands, legs, or feet, any two or more of those, or permanent total loss of vision in both eyes creates a <strong style={{ color: 'var(--ink)' }}>rebuttable presumption of permanent total disability</strong>, which is then compensated the same way as ongoing TTD, under O.C.G.A. §34-9-261, rather than under the PPD schedule (
-                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>O.C.G.A. §34-9-263</a>
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>O.C.G.A. §34-9-263</a>
                 {' '}(statute text via Justia)). In practice, most permanent-total situations in Georgia are handled through the catastrophic-injury classification described above, which removes the 400-week cap on weekly benefits.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── How settlements work in Georgia ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Settlements Work in Georgia
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Georgia calls a workers&apos; comp settlement a <strong style={{ color: 'var(--ink)' }}>&quot;stipulation and agreement&quot;</strong> or, more commonly, just a <strong style={{ color: 'var(--ink)' }}>settlement agreement</strong>. Whatever the injured worker and the employer/insurer agree to, it has to be written up and filed with the SBWC — and it is <strong style={{ color: 'var(--ink)' }}>not binding on anyone until the Board approves it</strong> (
-                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-1/section-34-9-15/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>O.C.G.A. §34-9-15</a>
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-1/section-34-9-15/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>O.C.G.A. §34-9-15</a>
                 {' '}(statute text via Justia)). Once approved, the settlement becomes a final, enforceable disposition of the claims it covers, similar in effect to a judgment.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 The SBWC&apos;s Settlement Division exists specifically to review these agreements for compliance before approval; it publishes guidance on the settlement approval process but is barred from telling either side what a claim is &quot;worth&quot; (
-                <a href="https://sbwc.georgia.gov/divisions-offices/settlement" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>SBWC Settlement Division</a>
+                <a href="https://sbwc.georgia.gov/divisions-offices/settlement" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>SBWC Settlement Division</a>
                 ). Settlements in Georgia commonly resolve future indemnity (wage-loss) benefits and can also close out future medical treatment for the claim, depending on what the parties agree to and the Board approves — but nothing is final until that Board sign-off happens.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Deadlines ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Deadlines
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2114,7 +2177,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <ul style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', paddingLeft: '20px', listStyleType: 'disc' }}>
                 <li style={{ marginBottom: '8px' }}><strong style={{ color: 'var(--ink)' }}>Notice to your employer:</strong> report the injury as soon as possible. Georgia&apos;s claim-filing deadlines run from either the date of injury or the date benefits/treatment stopped, so prompt reporting protects your position either way.</li>
                 <li><strong style={{ color: 'var(--ink)' }}>Claim-filing deadline (statute of limitations):</strong> you generally must file a claim with the SBWC <strong style={{ color: 'var(--ink)' }}>within one year of the injury</strong>. That window extends if the employer has been paying you: you get <strong style={{ color: 'var(--ink)' }}>two years from the date of the last weekly benefit payment</strong>, or <strong style={{ color: 'var(--ink)' }}>one year from the date of the last remedial (authorized) medical treatment</strong> furnished by the employer, whichever gives you more time (
-                  <a href="https://law.justia.com/codes/georgia/2022/title-34/chapter-9/article-3/part-1/section-34-9-82" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>O.C.G.A. §34-9-82</a>
+                  <a href="https://law.justia.com/codes/georgia/2022/title-34/chapter-9/article-3/part-1/section-34-9-82" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>O.C.G.A. §34-9-82</a>
                   {' '}(statute text via Justia)).
                 </li>
               </ul>
@@ -2122,24 +2185,24 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Medical care ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Medical Care
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Georgia uses a <strong style={{ color: 'var(--ink)' }}>panel of physicians</strong> system rather than free choice of any doctor. Your employer must post and maintain a list of <strong style={{ color: 'var(--ink)' }}>at least six physicians or physician groups</strong> who are reasonably accessible to employees, and you choose your treating doctor from that posted list (
-                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-6/part-1/section-34-9-201/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>O.C.G.A. §34-9-201</a>
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-6/part-1/section-34-9-201/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>O.C.G.A. §34-9-201</a>
                 {' '}(statute text via Justia)). You&apos;re also allowed to make <strong style={{ color: 'var(--ink)' }}>one change to a different doctor already on the same panel without needing the Board&apos;s permission</strong> — after that, further changes generally need approval.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 A few built-in exceptions matter. In a genuine emergency, the panel-selection rule doesn&apos;t apply for as long as the emergency lasts — go get emergency care wherever you need to. The panel itself must include at least one orthopedic surgeon, and the Board is directed to encourage minority-physician participation on panels where feasible. And if your employer never actually posts a valid panel in the first place, you&apos;re not stuck: you&apos;re free to select any physician at the employer&apos;s expense (
-                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-6/part-1/section-34-9-201/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>O.C.G.A. §34-9-201</a>
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-6/part-1/section-34-9-201/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>O.C.G.A. §34-9-201</a>
                 {' '}(statute text via Justia)).
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Worked example ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Worked Example (Hypothetical)
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2150,26 +2213,26 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>Weekly TTD rate: 66 2/3% × $1,200</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$800.00/week (at Georgia&apos;s 2026 cap)</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>Weekly TTD rate: 66 2/3% × $1,200</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$800.00/week (at Georgia&apos;s 2026 cap)</td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>TTD for 10 weeks: $800 × 10</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$8,000.00</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>TTD for 10 weeks: $800 × 10</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$8,000.00</td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>PPD: hand at 160 scheduled weeks × 20% = 32 weeks × $800</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$25,600.00</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>PPD: hand at 160 scheduled weeks × 20% = 32 weeks × $800</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$25,600.00</td>
                     </tr>
                     <tr>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink)', fontSize: '14px', fontWeight: 600 }}>Combined estimated total</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$33,600.00</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink)', fontSize: '15px', fontWeight: 600 }}>Combined estimated total</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$33,600.00</td>
                     </tr>
                   </tbody>
                 </table>
@@ -2188,63 +2251,63 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
             <article className="editorial">
 
               {/* ── Workers' comp in Michigan at a glance ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Workers&apos; Comp in Michigan at a Glance
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Michigan&apos;s workers&apos; compensation system is administered by the Workers&apos; Disability Compensation Agency (WDCA), part of the Michigan Department of Labor and Economic Opportunity (LEO). The underlying law is the Worker&apos;s Disability Compensation Act of 1969 (Act 317 of 1969, codified at MCL 418.101 et seq.), which replaced Michigan&apos;s original 1912 workers&apos; comp law (
-                <a href="https://www.michigan.gov/leo/bureaus-agencies/wdca" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>WDCA overview</a>
+                <a href="https://www.michigan.gov/leo/bureaus-agencies/wdca" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>WDCA overview</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Coverage isn&apos;t universal by headcount alone. Under Michigan&apos;s insurance rules, a private employer must carry workers&apos; comp coverage if it regularly employs 1 or more workers 35+ hours a week for 13 or more weeks in the preceding 52 weeks, <em>or</em> regularly employs 3 or more workers at one time (part-time counted), agricultural employers with 3+ workers meeting the same 35-hour/13-week test, and household employers with a domestic worker on the same 35-hour/13-week schedule. All public employers must carry coverage regardless of size. Partners, corporate officers, and LLC manager-members count as employees for this test; sole proprietors working in their own business don&apos;t (
-                <a href="https://www.michigan.gov/leo/bureaus-agencies/wdca/insurance-requirements/pages/workers-disability-compensation-insurance-requirements" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>LEO Workers&apos; Disability Compensation Insurance Requirements</a>
+                <a href="https://www.michigan.gov/leo/bureaus-agencies/wdca/insurance-requirements/pages/workers-disability-compensation-insurance-requirements" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>LEO Workers&apos; Disability Compensation Insurance Requirements</a>
                 ).
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Temporary disability benefits ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Temporary Disability Benefits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Rate.</strong> Michigan doesn&apos;t pay a straight percentage of gross pay. The weekly benefit for total incapacity is <strong style={{ color: 'var(--ink)' }}>80% of the employee&apos;s after-tax average weekly wage</strong> (MCL 418.351(1), statute text via Justia:{' '}
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-351/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>MCL 418.351</a>
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-351/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.351</a>
                 ). &quot;After-tax&quot; means the wage is first reduced for federal/state income tax and FICA withholding, based on the worker&apos;s filing status and number of dependents, before the 80% is applied. Michigan doesn&apos;t leave that conversion to guesswork — the WDCA publishes an annual rate book with tables that do the after-tax conversion and 80% calculation for you, indexed by gross wage, filing status, and dependents (
-                <a href="https://www.michigan.gov/leo/-/media/Project/Websites/leo/Documents/WDCA-Calculation-Program/wca_2026_Rate_Book.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>2026 Rate Book, michigan.gov/LEO</a>
+                <a href="https://www.michigan.gov/leo/-/media/Project/Websites/leo/Documents/WDCA-Calculation-Program/wca_2026_Rate_Book.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>2026 Rate Book, michigan.gov/LEO</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>2026 max/min.</strong> For injuries in the 2026 benefit year (calendar year 2026), the maximum weekly rate is <strong style={{ color: 'var(--ink)' }}>${stateData.weeklyCapAmount.toLocaleString()}</strong>, tied to the 2026 state average weekly wage of $1,333.88. Michigan doesn&apos;t set a flat dollar minimum the way some states do; the &quot;floor&quot; is simply wherever the after-tax 80% calculation lands for very low earners (
-                <a href="https://www.michigan.gov/leo/-/media/Project/Websites/leo/Documents/WDCA-Calculation-Program/wca_2026_Rate_Book.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>2026 Rate Book</a>
+                <a href="https://www.michigan.gov/leo/-/media/Project/Websites/leo/Documents/WDCA-Calculation-Program/wca_2026_Rate_Book.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>2026 Rate Book</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Waiting period.</strong> Michigan&apos;s WDCA materials direct an insurer to file the first report of injury &quot;immediately upon the disability exceeding 7 consecutive days, death, or specific loss&quot; — meaning wage-loss checks start once the disability passes the 7-day mark, with the norm being retroactive payment back to day one once disability continues beyond 14 days (
-                <a href="https://www.michigan.gov/-/media/Project/Websites/leo/Documents/WDCA-RESOURCES-AND-REPORTS/Publications/wca_WCPUB006.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>WDCA, Michigan Workers&apos; Disability Compensation Rights &amp; Responsibilities</a>
+                <a href="https://www.michigan.gov/-/media/Project/Websites/leo/Documents/WDCA-RESOURCES-AND-REPORTS/Publications/wca_WCPUB006.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>WDCA, Michigan Workers&apos; Disability Compensation Rights &amp; Responsibilities</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Duration.</strong> There&apos;s no fixed number of weeks that cuts off temporary total disability (TTD) in Michigan. MCL 418.351(1) says compensation &quot;shall be paid for the duration of the disability,&quot; and only caps a <em>conclusive legal presumption</em> of total-and-permanent disability at 800 weeks from the injury date — after 800 weeks, whether the worker is still totally disabled becomes a question of fact again rather than an automatic legal conclusion. That 800-week rule is not a benefit cutoff. The WDCA&apos;s own consumer publication confirms wage-loss benefits &quot;continue so long as you are disabled, which could be for the rest of your life,&quot; though the amount can be reduced by up to 50% once the worker turns 65 and has been drawing benefits for at least 5 years (
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-351/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>MCL 418.351</a>
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-351/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.351</a>
                 {' '}(statute text via Justia)).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Temporary partial disability.</strong> If a worker returns to lighter or part-time duty and earns less than before, Michigan pays a percentage of average weekly earnings equal to the proportionate loss of wage-earning capacity, under MCL 418.371(1). By statute, benefits plus actual post-injury earnings can&apos;t add up to more than the worker&apos;s pre-injury average weekly wage — the combination is capped there, not stacked on top of it (
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-371/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>MCL 418.371</a>
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-371/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.371</a>
                 {' '}(statute text via Justia)).
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Permanent partial disability ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Permanent Partial Disability
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Michigan doesn&apos;t use the AMA <em>Guides to the Evaluation of Permanent Impairment</em> to set dollar values for lost body parts. Instead, MCL 418.361 lays out Michigan&apos;s own fixed schedule: a set number of compensation <em>weeks</em> is assigned by statute to each listed body part, paid at the same 80%-of-after-tax-AWW rate used for total incapacity, subject to the same statutory max/min. Loss of the first phalange (bone segment) of a thumb, finger, or toe counts as half that digit&apos;s scheduled weeks; losing more than the first phalange counts as loss of the whole digit (statute text via Justia:{' '}
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-361/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>MCL 418.361</a>
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-361/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.361</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2255,8 +2318,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Scheduled Weeks</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Scheduled Weeks</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -2266,16 +2329,16 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                       ['Arm', '269'], ['Foot', '162'], ['Leg', '215'], ['Eye', '162'],
                     ].map(([part, weeks], i, arr) => (
                       <tr key={part} style={i < arr.length - 1 ? { borderBottom: '1px solid var(--line)' } : undefined}>
-                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>{part}</td>
-                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>{weeks}</td>
+                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>{part}</td>
+                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>{weeks}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <p style={{ color: 'var(--ink-3)', lineHeight: '1.6', marginBottom: '18px', fontSize: '13px' }}>
+              <p style={{ color: 'var(--ink-3)', lineHeight: '1.6', marginBottom: '18px', fontSize: '14px' }}>
                 Source: MCL 418.361 (statute text via Justia,{' '}
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-361/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>MCL 418.361</a>
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-361/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.361</a>
                 ).
               </p>
 
@@ -2284,31 +2347,31 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Permanent total disability ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Permanent Total Disability
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Michigan treats certain injuries as permanent and total by statutory definition rather than case-by-case argument: loss of both eyes, both legs or feet at or above the ankle, both arms or hands at or above the wrist, permanent and complete paralysis of both legs, both arms, or one leg and one arm, incurable insanity, imbecility caused by the injury, or <em>any two</em> of the losses listed elsewhere in the schedule (for example, one hand and one eye). These cases are compensated as total and permanent disability rather than under the specific-loss schedule for a single member (MCL 418.361, statute text via Justia,{' '}
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-361/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>MCL 418.361</a>
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-361/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.361</a>
                 ).
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── How settlements work in Michigan ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Settlements Work in Michigan
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Michigan calls a workers&apos; comp settlement a <strong style={{ color: 'var(--ink)' }}>&quot;redemption&quot;</strong> — the parties agree to redeem (buy out) the employer&apos;s/carrier&apos;s entire liability for the injury with a lump-sum payment, instead of continuing weekly checks. Redemption isn&apos;t available until at least six months after the injury (MCL 418.835, statute text via Justia,{' '}
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-8/section-418-835/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>MCL 418.835</a>
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-8/section-418-835/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.835</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Every redemption agreement must be submitted to and approved (or rejected) by a workers&apos; compensation magistrate — it isn&apos;t a private contract the parties can just sign and walk away with. Filing a redemption agreement is expressly <em>not</em> an admission of liability by the employer or carrier. If either side requests review by the WDCA director within 15 days after the magistrate&apos;s order is mailed or electronically distributed, the case goes to the director; if no one requests review within that 15-day window, the magistrate&apos;s order becomes final (MCL 418.835 and MCL 418.837, statute text via Justia:{' '}
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-8/section-418-835/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>418.835</a>
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-8/section-418-835/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>418.835</a>
                 ,{' '}
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-8/section-418-837/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>418.837</a>
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-8/section-418-837/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>418.837</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2321,29 +2384,29 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Deadlines ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Deadlines
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Notice to employer:</strong> an injured worker must give notice of the injury (oral or written) within 90 days after the injury happens, or within 90 days of when the worker knew or should have known about it. A late notice is excused unless the employer can show it was actually prejudiced by the delay (MCL 418.381(1), statute text via Justia,{' '}
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-381/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>MCL 418.381</a>
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-381/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.381</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Claim filing deadline:</strong> separately, a claim for compensation — made to the employer or filed with the agency — must happen within 2 years after the injury occurred, or the claim can&apos;t be maintained at all. Even within a timely-filed claim, back pay generally can&apos;t reach further than 2 years before the date the worker filed for a hearing (1 year for nursing/attendant-care claims specifically) (MCL 418.381(1)-(3), statute text via Justia,{' '}
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-381/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>MCL 418.381</a>
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-381/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.381</a>
                 ).
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Medical care ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Medical Care
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 For the first 28 days of treatment after a work injury, the employer (or its insurer) has the right to choose the treating physician. After that 28-day window, the injured worker can switch to a doctor of their own choosing simply by notifying the employer and carrier of the change — no permission needed. The employer or carrier can still ask a workers&apos; compensation magistrate to order the worker to stop treating with their chosen doctor, but only after notice to all parties and a hearing, and only if they can show cause (MCL 418.315, statute text via Justia,{' '}
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-315/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>MCL 418.315</a>
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-315/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.315</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2353,7 +2416,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Worked example ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Worked Example (Hypothetical Only)
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2367,22 +2430,22 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>TTD for 10 weeks: $700 × 10 (assumed after-tax rate)</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$7,000.00</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>TTD for 10 weeks: $700 × 10 (assumed after-tax rate)</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$7,000.00</td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>PPD: hand at 215 scheduled weeks × 20% = 43 weeks × $700</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$30,100.00</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>PPD: hand at 215 scheduled weeks × 20% = 43 weeks × $700</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$30,100.00</td>
                     </tr>
                     <tr>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink)', fontSize: '14px', fontWeight: 600 }}>Combined estimated total</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$37,100.00</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink)', fontSize: '15px', fontWeight: 600 }}>Combined estimated total</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$37,100.00</td>
                     </tr>
                   </tbody>
                 </table>
@@ -2401,60 +2464,60 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
             <article className="editorial">
 
               {/* ── Workers' comp in New Jersey at a glance ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Workers&apos; Comp in New Jersey at a Glance
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 New Jersey&apos;s workers&apos; compensation system is run by the Division of Workers&apos; Compensation (DWC), part of the Department of Labor and Workforce Development, through 15 workers&apos; compensation courts around the state (
-                <a href="https://www.nj.gov/labor/workerscompensation/about/index.shtml" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>DWC About page</a>
+                <a href="https://www.nj.gov/labor/workerscompensation/about/index.shtml" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>DWC About page</a>
                 ). The rules come from the New Jersey Workers&apos; Compensation Act, N.J.S.A. 34:15-1 and following (
-                <a href="https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>compiled law text, NJDOL</a>
+                <a href="https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>compiled law text, NJDOL</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Coverage is broad: state law requires nearly every New Jersey employer that isn&apos;t covered by a federal program to either carry workers&apos; compensation insurance or be approved to self-insure (
-                <a href="https://www.nj.gov/labor/workerscompensation/injured-worker-protections/index.shtml" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>DWC Injured Worker Protections</a>
+                <a href="https://www.nj.gov/labor/workerscompensation/injured-worker-protections/index.shtml" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>DWC Injured Worker Protections</a>
                 ). If you&apos;re an employee hurt on the job or made sick by your work, you&apos;re generally covered from your first day, regardless of fault.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Temporary disability benefits ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Temporary Disability Benefits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 If your injury keeps you out of work, New Jersey pays temporary total disability (TTD) at <strong style={{ color: 'var(--ink)' }}>70% of your average weekly wage (AWW)</strong> at the time of injury, subject to a statutory maximum and minimum. Source: R.S. 34:15-12(a) (
-                <a href="https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>NJDOL compiled law, PDF</a>
+                <a href="https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>NJDOL compiled law, PDF</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>2026 rates, effective January 1, 2026 through December 31, 2026:</strong> maximum <strong style={{ color: 'var(--ink)' }}>${stateData.weeklyCapAmount.toLocaleString()}/week</strong> (up from $1,159 in 2025); minimum <strong style={{ color: 'var(--ink)' }}>$320/week</strong> (the statute sets the floor at 20% of the statewide average weekly wage; 20% of the 2026 SAWW of $1,598.66 is $319.73, which rounds to $320). Sources: NJDOL 2026 benefit-rate press release (
-                <a href="https://www.nj.gov/labor/lwdhome/press/2025/20251229_newbenefitrates2026.shtml" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>nj.gov</a>
+                <a href="https://www.nj.gov/labor/lwdhome/press/2025/20251229_newbenefitrates2026.shtml" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>nj.gov</a>
                 ) for the $1,199 maximum and the $1,598.66 SAWW; R.S. 34:15-12(a) for the 20%-of-SAWW minimum formula.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Waiting period:</strong> no cash benefits (only medical care) are paid until you&apos;ve been disabled for 7 days. If your disability lasts longer than 7 days, that first week is paid retroactively. Source: R.S. 34:15-14 (
-                <a href="https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>NJDOL compiled law, PDF</a>
+                <a href="https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>NJDOL compiled law, PDF</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Duration:</strong> TTD is capped at a hard <strong style={{ color: 'var(--ink)' }}>400 weeks</strong>, unlike states where it runs until you reach maximum medical improvement with no set limit. Source: R.S. 34:15-12(a); confirmed against N.J.S.A. 34:15-12 via Justia (
-                <a href="https://law.justia.com/codes/new-jersey/title-34/section-34-15-12/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>statute text via Justia</a>
+                <a href="https://law.justia.com/codes/new-jersey/title-34/section-34-15-12/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>statute text via Justia</a>
                 ).
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Permanent partial disability (PPD) ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Permanent Partial Disability (PPD)
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 New Jersey does not use the AMA <em>Guides to the Evaluation of Permanent Impairment</em> to set dollar values. Instead, the state has its <strong style={{ color: 'var(--ink)' }}>own statutory schedule</strong> that assigns a maximum number of weeks to each body part; a doctor rates your percentage of permanent loss of function, and that percentage is applied against the part&apos;s maximum weeks. Source: R.S. 34:15-12(c) (
-                <a href="https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>NJDOL compiled law, PDF</a>
+                <a href="https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>NJDOL compiled law, PDF</a>
                 ); schedule of body-part weeks (
-                <a href="https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/2026_schedule.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>NJDOL 2026 Schedule of Disabilities, PDF</a>
+                <a href="https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/2026_schedule.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>NJDOL 2026 Schedule of Disabilities, PDF</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2462,7 +2525,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 The dollar value of a PPD award is <strong style={{ color: 'var(--ink)' }}>not</strong> simply your wage times a percentage. New Jersey&apos;s official 2026 schedule sets a maximum total dollar award tied to the <em>total number of weeks</em> the award covers (more weeks land in a higher dollar bracket). For example, the 2026 schedule sets the maximum award for a 90-week case at <strong style={{ color: 'var(--ink)' }}>$28,800</strong>. Source:{' '}
-                <a href="https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/2026_schedule.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>NJDOL 2026 Schedule of Disabilities and Maximum Benefits, PDF</a>
+                <a href="https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/2026_schedule.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>NJDOL 2026 Schedule of Disabilities and Maximum Benefits, PDF</a>
                 .
               </p>
 
@@ -2470,8 +2533,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Maximum Weeks</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Maximum Weeks</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -2481,16 +2544,16 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                       ['Thumb', '80'], ['Index finger', '60'], ['Hearing, both ears', '200'],
                     ].map(([part, weeks], i, arr) => (
                       <tr key={part} style={i < arr.length - 1 ? { borderBottom: '1px solid var(--line)' } : undefined}>
-                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>{part}</td>
-                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>{weeks}</td>
+                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>{part}</td>
+                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>{weeks}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <p style={{ color: 'var(--ink-3)', lineHeight: '1.6', marginBottom: '18px', fontSize: '13px' }}>
+              <p style={{ color: 'var(--ink-3)', lineHeight: '1.6', marginBottom: '18px', fontSize: '14px' }}>
                 Source: R.S. 34:15-12(c); NJDOL 2026 Schedule of Disabilities (
-                <a href="https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/2026_schedule.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>PDF</a>
+                <a href="https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/2026_schedule.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>PDF</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2512,19 +2575,19 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Permanent total disability ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Permanent Total Disability
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 If your injury leaves you permanently and totally unable to work, New Jersey pays the same 70%-of-wages rate (subject to the same 2026 max/min) for up to <strong style={{ color: 'var(--ink)' }}>450 weeks</strong>, after which payments stop unless you complete an approved rehabilitation program and still can&apos;t earn a wage comparable to your pre-injury pay — in that case, reduced payments continue. Source: R.S. 34:15-12(b) (
-                <a href="https://law.justia.com/codes/new-jersey/title-34/section-34-15-12/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>statute text via Justia</a>
+                <a href="https://law.justia.com/codes/new-jersey/title-34/section-34-15-12/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>statute text via Justia</a>
                 ).
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── How settlements work in New Jersey ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Settlements Work in New Jersey
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2541,7 +2604,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Deadlines ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Deadlines
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2549,14 +2612,14 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Claim petition (statute of limitations):</strong> you generally must file a formal claim petition with the Division of Workers&apos; Compensation within <strong style={{ color: 'var(--ink)' }}>2 years</strong> of the date of the accident (or, where compensation has already been paid, within 2 years of the last payment). For an occupational illness — a condition caused gradually by your work rather than a single accident — the 2-year clock instead runs from when you first became aware, or should reasonably have become aware, that the condition was connected to your job. Sources: R.S. 34:15-51 (
-                <a href="https://law.justia.com/codes/new-jersey/title-34/section-34-15-51/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>statute text via Justia</a>
+                <a href="https://law.justia.com/codes/new-jersey/title-34/section-34-15-51/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>statute text via Justia</a>
                 ); DWC Injured Worker FAQ.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Medical care ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Medical Care
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2566,7 +2629,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Worked example ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Worked Example (Hypothetical)
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2577,29 +2640,29 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>Weekly TTD rate: 70% × $1,200</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$840.00/week (below the 2026 max)</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>Weekly TTD rate: 70% × $1,200</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$840.00/week (below the 2026 max)</td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>TTD for 10 weeks: $840 × 10</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$8,400.00</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>TTD for 10 weeks: $840 × 10</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$8,400.00</td>
                     </tr>
                     <tr>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>PPD weeks: hand under 25% at 260-week max × 20%</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>52 weeks</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>PPD weeks: hand under 25% at 260-week max × 20%</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>52 weeks</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 New Jersey&apos;s official 2026 schedule sets the maximum total award for a 52-week case; check the schedule&apos;s exact dollar figure for 52 weeks before relying on a number — this page doesn&apos;t display a figure it can&apos;t confirm directly against the current chart. (For reference, the same 2026 schedule shows a 90-week award capped at $28,800, so the amount scales with the week bracket, not a flat weekly rate.) Combined, TTD ($8,400) plus the 52-week PPD award from the current official schedule gives a rough total. Source for the schedule itself:{' '}
-                <a href="https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/2026_schedule.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>NJDOL 2026 Schedule of Disabilities and Maximum Benefits, PDF</a>
+                <a href="https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/2026_schedule.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>NJDOL 2026 Schedule of Disabilities and Maximum Benefits, PDF</a>
                 . This is only an estimate based on simplified facts. It is not a settlement offer, a prediction of any outcome, or legal advice.
               </p>
 
@@ -2613,7 +2676,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
             <article className="editorial">
 
               {/* ── Workers' comp in Virginia at a glance ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Workers&apos; Comp in Virginia at a Glance
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2621,9 +2684,9 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Coverage is close to automatic once you&apos;re on payroll: every employer and employee in Virginia is &quot;conclusively presumed&quot; to have accepted the Act unless they&apos;ve opted out in writing ahead of time (
-                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter3/section65.2-300/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Va. Code § 65.2-300</a>
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter3/section65.2-300/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Va. Code § 65.2-300</a>
                 ). The main carve-out is size — a private employer with <strong style={{ color: 'var(--ink)' }}>fewer than three employees</strong> regularly working in the same business in Virginia generally isn&apos;t required to carry coverage, though underground coal mine operators don&apos;t get this exception and volunteer fire and EMS companies can elect to be covered (
-                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter1/section65.2-101/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Va. Code § 65.2-101</a>
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter1/section65.2-101/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Va. Code § 65.2-101</a>
                 ). If you were hurt on the job for a business with three or more workers, you&apos;re almost certainly covered.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2633,46 +2696,46 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Temporary disability benefits ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Temporary Disability Benefits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 If your injury keeps you out of work entirely, you receive <strong style={{ color: 'var(--ink)' }}>temporary total incapacity (TTD)</strong> benefits equal to <strong style={{ color: 'var(--ink)' }}>66 2/3% of your average weekly wage (AWW)</strong>, subject to Virginia&apos;s statewide minimum and maximum (
-                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-500/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Va. Code § 65.2-500(A)</a>
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-500/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Va. Code § 65.2-500(A)</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>2026 rate caps:</strong> effective <strong style={{ color: 'var(--ink)' }}>July 1, 2026</strong>, the maximum weekly compensation rate is <strong style={{ color: 'var(--ink)' }}>${stateData.weeklyCapAmount.toLocaleString()}</strong> and the minimum is <strong style={{ color: 'var(--ink)' }}>$376.75</strong>. A cost-of-living adjustment of 2.65% is separately scheduled to take effect October 1, 2026. Source: VWC Notice of 2026 Rates,{' '}
-                <a href="https://www.workcomp.virginia.gov/news/notice-of-2026-rates" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>workcomp.virginia.gov</a>
+                <a href="https://www.workcomp.virginia.gov/news/notice-of-2026-rates" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>workcomp.virginia.gov</a>
                 . These figures apply to injuries during the Commission&apos;s July 2026–June 2027 rate year; Virginia resets its min/max every July 1, so an injury earlier in 2026 falls under the prior year&apos;s figures instead.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Waiting period:</strong> the first <strong style={{ color: 'var(--ink)' }}>7 calendar days</strong> of lost time are unpaid; if you&apos;re still out of work on the 8th day, benefits start from day 8. If your incapacity lasts <strong style={{ color: 'var(--ink)' }}>more than three weeks</strong>, the waiting-period days become retroactively payable, and you&apos;re paid from day one of your incapacity (
-                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-509/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Va. Code § 65.2-509</a>
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-509/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Va. Code § 65.2-509</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Duration:</strong> TTD isn&apos;t capped by a fixed number of weeks on its own. Instead, Virginia caps <em>total</em> compensation (TTD plus permanent partial disability combined) at <strong style={{ color: 'var(--ink)' }}>500 weeks</strong>, and also caps the dollar total at 500 times the Commonwealth&apos;s average weekly wage for the applicable year — except for permanent and total incapacity, certain permanent disability cases, and coal workers&apos; pneumoconiosis deaths, none of which are subject to that ceiling (
-                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-518/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Va. Code § 65.2-518</a>
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-518/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Va. Code § 65.2-518</a>
                 ). If your condition is found to be permanent and total, weekly compensation instead continues for your <strong style={{ color: 'var(--ink)' }}>lifetime without limit</strong> (
-                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-500/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Va. Code § 65.2-500(D)</a>
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-500/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Va. Code § 65.2-500(D)</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Temporary partial disability (TPD):</strong> if you can return to work but at reduced wages, you&apos;re paid 66 2/3% of the difference between your pre-injury and post-injury average weekly wages, also capped at the Commonwealth&apos;s average weekly wage (
-                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-502/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Va. Code § 65.2-502</a>
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-502/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Va. Code § 65.2-502</a>
                 ).
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Permanent partial disability ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Permanent Partial Disability
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Virginia does <strong style={{ color: 'var(--ink)' }}>not</strong> use the AMA Guides to price out a permanent injury the way some states do. Instead, it uses its own fixed schedule of weeks per body part, written directly into the statute. Your doctor rates the percentage of permanent loss of use of the body part, that percentage is applied to the body part&apos;s scheduled weeks, and the result is paid at the same 66 2/3%-of-AWW rate (subject to the same min/max) used for TTD (
-                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Va. Code § 65.2-503(B), (D)</a>
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Va. Code § 65.2-503(B), (D)</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2683,8 +2746,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Scheduled Weeks (100% Loss)</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Scheduled Weeks (100% Loss)</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -2693,21 +2756,21 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                       ['Thumb', '60'], ['Hearing, one ear (total loss)', '50'], ['First finger (index)', '35'],
                     ].map(([part, weeks], i, arr) => (
                       <tr key={part} style={i < arr.length - 1 ? { borderBottom: '1px solid var(--line)' } : undefined}>
-                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>{part}</td>
-                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>{weeks}</td>
+                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>{part}</td>
+                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>{weeks}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <p style={{ color: 'var(--ink-3)', lineHeight: '1.6', marginBottom: '18px', fontSize: '13px' }}>
+              <p style={{ color: 'var(--ink-3)', lineHeight: '1.6', marginBottom: '18px', fontSize: '14px' }}>
                 Source:{' '}
-                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Va. Code § 65.2-503(B)</a>
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Va. Code § 65.2-503(B)</a>
                 . Partial loss is paid proportionately — for example, losing the first phalanx of a finger or thumb is treated as half the digit&apos;s compensation, and losing more than the first phalanx is treated as loss of the whole digit.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Timing matters here: PPD compensation is <strong style={{ color: 'var(--ink)' }}>payable only after your TTD payments end</strong> — it isn&apos;t paid on top of active TTD checks. It <em>can</em> run at the same time as TPD payments under § 65.2-502, but when it does, each combined week of payment counts as <strong style={{ color: 'var(--ink)' }}>two weeks</strong> against the overall 500-week cap discussed above (
-                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Va. Code § 65.2-503(E)</a>
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Va. Code § 65.2-503(E)</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2719,26 +2782,26 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Permanent total disability ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Permanent Total Disability
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Virginia treats certain injuries as permanent and total automatically: the loss of <strong style={{ color: 'var(--ink)' }}>both hands, both arms, both feet, both legs, both eyes, or any two of these</strong> (from the same accident, or as a compensable consequence of it) (
-                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Va. Code § 65.2-503(C)</a>
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Va. Code § 65.2-503(C)</a>
                 ). In these cases, compensation is paid weekly at the same 66 2/3%-of-AWW rate for the rest of the worker&apos;s life, with no 500-week or dollar cap (
-                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-500/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Va. Code § 65.2-500(D)</a>
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-500/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Va. Code § 65.2-500(D)</a>
                 ).
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── How settlements work in Virginia ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Settlements Work in Virginia
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Virginia workers&apos; comp claims can be resolved by a settlement agreement between the employee and the employer/insurer, but the agreement is not enforceable on its own. It must be submitted to and approved by the Commission, which will approve it only when a Commissioner is &quot;clearly of the opinion&quot; that the deal is in the best interests of the employee (or the employee&apos;s dependents in a death claim). The employer or carrier must file the signed settlement memorandum with the Commission within <strong style={{ color: 'var(--ink)' }}>14 calendar days</strong> of it being fully executed. Once approved, the agreement becomes enforceable as a Commission award (
-                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter7/section65.2-701/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Va. Code § 65.2-701</a>
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter7/section65.2-701/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Va. Code § 65.2-701</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2748,7 +2811,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Deadlines ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Deadlines
               </h2>
               <ul style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', paddingLeft: '20px', listStyleType: 'disc' }}>
@@ -2757,26 +2820,26 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </ul>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Source: VWC Injured Workers guidance,{' '}
-                <a href="https://workcomp.virginia.gov/content/injured-workers" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>workcomp.virginia.gov</a>
+                <a href="https://workcomp.virginia.gov/content/injured-workers" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>workcomp.virginia.gov</a>
                 . Missing either deadline can end your right to benefits, so don&apos;t wait to report an injury or file if your employer or its insurer isn&apos;t cooperating.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Medical care ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Medical Care
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Once you report an injury, your employer must furnish medical treatment free of charge for as long as necessary. You don&apos;t get free choice of any doctor in Virginia — instead, your employer (or its insurer) gives you a <strong style={{ color: 'var(--ink)' }}>panel of at least three physicians</strong>, and you choose your treating doctor from that list (
-                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter6/section65.2-603/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Va. Code § 65.2-603</a>
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter6/section65.2-603/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Va. Code § 65.2-603</a>
                 ). If your employer doesn&apos;t offer a panel, or the panel doesn&apos;t meet the statutory requirements, you generally have more freedom to select your own treating physician — the VWC&apos;s injured-worker guidance addresses this directly.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Worked example ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Worked Example (Hypothetical Only)
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2787,26 +2850,26 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>Weekly TTD rate: 66 2/3% × $1,200 (no cap; between the 2026 min/max)</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$800.00/week</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>Weekly TTD rate: 66 2/3% × $1,200 (no cap; between the 2026 min/max)</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$800.00/week</td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>TTD for 10 weeks: $800 × 10</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$8,000.00</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>TTD for 10 weeks: $800 × 10</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$8,000.00</td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>PPD: hand at 150 scheduled weeks × 20% = 30 weeks × $800 (paid after TTD ends)</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$24,000.00</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>PPD: hand at 150 scheduled weeks × 20% = 30 weeks × $800 (paid after TTD ends)</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$24,000.00</td>
                     </tr>
                     <tr>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink)', fontSize: '14px', fontWeight: 600 }}>Combined total (40 weeks, well under the 500-week cap)</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$32,000.00</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink)', fontSize: '15px', fontWeight: 600 }}>Combined total (40 weeks, well under the 500-week cap)</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$32,000.00</td>
                     </tr>
                   </tbody>
                 </table>
@@ -2825,28 +2888,28 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
             <article className="editorial">
 
               {/* ── Workers' comp in Minnesota at a glance ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Workers&apos; Comp in Minnesota at a Glance
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Minnesota&apos;s workers&apos; compensation system is administered by the{' '}
-                <a href="https://www.dli.mn.gov/business/workers-compensation" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Minnesota Department of Labor and Industry (DLI)</a>
+                <a href="https://www.dli.mn.gov/business/workers-compensation" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Minnesota Department of Labor and Industry (DLI)</a>
                 , under{' '}
-                <a href="https://www.revisor.mn.gov/statutes/cite/176.101" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Minnesota Statutes Chapter 176</a>
+                <a href="https://www.revisor.mn.gov/statutes/cite/176.101" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Minnesota Statutes Chapter 176</a>
                 . Disputed claims are heard by workers&apos; compensation judges at the Office of Administrative Hearings, with appeals going to the{' '}
-                <a href="https://mn.gov/workcomp/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Workers&apos; Compensation Court of Appeals</a>
+                <a href="https://mn.gov/workcomp/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Workers&apos; Compensation Court of Appeals</a>
                 {' '}under Minn. Stat. ch. 175A.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Most Minnesota employers must carry workers&apos; compensation insurance or qualify as self-insured. A handful of narrow categories are exempt under{' '}
-                <a href="https://www.revisor.mn.gov/statutes/cite/176.041" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Minn. Stat. §176.041</a>
+                <a href="https://www.revisor.mn.gov/statutes/cite/176.041" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Minn. Stat. §176.041</a>
                 , including a farmer&apos;s spouse, parent, or child working on the family farm; sole proprietors, partners, and certain closely held corporate officers or LLC managers with limited payroll hours and 25%+ ownership; statutory independent contractors; household workers earning under $1,000 in cash per three months from one home; and casual employment outside the usual course of a business. Everyone else working for a covered employer is generally entitled to benefits from the date of injury, regardless of fault.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Temporary disability benefits ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Temporary Disability Benefits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2854,9 +2917,9 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>2026 maximum and minimum.</strong> For injuries occurring October 1, 2025 through September 30, 2026, the maximum weekly benefit is <strong style={{ color: 'var(--ink)' }}>${stateData.weeklyCapAmount.toLocaleString()}</strong> and the minimum is <strong style={{ color: 'var(--ink)' }}>$307.37</strong>. For injuries occurring on or after October 1, 2026, the maximum rises to <strong style={{ color: 'var(--ink)' }}>$1,594.08</strong> (set at 108% of the statewide average weekly wage of $1,476) and the minimum to <strong style={{ color: 'var(--ink)' }}>$318.82</strong>. These figures adjust every October 1 and should be re-checked against DLI&apos;s rate page for injuries near that date. Source:{' '}
-                <a href="https://www.dli.mn.gov/business/workers-compensation/work-comp-rate-information-statewide-average-weekly-wage-saww" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>DLI SAWW/rate information page</a>
+                <a href="https://www.dli.mn.gov/business/workers-compensation/work-comp-rate-information-statewide-average-weekly-wage-saww" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>DLI SAWW/rate information page</a>
                 {' '}and{' '}
-                <a href="https://www.dli.mn.gov/sites/default/files/pdf/annladj.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>DLI annual adjustment chart</a>
+                <a href="https://www.dli.mn.gov/sites/default/files/pdf/annladj.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>DLI annual adjustment chart</a>
                 .
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2872,12 +2935,12 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Permanent partial disability ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Permanent Partial Disability
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Minnesota does not use a &quot;weeks per body part&quot; schedule the way many states do. Instead, a physician rates the worker&apos;s <strong style={{ color: 'var(--ink)' }}>permanent impairment as a percentage of the whole body</strong>, following the state&apos;s own impairment tables in{' '}
-                <a href="https://www.revisor.mn.gov/rules/5223" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Minnesota Rules Chapter 5223</a>
+                <a href="https://www.revisor.mn.gov/rules/5223" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Minnesota Rules Chapter 5223</a>
                 {' '}— not the AMA Guides. That whole-body percentage is then multiplied by a flat dollar amount tied to the impairment band it falls into, producing a lump-sum PPD award. An employee can&apos;t be compensated for more than 100% whole-body disability even with injuries to multiple body parts. Source: Minn. Stat. §176.101, subd. 2a.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2894,8 +2957,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Whole-Body Impairment</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Dollar Amount</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Whole-Body Impairment</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Dollar Amount</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -2904,8 +2967,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                       ['10.5% to less than 15.5%', '$129,485'], ['15.5% to less than 20.5%', '$137,025'],
                     ].map(([band, amount], i, arr) => (
                       <tr key={band} style={i < arr.length - 1 ? { borderBottom: '1px solid var(--line)' } : undefined}>
-                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>{band}</td>
-                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>{amount}</td>
+                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>{band}</td>
+                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>{amount}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -2920,8 +2983,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Whole-Body Impairment</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Dollar Amount</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Whole-Body Impairment</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Dollar Amount</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -2930,8 +2993,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                       ['10.5% to less than 15.5%', '$155,527'], ['15.5% to less than 20.5%', '$164,584'],
                     ].map(([band, amount], i, arr) => (
                       <tr key={band} style={i < arr.length - 1 ? { borderBottom: '1px solid var(--line)' } : undefined}>
-                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>{band}</td>
-                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>{amount}</td>
+                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>{band}</td>
+                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>{amount}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -2939,7 +3002,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </div>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Both tables run up through the 95.5%–100% band ($567,840 under Table A, $682,045 under Table B). Sources: Minn. Stat. §176.101, subd. 2a (Table A, current text);{' '}
-                <a href="https://www.revisor.mn.gov/laws/2026/0/103/laws.0.12.0" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>2026 Minn. Laws ch. 103, §10</a>
+                <a href="https://www.revisor.mn.gov/laws/2026/0/103/laws.0.12.0" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>2026 Minn. Laws ch. 103, §10</a>
                 {' '}(Table B and its effective date). Every even-numbered year, including 2026, the legislature&apos;s Workers&apos; Compensation Advisory Council is required to reconsider whether the table provides adequate compensation, so expect another revision cycle in 2028.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2951,7 +3014,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Permanent total disability ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Permanent Total Disability
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2961,12 +3024,12 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── How settlements work in Minnesota ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Settlements Work in Minnesota
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Minnesota workers&apos; comp claims are resolved through a <strong style={{ color: 'var(--ink)' }}>Stipulation for Settlement</strong> — the official name for a negotiated settlement agreement between the employee, employer, and insurer. Once the parties reach terms, the stipulation must be filed with the Office of Administrative Hearings within 45 days of the agreement; a Workers&apos; Compensation Judge reviews the document and must approve it before it&apos;s binding. If the parties notify the court of a settlement but don&apos;t file the stipulation in time without good cause shown, the judge can put the case back on the trial calendar or dismiss it. Source:{' '}
-                <a href="https://mn.gov/cah/lawyers-and-litigants/workers-compensation/general-proceedings-guide/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Office of Administrative Hearings, Workers&apos; Compensation General Proceedings Guide</a>
+                <a href="https://mn.gov/cah/lawyers-and-litigants/workers-compensation/general-proceedings-guide/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Office of Administrative Hearings, Workers&apos; Compensation General Proceedings Guide</a>
                 .
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2976,7 +3039,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Deadlines ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Deadlines
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2989,7 +3052,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Medical care ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Medical Care
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -3002,7 +3065,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Worked example ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Worked Example (Hypothetical)
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -3013,26 +3076,26 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>Weekly TTD rate: 66 2/3% × $1,200 (between the min/max, no cap)</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$800.00/week</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>Weekly TTD rate: 66 2/3% × $1,200 (between the min/max, no cap)</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$800.00/week</td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>TTD for 10 weeks: $800 × 10</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$8,000.00</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>TTD for 10 weeks: $800 × 10</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$8,000.00</td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>PPD: 10% rating in the &quot;5.5% to less than 10.5%&quot; Table A band ($121,800) × 10%</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$12,180.00</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>PPD: 10% rating in the &quot;5.5% to less than 10.5%&quot; Table A band ($121,800) × 10%</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$12,180.00</td>
                     </tr>
                     <tr>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink)', fontSize: '14px', fontWeight: 600 }}>Combined estimated total</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$20,180.00</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink)', fontSize: '15px', fontWeight: 600 }}>Combined estimated total</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$20,180.00</td>
                     </tr>
                   </tbody>
                 </table>
@@ -3051,26 +3114,26 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
             <article className="editorial">
 
               {/* ── Workers' comp in Colorado at a glance ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Workers&apos; Comp in Colorado at a Glance
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Colorado&apos;s workers&apos; compensation system is run by the Division of Workers&apos; Compensation (DOWC), part of the Colorado Department of Labor and Employment (CDLE) (
-                <a href="https://cdle.colorado.gov/dwc" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>CDLE, Division of Workers&apos; Compensation</a>
+                <a href="https://cdle.colorado.gov/dwc" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>CDLE, Division of Workers&apos; Compensation</a>
                 ). The benefits themselves come from the Workers&apos; Compensation Act of Colorado, C.R.S. Title 8, Articles 40 through 47.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Coverage is close to universal: CDLE states that all businesses with employees operating in Colorado must carry workers&apos; compensation insurance (or qualify as self-insured), regardless of the number of employees, whether they work part-time, or whether they&apos;re family members of the owner (
-                <a href="https://cdle.colorado.gov/dwc" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>CDLE, Division of Workers&apos; Compensation</a>
+                <a href="https://cdle.colorado.gov/dwc" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>CDLE, Division of Workers&apos; Compensation</a>
                 ;{' '}
-                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-44/part-1/section-8-44-101/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-44-101</a>
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-44/part-1/section-8-44-101/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-44-101</a>
                 {' '}(statute text via Justia)).
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Temporary disability benefits ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Temporary Disability Benefits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -3078,34 +3141,34 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Rate.</strong> Temporary total disability (TTD) pays <strong style={{ color: 'var(--ink)' }}>66 2/3% of your average weekly wage (AWW)</strong> at the time of injury (
-                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-105/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-42-105</a>
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-105/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-42-105</a>
                 {' '}(statute text via Justia)).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>2026-2027 maximum.</strong> The rate is capped at 91% of the state average weekly wage. Under the Division&apos;s 2026 Max Benefits Order, that ceiling is <strong style={{ color: 'var(--ink)' }}>${stateData.weeklyCapAmount.toLocaleString()} a week</strong>, effective July 1, 2026 through June 30, 2027 — you need to earn at least $2,196.18 a week to hit it (
-                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>DOWC 2026 Max Benefits Order</a>
+                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>DOWC 2026 Max Benefits Order</a>
                 ). Colorado&apos;s order does not publish a separate statutory minimum dollar floor for TTD the way some states do.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Waiting period.</strong> The first 3 days off work go unpaid. But if the disability lasts more than two weeks, payment becomes retroactive all the way back to your first day off (
-                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-42/section-8-42-103/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-42-103</a>
+                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-42/section-8-42-103/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-42-103</a>
                 {' '}(statute text via Justia)).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Duration.</strong> Colorado does not cap TTD at a set number of weeks. Checks continue until you reach maximum medical improvement (MMI), return to your regular or modified job, or are given a written release to return to regular work — whichever comes first. Do not trust any claim that Colorado has a &quot;104-week&quot; TTD limit; that number doesn&apos;t apply here (
-                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-105/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-42-105</a>
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-105/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-42-105</a>
                 {' '}(statute text via Justia)).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Temporary partial disability (TPD).</strong> Once you&apos;re released to work with restrictions but can only earn a reduced wage, TPD pays 66 2/3% of the difference between your pre-injury AWW and what you&apos;re earning now, subject to the same 91%-of-SAWW cap that applies to TTD (
-                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-106/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-42-106</a>
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-106/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-42-106</a>
                 {' '}(statute text via Justia)).
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Permanent partial disability (PPD) ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Permanent Partial Disability (PPD)
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -3113,16 +3176,16 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Scheduled injuries.</strong> For a defined list of body parts — arms, hands, legs, feet, fingers, toes, eyes, hearing, and a few others — the statute sets a fixed number of weeks for a total loss, and you&apos;re paid your percentage of that many weeks. The important quirk: scheduled awards are <strong style={{ color: 'var(--ink)' }}>not</strong> paid at 66 2/3% of your own wage. They&apos;re paid at a flat weekly compensation rate the Division sets by rule and adjusts every year with the state average weekly wage. For the 2026-2027 benefit year, that flat rate is <strong style={{ color: 'var(--ink)' }}>$459.45 a week</strong>, no matter what you actually earned (
-                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-42-107(2), (6)</a>
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-42-107(2), (6)</a>
                 {' '}(statute text via Justia);{' '}
-                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>DOWC 2026 Max Benefits Order</a>
+                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>DOWC 2026 Max Benefits Order</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Whole-person (non-scheduled) injuries.</strong> Injuries not on the schedule — most spine, internal, and systemic conditions — are rated differently. A physician assigns a whole-person impairment percentage under the American Medical Association&apos;s <em>Guides to the Evaluation of Permanent Impairment</em>, Third Edition, Revised, as it stood on July 1, 1991 (Colorado has not adopted a newer edition for this purpose). That percentage is multiplied by an age factor — which runs from 1.80 for a worker age 20 or younger down to 1.00 at age 60 or older, so an older worker&apos;s award reflects fewer remaining working years — and then by 400 weeks. The result is paid at your TTD rate, subject to a Division-set floor and ceiling: <strong style={{ color: 'var(--ink)' }}>$150.00 to $804.46 a week</strong> for the 2026-2027 year (
-                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-42-107(8)</a>
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-42-107(8)</a>
                 {' '}(statute text via Justia);{' '}
-                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>DOWC 2026 Max Benefits Order</a>
+                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>DOWC 2026 Max Benefits Order</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -3130,9 +3193,9 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Colorado also caps the combined dollar total of temporary disability plus PPD payable on a claim rated by whole-person impairment: <strong style={{ color: 'var(--ink)' }}>$202,297.46</strong> for a rating of 19% or less, and <strong style={{ color: 'var(--ink)' }}>$328,049.94</strong> for a rating of 20% or greater, for 2026-2027 (
-                <a href="https://law.justia.com/codes/colorado/2023/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107-5-d-1/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-42-107.5</a>
+                <a href="https://law.justia.com/codes/colorado/2023/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107-5-d-1/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-42-107.5</a>
                 {' '}(statute text via Justia);{' '}
-                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>DOWC 2026 Max Benefits Order</a>
+                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>DOWC 2026 Max Benefits Order</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -3143,8 +3206,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Scheduled Weeks (100% Loss)</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Scheduled Weeks (100% Loss)</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -3154,18 +3217,18 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                       ['Thumb, with the metacarpal bone', '50'], ['Index finger, with the metacarpal bone', '26'],
                     ].map(([part, weeks], i, arr) => (
                       <tr key={part} style={i < arr.length - 1 ? { borderBottom: '1px solid var(--line)' } : undefined}>
-                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>{part}</td>
-                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>{weeks}</td>
+                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>{part}</td>
+                        <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>{weeks}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <p style={{ color: 'var(--ink-3)', lineHeight: '1.6', marginBottom: '18px', fontSize: '13px' }}>
+              <p style={{ color: 'var(--ink-3)', lineHeight: '1.6', marginBottom: '18px', fontSize: '14px' }}>
                 Source:{' '}
-                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-42-107(2), (6)</a>
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-42-107(2), (6)</a>
                 {' '}(statute text via Justia);{' '}
-                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>DOWC 2026 Max Benefits Order</a>
+                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>DOWC 2026 Max Benefits Order</a>
                 .
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -3177,77 +3240,77 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Permanent total disability ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Permanent Total Disability (PTD)
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 If you&apos;re unable to earn any wages in the same or other employment, you may qualify for permanent total disability. PTD pays 66 2/3% of your AWW, subject to the same weekly maximum as TTD, and continues until death — Colorado does not cut PTD off at a fixed number of weeks (
-                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-42/section-8-42-111/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-42-111</a>
+                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-42/section-8-42-111/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-42-111</a>
                 {' '}(statute text via Justia)). Under the 2026 order, PTD can be terminated if the worker earns, or is shown capable of earning, more than <strong style={{ color: 'var(--ink)' }}>$9,474.74 a year</strong> (
-                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>DOWC 2026 Max Benefits Order</a>
+                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>DOWC 2026 Max Benefits Order</a>
                 ).
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── How settlements work in Colorado ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Settlements Work in Colorado
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Most Colorado workers&apos; comp cases end in a &quot;full and final&quot; settlement, documented on the Division&apos;s own Uniform Settlement Agreement (USA) form (
-                <a href="https://cdle.colorado.gov/sites/cdle/files/FAQ_Uniform_Settlement_Agreements.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>CDLE, Uniform Settlement Agreement FAQ</a>
+                <a href="https://cdle.colorado.gov/sites/cdle/files/FAQ_Uniform_Settlement_Agreements.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>CDLE, Uniform Settlement Agreement FAQ</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 By statute, a settlement is not binding until it has been reviewed in person with the injured worker and approved in writing by an administrative law judge or the Director of the Division (
-                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-43/part-2/section-8-43-204/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-43-204</a>
+                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-43/part-2/section-8-43-204/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-43-204</a>
                 {' '}(statute text via Justia)).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 A full and final settlement can leave future medical benefits open or closed. &quot;Closing&quot; medical means giving up the right to further Division-ordered treatment for that claim in exchange for settlement money; the USA form has a specific paragraph the parties can use instead to agree medical benefits stay open. If the agreement states the claim cannot be reopened, it generally can&apos;t be — except for fraud or a mutual mistake about a material fact (
-                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-43/part-2/section-8-43-204/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-43-204</a>
+                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-43/part-2/section-8-43-204/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-43-204</a>
                 {' '}(statute text via Justia)). Once approved, any lump sum owed must be paid within 15 calendar days.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Deadlines ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Deadlines
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Notice to your employer.</strong> Report the injury to your employer in writing within <strong style={{ color: 'var(--ink)' }}>10 days</strong>. Missing this can cost you up to a day of benefits for every day you&apos;re late — but the penalty doesn&apos;t apply if your employer already knew about the injury, you had good cause for the delay, or you were physically or mentally unable to report it yourself (
-                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-43/part-1/section-8-43-102/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-43-102</a>
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-43/part-1/section-8-43-102/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-43-102</a>
                 {' '}(statute text via Justia)).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Filing your claim.</strong> A notice claiming compensation must be filed with the Division within <strong style={{ color: 'var(--ink)' }}>2 years</strong> of the injury or death. That stretches to <strong style={{ color: 'var(--ink)' }}>5 years</strong> for occupational diseases involving radioactive/fissionable materials, radiation-induced malignancy, uranium poisoning, asbestosis, silicosis, or anthracosis. The 2-year deadline does not apply once compensation has already been paid on the claim (
-                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-43/part-1/section-8-43-103/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-43-103</a>
+                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-43/part-1/section-8-43-103/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-43-103</a>
                 {' '}(statute text via Justia)).
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Medical care ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Medical Care
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Your employer or its insurer picks the doctor at the start of your claim — but not by handing you a single name. They must designate at least four physicians, or a combination of at least two physicians and two corporate medical providers, within 30 miles of your workplace, with at least one location that isn&apos;t commonly owned with the others (
-                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-43/part-4/section-8-43-404/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-43-404(5)</a>
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-43/part-4/section-8-43-404/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-43-404(5)</a>
                 {' '}(statute text via Justia)).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 You get one chance to switch your own treating physician, as long as you do it in writing within 120 days of the first doctor being designated and before you reach MMI. If your employer fails to designate a physician in time, you&apos;re free to pick your own treating doctor (
-                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-43/part-4/section-8-43-404/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>C.R.S. § 8-43-404(5)</a>
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-43/part-4/section-8-43-404/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>C.R.S. § 8-43-404(5)</a>
                 {' '}(statute text via Justia)).
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               {/* ── Worked example ── */}
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Worked Example (Hypothetical — Not a Prediction of Your Case)
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -3258,26 +3321,26 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--surface)' }}>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
-                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>Weekly TTD rate: 66 2/3% × $1,200 (well under the 2026-2027 max)</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$800.00/week</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>Weekly TTD rate: 66 2/3% × $1,200 (well under the 2026-2027 max)</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$800.00/week</td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>TTD for 10 weeks: $800.00 × 10 (no waiting-period deduction)</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$8,000.00</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>TTD for 10 weeks: $800.00 × 10 (no waiting-period deduction)</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$8,000.00</td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '14px' }}>PPD: hand at 104 scheduled weeks × 20% = 20.8 weeks × the flat $459.45/week rate</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$9,556.56</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>PPD: hand at 104 scheduled weeks × 20% = 20.8 weeks × the flat $459.45/week rate</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$9,556.56</td>
                     </tr>
                     <tr>
-                      <td style={{ padding: '14px 16px', color: 'var(--ink)', fontSize: '14px', fontWeight: 600 }}>Combined estimate</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '14px' }}>$17,556.56</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--ink)', fontSize: '15px', fontWeight: 600 }}>Combined estimate</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$17,556.56</td>
                     </tr>
                   </tbody>
                 </table>
@@ -3297,7 +3360,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
           ) : (
             <article className="editorial">
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How {stateData.name} Workers&apos; Comp Settlements Work
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -3324,9 +3387,9 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               {stateData.stateSpecificNotes && (
                 <div
                   className="rounded-xl px-4 py-3 mt-4"
-                  style={{ background: 'var(--accent-tint)', border: '1px solid var(--accent-line)' }}
+                  style={{ background: 'var(--primary-tint)', border: '1px solid var(--primary-line)' }}
                 >
-                  <p className="text-xs leading-relaxed" style={{ color: 'var(--accent)' }}>
+                  <p className="text-xs leading-relaxed" style={{ color: 'var(--primary)' }}>
                     <strong>State-Specific Note:</strong> {stateData.stateSpecificNotes}
                   </p>
                 </div>
@@ -3350,8 +3413,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
           {/* FAQ Accordion Section */}
           <h2
-            className="heading-serif"
-            style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
+            className="heading-display"
+            style={{ fontSize: '30px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
           >
             Frequently Asked Questions
           </h2>
@@ -3361,8 +3424,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
           {/* Bottom CTA Section */}
           <h2
-            className="heading-serif"
-            style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
+            className="heading-display"
+            style={{ fontSize: '30px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
           >
             Get Your {stateData.name} Estimate Now
           </h2>
@@ -3380,7 +3443,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
             aria-label="Workers comp settlement calculator by state"
             style={{ scrollMarginTop: 'calc(var(--header-h) + 12px)' }}
           >
-            <h2 className="heading-serif" style={{ fontSize: 24, marginBottom: 6 }}>
+            <h2 className="heading-display" style={{ fontSize: 26, marginBottom: 6 }}>
               Workers Comp Settlement Calculator by State
             </h2>
             <p className="text-sm mb-4" style={{ color: 'var(--ink-2)' }}>
@@ -3399,75 +3462,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
           </section>
 
           <DisclaimerBanner variant="footer" stateName={stateData.name} />
-          </div>
-
-          {/* ── RELATED (sidebar on desktop, after the article on mobile) ── */}
-          <aside aria-label="Related state information" className="lg:col-span-4 flex flex-col gap-4 lg:sticky" style={{ top: 'calc(var(--header-h) + 16px)' }}>
-            <SideCard>
-              <h3 className="font-body font-semibold mb-1" style={{ fontSize: 15 }}>How Are {stateData.name} Workers&apos; Comp Settlements Calculated?</h3>
-              <p className="text-sm mb-3" style={{ color: 'var(--ink-2)' }}>
-                Learn how AWW, state rates, impairment ratings, and benefit caps determine your settlement value under {stateData.name} rules.
-              </p>
-              <Link href="/pain-and-suffering-calculator/guide/" className="btn-secondary btn-sm w-full">
-                Read the Complete Guide →
-              </Link>
-            </SideCard>
-
-            <nav aria-label="Workers comp benefit rate reference">
-              <SideCard>
-                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 15 }}>Benefit Rate Reference</h2>
-                <Link href="/workers-comp-maximum-weekly-benefits-by-state/" className="flex flex-col py-1">
-                  <span className="text-sm font-semibold" style={{ color: 'var(--accent)' }}>Max Weekly Benefits by State (2026)</span>
-                  <span className="text-xs" style={{ color: 'var(--ink-3)' }}>See {stateData.name}&apos;s official max/min TTD rate alongside every other state</span>
-                </Link>
-              </SideCard>
-            </nav>
-
-            {tier1States.length > 0 && (
-              <nav aria-label="Other state workers comp calculators">
-                <SideCard>
-                  <h2 className="font-body font-semibold mb-2" style={{ fontSize: 15 }}>Other State Calculators</h2>
-                  <ul className="flex flex-col">
-                    {tier1States.map((state) => (
-                      <li key={state.slug}>
-                        <Link href={`/workers-comp-settlement-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
-                          <span>{state.name} Workers Comp Calculator</span>
-                          <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
-                        </Link>
-                      </li>
-                    ))}
-                    <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
-                      <Link href="/workers-comp-settlement-calculator/" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>
-                        ← All states calculator
-                      </Link>
-                    </li>
-                  </ul>
-                </SideCard>
-              </nav>
-            )}
-
-            <nav aria-label="Other settlement calculators">
-              <SideCard>
-                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 15 }}>Other Calculators</h2>
-                <ul className="flex flex-col">
-                  <li>
-                    <Link href="/pain-and-suffering-calculator/" className="inline-block text-sm font-semibold py-2" style={{ color: 'var(--accent)' }}>
-                      Pain &amp; Suffering Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/car-accident-settlement-calculator/" className="inline-block text-sm font-semibold py-2" style={{ color: 'var(--accent)' }}>
-                      Car Accident Calculator
-                    </Link>
-                  </li>
-                </ul>
-              </SideCard>
-            </nav>
-          </aside>
-          </div>
+          </EditorialLayout>
         </div>
-
-        <BackToCalculator targetId="calculator" />
       </main>
     </>
   )

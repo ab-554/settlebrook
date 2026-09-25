@@ -1,8 +1,12 @@
 import type { Config } from 'tailwindcss'
 
-// Design-refresh tokens (2026-09). The canonical values live as CSS custom
+// Design v2 tokens (2026-09-25). The canonical values live as CSS custom
 // properties in app/globals.css; these Tailwind aliases exist so utility
-// classes (text-ink, bg-paper, border-line, …) resolve to the same tokens.
+// classes (text-ink, bg-surface, border-line, text-primary, text-money, …)
+// resolve to the same tokens.
+//
+// The font-size scale is remapped in px so that no Tailwind text utility can
+// render below 14px (text-xs = 14px) and body copy is 18px (text-base).
 const config: Config = {
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
@@ -10,37 +14,58 @@ const config: Config = {
     './lib/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    fontSize: {
+      xs:   ['14px', { lineHeight: '1.45' }],
+      sm:   ['16px', { lineHeight: '1.5' }],
+      base: ['18px', { lineHeight: '1.6' }],
+      lg:   ['20px', { lineHeight: '1.5' }],
+      xl:   ['22px', { lineHeight: '1.4' }],
+      '2xl': ['26px', { lineHeight: '1.3' }],
+      '3xl': ['32px', { lineHeight: '1.2' }],
+      '4xl': ['40px', { lineHeight: '1.15' }],
+      '5xl': ['52px', { lineHeight: '1.08' }],
+      '6xl': ['60px', { lineHeight: '1.05' }],
+    },
     extend: {
       fontFamily: {
-        display: ['var(--font-display)', 'Georgia', 'serif'],
+        display: ['var(--font-display)', 'Inter', 'system-ui', 'sans-serif'],
         body: ['var(--font-body)', 'system-ui', 'sans-serif'],
       },
       colors: {
-        paper: { DEFAULT: '#FAF7F2', 2: '#F3EEE6' },
+        bg: { DEFAULT: '#F6F8FB', 2: '#EEF3FF' },
         surface: '#FFFFFF',
-        line: { DEFAULT: '#E3DCD0', strong: '#CFC6B8' },
-        ink: { DEFAULT: '#1B2430', 2: '#334151', 3: '#5B6774' },
-        accent: { DEFAULT: '#0E5E52', deep: '#0A4A41', tint: '#E6F1EC', line: '#BFDBD1' },
-        amber: { DEFAULT: '#8A5200', tint: '#FFF3DB', line: '#E9C98A' },
-        danger: { DEFAULT: '#B3261E', tint: '#FBEAE8', line: '#EBB4AE' },
-        // Legacy alias kept so any lingering brand.* utility still compiles.
+        line: { DEFAULT: '#E2E8F0', strong: '#CBD5E1' },
+        ink: { DEFAULT: '#0F1B2D', 2: '#334155', 3: '#5B6776' },
+        primary: { DEFAULT: '#1D4ED8', deep: '#1E3A8A', tint: '#EAF0FF', line: '#C7D7FE' },
+        money: { DEFAULT: '#047857', deep: '#065F46', tint: '#E7F6EF', line: '#A7DFC6' },
+        amber: { DEFAULT: '#B45309', tint: '#FFF4E5', line: '#F5C98A' },
+        danger: { DEFAULT: '#B91C1C', tint: '#FDECEC', line: '#F3B4B4' },
+        // v1 aliases kept so any lingering paper-*/accent-* utility still compiles.
+        paper: { DEFAULT: '#F6F8FB', 2: '#EEF3FF' },
+        accent: { DEFAULT: '#1D4ED8', deep: '#1E3A8A', tint: '#EAF0FF', line: '#C7D7FE' },
         brand: {
-          bg: '#FAF7F2',
-          secondary: '#F3EEE6',
-          blue: '#0E5E52',
-          emerald: '#0E5E52',
-          gold: '#8A5200',
-          heading: '#1B2430',
-          body: '#334151',
+          bg: '#F6F8FB',
+          secondary: '#EEF3FF',
+          blue: '#1D4ED8',
+          emerald: '#047857',
+          gold: '#B45309',
+          heading: '#0F1B2D',
+          body: '#334155',
         },
       },
       boxShadow: {
-        card: '0 1px 2px rgba(27,36,48,0.06), 0 6px 20px rgba(27,36,48,0.06)',
-        pop: '0 12px 32px rgba(27,36,48,0.14)',
+        card: '0 1px 2px rgba(15,27,45,0.05), 0 8px 24px rgba(15,27,45,0.06)',
+        hover: '0 4px 10px rgba(15,27,45,0.06), 0 18px 40px rgba(15,27,45,0.10)',
+        pop: '0 16px 48px rgba(15,27,45,0.16)',
       },
       borderRadius: {
-        sm: '8px',
-        DEFAULT: '12px',
+        sm: '10px',
+        DEFAULT: '14px',
+        lg: '18px',
+      },
+      screens: {
+        // Editorial three-column layout starts here (see .editorial-grid).
+        edit: '1200px',
       },
     },
   },

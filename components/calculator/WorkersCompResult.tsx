@@ -41,8 +41,8 @@ const PPD_METHOD_LABELS: Record<string, string> = {
   percentage_of_person: 'Percentage of Person',
 }
 
-const BASE_SWATCH = 'var(--line-strong)'
-const ATTY_SWATCH = 'var(--accent)'
+const BASE_SWATCH = 'var(--primary)'
+const ATTY_SWATCH = 'var(--money)'
 
 export default function WorkersCompResult({ result, inputs }: WorkersCompResultProps) {
   const {
@@ -125,7 +125,7 @@ export default function WorkersCompResult({ result, inputs }: WorkersCompResultP
       stateSlug={inputs.stateSlug || undefined}
       extra={
         <>
-          <dl className="card-flat grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm" style={{ padding: '12px 14px', background: 'var(--paper-2)' }}>
+          <dl className="card-flat grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm" style={{ padding: '12px 14px', background: 'var(--bg-2)' }}>
             <div>
               <dt className="result-range-label">Weekly benefit</dt>
               <dd className="font-semibold tabular-nums" style={{ color: 'var(--ink)' }}>

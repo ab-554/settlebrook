@@ -16,73 +16,98 @@ Target audience: USA adults researching personal injury settlements.
 - No paid libraries or APIs ever
 - No placeholder or lorem ipsum content ever
 
-## Design System (design-refresh, September 2026)
-Light, calm, credible. Warm paper background, deep ink type, ONE accent
-(deep teal-green = settled money), one amber for deadlines/caution. No
-gradients, no glassmorphism, no floating animations. The canonical values
-are CSS custom properties in app/globals.css; use `var(--token)` inline or
-the matching Tailwind alias (text-ink, bg-paper, border-line, …).
+## Design System (design v2, 25 September 2026)
+Cool, clean, financial-trust. Soft blue-grey page, white surfaces, ONE primary
+blue for every action, ONE green reserved for money / success, amber for
+deadlines, red for errors. Exactly three gradients exist (hero band background,
+primary button, the thin accent line on the result card) — nothing else may use
+one. No glassmorphism, no floating or scroll-driven animation. The canonical
+values are CSS custom properties in app/globals.css; use `var(--token)` inline
+or the matching Tailwind alias (text-ink, bg-surface, border-line, text-primary,
+text-money, …). The v1 names (--paper, --accent, …) are aliased to the v2 values
+in :root so old markup still resolves, but new code must use the v2 names.
 
-Color tokens (all text pairs measured WCAG 2.1 AA, ratio on paper unless noted):
---paper         #FAF7F2   page background
---paper-2       #F3EEE6   header bands, alt sections
---surface       #FFFFFF   cards, inputs, calculator panel
---line          #E3DCD0   hairlines / dividers (decorative)
---line-strong   #CFC6B8   input borders, bar tracks
---ink           #1B2430   headings, strong, amounts       14.7:1
---ink-2         #334151   body prose                       9.8:1
---ink-3         #5B6774   labels, helper text, captions    5.4:1 (5.0:1 on paper-2)
---accent        #0E5E52   links, primary buttons, focus ring, result amount   7.2:1; white on accent 7.7:1
---accent-deep   #0A4A41   button hover                     white on it 10.2:1
---accent-tint   #E6F1EC   selected states, info notes      accent on tint 6.6:1
---accent-line   #BFDBD1   info note / selected borders
---amber         #8A5200   deadline + caution text          6.0:1 (5.8:1 on amber-tint)
---amber-tint    #FFF3DB   caution note background
---danger        #B3261E   validation errors, recovery-barred warnings   6.1:1 (5.6:1 on danger-tint)
---danger-tint   #FBEAE8   error note background
+Color tokens (all text pairs measured WCAG 2.1 AA; ratio on --bg unless noted):
+--bg            #F6F8FB   page background
+--bg-2          #EEF3FF   alt bands, hero gradient end, table headers
+--surface       #FFFFFF   cards, inputs, calculator panel, header, footer
+--line          #E2E8F0   hairlines / dividers (decorative)
+--line-strong   #CBD5E1   input borders, slider tracks
+--ink           #0F1B2D   headings, strong, amounts                    16.3:1 (17.3:1 on surface)
+--ink-2         #334155   body prose                                    9.7:1 (10.4:1 on surface, 9.3:1 on bg-2)
+--ink-3         #5B6776   labels, helper text, captions                 5.4:1 (5.8:1 on surface, 5.2:1 on bg-2)
+                          (the brief's #64748B measures 4.47:1 on --bg — under AA — so it was darkened one step)
+--primary       #1D4ED8   links, primary buttons, focus ring, nav active  6.3:1; white on primary 6.7:1
+--primary-deep  #1E3A8A   button hover, navy bands                      white on it 10.4:1
+--primary-tint  #EAF0FF   selected states, info notes, focus glow       primary on tint 5.9:1
+--primary-line  #C7D7FE   info note / selected borders
+--money         #047857   result figures, success, breakdown P&S swatch   5.2:1 (5.5:1 on surface)
+--money-deep    #065F46   money text on tints, total row
+--money-tint    #E7F6EF   range-bar track, success notes                money on tint 4.9:1
+--amber         #B45309   deadline + caution text                       4.7:1 (5.0:1 on surface, 4.6:1 on amber-tint)
+--amber-tint    #FFF4E5   caution note background
+--danger        #B91C1C   validation errors, recovery-barred warnings   6.1:1 (6.5:1 on surface, 5.7:1 on danger-tint)
+--danger-tint   #FDECEC   error note background
+Gradients: --grad-hero (180deg #FFFFFF → #EEF3FF), --grad-primary (180deg #1D4ED8 → #1E40AF;
+white on #1E40AF 8.7:1), --grad-accent (90deg primary → money, 4px line only).
 
 Typography (free Google Fonts via next/font, self-hosted, variable):
-Font display:  Source Serif 4 600/700 — H1–H3, brand wordmark (--font-display)
+Font display:  Plus Jakarta Sans 700/800 — H1–H3, wordmark, next-step titles (--font-display)
 Font body:     Inter — body, UI, labels, inputs, nav (--font-body)
-Money/stats:   Inter 700 with font-variant-numeric: tabular-nums (.tabular-nums)
-Scale:         H1 clamp(30px,5vw,44px)/1.15 · H2 clamp(24px,3.4vw,30px)/1.25 · H3 20px/1.35
-               body 17px/1.7 (16px under 480px) · small 14px · caption 13px · eyebrow 12px uppercase 0.08em
-               result amount clamp(36px,7vw,52px)/1.05
+Money/stats:   Inter 800 with font-variant-numeric: tabular-nums (.tabular-nums, .result-amount)
+Scale:         H1 clamp(36px,5vw,60px)/1.08 800 · H2 clamp(28px,3.4vw,40px)/1.18 · H3 22px/1.3
+               body 18px/1.7 (17px under 480px) · labels 16px · inputs 18px · small 15px · caption 14px
+               eyebrow 14px uppercase 0.08em · result amount clamp(44px,7vw,64px)/1.02
+               Nothing renders below 14px: Tailwind text-xs = 14px, text-sm = 16px, text-base = 18px.
 
 Spacing / radii / depth:
-4px base. Card padding 20px mobile / 24px desktop. Section rhythm 40px mobile / 64px desktop.
-Prose column max 720px (.editorial / .prose-col). Page container max 1200px, 16px gutter (.container-page).
-Radii: 8px inputs+buttons (--radius-sm), 12px cards (--radius), 999px pills.
-Shadows: --shadow-card 0 1px 2px rgba(27,36,48,.06), 0 6px 20px rgba(27,36,48,.06)
-         --shadow-pop  0 12px 32px rgba(27,36,48,.14) (state picker, sticky pill)
-Focus: 2px accent outline, 2px offset, everywhere. Touch targets 44px minimum.
-Motion: CSS transitions ≤ 0.4s and a 450ms rAF count-up only; prefers-reduced-motion disables both.
+4px base. Card padding 22px mobile / 28px desktop. Section rhythm 48px mobile / 72px desktop.
+Controls 52px tall (buttons, inputs); .btn-sm is 44px; touch targets never below 44px.
+Page container max 1360px, 16px gutter mobile / 24px from 640px (.container-page).
+Prose column max 760px (.editorial). Editorial pages are three columns from 1200px
+(.editorial-grid): sticky TOC 224px · prose 760px · sticky rail 320px; one column below.
+Tool/state pages: calculator 7/12 + sticky live result 5/12 from 1024px.
+Radii: 10px inputs+buttons (--radius-sm), 14px cards (--radius), 18px panels (--radius-lg), 999px pills.
+Shadows: --shadow-card 0 1px 2px rgba(15,27,45,.05), 0 8px 24px rgba(15,27,45,.06)
+         --shadow-hover (card lift) · --shadow-pop (state picker, chooser card)
+Focus: 2px primary outline, 2px offset, plus a 6px --primary-tint glow, everywhere.
+Motion (all disabled under prefers-reduced-motion): card hover lift translateY(-2px) + shadow;
+step content fade/slide 150ms (.fade-in); result count-up 450ms rAF; range-bar fill 500ms;
+chip / segment press scale(.97–.98). No parallax, autoplay or scroll-jacking.
 
 ## Card Pattern (apply to all cards/panels)
 background:    var(--surface)
 border:        1px solid var(--line)
-border-radius: 12px
-box-shadow:    var(--shadow-card)      (.card; .card-flat omits the shadow)
-Notes: .note / .note-info / .note-caution / .note-danger (tinted, 8px radius).
+border-radius: 14px
+box-shadow:    var(--shadow-card)      (.card; .card-flat omits the shadow; add .card-hover for the lift)
+Notes: .note / .note-info / .note-caution / .note-danger / .note-success (tinted, 10px radius).
+Chips: .fact-chip (label + value, tones is-amber/is-danger/is-money/is-primary; .chip-press when a link).
+Icons: lucide-react (ISC, tree-shaken) — import individual icons, aria-hidden, 16–26px.
 
 ## Brand mark
-Rounded deep-green tile (#0E5E52, 22% radius) with a cream (#FAF7F2) "S" ribbon.
+Rounded primary-blue tile (#1D4ED8, 22% radius) with a white "S" ribbon.
 Source of truth: components/ui/Brand.tsx and app/icon.svg (same geometry).
 Icon set in public/: favicon.ico (16/32/48), favicon-16x16/32x32/48x48.png,
 icon-192.png, icon-512.png, apple-touch-icon.png (180, square bleed),
 logo.png (800×200 wordmark, used by Organization JSON-LD), og-image.png (1200×630).
+Regenerate with design-review/v2/make-icons.mjs (Playwright, no paid tools).
 
 ## Calculator UX contract
 - Estimate is live: recomputes ~250ms after typing stops; "Show my estimate" only
   reveals validation and scrolls to the result. Formulas never move out of lib/calculations/.
-- Result card: likely amount (count-up), low/likely/high range bar ONLY where the math
+- Result card: likely amount (count-up, --money), low/likely/high range bar ONLY where the math
   produces one (multiplier method), breakdown rows, "How this was calculated" → /methodology/,
-  Copy / Print, then 2–3 next-step cards from lib/nextSteps.ts.
+  Copy / Print. Next-step cards (lib/nextSteps.ts) render under the calculator on every load,
+  three across, large.
 - GA4 events (lib/analytics.ts, no personal data): calculator_start, calculator_complete,
   next_step_click {card_id}, result_copy, result_print.
-- Every tool/state page: breadcrumb → H1 → one-line promise → TrustLine (Last reviewed ·
-  Settlebrook Editorial · Editorial policy) → calculator, then editorial with the sticky
-  "Back to calculator" pill (top-right, never bottom, so AdSense anchor ads can't overlap it).
+- Every tool/state page, in this order: HeroBand (breadcrumb → H1 → one-line promise →
+  TrustLine: Last reviewed · Settlebrook Editorial · N sources · Editorial policy → three
+  key-fact chips → "Start calculating") → calculator + live result (full container width) →
+  next-step cards → EditorialLayout (sticky TOC auto-built from H2s · prose · tools rail) →
+  sources, FAQ, state grid, disclaimer. The "Back to calculator" pill is position:sticky
+  inside the editorial column (never fixed) and hidden ≥1200px where the TOC carries the link,
+  so AdSense anchor ads can never overlap it.
 
 ## Project Structure
 app/

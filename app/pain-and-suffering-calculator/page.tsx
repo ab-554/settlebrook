@@ -11,12 +11,12 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import PainSufferingCalculator from '@/components/calculator/PainSufferingCalculator'
 import FAQAccordion from '@/components/seo/FAQAccordion'
-import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import HeroBand, { type HeroFact } from '@/components/ui/HeroBand'
+import EditorialLayout from '@/components/ui/EditorialLayout'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import { getMainPageFAQs, buildFAQSchema } from '@/lib/data/faqContent'
 import { getPriorityStates, ALL_STATES } from '@/lib/data/states'
 import SourcesSection from '@/components/seo/SourcesSection'
-import TrustLine from '@/components/ui/TrustLine'
 import BackToCalculator from '@/components/calculator/BackToCalculator'
 import { buildNextSteps } from '@/lib/nextSteps'
 import sourcesData from '@/lib/data/sources.json'
@@ -30,6 +30,14 @@ const LAST_REVIEWED = 'September 2026'
 const NEXT_STEPS = buildNextSteps({ tool: 'pain-suffering' })
 
 const HUB_SOURCES = (sourcesData['pain-and-suffering'] as Record<string, { label: string; url: string; supports: string; tier: 'primary' | 'secondary' }[]>)['main'] ?? []
+
+// Hero chips — true facts about this tool (methods, the protected multiplier
+// range, and the number of published state guides).
+const HERO_FACTS: HeroFact[] = [
+  { label: 'Methods', value: 'Multiplier and per diem', icon: 'calculator', tone: 'primary' },
+  { label: 'Severity multipliers', value: '1.5× to 5.0× of economic damages', icon: 'layers' },
+  { label: 'State guides', value: `${ALL_STATES.length} states with local law`, icon: 'map', href: '#by-state' },
+]
 
 export const metadata: Metadata = {
   // FIX H7: 44 chars → 57 chars total with "| Settlebrook" template (under 60 ✓)
@@ -109,6 +117,77 @@ function SideCard({ children }: { children: React.ReactNode }) {
 }
 
 export default function PainSufferingCalculatorPage() {
+
+  // Right rail (sticky from 1200px): the related-links cards that used to be the sidebar.
+  const rail = (
+    <>
+            <SideCard>
+              <h2 className="font-body font-semibold mb-3" style={{ fontSize: 16 }}>How This Calculator Works</h2>
+              <ol className="flex flex-col gap-2.5">
+                {[
+                  'Enter your medical bills, lost wages, and other economic damages.',
+                  'Choose your calculation method and injury severity.',
+                  'Get an instant settlement estimate range with a full breakdown.',
+                ].map((step, i) => (
+                  <li key={i} className="flex gap-2.5 text-sm" style={{ color: 'var(--ink-2)' }}>
+                    <span className="calc-step-badge" style={{ width: 22, height: 22, fontSize: 14 }} aria-hidden="true">{i + 1}</span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </SideCard>
+
+            <SideCard>
+              <h3 className="font-body font-semibold mb-1" style={{ fontSize: 16 }}>How Is Pain and Suffering Calculated?</h3>
+              <p className="text-sm mb-3" style={{ color: 'var(--ink-2)' }}>
+                Learn exactly how insurance companies calculate your damages — multiplier method, per diem method, and what raises or lowers your number.
+              </p>
+              <Link href="/pain-and-suffering-calculator/guide/" className="btn-secondary btn-sm w-full">
+                Read the Complete Guide →
+              </Link>
+            </SideCard>
+
+            <nav aria-label="State-specific pain and suffering calculators">
+              <SideCard>
+                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Calculator by State</h2>
+                <ul className="flex flex-col">
+                  {priorityStates.map((state) => (
+                    <li key={state.slug}>
+                      <Link href={`/pain-and-suffering-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
+                        <span>{state.name}</span>
+                        <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
+                      </Link>
+                    </li>
+                  ))}
+                  <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
+                    <a href="#by-state" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>All {ALL_STATES.length} states ↓</a>
+                  </li>
+                </ul>
+              </SideCard>
+            </nav>
+
+            <nav aria-label="Other settlement calculators">
+              <SideCard>
+                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Other Free Calculators</h2>
+                <ul className="flex flex-col gap-2">
+                  <li>
+                    <Link href="/car-accident-settlement-calculator/" className="flex flex-col py-1">
+                      <span className="text-sm font-semibold" style={{ color: 'var(--primary)' }}>Car Accident Settlement Calculator</span>
+                      <span className="text-xs" style={{ color: 'var(--ink-3)' }}>Estimate total vehicle accident damages</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/workers-comp-settlement-calculator/" className="flex flex-col py-1">
+                      <span className="text-sm font-semibold" style={{ color: 'var(--primary)' }}>Workers Comp Settlement Calculator</span>
+                      <span className="text-xs" style={{ color: 'var(--ink-3)' }}>Estimate your workplace injury settlement</span>
+                    </Link>
+                  </li>
+                </ul>
+              </SideCard>
+            </nav>
+    </>
+  )
+
   return (
     <>
       <script
@@ -126,59 +205,46 @@ export default function PainSufferingCalculatorPage() {
 
       <main className="min-h-screen">
 
-        {/* ── PAGE HEADER — kept short so the calculator sits above the fold on mobile ── */}
-        <header className="page-band">
-          <div className="container-page pt-5 pb-6 sm:pt-7 sm:pb-8">
-            <BreadcrumbNav items={[
-              { label: 'Home', href: '/' },
-              { label: 'Pain & Suffering Calculator', href: '/pain-and-suffering-calculator/' },
-            ]} />
-            {/* H1 contains primary keyword "pain and suffering calculator" ✓ */}
-            <h1 className="mt-4">Pain &amp; Suffering Calculator</h1>
-            <p className="lede mt-2 max-w-2xl">
-              Estimate your pain and suffering damages using the{' '}
-              <strong style={{ color: 'var(--ink)' }}>multiplier method</strong> or{' '}
-              <strong style={{ color: 'var(--ink)' }}>per diem method</strong> — the same
-              formulas used by insurance adjusters and plaintiff attorneys across the USA.
-              Free, instant, no signup required.
-            </p>
-            <TrustLine reviewed={LAST_REVIEWED} className="mt-3" />
-            <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5" aria-label="What to expect">
-              {[
-                'Updated for 2026',
-                'Both multiplier & per diem methods',
-                'Works Nationwide',
-                'No personal data collected',
-              ].map((signal) => (
-                <li key={signal} className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--ink-2)' }}>
-                  <span style={{ color: 'var(--accent)' }} className="font-bold" aria-hidden="true">✓</span>
-                  {signal}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </header>
+        {/* ── HERO BAND — breadcrumb · H1 · promise · trust line · key facts · CTA ── */}
+        <HeroBand
+          breadcrumb={[
+            { label: 'Home', href: '/' },
+            { label: 'Pain & Suffering Calculator', href: '/pain-and-suffering-calculator/' },
+          ]}
+          title={<>Pain &amp; Suffering Calculator</>}
+          promise={<>
+            Estimate your pain and suffering damages using the{' '}
+            <strong style={{ color: 'var(--ink)' }}>multiplier method</strong> or{' '}
+            <strong style={{ color: 'var(--ink)' }}>per diem method</strong> — the same
+            formulas used by insurance adjusters and plaintiff attorneys across the USA.
+            Free, instant, no signup required.
+          </>}
+          reviewed={LAST_REVIEWED}
+          sourcesCount={HUB_SOURCES.length}
+          facts={HERO_FACTS}
+          factsLabel="What this calculator covers"
+        />
 
         {/* ── CALCULATOR (live estimate) ── */}
-        <div className="container-page pt-6 pb-8 sm:pt-8 sm:pb-10">
+        <div className="container-page pt-8 pb-10 sm:pt-10 sm:pb-14">
           <PainSufferingCalculator nextSteps={NEXT_STEPS} />
         </div>
 
-        {/* ── EDITORIAL + RELATED ── */}
-        <div className="container-page pb-12 sm:pb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          <div className="lg:col-span-8 min-w-0">
+        {/* ── EDITORIAL — sticky TOC · prose · tools rail (three columns from 1200px) ── */}
+        <div className="container-page pb-14 sm:pb-20">
+          <BackToCalculator targetId="calculator" />
+          <EditorialLayout rootId="editorial-root" backHref="#calculator" rail={rail}>
 
           {/* ── EDITORIAL ── */}
           <article className="editorial">
-            <h2 className="heading-serif h2-editorial">When Everything Feels Uncertain After an Injury</h2>
+            <h2 className="heading-display h2-editorial">When Everything Feels Uncertain After an Injury</h2>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Getting hurt changes everything — and fast. One day you&apos;re fine, and the next you&apos;re dealing with doctor visits, missed work, and a stack of bills while an insurance adjuster is already calling you. It&apos;s overwhelming, and if you&apos;re wondering what your pain and suffering is actually <strong style={{ color: 'var(--ink)' }}>worth</strong>, you&apos;re not alone. That&apos;s exactly what this pain and suffering calculator is built for — to give you a real, grounded estimate of your non-economic damages before you sign anything or accept a lowball offer.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Pain and suffering is real money. It&apos;s not a vague bonus tacked onto your claim — it&apos;s often the largest part of a personal injury settlement. And yet most injury victims have no idea how it&apos;s calculated, which means they have no idea when they&apos;re being underpaid.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>This tool uses the same formulas insurance companies use internally. It won&apos;t replace an attorney, and it won&apos;t give you a guaranteed number — no calculator can do that. But it will give you a defensible starting point, so you walk into negotiations knowing your range, not guessing at it.</p>
 
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
-            <h2 className="heading-serif h2-editorial">What Are Pain and Suffering Damages?</h2>
+            <h2 className="heading-display h2-editorial">What Are Pain and Suffering Damages?</h2>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>When you&apos;re injured because of someone else&apos;s negligence, your losses fall into two buckets.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>The first bucket is economic damages — the stuff with receipts. Medical bills, lost wages, physical therapy costs, prescription expenses, future medical treatment. These are concrete, documentable, and relatively straightforward to calculate.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>The second bucket is non-economic damages, and this is where pain and suffering lives. It covers the losses that don&apos;t come with an invoice: the physical pain you wake up with every morning, the anxiety of not knowing if you&apos;ll fully recover, the hobbies you can&apos;t do anymore, the way your relationships have changed, the sleep you&apos;ve lost. These are sometimes called general damages or bodily injury damages, and they&apos;re entirely real even though there&apos;s no line item for them.</p>
@@ -187,7 +253,7 @@ export default function PainSufferingCalculatorPage() {
 
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
-            <h2 className="heading-serif h2-editorial">How to Calculate Pain and Suffering</h2>
+            <h2 className="heading-display h2-editorial">How to Calculate Pain and Suffering</h2>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>The most widely used method is called the multiplier method, and it&apos;s straightforward once you see it in action.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>You start with your total economic damages — add up every medical bill, every lost paycheck, every out-of-pocket expense tied to your injury. That number becomes your base. Then you multiply it by a number between 1.5 and 5, depending on how severe and lasting your injuries are. The result is your estimated pain and suffering damages.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Here&apos;s how that plays out with real numbers:</p>
@@ -198,16 +264,16 @@ export default function PainSufferingCalculatorPage() {
 
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
-            <h2 className="heading-serif h2-editorial">The Per Diem Method</h2>
+            <h2 className="heading-display h2-editorial">The Per Diem Method</h2>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>The per diem method takes a different approach. Instead of multiplying your economic damages, it assigns a daily dollar value to your pain — and then multiplies that by the number of days you suffered.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>The daily rate is usually tied to your actual daily earnings. If you make $200 a day, the argument is that your pain is worth at least that much per day, since you&apos;d reasonably trade a day&apos;s pay to not experience it.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>So if you earned $200/day and your recovery took 180 days of real, documented pain, your per diem calculation yields $36,000 in pain and suffering.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>This method works best when your recovery has a clear endpoint — a fracture that healed, a surgery with a defined recovery window. It&apos;s harder to apply when injuries are ongoing or permanent, because multiplying a daily rate by an indefinite number of future days becomes speculative.</p>
-            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Some personal injury attorneys use per diem specifically to counter lowball multiplier offers from insurance companies. If the per diem number comes out higher, it gives you a stronger argument in negotiation. Our <Link href='/pain-and-suffering-calculator/' style={{ color: 'var(--accent)' }}>Pain and Suffering Calculator</Link> runs both methods so you can see which one produces a stronger estimate for your specific situation.</p>
+            <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Some personal injury attorneys use per diem specifically to counter lowball multiplier offers from insurance companies. If the per diem number comes out higher, it gives you a stronger argument in negotiation. Our <Link href='/pain-and-suffering-calculator/' style={{ color: 'var(--primary)' }}>Pain and Suffering Calculator</Link> runs both methods so you can see which one produces a stronger estimate for your specific situation.</p>
 
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
-            <h2 className="heading-serif h2-editorial">How Insurance Companies Calculate Pain and Suffering</h2>
+            <h2 className="heading-display h2-editorial">How Insurance Companies Calculate Pain and Suffering</h2>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Here&apos;s something most injury victims never find out until it&apos;s too late: insurance companies don&apos;t sit down and thoughtfully consider your suffering. They run it through software.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>The dominant program in the industry is called Colossus, and it&apos;s used by many of the largest insurers in the country. An insurance adjuster enters your medical codes, treatment history, injury type, and claim details — and the software spits out a settlement range. The adjuster then works from that range, typically starting at the low end.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Colossus weighs certain factors heavily. Documented treatment from a licensed physician counts for more than chiropractic-only care. Consistent, uninterrupted treatment strengthens your value. Objective findings — an MRI showing a herniated disc, an X-ray confirming a fracture — carry more weight than pain complaints alone.</p>
@@ -217,7 +283,7 @@ export default function PainSufferingCalculatorPage() {
 
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
-            <h2 className="heading-serif h2-editorial">Factors That Affect Your Settlement Value</h2>
+            <h2 className="heading-display h2-editorial">Factors That Affect Your Settlement Value</h2>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Several things directly influence where your pain and suffering estimate lands — and some of them are within your control.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: 'var(--ink)' }}>Medical documentation</strong> is the single biggest factor. Every symptom, every limitation, every bad night of sleep should be in your medical records. Judges and adjusters can only value what&apos;s documented. If you told your doctor your back hurts but you didn&apos;t mention the headaches, the insomnia, or the fact that you can&apos;t pick up your kids — those losses effectively don&apos;t exist in your claim.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: 'var(--ink)' }}>Treatment consistency</strong> matters almost as much. If you went to three appointments and then stopped for two months, the insurance company will argue the gap means you recovered. Even if you stopped because you couldn&apos;t afford more visits, or because life got in the way, the gap will be used against you. Treat consistently until your doctor releases you.</p>
@@ -227,7 +293,7 @@ export default function PainSufferingCalculatorPage() {
 
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
-            <h2 className="heading-serif h2-editorial">Pain and Suffering Settlement Examples</h2>
+            <h2 className="heading-display h2-editorial">Pain and Suffering Settlement Examples</h2>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>These examples are illustrative — every claim is different, and these numbers are not guarantees. They&apos;re meant to show you what the math looks like in real personal injury claims.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: 'var(--ink)' }}>Scenario 1 — Rear-end collision, soft tissue injuries.</strong> You&apos;re hit from behind at a stoplight. Whiplash, cervical strain, six weeks of physical therapy. Medical bills: $6,800. Lost wages: $1,400. Economic damages: $8,200. Multiplier: 1.8 (moderate soft tissue, full recovery). Pain and suffering estimate: $14,760. Total claim value: $22,960.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}><strong style={{ color: 'var(--ink)' }}>Scenario 2 — Slip and fall, knee surgery.</strong> You fall on a wet floor at a retail store. Torn meniscus, arthroscopic surgery, four months of recovery. Medical bills: $31,500. Lost wages: $9,200. Economic damages: $40,700. Multiplier: 3.0 (surgery, significant recovery period). Pain and suffering estimate: $122,100. Total claim value: $162,800.</p>
@@ -237,21 +303,21 @@ export default function PainSufferingCalculatorPage() {
 
             <SourcesSection sources={HUB_SOURCES} />
 
-            <h2 className="heading-serif h2-editorial">Frequently Asked Questions</h2>
+            <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
             <FAQAccordion faqs={faqs} />
 
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
-            <h2 className="heading-serif h2-editorial">Related Guides</h2>
+            <h2 className="heading-display h2-editorial">Related Guides</h2>
             <ul style={{ paddingLeft: 24, listStyleType: 'disc' }}>
               <li style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '8px' }}>
-                <Link href="/blog/injury-claim-calculator/" style={{ color: 'var(--accent)' }}>Injury Claim Calculator: How Insurers Value Your Claim</Link> — a deeper look at how adjusters weigh documentation, comparative fault, and policy limits alongside the multiplier and per diem math.
+                <Link href="/blog/injury-claim-calculator/" style={{ color: 'var(--primary)' }}>Injury Claim Calculator: How Insurers Value Your Claim</Link> — a deeper look at how adjusters weigh documentation, comparative fault, and policy limits alongside the multiplier and per diem math.
               </li>
             </ul>
 
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
-            <h2 className="heading-serif h2-editorial">Get Your Estimate Now</h2>
+            <h2 className="heading-display h2-editorial">Get Your Estimate Now</h2>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>You deserve to know what your claim is worth before anyone asks you to sign anything. The insurance company already has software running numbers on your case — you should have one too.</p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>Use our free Pain and Suffering Calculator above to estimate your settlement value in under 2 minutes.</p>
 
@@ -264,7 +330,7 @@ export default function PainSufferingCalculatorPage() {
             aria-label="Pain and suffering calculator by state"
             style={{ scrollMarginTop: 'calc(var(--header-h) + 12px)' }}
           >
-            <h2 className="heading-serif" style={{ fontSize: 24, marginBottom: 6 }}>
+            <h2 className="heading-display" style={{ fontSize: 26, marginBottom: 6 }}>
               Pain &amp; Suffering Calculator by State
             </h2>
             <p className="text-sm mb-4" style={{ color: 'var(--ink-2)' }}>
@@ -284,79 +350,8 @@ export default function PainSufferingCalculatorPage() {
           </section>
 
           <DisclaimerBanner variant="footer" />
-          </div>
-
-          {/* ── RELATED (sidebar on desktop, after the article on mobile) ── */}
-          <aside aria-label="Related information" className="lg:col-span-4 flex flex-col gap-4 lg:sticky" style={{ top: 'calc(var(--header-h) + 16px)' }}>
-            <SideCard>
-              <h2 className="font-body font-semibold mb-3" style={{ fontSize: 15 }}>How This Calculator Works</h2>
-              <ol className="flex flex-col gap-2.5">
-                {[
-                  'Enter your medical bills, lost wages, and other economic damages.',
-                  'Choose your calculation method and injury severity.',
-                  'Get an instant settlement estimate range with a full breakdown.',
-                ].map((step, i) => (
-                  <li key={i} className="flex gap-2.5 text-sm" style={{ color: 'var(--ink-2)' }}>
-                    <span className="calc-step-badge" style={{ width: 22, height: 22, fontSize: 11.5 }} aria-hidden="true">{i + 1}</span>
-                    <span>{step}</span>
-                  </li>
-                ))}
-              </ol>
-            </SideCard>
-
-            <SideCard>
-              <h3 className="font-body font-semibold mb-1" style={{ fontSize: 15 }}>How Is Pain and Suffering Calculated?</h3>
-              <p className="text-sm mb-3" style={{ color: 'var(--ink-2)' }}>
-                Learn exactly how insurance companies calculate your damages — multiplier method, per diem method, and what raises or lowers your number.
-              </p>
-              <Link href="/pain-and-suffering-calculator/guide/" className="btn-secondary btn-sm w-full">
-                Read the Complete Guide →
-              </Link>
-            </SideCard>
-
-            <nav aria-label="State-specific pain and suffering calculators">
-              <SideCard>
-                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 15 }}>Calculator by State</h2>
-                <ul className="flex flex-col">
-                  {priorityStates.map((state) => (
-                    <li key={state.slug}>
-                      <Link href={`/pain-and-suffering-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
-                        <span>{state.name}</span>
-                        <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
-                      </Link>
-                    </li>
-                  ))}
-                  <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
-                    <a href="#by-state" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>All {ALL_STATES.length} states ↓</a>
-                  </li>
-                </ul>
-              </SideCard>
-            </nav>
-
-            <nav aria-label="Other settlement calculators">
-              <SideCard>
-                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 15 }}>Other Free Calculators</h2>
-                <ul className="flex flex-col gap-2">
-                  <li>
-                    <Link href="/car-accident-settlement-calculator/" className="flex flex-col py-1">
-                      <span className="text-sm font-semibold" style={{ color: 'var(--accent)' }}>Car Accident Settlement Calculator</span>
-                      <span className="text-xs" style={{ color: 'var(--ink-3)' }}>Estimate total vehicle accident damages</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/workers-comp-settlement-calculator/" className="flex flex-col py-1">
-                      <span className="text-sm font-semibold" style={{ color: 'var(--accent)' }}>Workers Comp Settlement Calculator</span>
-                      <span className="text-xs" style={{ color: 'var(--ink-3)' }}>Estimate your workplace injury settlement</span>
-                    </Link>
-                  </li>
-                </ul>
-              </SideCard>
-            </nav>
-          </aside>
-          </div>
+          </EditorialLayout>
         </div>
-
-        <BackToCalculator targetId="calculator" />
       </main>
     </>
   )

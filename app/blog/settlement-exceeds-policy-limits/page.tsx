@@ -18,6 +18,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import EditorialLayout from '@/components/ui/EditorialLayout'
+import BlogRail from '@/components/ui/BlogRail'
 import { getBlogPostBySlug, isPostPublished, getPostDisplayDate } from '@/lib/data/blogPosts'
 
 const canonicalUrl = '/blog/settlement-exceeds-policy-limits/'
@@ -147,7 +149,7 @@ const breadcrumbSchema = {
 // ─── Shared inline styles (match the [state] editorial templates) ─────────────
 
 const bodyStyle = { color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' } as const
-const linkStyle = { color: 'var(--accent)' } as const
+const linkStyle = { color: 'var(--primary)' } as const
 const ruleStyle = { borderColor: 'var(--line)', margin: '36px 0' } as const
 
 export default function SettlementExceedsPolicyLimitsPost() {
@@ -165,7 +167,7 @@ export default function SettlementExceedsPolicyLimitsPost() {
       <main className="min-h-screen">
 
         {/* ── PAGE HEADER ── */}
-        <header className="page-band">
+        <header className="hero-band">
           <div className="container-page py-8 sm:py-10">
             <BreadcrumbNav items={[
               { label: 'Home', href: '/' },
@@ -187,8 +189,9 @@ export default function SettlementExceedsPolicyLimitsPost() {
         </header>
 
         {/* ── ARTICLE ── */}
-        <article className="container-page py-10 sm:py-12">
-          <div className="editorial">
+        <div className="container-page py-10 sm:py-14">
+          <EditorialLayout rootId="editorial-root" rail={<BlogRail currentSlug={canonicalUrl} />}>
+          <article className="editorial">
 
             <p style={bodyStyle}>You ran the numbers. Medical bills, lost paychecks, weeks of pain that aren&rsquo;t over yet, and the number that comes out the other end is bigger than what the at-fault driver&rsquo;s insurance company says it will pay. That gap is one of the most common — and most frustrating — problems in a car accident claim.</p>
             <p style={bodyStyle}>It doesn&rsquo;t mean your claim is worth nothing beyond the policy limit. It means you need to know where else the money can come from, and how insurance law treats a claim once it&rsquo;s bigger than the check the insurer is willing to write.</p>
@@ -196,7 +199,7 @@ export default function SettlementExceedsPolicyLimitsPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">What &ldquo;policy limits&rdquo; actually means</h2>
+            <h2 className="heading-display h2-editorial">What &ldquo;policy limits&rdquo; actually means</h2>
             <p style={bodyStyle}>Every auto liability policy has a cap. The insurance company will not pay more than that cap for a given claim, no matter how strong the case or how serious the injury. States set a <em>minimum</em> amount of liability coverage a driver has to carry, usually written as three numbers, like 30/60/15:</p>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
               <li>The first number is the most the policy pays for <strong style={{ color: 'var(--ink)' }}>one person&rsquo;s</strong> bodily injury, in thousands.</li>
@@ -214,7 +217,7 @@ export default function SettlementExceedsPolicyLimitsPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">A worked example: how the gap shows up</h2>
+            <h2 className="heading-display h2-editorial">A worked example: how the gap shows up</h2>
             <p style={bodyStyle}>Say a claimant is hit by a driver who carries the Texas minimum, 30/60/25. Using Settlebrook&rsquo;s calculator formula:</p>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
               <li>Medical bills to date: $45,000</li>
@@ -234,33 +237,33 @@ export default function SettlementExceedsPolicyLimitsPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Where the rest of the money can come from</h2>
+            <h2 className="heading-display h2-editorial">Where the rest of the money can come from</h2>
 
-            <h3 className="heading-serif h3-editorial">Your own underinsured motorist (UIM) coverage</h3>
+            <h3 className="heading-display h3-editorial">Your own underinsured motorist (UIM) coverage</h3>
             <p style={bodyStyle}>UIM coverage is insurance you buy on your own policy that pays when the at-fault driver&rsquo;s liability limits aren&rsquo;t enough to cover your damages. It sits behind their coverage, not instead of it. How it interacts with the at-fault driver&rsquo;s payout — whether your UIM limit gets reduced (offset) by what you already collected, or whether it &ldquo;stacks&rdquo; on top across multiple vehicles or policies — is set by each state&rsquo;s insurance code and varies a lot. That&rsquo;s a state-specific question worth confirming with your own policy and your state&rsquo;s insurance statutes before you assume a number.</p>
 
-            <h3 className="heading-serif h3-editorial">Other liable parties</h3>
+            <h3 className="heading-display h3-editorial">Other liable parties</h3>
             <p style={bodyStyle}>A single crash can have more than one at-fault party. A commercial driver&rsquo;s employer, a bar that over-served a driver, a government agency responsible for a dangerous road defect, or a parts manufacturer if a mechanical failure contributed — each is a potentially separate policy, and a separate source of recovery, from the driver&rsquo;s personal auto insurer.</p>
 
-            <h3 className="heading-serif h3-editorial">The at-fault driver&rsquo;s personal assets</h3>
+            <h3 className="heading-display h3-editorial">The at-fault driver&rsquo;s personal assets</h3>
             <p style={bodyStyle}>In theory, a judgment against the at-fault driver isn&rsquo;t capped at their policy limit — a court can award more, and the driver is personally on the hook for the difference. In practice, this is usually the least productive path. Most people don&rsquo;t have significant savings, home equity, or other assets that a judgment can reach, and pursuing someone who has nothing to collect from (&ldquo;judgment-proof&rdquo;) can mean years of legal costs for little or no result.</p>
 
-            <h3 className="heading-serif h3-editorial">Umbrella policies</h3>
+            <h3 className="heading-display h3-editorial">Umbrella policies</h3>
             <p style={bodyStyle}>Some drivers carry a personal umbrella policy, which adds a large block of extra liability coverage on top of their auto policy&rsquo;s limits. It isn&rsquo;t common on a minimum-coverage driver, but it&rsquo;s worth asking about during the claim, since it can turn a policy-limits problem into a fully covered one.</p>
 
-            <h3 className="heading-serif h3-editorial">Med-pay and PIP</h3>
+            <h3 className="heading-display h3-editorial">Med-pay and PIP</h3>
             <p style={bodyStyle}>Medical payments coverage (med-pay) and, in no-fault states, Personal Injury Protection (PIP) pay medical bills up to their own limit regardless of who caused the crash, and they pay from <em>your own</em> policy — separate from anything you recover from the at-fault driver. They don&rsquo;t close a large policy-limits gap on their own, but they can cover bills quickly while the rest of the claim is worked out.</p>
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">The insurer&rsquo;s duty to settle, and &ldquo;bad faith&rdquo;</h2>
+            <h2 className="heading-display h2-editorial">The insurer&rsquo;s duty to settle, and &ldquo;bad faith&rdquo;</h2>
             <p style={bodyStyle}>Insurance companies that handle a driver&rsquo;s liability claim don&rsquo;t get to sit on a policy-limits settlement demand indefinitely just because doing so is cheaper for them in the short run. In Texas, this is captured in what&rsquo;s known as the Stowers doctrine, from a 1929 Texas case, <em>G.A. Stowers Furniture Co. v. American Indemnity Co.</em> As the Texas Supreme Court has since explained it, an insurer can face liability beyond its own policy limits if a claimant makes a settlement demand within the policy limits, on terms an ordinarily prudent insurer would accept given the insured&rsquo;s exposure to a judgment above those limits, and the insurer turns it down anyway. Source: <a href="https://www.txcourts.gov/media/1452128/190701.pdf" target="_blank" rel="noopener noreferrer" style={linkStyle}>Texas Supreme Court opinion discussing the Stowers doctrine and its elements</a>.</p>
             <p style={bodyStyle}>Florida has its own statutory version of this idea. Under Florida&rsquo;s bad-faith statute, a claimant generally has to give the insurer and the state 60 days&rsquo; written notice of a bad-faith violation before suing, and the insurer can avoid a bad-faith claim by paying the claim or fixing the problem within that window; for liability claims specifically, an insurer can avoid a bad-faith suit by tendering the lesser of the policy limit or the amount demanded within 90 days of getting adequate notice of the claim. Source: <a href="https://www.flsenate.gov/Laws/Statutes/2025/624.155" target="_blank" rel="noopener noreferrer" style={linkStyle}>Florida Statute § 624.155</a>.</p>
             <p style={bodyStyle}>The mechanics differ by state, but in general terms the idea behind a &ldquo;policy-limits demand&rdquo; is this: your attorney sends the insurer a demand to settle for exactly the policy limit, with a deadline and the supporting medical records and bills, putting the insurer on notice that if they don&rsquo;t take the deal and a jury later awards more, they may be the ones left holding the difference. It&rsquo;s one of the sharper tools available when damages clearly outrun what the policy will pay.</p>
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">What to do if your claim looks like it&rsquo;s headed this way</h2>
+            <h2 className="heading-display h2-editorial">What to do if your claim looks like it&rsquo;s headed this way</h2>
             <ol style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'decimal' }}>
               <li>Get a real estimate of your damages before you accept anything. Use the <Link href="/car-accident-settlement-calculator/" style={linkStyle}>car accident settlement calculator</Link> and enter the at-fault driver&rsquo;s policy limit if you know it (it&rsquo;s often disclosed early in a claim); the tool will show you the gap directly.</li>
               <li>Check your own policy for UM/UIM coverage and its limits, and find out whether it stacks or offsets under your state&rsquo;s rules.</li>
@@ -271,28 +274,28 @@ export default function SettlementExceedsPolicyLimitsPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">FAQ</h2>
+            <h2 className="heading-display h2-editorial">FAQ</h2>
 
-            <h3 className="heading-serif h3-editorial">Does it matter if my damages exceed the policy limit — can I still get more than that from the at-fault driver directly?</h3>
+            <h3 className="heading-display h3-editorial">Does it matter if my damages exceed the policy limit — can I still get more than that from the at-fault driver directly?</h3>
             <p style={bodyStyle}>The insurance company generally won&rsquo;t pay more than the policy limit. A court judgment against the driver personally isn&rsquo;t capped that way, but actually collecting more from an individual person, on top of their insurance, depends on whether they have assets worth pursuing.</p>
 
-            <h3 className="heading-serif h3-editorial">What happens if damages exceed insurance limits and I don&rsquo;t have UM/UIM coverage?</h3>
+            <h3 className="heading-display h3-editorial">What happens if damages exceed insurance limits and I don&rsquo;t have UM/UIM coverage?</h3>
             <p style={bodyStyle}>Without UM/UIM, your main paths beyond the at-fault driver&rsquo;s policy limit are other liable parties (if any exist), the at-fault driver&rsquo;s personal assets, and any med-pay or PIP coverage on your own policy for medical bills specifically. This is exactly why UM/UIM coverage is worth checking on your own policy before you ever need it.</p>
 
-            <h3 className="heading-serif h3-editorial">What is an underinsured motorist (UIM) claim, in plain terms?</h3>
+            <h3 className="heading-display h3-editorial">What is an underinsured motorist (UIM) claim, in plain terms?</h3>
             <p style={bodyStyle}>It&rsquo;s a claim against your own insurance company, made under coverage you purchased, that pays when the at-fault driver&rsquo;s liability coverage isn&rsquo;t enough to cover your damages. You&rsquo;re not suing the at-fault driver&rsquo;s insurer a second time — you&rsquo;re making a claim on your own policy.</p>
 
-            <h3 className="heading-serif h3-editorial">Can the insurance company be held responsible for refusing a fair settlement within the policy limit?</h3>
+            <h3 className="heading-display h3-editorial">Can the insurance company be held responsible for refusing a fair settlement within the policy limit?</h3>
             <p style={bodyStyle}>In some states, yes, under legal doctrines built for exactly that situation, like Texas&rsquo;s Stowers doctrine or Florida&rsquo;s bad-faith statute. The details — timelines, notice requirements, what counts as an acceptable demand — vary by state, so this is worth discussing with an attorney licensed there rather than assuming it works the same way everywhere.</p>
 
-            <h3 className="heading-serif h3-editorial">Is it worth pursuing the at-fault driver&rsquo;s personal assets if their insurance limit isn&rsquo;t enough?</h3>
+            <h3 className="heading-display h3-editorial">Is it worth pursuing the at-fault driver&rsquo;s personal assets if their insurance limit isn&rsquo;t enough?</h3>
             <p style={bodyStyle}>Sometimes, but only if they actually have assets a judgment can reach, like real estate, a business, or non-exempt savings. Chasing someone who has nothing worth collecting usually isn&rsquo;t worth the time or legal cost, which is part of why other sources of recovery — UM/UIM, other defendants, umbrella policies — tend to matter more in practice.</p>
 
             <hr style={ruleStyle} />
 
-            <p style={{ ...bodyStyle, fontSize: '14px' }}><strong style={{ color: 'var(--ink)' }}>This article is for general information only and is not legal advice.</strong> Insurance and injury law vary by state and by the specific facts of a claim. For advice about your situation, talk to a licensed attorney in your state.</p>
+            <p style={{ ...bodyStyle, fontSize: '15px' }}><strong style={{ color: 'var(--ink)' }}>This article is for general information only and is not legal advice.</strong> Insurance and injury law vary by state and by the specific facts of a claim. For advice about your situation, talk to a licensed attorney in your state.</p>
 
-            <h2 className="heading-serif h2-editorial">Sources</h2>
+            <h2 className="heading-display h2-editorial">Sources</h2>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
               <li><a href="https://www.insurance.ca.gov/0250-insurers/0300-insurers/0200-bulletins/bulletin-notices-commiss-opinion/upload/bulletin-2023-1-re-sb-1107-final-003.pdf" target="_blank" rel="noopener noreferrer" style={linkStyle}>California Department of Insurance — Bulletin on SB 1107 minimum liability limits</a></li>
               <li><a href="https://www.insurance.ca.gov/0400-news/0102-alerts/2025/New-Year-Means-New-Changes-for-Insurance.cfm" target="_blank" rel="noopener noreferrer" style={linkStyle}>California Department of Insurance — &ldquo;New Year Means New Changes for Insurance&rdquo; (2025 consumer alert)</a></li>
@@ -304,8 +307,9 @@ export default function SettlementExceedsPolicyLimitsPost() {
               <li><a href="https://www.flsenate.gov/Laws/Statutes/2025/624.155" target="_blank" rel="noopener noreferrer" style={linkStyle}>Florida Statutes § 624.155 — Civil remedy for bad faith</a></li>
             </ul>
 
-          </div>
-        </article>
+          </article>
+          </EditorialLayout>
+        </div>
 
       </main>
     </>

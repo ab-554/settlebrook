@@ -28,8 +28,8 @@ interface CarAccidentResultProps {
   inputs: ParsedInputs & { insurancePolicyLimit?: number }
 }
 
-const ECON_SWATCH = 'var(--line-strong)'
-const PS_SWATCH = 'var(--accent)'
+const ECON_SWATCH = 'var(--primary)'
+const PS_SWATCH = 'var(--money)'
 
 export default function CarAccidentResult({ result, activeMethod, inputs }: CarAccidentResultProps) {
   const { multiplierResult, perDiemResult, specialDamages, policyLimitWarning, stateSlug } = result

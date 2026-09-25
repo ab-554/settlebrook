@@ -76,8 +76,8 @@ export default function AboutPage() {
           <section aria-labelledby="what-heading">
             <h2
               id="what-heading"
-              className="heading-serif mb-3"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-3"
+              style={{ fontSize: 30 }}
             >
               What Settlebrook Is
             </h2>
@@ -107,8 +107,8 @@ export default function AboutPage() {
           <section aria-labelledby="why-heading">
             <h2
               id="why-heading"
-              className="heading-serif mb-3"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-3"
+              style={{ fontSize: 30 }}
             >
               Why It Exists
             </h2>
@@ -129,8 +129,8 @@ export default function AboutPage() {
           <section aria-labelledby="accuracy-heading">
             <h2
               id="accuracy-heading"
-              className="heading-serif mb-3"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-3"
+              style={{ fontSize: 30 }}
             >
               How We Keep It Accurate
             </h2>
@@ -155,8 +155,8 @@ export default function AboutPage() {
           <section aria-labelledby="not-heading">
             <h2
               id="not-heading"
-              className="heading-serif mb-3"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-3"
+              style={{ fontSize: 30 }}
             >
               What Settlebrook Is Not
             </h2>
@@ -217,8 +217,8 @@ export default function AboutPage() {
           <section aria-labelledby="tools-heading">
             <h2
               id="tools-heading"
-              className="heading-serif mb-4"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-4"
+              style={{ fontSize: 30 }}
             >
               Our Free Calculators
             </h2>
@@ -235,7 +235,7 @@ export default function AboutPage() {
                   <p className="text-xs leading-relaxed" style={{ color: 'var(--ink-2)' }}>
                     {tool.desc}
                   </p>
-                  <span className="mt-auto text-xs font-semibold" style={{ color: 'var(--accent)' }}>
+                  <span className="mt-auto text-xs font-semibold" style={{ color: 'var(--primary)' }}>
                     Use calculator →
                   </span>
                 </Link>

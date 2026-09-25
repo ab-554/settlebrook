@@ -30,9 +30,9 @@ export default function DisclaimerBanner({ variant = 'banner', stateName }: Disc
       className="card-flat prose-col"
       style={{ padding: '24px', margin: '48px 0 8px' }}
     >
-      <h2 className="heading-serif" style={{ fontSize: 20, marginBottom: 10 }}>Important disclaimer</h2>
+      <h2 className="heading-display" style={{ fontSize: 22, marginBottom: 10 }}>Important disclaimer</h2>
 
-      <div className="flex flex-col gap-3" style={{ color: 'var(--ink-2)', fontSize: '15px', lineHeight: '1.65' }}>
+      <div className="flex flex-col gap-3" style={{ color: 'var(--ink-2)', fontSize: '16px', lineHeight: '1.65' }}>
         <p>
           The settlement estimates produced by this calculator are for{' '}
           <strong style={{ color: 'var(--ink)', fontWeight: 600 }}>informational purposes only</strong>{' '}
@@ -69,7 +69,7 @@ function TrustBadge({ icon, text }: { icon: 'shield' | 'lock' | 'check'; text: s
   }
   return (
     <span className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--ink-3)' }}>
-      <svg className="w-3.5 h-3.5 flex-shrink-0" style={{ color: 'var(--accent)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+      <svg className="w-3.5 h-3.5 flex-shrink-0" style={{ color: 'var(--primary)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d={paths[icon]} />
       </svg>
       {text}

@@ -6,6 +6,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { ReactNode } from 'react'
+import { Check, Lock } from 'lucide-react'
 
 export type StepState = 'done' | 'active' | 'todo'
 
@@ -28,9 +29,7 @@ export function StepHeader({
     <legend className="w-full">
       <span className="calc-step-title">
         <span className={`calc-step-badge ${state === 'done' ? 'is-done' : state === 'todo' ? 'is-todo' : ''}`} aria-hidden="true">
-          {state === 'done' ? (
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 5 5L20 7" /></svg>
-          ) : n}
+          {state === 'done' ? <Check size={16} strokeWidth={3} /> : n}
         </span>
         <span className="sr-only">Step {n}{state === 'done' ? ', complete' : ''}: </span>
         <span>{title}</span>
@@ -64,9 +63,7 @@ export function Progress({ total, done, label = 'Progress' }: { total: number; d
 export function PrivacyNote({ className = '' }: { className?: string }) {
   return (
     <span className={`calc-privacy ${className}`}>
-      <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-        <rect x="4" y="10" width="16" height="11" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" />
-      </svg>
+      <Lock aria-hidden="true" size={14} strokeWidth={2.2} />
       Your inputs stay in your browser
     </span>
   )

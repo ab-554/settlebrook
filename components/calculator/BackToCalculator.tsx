@@ -2,13 +2,16 @@
 
 // ─────────────────────────────────────────────────────────────────────────────
 // components/calculator/BackToCalculator.tsx
-// Sticky "Back to calculator" pill that appears once the calculator panel has
-// scrolled off the top of the viewport. Fixed top-right under the header so it
-// cannot collide with an AdSense anchor ad at the bottom of the screen.
+// "Back to calculator" pill that appears once the calculator panel has
+// scrolled off the top of the viewport. Design v2: the pill is position:sticky
+// inside the editorial container (never position:fixed), so it scrolls with
+// the article and cannot be covered by, or cover, an AdSense anchor ad. It is
+// hidden ≥1200px where the sticky table of contents carries the same link.
 // One passive scroll listener, throttled with rAF; no layout thrash.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useEffect, useState } from 'react'
+import { ArrowUp } from 'lucide-react'
 
 export default function BackToCalculator({ targetId }: { targetId: string }) {
   const [visible, setVisible] = useState(false)
@@ -38,16 +41,11 @@ export default function BackToCalculator({ targetId }: { targetId: string }) {
   }, [targetId])
 
   return (
-    <a
-      href={`#${targetId}`}
-      className={`back-to-calc no-print ${visible ? 'is-visible' : ''}`}
-      aria-hidden={!visible}
-      tabIndex={visible ? 0 : -1}
-    >
-      <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 19V5m-7 7 7-7 7 7" />
-      </svg>
-      Back to calculator
-    </a>
+    <div className={`back-to-calc no-print ${visible ? 'is-visible' : ''}`}>
+      <a href={`#${targetId}`} aria-hidden={!visible} tabIndex={visible ? 0 : -1}>
+        <ArrowUp aria-hidden="true" size={16} strokeWidth={2.4} />
+        Back to calculator
+      </a>
+    </div>
   )
 }

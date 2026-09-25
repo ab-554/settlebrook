@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// app/layout.tsx  —  Root layout: Source Serif 4 + Inter fonts, metadata,
-// Header, Footer. Design-refresh (2026-09): light paper theme.
+// app/layout.tsx  —  Root layout: Plus Jakarta Sans + Inter fonts, metadata,
+// Header, Footer. Design v2 (2026-09-25): cool, clean, financial-trust theme.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata } from 'next'
-import { Source_Serif_4, Inter } from 'next/font/google'
+import { Plus_Jakarta_Sans, Inter } from 'next/font/google'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
@@ -13,10 +13,10 @@ import './globals.css'
 
 // Both are variable fonts: one file each, self-hosted by next/font, no
 // third-party request at runtime.
-const sourceSerif = Source_Serif_4({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   variable: '--font-display',
-  weight: ['600', '700'],
+  weight: ['700', '800'],
   display: 'swap',
 })
 
@@ -95,10 +95,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sourceSerif.variable} ${inter.variable}`}>
+    <html lang="en" className={`${jakarta.variable} ${inter.variable}`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#FAF7F2" />
+        <meta name="theme-color" content="#F6F8FB" />
         <meta name="google-site-verification" content="cGsiOQ_EMINsvgTrz-26yjwmn03QBNsuYxVK5cJrPzQ" />
         {/* FIX C1: Organization JSON-LD on every page for E-E-A-T signals */}
         <script
@@ -106,7 +106,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body className="antialiased min-h-screen flex flex-col font-body" style={{ backgroundColor: 'var(--paper)', color: 'var(--ink-2)' }}>
+      <body className="antialiased min-h-screen flex flex-col font-body" style={{ backgroundColor: 'var(--bg)', color: 'var(--ink-2)' }}>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 text-sm font-semibold px-4 py-3 rounded-lg z-50"

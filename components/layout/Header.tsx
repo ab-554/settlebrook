@@ -1,7 +1,7 @@
 'use client'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// components/layout/Header.tsx — sticky paper header
+// components/layout/Header.tsx — sticky white header (design v2)
 // Desktop: brand · three calculators · States (searchable) · Guides ·
 // Benefits table. Mobile: brand + a real <button> menu (aria-expanded) that
 // opens a panel with the same links and the inline state picker.
@@ -10,6 +10,7 @@
 import { useEffect, useId, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { ChevronRight, Menu, X } from 'lucide-react'
 import { BrandWordmark } from '@/components/ui/Brand'
 import StatePicker, { StatePickerList } from './StatePicker'
 
@@ -43,14 +44,14 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className="container-page">
-        <div className="flex items-center justify-between" style={{ height: 'var(--header-h)' }}>
+        <div className="flex items-center justify-between gap-4" style={{ height: 'var(--header-h)' }}>
 
           <Link href="/" className="flex items-center flex-shrink-0 rounded-md" aria-label="Settlebrook home">
-            <BrandWordmark size={28} />
+            <BrandWordmark size={32} />
           </Link>
 
           {/* Desktop nav */}
-          <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-0.5">
+          <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-1">
             {CALC_NAV.map((item) => (
               <Link
                 key={item.href}
@@ -61,7 +62,7 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
-            <span aria-hidden="true" className="mx-1 h-5 w-px" style={{ background: 'var(--line-strong)' }} />
+            <span aria-hidden="true" className="mx-1.5 h-6 w-px" style={{ background: 'var(--line-strong)' }} />
             <StatePicker />
             {MORE_NAV.map((item) => (
               <Link
@@ -79,21 +80,17 @@ export default function Header() {
           <button
             type="button"
             className="lg:hidden btn-ghost"
-            style={{ minWidth: 44, padding: '0 10px' }}
+            style={{ minWidth: 48, minHeight: 48, padding: '0 12px' }}
             aria-expanded={open}
             aria-controls={menuId}
             onClick={() => setOpen((v) => !v)}
           >
             <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
-            <span className="text-sm font-semibold mr-1.5" aria-hidden="true">Menu</span>
+            <span className="text-sm font-semibold mr-2" aria-hidden="true">Menu</span>
             {open ? (
-              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round">
-                <path d="M6 6l12 12M18 6 6 18" />
-              </svg>
+              <X aria-hidden="true" size={22} strokeWidth={2.2} />
             ) : (
-              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round">
-                <path d="M4 7h16M4 12h16M4 17h16" />
-              </svg>
+              <Menu aria-hidden="true" size={22} strokeWidth={2.2} />
             )}
           </button>
         </div>
@@ -104,16 +101,16 @@ export default function Header() {
         id={menuId}
         hidden={!open}
         className="lg:hidden"
-        style={{ borderTop: '1px solid var(--line)', background: 'var(--paper)' }}
+        style={{ borderTop: '1px solid var(--line)', background: 'var(--surface)', boxShadow: 'var(--shadow-card)' }}
       >
-        <nav aria-label="Mobile navigation" className="container-page py-3">
-          <p className="eyebrow px-3 pt-1 pb-1">Calculators</p>
+        <nav aria-label="Mobile navigation" className="container-page py-4">
+          <p className="eyebrow px-3.5 pt-1 pb-1.5">Calculators</p>
           <ul className="flex flex-col">
             {CALC_NAV.map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className="nav-menu-item" aria-current={isActive(item.href) ? 'page' : undefined}>
                   {item.label}
-                  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="m9 6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  <ChevronRight aria-hidden="true" size={18} strokeWidth={2.2} style={{ color: 'var(--ink-3)' }} />
                 </Link>
               </li>
             ))}
@@ -121,14 +118,14 @@ export default function Header() {
               <li key={item.href}>
                 <Link href={item.href} className="nav-menu-item" aria-current={isActive(item.href) ? 'page' : undefined}>
                   {item.label}
-                  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="m9 6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  <ChevronRight aria-hidden="true" size={18} strokeWidth={2.2} style={{ color: 'var(--ink-3)' }} />
                 </Link>
               </li>
             ))}
           </ul>
-          <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--line)' }}>
-            <p className="eyebrow px-3 pb-2">Find your state</p>
-            <div className="px-3 pb-2">
+          <div className="mt-4 pt-4" style={{ borderTop: '1px solid var(--line)' }}>
+            <p className="eyebrow px-3.5 pb-2">Find your state</p>
+            <div className="px-3.5 pb-2">
               <StatePickerList onNavigate={() => setOpen(false)} />
             </div>
           </div>

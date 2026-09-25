@@ -4,18 +4,20 @@
 // components/calculator/ResultFrame.tsx
 // Shared chrome for every calculator result:
 //   • headline amount with count-up (respects prefers-reduced-motion)
-//   • optional low / likely / high range bar (only when the math produces one)
+//   • optional low / likely / high range bar (only when the math produces one);
+//     the fill animates in once on first render (design v2)
 //   • breakdown rows + proportional bar
 //   • "How this was calculated" <details> linking to /methodology/
 //   • Copy / Print actions (GA4: result_copy, result_print)
 // NextSteps (2–3 contextual cards, GA4: next_step_click) is exported separately
-// so calculators can place it under the form on desktop while the estimate
-// card stays sticky. Nothing here computes; it renders what the tool-specific
-// result component hands it.
+// so calculators can place it under the form while the estimate card stays
+// sticky. Nothing here computes; it renders what the tool-specific result
+// component hands it.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import Link from 'next/link'
+import { ArrowRight, ChevronDown, ClipboardList, Copy, Printer, TriangleAlert } from 'lucide-react'
 import { formatCurrency } from '@/lib/calculations/painSuffering'
 import { trackEvent, type ToolId } from '@/lib/analytics'
 import type { NextStepCard } from '@/lib/nextSteps'
@@ -66,10 +68,10 @@ export function EmptyResult({ children }: { children: ReactNode }) {
   return (
     <div className="result-empty" aria-live="polite">
       <div className="flex items-start gap-3">
-        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="flex-shrink-0 mt-0.5" style={{ color: 'var(--accent)' }}>
-          <rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 7h8M8 11h8M8 15h5" strokeLinecap="round" />
-        </svg>
-        <div>{children}</div>
+        <span className="icon-tile" style={{ width: 44, height: 44, borderRadius: 12 }}>
+          <ClipboardList aria-hidden="true" size={22} strokeWidth={2} />
+        </span>
+        <div className="min-w-0">{children}</div>
       </div>
     </div>
   )
@@ -108,24 +110,25 @@ export default function ResultFrame({
     : 50
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 fade-in">
       <div className="result-card">
         <div className="result-head">
           <span>{title}</span>
           <span className="font-medium" style={{ color: 'var(--ink-3)' }}>{methodLabel}</span>
         </div>
 
-        <div className="px-5 py-5 flex flex-col gap-5">
+        <div className="px-5 py-6 sm:px-6 flex flex-col gap-6">
           <div>
-            <div className="result-range-label mb-1">{amountLabel ?? 'Likely estimate'}</div>
+            <div className="result-range-label mb-2">{amountLabel ?? 'Likely estimate'}</div>
             <div className="result-amount" aria-label={`Estimated settlement: ${formatCurrency(amount)}`}>
               {formatCurrency(shown)}
             </div>
-            {amountNote && <p className="mt-2 text-sm" style={{ color: 'var(--ink-2)' }}>{amountNote}</p>}
+            {amountNote && <p className="mt-3" style={{ color: 'var(--ink-2)', fontSize: 'var(--small)' }}>{amountNote}</p>}
 
             {range && (
               <div aria-label={`Range from ${formatCurrency(range.low)} to ${formatCurrency(range.high)}`}>
                 <div className="range-bar" aria-hidden="true">
+                  <span className="range-bar-fill" />
                   <span className="range-bar-marker" style={{ left: `${markerPct}%` }} />
                 </div>
                 <div className="range-bar-ticks">
@@ -167,7 +170,7 @@ export default function ResultFrame({
           <details className="calc-details">
             <summary>
               How this was calculated
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+              <ChevronDown aria-hidden="true" size={18} strokeWidth={2.2} style={{ color: 'var(--ink-3)' }} />
             </summary>
             <div className="calc-details-body">
               {formula}
@@ -178,13 +181,13 @@ export default function ResultFrame({
             </div>
           </details>
 
-          <div className="flex flex-wrap gap-2 no-print">
+          <div className="flex flex-wrap gap-2.5 no-print">
             <button type="button" onClick={onCopy} className="btn-secondary btn-sm" aria-live="polite">
-              <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V6a2 2 0 0 1 2-2h9" strokeLinecap="round" /></svg>
+              <Copy aria-hidden="true" size={16} strokeWidth={2.2} />
               {copied ? 'Copied' : 'Copy result'}
             </button>
             <button type="button" onClick={onPrint} className="btn-secondary btn-sm">
-              <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" strokeLinecap="round" /><rect x="6" y="14" width="12" height="7" /></svg>
+              <Printer aria-hidden="true" size={16} strokeWidth={2.2} />
               Print
             </button>
           </div>
@@ -193,23 +196,24 @@ export default function ResultFrame({
 
       {children}
 
-      <div className="note note-caution flex gap-2.5 items-start">
-        <svg aria-hidden="true" className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: 'var(--amber)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-        </svg>
-        <p className="text-sm leading-snug" style={{ color: 'var(--ink-2)' }}>{disclaimer}</p>
+      <div className="note note-caution flex gap-3 items-start">
+        <TriangleAlert aria-hidden="true" size={18} strokeWidth={2.2} className="flex-shrink-0 mt-0.5" style={{ color: 'var(--amber)' }} />
+        <p className="leading-snug" style={{ color: 'var(--ink-2)', fontSize: 'var(--small)' }}>{disclaimer}</p>
       </div>
     </div>
   )
 }
 
-/** Contextual next-step cards. Rendered by the calculator once a result exists. */
+/** Contextual next-step cards — large, three across. Always rendered under the calculator. */
 export function NextSteps({ cards, tool, stateSlug }: { cards: NextStepCard[]; tool: ToolId; stateSlug?: string }) {
   if (cards.length === 0) return null
   return (
     <nav aria-label="Next steps" className="no-print">
-      <h3 className="heading-serif" style={{ fontSize: 19, marginBottom: 10 }}>Next steps</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="flex items-baseline justify-between gap-4 mb-4">
+        <h2 className="heading-display" style={{ fontSize: 'var(--h3)' }}>Next steps</h2>
+        <span style={{ color: 'var(--ink-3)', fontSize: 'var(--small)' }}>Continue with what matters most for your claim</span>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {cards.map((card) => (
           <NextStepLink key={card.id} card={card} tool={tool} stateSlug={stateSlug} />
         ))}
@@ -225,12 +229,16 @@ function NextStepLink({ card, tool, stateSlug }: { card: NextStepCard; tool: Too
       <span className="next-step-kicker">{card.kicker}</span>
       <span className="next-step-title">{card.title}</span>
       <span className="next-step-desc">{card.desc}</span>
+      <span className="next-step-cta">
+        Continue
+        <ArrowRight aria-hidden="true" size={16} strokeWidth={2.4} />
+      </span>
     </>
   )
   if (card.href.startsWith('#')) {
-    return <a href={card.href} className="next-step" onClick={onClick}>{body}</a>
+    return <a href={card.href} className="next-step card-hover" onClick={onClick}>{body}</a>
   }
-  return <Link href={card.href} className="next-step" onClick={onClick}>{body}</Link>
+  return <Link href={card.href} className="next-step card-hover" onClick={onClick}>{body}</Link>
 }
 
 /** Monospace formula line block used inside "How this was calculated". */

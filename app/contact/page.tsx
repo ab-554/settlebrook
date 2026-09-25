@@ -142,7 +142,7 @@ export default function ContactPage() {
                     <p className="text-xs uppercase tracking-widest mb-1" style={{ color: 'var(--ink-3)' }}>
                       Email
                     </p>
-                    <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: 'var(--accent)' }}>
+                    <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: 'var(--primary)' }}>
                       contact@settlebrook.com
                     </a>
                   </div>
@@ -184,8 +184,8 @@ export default function ContactPage() {
         >
           <h2
             id="faq-heading"
-            className="heading-serif mb-6"
-            style={{ fontSize: 28 }}
+            className="heading-display mb-6"
+            style={{ fontSize: 32 }}
           >
             Frequently Asked Questions
           </h2>

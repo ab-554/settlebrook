@@ -16,12 +16,12 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import WorkersCompCalculator from '@/components/calculator/WorkersCompCalculator'
 import FAQAccordion from '@/components/seo/FAQAccordion'
-import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import HeroBand, { type HeroFact } from '@/components/ui/HeroBand'
+import EditorialLayout from '@/components/ui/EditorialLayout'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import { WORKERS_COMP_FAQS, buildWorkersCompFAQSchema } from '@/lib/data/workersCompFaqs'
 import { WORKERS_COMP_STATES, NOINDEXED_WORKERS_COMP_SLUGS } from '@/lib/data/workersCompStates'
 import SourcesSection from '@/components/seo/SourcesSection'
-import TrustLine from '@/components/ui/TrustLine'
 import BackToCalculator from '@/components/calculator/BackToCalculator'
 import { buildNextSteps } from '@/lib/nextSteps'
 import sourcesData from '@/lib/data/sources.json'
@@ -41,6 +41,14 @@ const LAST_REVIEWED = 'September 2026'
 const HUB_SOURCES = (sourcesData['workers-comp'] as Record<string, { label: string; url: string; supports: string; tier: 'primary' | 'secondary' }[]>)['main'] ?? []
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
+
+// Hero chips — true facts about this tool.
+const INDEXED_WC_STATES = WORKERS_COMP_STATES.filter((s) => !NOINDEXED_WORKERS_COMP_SLUGS.has(s.slug))
+const HERO_FACTS: HeroFact[] = [
+  { label: 'Benefit types', value: 'TTD, PPD and PTD', icon: 'layers', tone: 'primary' },
+  { label: 'Weekly caps', value: 'Official rates for 50 states + DC', icon: 'wallet', href: '/workers-comp-maximum-weekly-benefits-by-state/' },
+  { label: 'State guides', value: `${INDEXED_WC_STATES.length} states with local law`, icon: 'map', href: '#by-state' },
+]
 
 export const metadata: Metadata = {
   title: 'Workers Comp Settlement Calculator — Free Tool',
@@ -117,6 +125,87 @@ function SideCard({ children }: { children: React.ReactNode }) {
 // ─── Page Component ───────────────────────────────────────────────────────────
 
 export default function WorkersCompCalculatorPage() {
+
+  // Right rail (sticky from 1200px): the related-links cards that used to be the sidebar.
+  const rail = (
+    <>
+            <SideCard>
+              <h2 className="font-body font-semibold mb-3" style={{ fontSize: 16 }}>How This Calculator Works</h2>
+              <ol className="flex flex-col gap-2.5">
+                {[
+                  'Choose your state and enter your Average Weekly Wage (AWW).',
+                  'Select your benefit type: Temporary Total (TTD), Permanent Partial (PPD), or Permanent Total (PTD).',
+                  'Enter your treatment weeks, body part and impairment rating, or age, and calculate your estimate.',
+                ].map((step, i) => (
+                  <li key={i} className="flex gap-2.5 text-sm" style={{ color: 'var(--ink-2)' }}>
+                    <span className="calc-step-badge" style={{ width: 22, height: 22, fontSize: 14 }} aria-hidden="true">{i + 1}</span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </SideCard>
+
+            <SideCard>
+              <h3 className="font-body font-semibold mb-1" style={{ fontSize: 16 }}>No Pain &amp; Suffering Covered</h3>
+              <p className="text-sm mb-3" style={{ color: 'var(--ink-2)' }}>
+                Workers compensation is a no-fault system that does not cover non-economic damages. To estimate those, use our separate <Link href="/pain-and-suffering-calculator/" className="text-link font-semibold">pain and suffering calculator</Link>.
+              </p>
+              <Link href="/pain-and-suffering-calculator/" className="btn-secondary btn-sm w-full">
+                Calculate Pain &amp; Suffering →
+              </Link>
+            </SideCard>
+
+            <nav aria-label="State-specific workers comp settlement calculators">
+              <SideCard>
+                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Calculator by State</h2>
+                <ul className="flex flex-col">
+                  {WORKERS_COMP_STATES.filter((s) => s.slug === 'california' || s.slug === 'texas' || s.slug === 'florida').map((state) => (
+                    <li key={state.slug}>
+                      <Link href={`/workers-comp-settlement-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
+                        <span>{state.name}</span>
+                        <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
+                      </Link>
+                    </li>
+                  ))}
+                  <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
+                    <a href="#by-state" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>All indexed states ↓</a>
+                  </li>
+                </ul>
+              </SideCard>
+            </nav>
+
+            <nav aria-label="Workers comp benefit rate reference">
+              <SideCard>
+                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Benefit Rate Reference</h2>
+                <Link href="/workers-comp-maximum-weekly-benefits-by-state/" className="flex flex-col py-1">
+                  <span className="text-sm font-semibold" style={{ color: 'var(--primary)' }}>Max Weekly Benefits by State (2026)</span>
+                  <span className="text-xs" style={{ color: 'var(--ink-3)' }}>Official max/min TTD rate for every state</span>
+                </Link>
+              </SideCard>
+            </nav>
+
+            <nav aria-label="Other settlement calculators">
+              <SideCard>
+                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Other Free Calculators</h2>
+                <ul className="flex flex-col gap-2">
+                  <li>
+                    <Link href="/pain-and-suffering-calculator/" className="flex flex-col py-1">
+                      <span className="text-sm font-semibold" style={{ color: 'var(--primary)' }}>Pain &amp; Suffering Calculator</span>
+                      <span className="text-xs" style={{ color: 'var(--ink-3)' }}>Estimate non-economic damages by method</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/car-accident-settlement-calculator/" className="flex flex-col py-1">
+                      <span className="text-sm font-semibold" style={{ color: 'var(--primary)' }}>Car Accident Settlement Calculator</span>
+                      <span className="text-xs" style={{ color: 'var(--ink-3)' }}>Estimate total vehicle accident damages</span>
+                    </Link>
+                  </li>
+                </ul>
+              </SideCard>
+            </nav>
+    </>
+  )
+
   return (
     <>
       {/* ── JSON-LD schemas ── */}
@@ -135,50 +224,38 @@ export default function WorkersCompCalculatorPage() {
 
       <main className="min-h-screen">
 
-        {/* ── PAGE HEADER — kept short so the calculator sits above the fold on mobile ── */}
-        <header className="page-band">
-          <div className="container-page pt-5 pb-6 sm:pt-7 sm:pb-8">
-            <BreadcrumbNav items={[
-              { label: 'Home', href: '/' },
-              { label: 'Workers Comp Settlement Calculator', href: '/workers-comp-settlement-calculator/' },
-            ]} />
-            <h1 className="mt-4">Workers Comp Settlement Calculator</h1>
-            <p className="lede mt-2 max-w-2xl">
-              Estimate your TTD, PPD, or PTD workers compensation benefits by state. Free, instant, no signup required.
-            </p>
-            <TrustLine reviewed={LAST_REVIEWED} className="mt-3" />
-            <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5" aria-label="What to expect">
-              {[
-                'No Signup Required',
-                'Your Inputs Never Leave Your Browser',
-                'Updated for 2026 State Laws',
-                'Instant Results',
-              ].map((signal) => (
-                <li key={signal} className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--ink-2)' }}>
-                  <span style={{ color: 'var(--accent)' }} className="font-bold" aria-hidden="true">✓</span>
-                  {signal}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </header>
+        {/* ── HERO BAND — breadcrumb · H1 · promise · trust line · key facts · CTA ── */}
+        <HeroBand
+          breadcrumb={[
+            { label: 'Home', href: '/' },
+            { label: 'Workers Comp Settlement Calculator', href: '/workers-comp-settlement-calculator/' },
+          ]}
+          title={<>Workers Comp Settlement Calculator</>}
+          promise={<>
+            Estimate your TTD, PPD, or PTD workers compensation benefits by state. Free, instant, no signup required.
+          </>}
+          reviewed={LAST_REVIEWED}
+          sourcesCount={HUB_SOURCES.length}
+          facts={HERO_FACTS}
+          factsLabel="What this calculator covers"
+        />
 
         {/* ── CALCULATOR (live estimate) ── */}
-        <div className="container-page pt-6 pb-8 sm:pt-8 sm:pb-10">
+        <div className="container-page pt-8 pb-10 sm:pt-10 sm:pb-14">
           <WorkersCompCalculator nextSteps={NEXT_STEPS} />
         </div>
 
-        {/* ── EDITORIAL + RELATED ── */}
-        <div className="container-page pb-12 sm:pb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          <div className="lg:col-span-8 min-w-0">
+        {/* ── EDITORIAL — sticky TOC · prose · tools rail (three columns from 1200px) ── */}
+        <div className="container-page pb-14 sm:pb-20">
+          <BackToCalculator targetId="calculator" />
+          <EditorialLayout rootId="editorial-root" backHref="#calculator" rail={rail}>
 
           {/* ── EDITORIAL CONTENT ── */}
           <article className="editorial">
             
             {/* Section 1: What Workers Comp Settlements Cover */}
             <h2
-              className="heading-serif h2-editorial"
+              className="heading-display h2-editorial"
             >
               What Workers Comp Settlements Cover
             </h2>
@@ -204,7 +281,7 @@ export default function WorkersCompCalculatorPage() {
 
             {/* Section 2: How the Formula Works */}
             <h2
-              className="heading-serif h2-editorial"
+              className="heading-display h2-editorial"
             >
               How the Formula Works (AWW × benefit rate × impairment weeks)
             </h2>
@@ -216,7 +293,7 @@ export default function WorkersCompCalculatorPage() {
             </p>
             <div
               className="rounded-xl p-5 mb-5 font-mono text-sm"
-              style={{ background: 'var(--surface)', border: '1px solid var(--line)', color: 'var(--accent)' }}
+              style={{ background: 'var(--surface)', border: '1px solid var(--line)', color: 'var(--primary)' }}
             >
               PPD Benefit = Weekly Benefit Amount × Scheduled Body Part Weeks × (Impairment Rating % / 100)
             </div>
@@ -242,7 +319,7 @@ export default function WorkersCompCalculatorPage() {
 
             {/* Section 3: TTD vs PPD vs PTD explained */}
             <h2
-              className="heading-serif h2-editorial"
+              className="heading-display h2-editorial"
             >
               TTD vs PPD vs PTD Explained
             </h2>
@@ -263,7 +340,7 @@ export default function WorkersCompCalculatorPage() {
 
             {/* Section 4: When to Get an Attorney */}
             <h2
-              className="heading-serif h2-editorial"
+              className="heading-display h2-editorial"
             >
               When to Get an Attorney
             </h2>
@@ -293,7 +370,7 @@ export default function WorkersCompCalculatorPage() {
             <SourcesSection sources={HUB_SOURCES} />
 
             <h2
-              className="heading-serif h2-editorial"
+              className="heading-display h2-editorial"
             >
               Frequently Asked Questions
             </h2>
@@ -304,13 +381,13 @@ export default function WorkersCompCalculatorPage() {
                 <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
                 <h2
-                  className="heading-serif h2-editorial"
+                  className="heading-display h2-editorial"
                 >
                   Related Guides
                 </h2>
                 <ul style={{ paddingLeft: 24, listStyleType: 'disc' }}>
                   <li style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '8px' }}>
-                    <Link href="/blog/workers-comp-weekly-benefit-calculator/" style={{ color: 'var(--accent)' }}>How Your Workers&apos; Comp Weekly Check Is Calculated</Link> — average weekly wage, the 66 2/3% rate, state max/min caps, and waiting periods explained.
+                    <Link href="/blog/workers-comp-weekly-benefit-calculator/" style={{ color: 'var(--primary)' }}>How Your Workers&apos; Comp Weekly Check Is Calculated</Link> — average weekly wage, the 66 2/3% rate, state max/min caps, and waiting periods explained.
                   </li>
                 </ul>
               </>
@@ -319,7 +396,7 @@ export default function WorkersCompCalculatorPage() {
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
             <h2
-              className="heading-serif h2-editorial"
+              className="heading-display h2-editorial"
             >
               Get Your Estimate Now
             </h2>
@@ -339,7 +416,7 @@ export default function WorkersCompCalculatorPage() {
             aria-label="Workers comp settlement calculator by state"
             style={{ scrollMarginTop: 'calc(var(--header-h) + 12px)' }}
           >
-            <h2 className="heading-serif" style={{ fontSize: 24, marginBottom: 6 }}>
+            <h2 className="heading-display" style={{ fontSize: 26, marginBottom: 6 }}>
               Workers Comp Settlement Calculator by State
             </h2>
             <p className="text-sm mb-4" style={{ color: 'var(--ink-2)' }}>
@@ -358,89 +435,8 @@ export default function WorkersCompCalculatorPage() {
           </section>
 
           <DisclaimerBanner variant="footer" />
-          </div>
-
-          {/* ── RELATED (sidebar on desktop, after the article on mobile) ── */}
-          <aside aria-label="Related information" className="lg:col-span-4 flex flex-col gap-4 lg:sticky" style={{ top: 'calc(var(--header-h) + 16px)' }}>
-            <SideCard>
-              <h2 className="font-body font-semibold mb-3" style={{ fontSize: 15 }}>How This Calculator Works</h2>
-              <ol className="flex flex-col gap-2.5">
-                {[
-                  'Choose your state and enter your Average Weekly Wage (AWW).',
-                  'Select your benefit type: Temporary Total (TTD), Permanent Partial (PPD), or Permanent Total (PTD).',
-                  'Enter your treatment weeks, body part and impairment rating, or age, and calculate your estimate.',
-                ].map((step, i) => (
-                  <li key={i} className="flex gap-2.5 text-sm" style={{ color: 'var(--ink-2)' }}>
-                    <span className="calc-step-badge" style={{ width: 22, height: 22, fontSize: 11.5 }} aria-hidden="true">{i + 1}</span>
-                    <span>{step}</span>
-                  </li>
-                ))}
-              </ol>
-            </SideCard>
-
-            <SideCard>
-              <h3 className="font-body font-semibold mb-1" style={{ fontSize: 15 }}>No Pain &amp; Suffering Covered</h3>
-              <p className="text-sm mb-3" style={{ color: 'var(--ink-2)' }}>
-                Workers compensation is a no-fault system that does not cover non-economic damages. To estimate those, use our separate <Link href="/pain-and-suffering-calculator/" className="text-link font-semibold">pain and suffering calculator</Link>.
-              </p>
-              <Link href="/pain-and-suffering-calculator/" className="btn-secondary btn-sm w-full">
-                Calculate Pain &amp; Suffering →
-              </Link>
-            </SideCard>
-
-            <nav aria-label="State-specific workers comp settlement calculators">
-              <SideCard>
-                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 15 }}>Calculator by State</h2>
-                <ul className="flex flex-col">
-                  {WORKERS_COMP_STATES.filter((s) => s.slug === 'california' || s.slug === 'texas' || s.slug === 'florida').map((state) => (
-                    <li key={state.slug}>
-                      <Link href={`/workers-comp-settlement-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
-                        <span>{state.name}</span>
-                        <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
-                      </Link>
-                    </li>
-                  ))}
-                  <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
-                    <a href="#by-state" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>All indexed states ↓</a>
-                  </li>
-                </ul>
-              </SideCard>
-            </nav>
-
-            <nav aria-label="Workers comp benefit rate reference">
-              <SideCard>
-                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 15 }}>Benefit Rate Reference</h2>
-                <Link href="/workers-comp-maximum-weekly-benefits-by-state/" className="flex flex-col py-1">
-                  <span className="text-sm font-semibold" style={{ color: 'var(--accent)' }}>Max Weekly Benefits by State (2026)</span>
-                  <span className="text-xs" style={{ color: 'var(--ink-3)' }}>Official max/min TTD rate for every state</span>
-                </Link>
-              </SideCard>
-            </nav>
-
-            <nav aria-label="Other settlement calculators">
-              <SideCard>
-                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 15 }}>Other Free Calculators</h2>
-                <ul className="flex flex-col gap-2">
-                  <li>
-                    <Link href="/pain-and-suffering-calculator/" className="flex flex-col py-1">
-                      <span className="text-sm font-semibold" style={{ color: 'var(--accent)' }}>Pain &amp; Suffering Calculator</span>
-                      <span className="text-xs" style={{ color: 'var(--ink-3)' }}>Estimate non-economic damages by method</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/car-accident-settlement-calculator/" className="flex flex-col py-1">
-                      <span className="text-sm font-semibold" style={{ color: 'var(--accent)' }}>Car Accident Settlement Calculator</span>
-                      <span className="text-xs" style={{ color: 'var(--ink-3)' }}>Estimate total vehicle accident damages</span>
-                    </Link>
-                  </li>
-                </ul>
-              </SideCard>
-            </nav>
-          </aside>
-          </div>
+          </EditorialLayout>
         </div>
-
-        <BackToCalculator targetId="calculator" />
       </main>
     </>
   )

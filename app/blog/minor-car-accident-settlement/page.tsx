@@ -22,6 +22,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import EditorialLayout from '@/components/ui/EditorialLayout'
+import BlogRail from '@/components/ui/BlogRail'
 import { getBlogPostBySlug, isPostPublished, getPostDisplayDate } from '@/lib/data/blogPosts'
 
 const canonicalUrl = '/blog/minor-car-accident-settlement/'
@@ -148,7 +150,7 @@ const breadcrumbSchema = {
 // ─── Shared inline styles (match the [state] editorial templates) ─────────────
 
 const bodyStyle = { color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' } as const
-const linkStyle = { color: 'var(--accent)' } as const
+const linkStyle = { color: 'var(--primary)' } as const
 const ruleStyle = { borderColor: 'var(--line)', margin: '36px 0' } as const
 
 export default function MinorCarAccidentSettlementPost() {
@@ -166,7 +168,7 @@ export default function MinorCarAccidentSettlementPost() {
       <main className="min-h-screen">
 
         {/* ── PAGE HEADER ── */}
-        <header className="page-band">
+        <header className="hero-band">
           <div className="container-page py-8 sm:py-10">
             <BreadcrumbNav items={[
               { label: 'Home', href: '/' },
@@ -188,15 +190,16 @@ export default function MinorCarAccidentSettlementPost() {
         </header>
 
         {/* ── ARTICLE ── */}
-        <article className="container-page py-10 sm:py-12">
-          <div className="editorial">
+        <div className="container-page py-10 sm:py-14">
+          <EditorialLayout rootId="editorial-root" rail={<BlogRail currentSlug={canonicalUrl} />}>
+          <article className="editorial">
 
             <p style={bodyStyle}>Many car accidents are minor. A bumper gets crumpled at a stoplight, a fender gets clipped in a parking lot, or a rear-end collision at low speed leaves both cars driveable. But &ldquo;minor&rdquo; covers two very different situations that lead to very different settlements: accidents where nobody was hurt, and accidents where someone walks away with a sore neck or back that turns into a diagnosed soft-tissue injury a day or two later.</p>
             <p style={bodyStyle}>This article covers both scenarios — what&rsquo;s recoverable with no injury, what changes once a soft-tissue injury like whiplash is involved, how your state&rsquo;s no-fault or at-fault system changes the math, and a worked hypothetical example using Settlebrook&rsquo;s own settlement formula.</p>
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">No Injury: What a Property-Damage-Only Claim Covers</h2>
+            <h2 className="heading-display h2-editorial">No Injury: What a Property-Damage-Only Claim Covers</h2>
             <p style={bodyStyle}>When nobody is hurt, the claim is purely about the vehicle and the related costs of being without it. Three categories typically make up a property-damage-only claim:</p>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
               <li><strong style={{ color: 'var(--ink)' }}>Repair costs</strong> — what a body shop charges to return the car to its pre-accident condition, usually based on an insurance appraisal or shop estimate.</li>
@@ -207,7 +210,7 @@ export default function MinorCarAccidentSettlementPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Soft-Tissue Injuries: What Actually Changes the Value</h2>
+            <h2 className="heading-display h2-editorial">Soft-Tissue Injuries: What Actually Changes the Value</h2>
             <p style={bodyStyle}>Whiplash, muscle strains, and ligament sprains are common in low-speed collisions. They don&rsquo;t show up on an X-ray the way a fracture does, which is exactly why documentation carries more weight in these claims than in claims involving obvious, visible injuries.</p>
             <p style={bodyStyle}>A few general factors tend to matter most to an insurance adjuster or, if it goes that far, a court:</p>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
@@ -219,7 +222,7 @@ export default function MinorCarAccidentSettlementPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">No-Fault States: PIP Pays First, and a Threshold Limits Pain-and-Suffering Claims</h2>
+            <h2 className="heading-display h2-editorial">No-Fault States: PIP Pays First, and a Threshold Limits Pain-and-Suffering Claims</h2>
             <p style={bodyStyle}>Some states run on a &ldquo;no-fault&rdquo; system for auto insurance. In these states, your own Personal Injury Protection (PIP) coverage pays your medical bills and lost wages first, regardless of who caused the crash. But no-fault also means you generally can&rsquo;t sue the other driver for pain and suffering unless your injury clears a legal threshold set by state law. Three examples show how this works in practice.</p>
             <p style={bodyStyle}><strong style={{ color: 'var(--ink)' }}>Florida.</strong> Florida&rsquo;s PIP statute requires insurers to pay &ldquo;[e]ighty percent of all reasonable expenses for medically necessary medical, surgical, X-ray, dental, and rehabilitative services&rdquo; and &ldquo;[s]ixty percent of any loss of gross income and loss of earning capacity,&rdquo; subject to a minimum $10,000 in combined medical and disability benefits and a separate $5,000 death benefit (<a href="https://www.flsenate.gov/Laws/Statutes/2025/627.736" target="_blank" rel="noopener noreferrer" style={linkStyle}>Fla. Stat. § 627.736</a>). To recover pain and suffering from the at-fault driver, the injury must be a &ldquo;[s]ignificant and permanent loss of an important bodily function,&rdquo; a &ldquo;[p]ermanent injury within a reasonable degree of medical probability&rdquo; (other than scarring or disfigurement), &ldquo;[s]ignificant and permanent scarring or disfigurement,&rdquo; or death (<a href="https://www.flsenate.gov/laws/statutes/2025/627.737" target="_blank" rel="noopener noreferrer" style={linkStyle}>Fla. Stat. § 627.737</a>). A soft-tissue strain that resolves with treatment generally won&rsquo;t meet this threshold, which is why PIP — not a lawsuit — is usually where a minor Florida claim gets paid.</p>
             <p style={bodyStyle}><strong style={{ color: 'var(--ink)' }}>New York.</strong> New York limits lawsuits for pain and suffering to cases meeting the statutory definition of &ldquo;serious injury&rdquo;: &ldquo;death; dismemberment; significant disfigurement; a fracture; loss of a fetus; permanent loss of use of a body organ, member, function or system; permanent consequential limitation of use of a body organ or member; [or] significant limitation of use of a body function or system,&rdquo; plus a category for injuries that prevent someone from performing substantially all usual daily activities for at least 90 of the 180 days after the accident (<a href="https://www.nysenate.gov/legislation/laws/ISC/5102" target="_blank" rel="noopener noreferrer" style={linkStyle}>N.Y. Ins. Law § 5102(d)</a>). Because &ldquo;significant limitation&rdquo; is a broad, fact-specific category, some well-documented soft-tissue claims do clear this threshold.</p>
@@ -228,7 +231,7 @@ export default function MinorCarAccidentSettlementPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">At-Fault States: Filing Against the Other Driver&rsquo;s Insurance</h2>
+            <h2 className="heading-display h2-editorial">At-Fault States: Filing Against the Other Driver&rsquo;s Insurance</h2>
             <p style={bodyStyle}>Other states use a traditional &ldquo;at-fault&rdquo; (tort) system instead. There, you file your claim directly against the at-fault driver&rsquo;s liability insurance, and there&rsquo;s no statutory injury threshold you need to clear before you can seek pain and suffering — you simply need to show the other driver was negligent and that the negligence caused your loss.</p>
             <p style={bodyStyle}>For a property-damage-only claim in an at-fault state, small claims court is often a realistic option if the insurer won&rsquo;t pay a fair amount and the damages fit within your state&rsquo;s small claims dollar limit. Two examples:</p>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
@@ -239,7 +242,7 @@ export default function MinorCarAccidentSettlementPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">How Long You Have to File</h2>
+            <h2 className="heading-display h2-editorial">How Long You Have to File</h2>
             <p style={bodyStyle}>Every state sets a statute of limitations — a deadline after which you lose the right to sue, even if your claim is otherwise valid. This applies whether you&rsquo;re pursuing a soft-tissue injury claim or a property-damage-only claim. Two examples:</p>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
               <li><strong style={{ color: 'var(--ink)' }}>Texas</strong> requires that a suit for personal injury be brought &ldquo;not later than two years after the day the cause of action accrues&rdquo; (<a href="https://www.txcourts.gov/media/1456324/210513.pdf" target="_blank" rel="noopener noreferrer" style={linkStyle}>Tex. Civ. Prac. &amp; Rem. Code § 16.003(a)</a>, as cited by the Texas Supreme Court).</li>
@@ -249,10 +252,10 @@ export default function MinorCarAccidentSettlementPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Worked Example: A Minor Soft-Tissue Claim</h2>
-            <p style={{ ...bodyStyle, fontSize: '14px' }}><em>The following is a hypothetical example for illustration only. It does not reflect any real claim, and your numbers will be different.</em></p>
+            <h2 className="heading-display h2-editorial">Worked Example: A Minor Soft-Tissue Claim</h2>
+            <p style={{ ...bodyStyle, fontSize: '15px' }}><em>The following is a hypothetical example for illustration only. It does not reflect any real claim, and your numbers will be different.</em></p>
             <p style={bodyStyle}>Settlebrook&rsquo;s <Link href="/pain-and-suffering-calculator/" style={linkStyle}>pain and suffering calculator</Link> uses this formula:</p>
-            <pre style={{ ...bodyStyle, background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 12, padding: 16, overflowX: 'auto', fontSize: '13px' }}>
+            <pre style={{ ...bodyStyle, background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 12, padding: 16, overflowX: 'auto', fontSize: '14px' }}>
 {`multiplierBase   = medical + future medical + lost wages + future lost wages
 specialDamages    = multiplierBase + property damage
 pain & suffering  = multiplierBase × multiplier
@@ -279,34 +282,34 @@ fault-adjusted    = total × (100 − fault%) / 100`}
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Run Your Own Numbers</h2>
+            <h2 className="heading-display h2-editorial">Run Your Own Numbers</h2>
             <p style={bodyStyle}>Every accident is different, and the two variables that move the estimate the most are your state&rsquo;s no-fault or at-fault rules and how your injury (or lack of one) gets documented. Use the <Link href="/car-accident-settlement-calculator/" style={linkStyle}>car accident settlement calculator</Link> to plug in your own medical costs, lost wages, property damage, injury severity, and fault percentage, or the standalone <Link href="/pain-and-suffering-calculator/" style={linkStyle}>pain and suffering calculator</Link> if you just want to estimate the non-economic portion of a claim. Both are free and don&rsquo;t require creating an account.</p>
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Frequently Asked Questions</h2>
+            <h2 className="heading-display h2-editorial">Frequently Asked Questions</h2>
 
-            <h3 className="heading-serif h3-editorial">Is a minor car accident with no injury still worth filing a claim for?</h3>
+            <h3 className="heading-display h3-editorial">Is a minor car accident with no injury still worth filing a claim for?</h3>
             <p style={bodyStyle}>Yes. Even with no injury, you can typically recover repair costs, a rental car or loss-of-use payment, and — if the repaired car is worth less because of its accident history — a diminished value claim. See our <Link href="/blog/diminished-value-claim/" style={linkStyle}>diminished value guide</Link>.</p>
 
-            <h3 className="heading-serif h3-editorial">Does whiplash always qualify as a &ldquo;real&rdquo; injury for settlement purposes?</h3>
+            <h3 className="heading-display h3-editorial">Does whiplash always qualify as a &ldquo;real&rdquo; injury for settlement purposes?</h3>
             <p style={bodyStyle}>Whiplash is a recognized injury. What insurers look at closely is documentation — how quickly you were evaluated, how consistent treatment was, and whether records connect the injury to the accident. In a no-fault state, the injury also has to meet that state&rsquo;s statutory threshold before you can pursue pain and suffering from the other driver.</p>
 
-            <h3 className="heading-serif h3-editorial">What&rsquo;s the difference between a no-fault state and an at-fault state?</h3>
+            <h3 className="heading-display h3-editorial">What&rsquo;s the difference between a no-fault state and an at-fault state?</h3>
             <p style={bodyStyle}>In a no-fault state, your own PIP coverage pays medical bills and lost wages first, and you generally can&rsquo;t sue the other driver for pain and suffering unless your injury meets a state-law threshold — see the Florida, New York, and Michigan examples above. In an at-fault (tort) state, you file directly against the other driver&rsquo;s liability insurer, with no threshold to clear first.</p>
 
-            <h3 className="heading-serif h3-editorial">Can I take a minor car accident claim to small claims court?</h3>
+            <h3 className="heading-display h3-editorial">Can I take a minor car accident claim to small claims court?</h3>
             <p style={bodyStyle}>It&rsquo;s generally an option for property-damage-only disputes within your state&rsquo;s dollar limit — for example, up to $12,500 for an individual in California or up to $20,000 in Texas justice court. It&rsquo;s less commonly used for injury claims, and limits vary by state, so check with your local court.</p>
 
-            <h3 className="heading-serif h3-editorial">How long do I have to file a claim after a minor accident?</h3>
+            <h3 className="heading-display h3-editorial">How long do I have to file a claim after a minor accident?</h3>
             <p style={bodyStyle}>It depends on your state. Texas and California, for example, both set a two-year deadline for personal injury claims. Confirm your specific deadline with a licensed attorney — missing it can permanently bar your claim.</p>
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Not Legal Advice</h2>
+            <h2 className="heading-display h2-editorial">Not Legal Advice</h2>
             <p style={bodyStyle}>This article is for general informational purposes only and is not legal advice. Settlement outcomes depend on the specific facts of your case, the laws of your state, and how your insurer or a court applies them. For advice about your specific situation, consult a licensed attorney in your state.</p>
 
-            <h2 className="heading-serif h2-editorial">Sources</h2>
+            <h2 className="heading-display h2-editorial">Sources</h2>
             <ol style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'decimal' }}>
               <li><a href="https://www.flsenate.gov/Laws/Statutes/2025/627.736" target="_blank" rel="noopener noreferrer" style={linkStyle}>Fla. Stat. § 627.736 — Personal injury protection benefits (PIP)</a> — The Florida Senate, 2025 Florida Statutes</li>
               <li><a href="https://www.flsenate.gov/laws/statutes/2025/627.737" target="_blank" rel="noopener noreferrer" style={linkStyle}>Fla. Stat. § 627.737 — Tort exemption; tort liability</a> — The Florida Senate, 2025 Florida Statutes</li>
@@ -318,8 +321,9 @@ fault-adjusted    = total × (100 − fault%) / 100`}
               <li><a href="https://guides.sll.texas.gov/small-claims" target="_blank" rel="noopener noreferrer" style={linkStyle}>Texas justice court small claims dollar limit</a> — Texas State Law Library</li>
             </ol>
 
-          </div>
-        </article>
+          </article>
+          </EditorialLayout>
+        </div>
 
       </main>
     </>

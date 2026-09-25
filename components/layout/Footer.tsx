@@ -1,10 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// components/layout/Footer.tsx — paper footer with calculators, states, and
+// components/layout/Footer.tsx — white footer with calculators, states, and
 // every trust page (methodology, editorial policy, about, contact, privacy,
 // terms). Server component.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import Link from 'next/link'
+import { Lock } from 'lucide-react'
 import { BrandWordmark } from '@/components/ui/Brand'
 import { getPriorityStates } from '@/lib/data/states'
 
@@ -14,22 +15,20 @@ export default function Footer() {
 
   return (
     <footer className="site-footer mt-auto">
-      <div className="container-page py-12">
+      <div className="container-page py-14">
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
 
           <div className="lg:col-span-2 flex flex-col gap-4">
             <Link href="/" className="inline-flex w-fit rounded-md" aria-label="Settlebrook home">
-              <BrandWordmark size={26} />
+              <BrandWordmark size={30} />
             </Link>
-            <p className="text-sm leading-relaxed max-w-sm" style={{ color: 'var(--ink-2)' }}>
+            <p className="leading-relaxed max-w-sm" style={{ color: 'var(--ink-2)', fontSize: 'var(--label)' }}>
               Free settlement calculators for people with injury claims in the United States.
               Open formulas, official sources, no signup.
             </p>
-            <p className="calc-privacy">
-              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                <rect x="4" y="10" width="16" height="11" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" />
-              </svg>
+            <p className="calc-privacy" style={{ fontSize: 'var(--small)' }}>
+              <Lock aria-hidden="true" size={15} strokeWidth={2.2} />
               Your calculator inputs stay in your browser.
             </p>
           </div>
@@ -80,7 +79,7 @@ export default function Footer() {
 
         {/* Disclaimer */}
         <div className="pt-6" style={{ borderTop: '1px solid var(--line)' }}>
-          <p className="text-xs leading-relaxed max-w-3xl" style={{ color: 'var(--ink-3)' }}>
+          <p className="leading-relaxed max-w-3xl" style={{ color: 'var(--ink-3)', fontSize: 'var(--small)' }}>
             <span className="font-semibold" style={{ color: 'var(--ink-2)' }}>Disclaimer: </span>
             The calculators and information on Settlebrook are for informational purposes only and
             do not constitute legal advice. Results are estimates based on common formulas — actual
@@ -90,7 +89,7 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs" style={{ color: 'var(--ink-3)' }}>
+        <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2" style={{ color: 'var(--ink-3)', fontSize: 'var(--small)' }}>
           <p>© {currentYear} Settlebrook. All rights reserved.</p>
           <p>
             This site may display advertisements.{' '}

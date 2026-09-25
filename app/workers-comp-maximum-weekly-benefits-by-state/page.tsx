@@ -146,7 +146,7 @@ export default function WorkersCompMaxBenefitsPage() {
       <main className="min-h-screen">
 
         {/* ── HEADER BAND ── */}
-        <header className="page-band">
+        <header className="hero-band">
           <div className="container-page py-8 sm:py-12">
             <BreadcrumbNav
               items={[
@@ -192,7 +192,7 @@ export default function WorkersCompMaxBenefitsPage() {
 
           {/* ── TABLE ── */}
           <section aria-labelledby="table-heading" className="flex flex-col gap-4">
-            <h2 id="table-heading" className="heading-serif" style={{ fontSize: 26 }}>
+            <h2 id="table-heading" className="heading-display" style={{ fontSize: 30 }}>
               Maximum &amp; Minimum Weekly TTD Rate by State
             </h2>
 
@@ -217,7 +217,7 @@ export default function WorkersCompMaxBenefitsPage() {
                         <th scope="row" className="font-semibold whitespace-nowrap" style={{ position: 'static', background: 'transparent', color: 'var(--ink)', borderBottom: '1px solid var(--line)' }}>
                           {row.state}
                           {footnote && (
-                            <sup className="ml-0.5" style={{ color: 'var(--accent)' }}>*</sup>
+                            <sup className="ml-0.5" style={{ color: 'var(--primary)' }}>*</sup>
                           )}
                         </th>
                         <td className={isPending ? '' : 'num'} style={isPending ? { color: 'var(--ink-3)' } : undefined}>
@@ -300,7 +300,7 @@ export default function WorkersCompMaxBenefitsPage() {
 
           {/* Related tools */}
           <section className="flex flex-col gap-4">
-            <h2 className="heading-serif" style={{ fontSize: 24 }}>
+            <h2 className="heading-display" style={{ fontSize: 26 }}>
               Estimate Your Own Settlement
             </h2>
             <div className="flex flex-wrap gap-3">

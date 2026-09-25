@@ -2,17 +2,23 @@
 // components/ui/Brand.tsx
 // The Settlebrook mark and wordmark as inline SVG + text, so they render crisp
 // at every size and inherit the page fonts. The same mark is exported as
-// app/icon.svg and rasterised into public/favicon.ico, the 48/192/512 PNGs,
-// apple-touch-icon.png, logo.png and og-image.png (see scripts in the
-// design-refresh commit message). Keep the geometry here and there in sync.
+// app/icon.svg and rasterised into public/favicon.ico, the 16/32/48/192/512
+// PNGs, apple-touch-icon.png, logo.png and og-image.png (see
+// design-review/v2/README.md for the regeneration script). Keep the geometry
+// here and there in sync.
+// Design v2 (2026-09-25): primary-blue tile (#1D4ED8) with a white "S" ribbon.
+// The bright tile stays legible on both light and dark browser tabs.
 // ─────────────────────────────────────────────────────────────────────────────
+
+export const BRAND_TILE = '#1D4ED8'
+export const BRAND_RIBBON = '#FFFFFF'
 
 interface MarkProps {
   size?: number
   className?: string
 }
 
-/** Rounded deep-green tile with a cream "S" ribbon — the brook that settles. */
+/** Rounded primary-blue tile with a white "S" ribbon — the brook that settles. */
 export function BrandMark({ size = 28, className }: MarkProps) {
   return (
     <svg
@@ -24,11 +30,11 @@ export function BrandMark({ size = 28, className }: MarkProps) {
       focusable="false"
       className={className}
     >
-      <rect width="64" height="64" rx="14" fill="#0E5E52" />
+      <rect width="64" height="64" rx="14" fill={BRAND_TILE} />
       <path
         d="M45 19.5c-2.5-4-9-6-15.5-4.5C23 16.5 18.5 20 18.5 25c0 5.5 5 8 13.5 9.5S46 38 46 43.5c0 5.5-5.5 9-13.5 9-6 0-11.5-2-14-6"
         fill="none"
-        stroke="#FAF7F2"
+        stroke={BRAND_RIBBON}
         strokeWidth="7"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -43,17 +49,17 @@ interface WordmarkProps {
   className?: string
 }
 
-/** Mark + "Settlebrook" wordmark. "brook" takes the accent, as the old logo did. */
-export function BrandWordmark({ size = 28, className }: WordmarkProps) {
-  const fontSize = Math.round(size * 0.82)
+/** Mark + "Settlebrook" wordmark. "brook" takes the primary colour. */
+export function BrandWordmark({ size = 30, className }: WordmarkProps) {
+  const fontSize = Math.round(size * 0.8)
   return (
-    <span className={`inline-flex items-center gap-2 ${className ?? ''}`}>
+    <span className={`inline-flex items-center gap-2.5 ${className ?? ''}`}>
       <BrandMark size={size} />
       <span
-        className="font-display font-semibold leading-none"
-        style={{ fontSize, color: 'var(--ink)', letterSpacing: '-0.015em' }}
+        className="font-display font-bold leading-none"
+        style={{ fontSize, color: 'var(--ink)', letterSpacing: '-0.025em' }}
       >
-        Settle<span style={{ color: 'var(--accent)' }}>brook</span>
+        Settle<span style={{ color: 'var(--primary)' }}>brook</span>
       </span>
     </span>
   )

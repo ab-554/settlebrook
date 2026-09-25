@@ -16,12 +16,12 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import CarAccidentCalculator from '@/components/calculator/CarAccidentCalculator'
 import FAQAccordion from '@/components/seo/FAQAccordion'
-import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import HeroBand, { type HeroFact } from '@/components/ui/HeroBand'
+import EditorialLayout from '@/components/ui/EditorialLayout'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import { getCarAccidentFAQs, buildFAQSchema } from '@/lib/data/carAccidentFaqs'
 import { CAR_ACCIDENT_STATES } from '@/lib/data/carAccidentStates'
 import SourcesSection from '@/components/seo/SourcesSection'
-import TrustLine from '@/components/ui/TrustLine'
 import BackToCalculator from '@/components/calculator/BackToCalculator'
 import { buildNextSteps } from '@/lib/nextSteps'
 import sourcesData from '@/lib/data/sources.json'
@@ -42,6 +42,13 @@ const minorAccidentPost = getBlogPostBySlug('/blog/minor-car-accident-settlement
 const isMinorAccidentPostLive = !!minorAccidentPost && isPostPublished(minorAccidentPost)
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
+
+// Hero chips — true facts about this tool.
+const HERO_FACTS: HeroFact[] = [
+  { label: 'Includes', value: 'Vehicle damage and a policy-limit check', icon: 'car', tone: 'primary' },
+  { label: 'Methods', value: 'Multiplier and per diem', icon: 'calculator' },
+  { label: 'State guides', value: `${CAR_ACCIDENT_STATES.length} states with local law`, icon: 'map', href: '#by-state' },
+]
 
 export const metadata: Metadata = {
   // 47 chars → 60 total with "| Settlebrook" template ✓
@@ -123,6 +130,77 @@ function SideCard({ children }: { children: React.ReactNode }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function CarAccidentCalculatorPage() {
+
+  // Right rail (sticky from 1200px): the related-links cards that used to be the sidebar.
+  const rail = (
+    <>
+            <SideCard>
+              <h2 className="font-body font-semibold mb-3" style={{ fontSize: 16 }}>How This Calculator Works</h2>
+              <ol className="flex flex-col gap-2.5">
+                {[
+                  'Enter medical bills, lost wages, vehicle damage, and other economic damages.',
+                  'Choose your injury severity level and calculation method.',
+                  'Optionally enter the at-fault driver\'s policy limit to see a warning if your estimate exceeds it.',
+                ].map((step, i) => (
+                  <li key={i} className="flex gap-2.5 text-sm" style={{ color: 'var(--ink-2)' }}>
+                    <span className="calc-step-badge" style={{ width: 22, height: 22, fontSize: 14 }} aria-hidden="true">{i + 1}</span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </SideCard>
+
+            <SideCard>
+              <h3 className="font-body font-semibold mb-1" style={{ fontSize: 16 }}>How Are Car Accident Settlements Calculated?</h3>
+              <p className="text-sm mb-3" style={{ color: 'var(--ink-2)' }}>
+                Learn exactly how insurance companies value car accident claims — multiplier method, per diem method, policy limits, and what raises or lowers your number.
+              </p>
+              <Link href="/pain-and-suffering-calculator/guide/" className="btn-secondary btn-sm w-full">
+                Read the Complete Guide →
+              </Link>
+            </SideCard>
+
+            <nav aria-label="State-specific car accident settlement calculators">
+              <SideCard>
+                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Calculator by State</h2>
+                <ul className="flex flex-col">
+                  {CAR_ACCIDENT_STATES.filter((s) => s.slug === 'california' || s.slug === 'texas').map((state) => (
+                    <li key={state.slug}>
+                      <Link href={`/car-accident-settlement-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
+                        <span>{state.name}</span>
+                        <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
+                      </Link>
+                    </li>
+                  ))}
+                  <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
+                    <a href="#by-state" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>All {CAR_ACCIDENT_STATES.length} states ↓</a>
+                  </li>
+                </ul>
+              </SideCard>
+            </nav>
+
+            <nav aria-label="Other settlement calculators">
+              <SideCard>
+                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Other Free Calculators</h2>
+                <ul className="flex flex-col gap-2">
+                  <li>
+                    <Link href="/pain-and-suffering-calculator/" className="flex flex-col py-1">
+                      <span className="text-sm font-semibold" style={{ color: 'var(--primary)' }}>Pain &amp; Suffering Calculator</span>
+                      <span className="text-xs" style={{ color: 'var(--ink-3)' }}>Estimate non-economic damages by method</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/workers-comp-settlement-calculator/" className="flex flex-col py-1">
+                      <span className="text-sm font-semibold" style={{ color: 'var(--primary)' }}>Workers Comp Settlement Calculator</span>
+                      <span className="text-xs" style={{ color: 'var(--ink-3)' }}>Estimate your workplace injury settlement</span>
+                    </Link>
+                  </li>
+                </ul>
+              </SideCard>
+            </nav>
+    </>
+  )
+
   return (
     <>
       {/* ── JSON-LD schemas ── */}
@@ -141,54 +219,41 @@ export default function CarAccidentCalculatorPage() {
 
       <main className="min-h-screen">
 
-        {/* ── PAGE HEADER — kept short so the calculator sits above the fold on mobile ── */}
-        <header className="page-band">
-          <div className="container-page pt-5 pb-6 sm:pt-7 sm:pb-8">
-            <BreadcrumbNav items={[
-              { label: 'Home', href: '/' },
-              { label: 'Car Accident Settlement Calculator', href: '/car-accident-settlement-calculator/' },
-            ]} />
-            {/* H1 — primary keyword "car accident settlement calculator" ✓ */}
-            <h1 className="mt-4">Car Accident Settlement Calculator</h1>
-            <p className="lede mt-2 max-w-2xl">
-              Estimate your total car accident settlement including{' '}
-              <strong style={{ color: 'var(--ink)' }}>vehicle damage</strong>,{' '}
-              <strong style={{ color: 'var(--ink)' }}>medical bills</strong>,{' '}
-              <strong style={{ color: 'var(--ink)' }}>lost wages</strong>, and{' '}
-              <strong style={{ color: 'var(--ink)' }}>pain and suffering</strong>.
-              Free, instant, works for injuries anywhere in the US.
-            </p>
-            <TrustLine reviewed={LAST_REVIEWED} className="mt-3" />
-            <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5" aria-label="What to expect">
-              {[
-                'No Signup Required',
-                'Your Inputs Never Leave Your Browser',
-                'Updated for 2026 State Laws',
-                'Instant Results',
-              ].map((signal) => (
-                <li key={signal} className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--ink-2)' }}>
-                  <span style={{ color: 'var(--accent)' }} className="font-bold" aria-hidden="true">✓</span>
-                  {signal}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </header>
+        {/* ── HERO BAND — breadcrumb · H1 · promise · trust line · key facts · CTA ── */}
+        <HeroBand
+          breadcrumb={[
+            { label: 'Home', href: '/' },
+            { label: 'Car Accident Settlement Calculator', href: '/car-accident-settlement-calculator/' },
+          ]}
+          title={<>Car Accident Settlement Calculator</>}
+          promise={<>
+            Estimate your total car accident settlement including{' '}
+            <strong style={{ color: 'var(--ink)' }}>vehicle damage</strong>,{' '}
+            <strong style={{ color: 'var(--ink)' }}>medical bills</strong>,{' '}
+            <strong style={{ color: 'var(--ink)' }}>lost wages</strong>, and{' '}
+            <strong style={{ color: 'var(--ink)' }}>pain and suffering</strong>.
+            Free, instant, works for injuries anywhere in the US.
+          </>}
+          reviewed={LAST_REVIEWED}
+          sourcesCount={HUB_SOURCES.length}
+          facts={HERO_FACTS}
+          factsLabel="What this calculator covers"
+        />
 
         {/* ── CALCULATOR (live estimate) ── */}
-        <div className="container-page pt-6 pb-8 sm:pt-8 sm:pb-10">
+        <div className="container-page pt-8 pb-10 sm:pt-10 sm:pb-14">
           <CarAccidentCalculator nextSteps={NEXT_STEPS} />
         </div>
 
-        {/* ── EDITORIAL + RELATED ── */}
-        <div className="container-page pb-12 sm:pb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          <div className="lg:col-span-8 min-w-0">
+        {/* ── EDITORIAL — sticky TOC · prose · tools rail (three columns from 1200px) ── */}
+        <div className="container-page pb-14 sm:pb-20">
+          <BackToCalculator targetId="calculator" />
+          <EditorialLayout rootId="editorial-root" backHref="#calculator" rail={rail}>
 
           {/* ── EDITORIAL CONTENT ── */}
           <article className="editorial">
             <h2
-              className="heading-serif h2-editorial"
+              className="heading-display h2-editorial"
             >
               What You Need to Know Before Settling Your Car Accident Claim
             </h2>
@@ -202,7 +267,7 @@ export default function CarAccidentCalculatorPage() {
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
             <h2
-              className="heading-serif h2-editorial"
+              className="heading-display h2-editorial"
             >
               What a Car Accident Settlement Actually Covers
             </h2>
@@ -222,7 +287,7 @@ export default function CarAccidentCalculatorPage() {
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
             <h2
-              className="heading-serif h2-editorial"
+              className="heading-display h2-editorial"
             >
               How the Multiplier Method Works for Car Accident Claims
             </h2>
@@ -245,7 +310,7 @@ export default function CarAccidentCalculatorPage() {
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
             <h2
-              className="heading-serif h2-editorial"
+              className="heading-display h2-editorial"
             >
               Insurance Policy Limits and Your Settlement
             </h2>
@@ -265,7 +330,7 @@ export default function CarAccidentCalculatorPage() {
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
             <h2
-              className="heading-serif h2-editorial"
+              className="heading-display h2-editorial"
             >
               Car Accident Settlement Examples
             </h2>
@@ -287,7 +352,7 @@ export default function CarAccidentCalculatorPage() {
             <SourcesSection sources={HUB_SOURCES} />
 
             <h2
-              className="heading-serif h2-editorial"
+              className="heading-display h2-editorial"
             >
               Frequently Asked Questions
             </h2>
@@ -296,22 +361,22 @@ export default function CarAccidentCalculatorPage() {
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
             <h2
-              className="heading-serif h2-editorial"
+              className="heading-display h2-editorial"
             >
               Related Guides
             </h2>
             <ul style={{ paddingLeft: 24, listStyleType: 'disc' }}>
               <li style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '8px' }}>
-                <Link href="/blog/diminished-value-claim/" style={{ color: 'var(--accent)' }}>Diminished Value Claims After a Car Accident</Link> — how the 17c formula works and how a diminished value figure fits into your total settlement.
+                <Link href="/blog/diminished-value-claim/" style={{ color: 'var(--primary)' }}>Diminished Value Claims After a Car Accident</Link> — how the 17c formula works and how a diminished value figure fits into your total settlement.
               </li>
               {isPolicyLimitsPostLive && (
                 <li style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '8px' }}>
-                  <Link href="/blog/settlement-exceeds-policy-limits/" style={{ color: 'var(--accent)' }}>When Your Injury Claim Exceeds Policy Limits</Link> — where the rest of the money can come from when the at-fault driver&apos;s coverage isn&apos;t enough.
+                  <Link href="/blog/settlement-exceeds-policy-limits/" style={{ color: 'var(--primary)' }}>When Your Injury Claim Exceeds Policy Limits</Link> — where the rest of the money can come from when the at-fault driver&apos;s coverage isn&apos;t enough.
                 </li>
               )}
               {isMinorAccidentPostLive && (
                 <li style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '8px' }}>
-                  <Link href="/blog/minor-car-accident-settlement/" style={{ color: 'var(--accent)' }}>Minor Car Accident Settlements: Soft-Tissue Injuries vs. No Injury</Link> — what changes between a no-injury claim and a diagnosed whiplash claim, plus a worked example.
+                  <Link href="/blog/minor-car-accident-settlement/" style={{ color: 'var(--primary)' }}>Minor Car Accident Settlements: Soft-Tissue Injuries vs. No Injury</Link> — what changes between a no-injury claim and a diagnosed whiplash claim, plus a worked example.
                 </li>
               )}
             </ul>
@@ -319,7 +384,7 @@ export default function CarAccidentCalculatorPage() {
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
 
             <h2
-              className="heading-serif h2-editorial"
+              className="heading-display h2-editorial"
             >
               Get Your Estimate Now
             </h2>
@@ -338,7 +403,7 @@ export default function CarAccidentCalculatorPage() {
             aria-label="Car accident settlement calculator by state"
             style={{ scrollMarginTop: 'calc(var(--header-h) + 12px)' }}
           >
-            <h2 className="heading-serif" style={{ fontSize: 24, marginBottom: 6 }}>
+            <h2 className="heading-display" style={{ fontSize: 26, marginBottom: 6 }}>
               Car Accident Settlement Calculator by State
             </h2>
             <p className="text-sm mb-4" style={{ color: 'var(--ink-2)' }}>
@@ -358,79 +423,8 @@ export default function CarAccidentCalculatorPage() {
           </section>
 
           <DisclaimerBanner variant="footer" />
-          </div>
-
-          {/* ── RELATED (sidebar on desktop, after the article on mobile) ── */}
-          <aside aria-label="Related information" className="lg:col-span-4 flex flex-col gap-4 lg:sticky" style={{ top: 'calc(var(--header-h) + 16px)' }}>
-            <SideCard>
-              <h2 className="font-body font-semibold mb-3" style={{ fontSize: 15 }}>How This Calculator Works</h2>
-              <ol className="flex flex-col gap-2.5">
-                {[
-                  'Enter medical bills, lost wages, vehicle damage, and other economic damages.',
-                  'Choose your injury severity level and calculation method.',
-                  'Optionally enter the at-fault driver\'s policy limit to see a warning if your estimate exceeds it.',
-                ].map((step, i) => (
-                  <li key={i} className="flex gap-2.5 text-sm" style={{ color: 'var(--ink-2)' }}>
-                    <span className="calc-step-badge" style={{ width: 22, height: 22, fontSize: 11.5 }} aria-hidden="true">{i + 1}</span>
-                    <span>{step}</span>
-                  </li>
-                ))}
-              </ol>
-            </SideCard>
-
-            <SideCard>
-              <h3 className="font-body font-semibold mb-1" style={{ fontSize: 15 }}>How Are Car Accident Settlements Calculated?</h3>
-              <p className="text-sm mb-3" style={{ color: 'var(--ink-2)' }}>
-                Learn exactly how insurance companies value car accident claims — multiplier method, per diem method, policy limits, and what raises or lowers your number.
-              </p>
-              <Link href="/pain-and-suffering-calculator/guide/" className="btn-secondary btn-sm w-full">
-                Read the Complete Guide →
-              </Link>
-            </SideCard>
-
-            <nav aria-label="State-specific car accident settlement calculators">
-              <SideCard>
-                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 15 }}>Calculator by State</h2>
-                <ul className="flex flex-col">
-                  {CAR_ACCIDENT_STATES.filter((s) => s.slug === 'california' || s.slug === 'texas').map((state) => (
-                    <li key={state.slug}>
-                      <Link href={`/car-accident-settlement-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
-                        <span>{state.name}</span>
-                        <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
-                      </Link>
-                    </li>
-                  ))}
-                  <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
-                    <a href="#by-state" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>All {CAR_ACCIDENT_STATES.length} states ↓</a>
-                  </li>
-                </ul>
-              </SideCard>
-            </nav>
-
-            <nav aria-label="Other settlement calculators">
-              <SideCard>
-                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 15 }}>Other Free Calculators</h2>
-                <ul className="flex flex-col gap-2">
-                  <li>
-                    <Link href="/pain-and-suffering-calculator/" className="flex flex-col py-1">
-                      <span className="text-sm font-semibold" style={{ color: 'var(--accent)' }}>Pain &amp; Suffering Calculator</span>
-                      <span className="text-xs" style={{ color: 'var(--ink-3)' }}>Estimate non-economic damages by method</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/workers-comp-settlement-calculator/" className="flex flex-col py-1">
-                      <span className="text-sm font-semibold" style={{ color: 'var(--accent)' }}>Workers Comp Settlement Calculator</span>
-                      <span className="text-xs" style={{ color: 'var(--ink-3)' }}>Estimate your workplace injury settlement</span>
-                    </Link>
-                  </li>
-                </ul>
-              </SideCard>
-            </nav>
-          </aside>
-          </div>
+          </EditorialLayout>
         </div>
-
-        <BackToCalculator targetId="calculator" />
       </main>
     </>
   )

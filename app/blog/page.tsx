@@ -94,7 +94,7 @@ export default function BlogIndexPage() {
       <main className="min-h-screen">
 
         {/* ── HEADER BAND ── */}
-        <header className="page-band">
+        <header className="hero-band">
           <div className="container-page py-8 sm:py-12">
             <BreadcrumbNav
               items={[
@@ -144,17 +144,17 @@ export default function BlogIndexPage() {
             {/* Single column on mobile; the grid holds its shape as posts are added */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {getPublishedBlogPosts().map((post) => (
-                <Link key={post.slug} href={post.slug} className="card card-pad block">
+                <Link key={post.slug} href={post.slug} className="card card-pad card-hover block">
                   <time dateTime={post.publishDate} className="eyebrow">
                     {getPostDisplayDate(post)}
                   </time>
-                  <h3 className="heading-serif mt-2" style={{ fontSize: 22 }}>
+                  <h3 className="heading-display mt-2" style={{ fontSize: 24 }}>
                     {post.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--ink-2)' }}>
                     {post.description}
                   </p>
-                  <span className="mt-3 inline-block text-sm font-semibold" style={{ color: 'var(--accent)' }}>
+                  <span className="mt-3 inline-block text-sm font-semibold" style={{ color: 'var(--primary)' }}>
                     Read the guide →
                   </span>
                 </Link>

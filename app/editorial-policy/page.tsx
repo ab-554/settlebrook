@@ -110,8 +110,8 @@ export default function EditorialPolicyPage() {
           <section aria-labelledby="sourcing-heading">
             <h2
               id="sourcing-heading"
-              className="heading-serif mb-3"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-3"
+              style={{ fontSize: 30 }}
             >
               How We Source Legal and Statutory Figures
             </h2>
@@ -133,8 +133,8 @@ export default function EditorialPolicyPage() {
           <section aria-labelledby="review-cycle-heading">
             <h2
               id="review-cycle-heading"
-              className="heading-serif mb-3"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-3"
+              style={{ fontSize: 30 }}
             >
               Our Review Cycle and the &ldquo;Last Reviewed&rdquo; Date
             </h2>
@@ -152,8 +152,8 @@ export default function EditorialPolicyPage() {
           <section aria-labelledby="corrections-heading">
             <h2
               id="corrections-heading"
-              className="heading-serif mb-3"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-3"
+              style={{ fontSize: 30 }}
             >
               How to Submit a Correction
             </h2>
@@ -179,8 +179,8 @@ export default function EditorialPolicyPage() {
           <section aria-labelledby="not-advice-heading">
             <h2
               id="not-advice-heading"
-              className="heading-serif mb-3"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-3"
+              style={{ fontSize: 30 }}
             >
               This Is Not Legal Advice
             </h2>
@@ -195,8 +195,8 @@ export default function EditorialPolicyPage() {
           <section aria-labelledby="byline-heading">
             <h2
               id="byline-heading"
-              className="heading-serif mb-3"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-3"
+              style={{ fontSize: 30 }}
             >
               Byline Policy
             </h2>

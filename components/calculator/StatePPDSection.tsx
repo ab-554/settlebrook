@@ -160,7 +160,7 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
 
   return (
     <div className="card card-pad mt-4 mb-6">
-      <h3 className="heading-serif" style={{ fontSize: 20, marginBottom: 4 }}>
+      <h3 className="heading-display" style={{ fontSize: 22, marginBottom: 4 }}>
         {stateName} PPD Estimator
       </h3>
       <p className="text-sm mb-4" style={{ color: 'var(--ink-3)' }}>
@@ -275,7 +275,7 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
               />
               <div className="breakdown-row is-total">
                 <span className="label">Estimated total</span>
-                <span className="value text-lg" style={{ color: 'var(--accent)' }}>
+                <span className="value text-lg" style={{ color: 'var(--primary)' }}>
                   {scheduledResult.total !== null ? formatCurrency(scheduledResult.total) : 'Not computed'}
                 </span>
               </div>
@@ -293,7 +293,7 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
               <ResultRow label={`Table ${minnesotaResult.table} band amount`} value={formatCurrency(minnesotaResult.bandAmount)} />
               <div className="breakdown-row is-total">
                 <span className="label">Estimated lump sum</span>
-                <span className="value text-lg" style={{ color: 'var(--accent)' }}>{formatCurrency(minnesotaResult.total)}</span>
+                <span className="value text-lg" style={{ color: 'var(--primary)' }}>{formatCurrency(minnesotaResult.total)}</span>
               </div>
               <p className="mt-2 text-xs" style={{ color: 'var(--ink-3)' }}>
                 Minimum-rate rules not applied.

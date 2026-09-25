@@ -22,6 +22,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import EditorialLayout from '@/components/ui/EditorialLayout'
+import BlogRail from '@/components/ui/BlogRail'
 import { getBlogPostBySlug, isPostPublished, getPostDisplayDate } from '@/lib/data/blogPosts'
 
 const canonicalUrl = '/blog/workers-comp-weekly-benefit-calculator/'
@@ -148,7 +150,7 @@ const breadcrumbSchema = {
 // ─── Shared inline styles (match the [state] editorial templates) ─────────────
 
 const bodyStyle = { color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' } as const
-const linkStyle = { color: 'var(--accent)' } as const
+const linkStyle = { color: 'var(--primary)' } as const
 const ruleStyle = { borderColor: 'var(--line)', margin: '36px 0' } as const
 
 const stateMaxTable = [
@@ -178,7 +180,7 @@ export default function WorkersCompWeeklyBenefitCalculatorPost() {
       <main className="min-h-screen">
 
         {/* ── PAGE HEADER ── */}
-        <header className="page-band">
+        <header className="hero-band">
           <div className="container-page py-8 sm:py-10">
             <BreadcrumbNav items={[
               { label: 'Home', href: '/' },
@@ -200,15 +202,16 @@ export default function WorkersCompWeeklyBenefitCalculatorPost() {
         </header>
 
         {/* ── ARTICLE ── */}
-        <article className="container-page py-10 sm:py-12">
-          <div className="editorial">
+        <div className="container-page py-10 sm:py-14">
+          <EditorialLayout rootId="editorial-root" rail={<BlogRail currentSlug={canonicalUrl} />}>
+          <article className="editorial">
 
             <p style={bodyStyle}>If you&rsquo;re hurt on the job and can&rsquo;t work, your weekly workers&rsquo; comp check isn&rsquo;t a flat amount and it isn&rsquo;t automatically two-thirds of your last paycheck. It&rsquo;s built from three numbers: your <strong style={{ color: 'var(--ink)' }}>average weekly wage (AWW)</strong>, your state&rsquo;s <strong style={{ color: 'var(--ink)' }}>compensation rate</strong>, and your state&rsquo;s <strong style={{ color: 'var(--ink)' }}>maximum and minimum weekly caps</strong>.</p>
             <p style={bodyStyle}>This guide walks through each piece using our <Link href="/workers-comp-settlement-calculator/" style={linkStyle}>workers&rsquo; comp settlement calculator</Link> and our <Link href="/workers-comp-maximum-weekly-benefits-by-state/" style={linkStyle}>50-state table of maximum weekly benefits</Link>, with every dollar figure tied to an official state source, plus two worked examples showing how the same wage plays out differently from state to state.</p>
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">What Counts as Your Average Weekly Wage (AWW)</h2>
+            <h2 className="heading-display h2-editorial">What Counts as Your Average Weekly Wage (AWW)</h2>
             <p style={bodyStyle}>Your AWW isn&rsquo;t simply your hourly rate times 40 — it&rsquo;s a snapshot of what you actually earned before you got hurt, and every state defines it in its own statute.</p>
             <p style={bodyStyle}><strong style={{ color: 'var(--ink)' }}>California</strong> figures your wages using &ldquo;all forms of income you receive from work: wages, food, lodging, tips, commissions, overtime and bonuses,&rdquo; under Labor Code Section 4453, according to the state&rsquo;s own fact sheet on temporary disability benefits (<a href="https://www.dir.ca.gov/dwc/factsheets/factsheet_c.pdf" target="_blank" rel="noopener noreferrer" style={linkStyle}>California DWC, Fact Sheet C</a>).</p>
             <p style={bodyStyle}><strong style={{ color: 'var(--ink)' }}>Florida</strong> uses a 13-week lookback: under <a href="https://www.flsenate.gov/Laws/Statutes/2025/0440.14" target="_blank" rel="noopener noreferrer" style={linkStyle}>Fla. Stat. § 440.14(1)(a)</a>, if you worked &ldquo;substantially the whole of 13 weeks&rdquo; before your injury, your AWW is &ldquo;one-thirteenth of the total amount of wages earned&rdquo; in that period. Florida law also lets lost wages from a second job count toward your AWW, but only if you document that loss to the claims administrator (§ 440.14(5)).</p>
@@ -216,7 +219,7 @@ export default function WorkersCompWeeklyBenefitCalculatorPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">The Compensation Rate: Usually 66 2/3% of AWW</h2>
+            <h2 className="heading-display h2-editorial">The Compensation Rate: Usually 66 2/3% of AWW</h2>
             <p style={bodyStyle}>Once your AWW is set, most states pay a fixed percentage of it as your weekly temporary total disability (TTD) benefit. The most common rate is two-thirds:</p>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
               <li><strong style={{ color: 'var(--ink)' }}>California</strong>: 66 2/3% of average weekly earnings, subject to the statutory min/max (<a href="https://dir.ca.gov/DIRNews/2025/2025-116.html" target="_blank" rel="noopener noreferrer" style={linkStyle}>California DIR, 2026 TTD rate announcement</a>).</li>
@@ -227,7 +230,7 @@ export default function WorkersCompWeeklyBenefitCalculatorPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Maximum and Minimum Weekly Caps (and Why They Change Every Year)</h2>
+            <h2 className="heading-display h2-editorial">Maximum and Minimum Weekly Caps (and Why They Change Every Year)</h2>
             <p style={bodyStyle}>No matter how high your AWW is, your check can&rsquo;t exceed your state&rsquo;s maximum weekly benefit. Many states set that ceiling as a percentage of the <strong style={{ color: 'var(--ink)' }}>state average weekly wage (SAWW)</strong> — a figure recalculated each year (or fiscal year) from actual wage data. When the SAWW rises, the cap rises with it.</p>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
               <li><strong style={{ color: 'var(--ink)' }}>California</strong> ties its maximum directly to the California SAWW under Labor Code § 4453(a)(10); the 2026 maximum reflects a 4.99% increase in the SAWW over the prior year (<a href="https://dir.ca.gov/DIRNews/2025/2025-116.html" target="_blank" rel="noopener noreferrer" style={linkStyle}>California DIR news release, 2026 TTD adjustment</a>).</li>
@@ -237,7 +240,7 @@ export default function WorkersCompWeeklyBenefitCalculatorPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">How the Weekly Maximum Varies by State (2026)</h2>
+            <h2 className="heading-display h2-editorial">How the Weekly Maximum Varies by State (2026)</h2>
             <p style={bodyStyle}>The 2026 maximum weekly TTD benefit in the nine states with a dedicated calculator page. Full minimums, maximums, and effective periods for all states live on our <Link href="/workers-comp-maximum-weekly-benefits-by-state/" style={linkStyle}>50-state maximum weekly benefits table</Link>.</p>
             <div className="overflow-x-auto" style={{ marginBottom: 18 }}>
               <table className="w-full text-sm" style={{ borderCollapse: 'collapse' }}>
@@ -261,11 +264,11 @@ export default function WorkersCompWeeklyBenefitCalculatorPost() {
                 </tbody>
               </table>
             </div>
-            <p style={{ ...bodyStyle, fontSize: '14px' }}><em>*Arizona sets its cap as a maximum <strong>monthly</strong> wage ($6,131.00) rather than a weekly figure; $943.23 is the standard weekly-equivalent conversion, not a number the state itself labels &ldquo;weekly.&rdquo;</em></p>
+            <p style={{ ...bodyStyle, fontSize: '15px' }}><em>*Arizona sets its cap as a maximum <strong>monthly</strong> wage ($6,131.00) rather than a weekly figure; $943.23 is the standard weekly-equivalent conversion, not a number the state itself labels &ldquo;weekly.&rdquo;</em></p>
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Waiting Periods and Retroactive Pay</h2>
+            <h2 className="heading-display h2-editorial">Waiting Periods and Retroactive Pay</h2>
             <p style={bodyStyle}>Most states don&rsquo;t pay you for the first few days out of work — the waiting period. But if disability drags on, many states pay you back for those first days too — retroactive pay — and the trigger point varies:</p>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
               <li><strong style={{ color: 'var(--ink)' }}>Illinois</strong>: no TTD for the first three lost workdays — &ldquo;unless the employee misses 14 or more calendar days due to the injury,&rdquo; in which case those first three days become payable (<a href="https://iwcc.illinois.gov/content/dam/soi/en/web/iwcc/documents/handbook/IWCC%20handbook%2006.06.24.pdf" target="_blank" rel="noopener noreferrer" style={linkStyle}>Illinois Workers&rsquo; Compensation Commission, official handbook</a>).</li>
@@ -276,7 +279,7 @@ export default function WorkersCompWeeklyBenefitCalculatorPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">How Long Payments Last: Week Caps vs. &ldquo;Until MMI&rdquo;</h2>
+            <h2 className="heading-display h2-editorial">How Long Payments Last: Week Caps vs. &ldquo;Until MMI&rdquo;</h2>
             <p style={bodyStyle}>States also differ on how long TTD checks can run before they stop or convert to a different benefit type.</p>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
               <li><strong style={{ color: 'var(--ink)' }}>Florida</strong> caps TTD at 104 weeks: &ldquo;66 2/3 percent of the average weekly wages shall be paid to the employee during the continuance thereof, not to exceed 104 weeks,&rdquo; per <a href="https://www.flsenate.gov/Laws/Statutes/2025/440.15" target="_blank" rel="noopener noreferrer" style={linkStyle}>Fla. Stat. § 440.15(2)(a)</a>.</li>
@@ -286,7 +289,7 @@ export default function WorkersCompWeeklyBenefitCalculatorPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Worked Example: Two States, Two Outcomes</h2>
+            <h2 className="heading-display h2-editorial">Worked Example: Two States, Two Outcomes</h2>
             <p style={bodyStyle}>These are hypothetical figures to illustrate the math — use the <Link href="/workers-comp-settlement-calculator/" style={linkStyle}>workers&rsquo; comp settlement calculator</Link> for your own numbers.</p>
             <p style={bodyStyle}><strong style={{ color: 'var(--ink)' }}>Example 1 — California, AWW of $1,500/week</strong></p>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
@@ -304,7 +307,7 @@ export default function WorkersCompWeeklyBenefitCalculatorPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Highest and Lowest Weekly Caps in the Country (2026)</h2>
+            <h2 className="heading-display h2-editorial">Highest and Lowest Weekly Caps in the Country (2026)</h2>
             <p style={bodyStyle}>From states where the weekly maximum is stated directly (not converted from a monthly figure):</p>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
               <li><strong style={{ color: 'var(--ink)' }}>Highest: Iowa, $2,431.00/week</strong>, effective July 1, 2026 – June 30, 2027 (<a href="https://dial.iowa.gov/current-rate-information" target="_blank" rel="noopener noreferrer" style={linkStyle}>Iowa DIAL, Current Rate Information</a>).</li>
@@ -314,28 +317,28 @@ export default function WorkersCompWeeklyBenefitCalculatorPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">FAQ</h2>
+            <h2 className="heading-display h2-editorial">FAQ</h2>
 
-            <h3 className="heading-serif h3-editorial">How is workers&rsquo; comp weekly pay calculated?</h3>
+            <h3 className="heading-display h3-editorial">How is workers&rsquo; comp weekly pay calculated?</h3>
             <p style={bodyStyle}>Your state figures your AWW from pre-injury earnings, applies a set percentage — commonly 66 2/3% — to get your weekly rate, then checks that rate against your state&rsquo;s maximum and minimum caps.</p>
 
-            <h3 className="heading-serif h3-editorial">What is the maximum workers&rsquo; comp weekly benefit in 2026?</h3>
+            <h3 className="heading-display h3-editorial">What is the maximum workers&rsquo; comp weekly benefit in 2026?</h3>
             <p style={bodyStyle}>It depends entirely on the state. Verified 2026 maximums range from $654.63/week in Mississippi to $2,431.00/week in Iowa among states that state a weekly figure directly. See our <Link href="/workers-comp-maximum-weekly-benefits-by-state/" style={linkStyle}>50-state maximum weekly benefits table</Link> for your state&rsquo;s exact number.</p>
 
-            <h3 className="heading-serif h3-editorial">Does overtime count toward my average weekly wage?</h3>
+            <h3 className="heading-display h3-editorial">Does overtime count toward my average weekly wage?</h3>
             <p style={bodyStyle}>In many states, yes. California&rsquo;s fact sheet on temporary disability lists overtime, bonuses, tips, and commissions as forms of income used to calculate wages (<a href="https://www.dir.ca.gov/dwc/factsheets/factsheet_c.pdf" target="_blank" rel="noopener noreferrer" style={linkStyle}>California DWC Fact Sheet C</a>), but not every state includes every category the same way.</p>
 
-            <h3 className="heading-serif h3-editorial">What happens if I have a second job?</h3>
+            <h3 className="heading-display h3-editorial">What happens if I have a second job?</h3>
             <p style={bodyStyle}>Some states let you include lost wages from a second job in your AWW. Florida allows this under § 440.14(5), but you have to document the lost earnings to the claims administrator — it isn&rsquo;t automatic.</p>
 
-            <h3 className="heading-serif h3-editorial">How long can I receive weekly TTD checks?</h3>
+            <h3 className="heading-display h3-editorial">How long can I receive weekly TTD checks?</h3>
             <p style={bodyStyle}>Florida caps TTD at 104 weeks under § 440.15(2)(a). Illinois has no fixed limit — under 820 ILCS 305/8(b), payments continue until you return to work or reach maximum medical improvement (MMI).</p>
 
             <hr style={ruleStyle} />
 
-            <p style={{ ...bodyStyle, fontSize: '14px' }}><em>This article is for general information only and is not legal, medical, or financial advice. Workers&rsquo; compensation laws, rates, and effective periods change; verify current figures with your state&rsquo;s workers&rsquo; compensation agency or a licensed attorney in your state before relying on any number here for a real claim.</em></p>
+            <p style={{ ...bodyStyle, fontSize: '15px' }}><em>This article is for general information only and is not legal, medical, or financial advice. Workers&rsquo; compensation laws, rates, and effective periods change; verify current figures with your state&rsquo;s workers&rsquo; compensation agency or a licensed attorney in your state before relying on any number here for a real claim.</em></p>
 
-            <h2 className="heading-serif h2-editorial">Sources</h2>
+            <h2 className="heading-display h2-editorial">Sources</h2>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
               <li><a href="https://dir.ca.gov/DIRNews/2025/2025-116.html" target="_blank" rel="noopener noreferrer" style={linkStyle}>California DIR — 2026 TTD Rate Adjustment Announcement</a></li>
               <li><a href="https://www.dir.ca.gov/dwc/factsheets/factsheet_c.pdf" target="_blank" rel="noopener noreferrer" style={linkStyle}>California DWC — Fact Sheet C: Temporary Disability Benefits</a></li>
@@ -360,8 +363,9 @@ export default function WorkersCompWeeklyBenefitCalculatorPost() {
               <li><a href="https://www.dfa.ms.gov/sites/default/files/Workers%20Compensation/Workers%20Compensation%20Forms/2026-Quick-Reference-Guide.pdf" target="_blank" rel="noopener noreferrer" style={linkStyle}>Mississippi Dept. of Finance &amp; Administration — 2026 Quick Reference Guide</a></li>
             </ul>
 
-          </div>
-        </article>
+          </article>
+          </EditorialLayout>
+        </div>
 
       </main>
     </>

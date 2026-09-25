@@ -22,8 +22,8 @@ export default function SourcesSection({ sources }: { sources: SourceEntry[] }) 
   ]
 
   return (
-    <section aria-labelledby="sources-heading" className="mt-10">
-      <h2 id="sources-heading" className="heading-serif h2-editorial">
+    <section id="sources" aria-labelledby="sources-heading" className="mt-10" style={{ scrollMarginTop: 'calc(var(--header-h) + 20px)' }}>
+      <h2 id="sources-heading" className="heading-display h2-editorial">
         Sources
       </h2>
       <ol className="sources-list">

@@ -198,7 +198,7 @@ export default function CarAccidentCalculator({ stateSlug, stateName, faultRule,
           <div className="calc-panel-header">
             <div className="flex items-start justify-between gap-3 flex-wrap">
               <div>
-                <h2 className="heading-serif" style={{ fontSize: 20 }}>
+                <h2 className="heading-display" style={{ fontSize: 22 }}>
                   {stateName ? `Enter your ${stateName} car accident damages` : 'Enter your car accident damages'}
                 </h2>
                 <p className="text-sm mt-0.5" style={{ color: 'var(--ink-3)' }}>
@@ -241,14 +241,15 @@ export default function CarAccidentCalculator({ stateSlug, stateName, faultRule,
                 state={stateOf(step2Done, step1Done)}
               />
               <MethodToggle active={activeMethod} onChange={changeMethod} />
-              <div className="mt-4">
+              {/* key re-mounts the block so the 150ms fade/slide plays on method change */}
+              <div className="mt-4 fade-in" key={activeMethod}>
                 {activeMethod === 'multiplier' && (
                   <MultiplierSelector selected={form.severity} onSelect={(level: SeverityLevel) => updateField('severity', level)} />
                 )}
                 {activeMethod === 'per-diem' && (
                   <div className="flex flex-col gap-3">
                     <div className="note note-info">
-                      <p className="text-sm font-medium mb-2" style={{ color: 'var(--accent)' }}>
+                      <p className="text-sm font-medium mb-2" style={{ color: 'var(--primary)' }}>
                         Enter your annual salary to auto-calculate your daily rate
                       </p>
                       <CalculatorInput label="Annual salary (optional helper)" name="annualSalary" value={form.annualSalary} onChange={handleSalaryHelper} prefix="$" placeholder="65,000" helpText="We'll divide by 365 to get your daily rate" className="mb-0" />
@@ -335,7 +336,7 @@ export default function CarAccidentCalculator({ stateSlug, stateName, faultRule,
         </div>
       </div>
 
-      {result && <NextSteps cards={nextSteps} tool={TOOL} stateSlug={stateSlug} />}
+      <NextSteps cards={nextSteps} tool={TOOL} stateSlug={stateSlug} />
     </div>
   )
 }

@@ -20,11 +20,11 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import CarAccidentCalculator from '@/components/calculator/CarAccidentCalculator'
 import FAQAccordion from '@/components/seo/FAQAccordion'
-import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import HeroBand, { type HeroFact, type FactTone } from '@/components/ui/HeroBand'
+import EditorialLayout from '@/components/ui/EditorialLayout'
 import DisclaimerBanner from '@/components/calculator/DisclaimerBanner'
 import WorkedExample from '@/components/seo/WorkedExample'
 import SourcesSection from '@/components/seo/SourcesSection'
-import TrustLine from '@/components/ui/TrustLine'
 import BackToCalculator from '@/components/calculator/BackToCalculator'
 import { buildNextSteps } from '@/lib/nextSteps'
 import {
@@ -274,16 +274,6 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
     ],
   }
 
-  // ── Fault badge style helper (mirrors pain-and-suffering state page) ───────
-
-  const faultBadgeClass: Record<string, string> = {
-    'pure-comparative':        'state-badge state-badge-green',
-    'modified-comparative-50': 'state-badge state-badge-amber',
-    'modified-comparative-51': 'state-badge state-badge-amber',
-    contributory:              'state-badge state-badge-red',
-  }
-  const badgeClass = faultBadgeClass[stateData.faultRule] ?? 'state-badge state-badge-muted'
-
   // Tier-1 launch state link list — CA and TX (excluding current state)
   const tier1States = CAR_ACCIDENT_STATES.filter(
     (s) => (s.slug === 'california' || s.slug === 'texas') && s.slug !== stateData.slug,
@@ -291,6 +281,74 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
   // Contextual cards shown under a result (built server-side, see lib/nextSteps.ts).
   const nextSteps = buildNextSteps({ tool: 'car-accident', stateSlug: stateData.slug })
+
+  // Hero chips — three facts straight from lib/data/carAccidentStates.ts; each
+  // jumps to the key-facts card (#state-law).
+  const faultTone: Record<string, FactTone> = {
+    'pure-comparative': 'money', 'modified-comparative-50': 'amber', 'modified-comparative-51': 'amber', contributory: 'danger',
+  }
+  const heroFacts: HeroFact[] = [
+    { label: 'Fault rule', value: stateData.faultRuleLabel, icon: 'scale', tone: faultTone[stateData.faultRule] ?? 'default', href: '#state-law' },
+    { label: 'Filing deadline', value: `${stateData.statuteOfLimitations}-year statute of limitations`, icon: 'calendar', tone: 'amber', href: '#state-law' },
+    { label: 'Insurance system', value: stateData.isNoFaultState ? 'No-fault state — PIP pays first' : 'At-fault state — direct claim', icon: 'car', tone: 'primary', href: '#state-law' },
+  ]
+
+  // Right rail (sticky from 1200px): the related-links cards that used to be the sidebar.
+  const rail = (
+    <>
+            <SideCard>
+              <h3 className="font-body font-semibold mb-1" style={{ fontSize: 16 }}>How Are {stateData.name} Car Accident Settlements Calculated?</h3>
+              <p className="text-sm mb-3" style={{ color: 'var(--ink-2)' }}>
+                Learn the multiplier method, per diem method, policy limits, and how {stateData.name}&apos;s{' '}
+                {stateData.faultRuleLabel.toLowerCase()} rule affects your final number.
+              </p>
+              <Link href="/pain-and-suffering-calculator/guide/" className="btn-secondary btn-sm w-full">
+                Read the Complete Guide →
+              </Link>
+            </SideCard>
+
+            {tier1States.length > 0 && (
+              <nav aria-label="Other state car accident calculators">
+                <SideCard>
+                  <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Other State Calculators</h2>
+                  <ul className="flex flex-col">
+                    {tier1States.map((state) => (
+                      <li key={state.slug}>
+                        <Link href={`/car-accident-settlement-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
+                          <span>{state.name} Car Accident Calculator</span>
+                          <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
+                        </Link>
+                      </li>
+                    ))}
+                    <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
+                      <Link href="/car-accident-settlement-calculator/" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>
+                        ← All states calculator
+                      </Link>
+                    </li>
+                  </ul>
+                </SideCard>
+              </nav>
+            )}
+
+            <nav aria-label="Other settlement calculators">
+              <SideCard>
+                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 16 }}>Other Calculators</h2>
+                <ul className="flex flex-col">
+                  <li>
+                    <Link href="/pain-and-suffering-calculator/" className="inline-block text-sm font-semibold py-2" style={{ color: 'var(--primary)' }}>
+                      Pain &amp; Suffering Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/workers-comp-settlement-calculator/" className="inline-block text-sm font-semibold py-2" style={{ color: 'var(--primary)' }}>
+                      Workers Comp Calculator
+                    </Link>
+                  </li>
+                </ul>
+              </SideCard>
+            </nav>
+    </>
+  )
 
   return (
     <>
@@ -301,43 +359,33 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
       <main className="min-h-screen">
 
-        {/* ── PAGE HEADER — kept short so the calculator sits above the fold on mobile ── */}
-        <header className="page-band">
-          <div className="container-page pt-5 pb-6 sm:pt-7 sm:pb-8">
-            <BreadcrumbNav items={[
-              { label: 'Home', href: '/' },
-              { label: 'Car Accident Settlement Calculator', href: '/car-accident-settlement-calculator/' },
-              { label: stateData.name, href: `/car-accident-settlement-calculator/${stateData.slug}/` },
-            ]} />
-            {/* H1 — primary keyword "[State] car accident settlement calculator" ✓ */}
-            <h1 className="mt-4">{stateData.name} Car Accident Settlement Calculator</h1>
-            <p className="lede mt-2 max-w-2xl">
-              Estimate your {stateData.name} car accident settlement under{' '}
-              <strong style={{ color: 'var(--ink)' }}>{stateData.faultRuleLabel}</strong> rules.
-              Covers medical bills, vehicle damage, lost wages, and pain &amp; suffering.
-              {stateData.isNoFaultState && (
-                <span>
-                  {' '}{stateData.name} is a{' '}
-                  <strong style={{ color: 'var(--ink)' }}>no-fault insurance state</strong> — PIP coverage applies first.
-                </span>
-              )}
-            </p>
-            <TrustLine reviewed={LAST_REVIEWED} className="mt-3" />
-            {/* State law badge row */}
-            <div className="mt-3 flex flex-wrap gap-2">
-              <span className={badgeClass}>{stateData.faultRuleLabel}</span>
-              <span className="state-badge state-badge-muted">
-                {stateData.statuteOfLimitations}-Year Statute of Limitations
+        {/* ── HERO BAND — breadcrumb · H1 · promise · trust line · key facts · CTA ── */}
+        <HeroBand
+          breadcrumb={[
+            { label: 'Home', href: '/' },
+            { label: 'Car Accident Settlement Calculator', href: '/car-accident-settlement-calculator/' },
+            { label: stateData.name, href: `/car-accident-settlement-calculator/${stateData.slug}/` },
+          ]}
+          title={<>{stateData.name} Car Accident Settlement Calculator</>}
+          promise={<>
+            Estimate your {stateData.name} car accident settlement under{' '}
+            <strong style={{ color: 'var(--ink)' }}>{stateData.faultRuleLabel}</strong> rules.
+            Covers medical bills, vehicle damage, lost wages, and pain &amp; suffering.
+            {stateData.isNoFaultState && (
+              <span>
+                {' '}{stateData.name} is a{' '}
+                <strong style={{ color: 'var(--ink)' }}>no-fault insurance state</strong> — PIP coverage applies first.
               </span>
-              {stateData.isNoFaultState && (
-                <span className="state-badge state-badge-blue">No-Fault Auto State</span>
-              )}
-            </div>
-          </div>
-        </header>
+            )}
+          </>}
+          reviewed={LAST_REVIEWED}
+          sourcesCount={stateSources.length}
+          facts={heroFacts}
+          factsLabel={`${stateData.name} key facts`}
+        />
 
         {/* ── CALCULATOR (live estimate) ── */}
-        <div className="container-page pt-6 pb-8 sm:pt-8 sm:pb-10">
+        <div className="container-page pt-8 pb-10 sm:pt-10 sm:pb-14">
           {/* Car accident calculator — passes stateSlug, stateName, and faultRule */}
           <CarAccidentCalculator
             stateSlug={stateData.slug}
@@ -347,10 +395,10 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
           />
         </div>
 
-        {/* ── STATE LAW + EDITORIAL + RELATED ── */}
-        <div className="container-page pb-12 sm:pb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          <div className="lg:col-span-8 min-w-0">
+        {/* ── EDITORIAL — sticky TOC · prose · tools rail (three columns from 1200px) ── */}
+        <div className="container-page pb-14 sm:pb-20">
+          <BackToCalculator targetId="calculator" />
+          <EditorialLayout rootId="editorial-root" backHref="#calculator" rail={rail}>
 
           {/* State law facts — directly under the calculator; #state-law is the next-step anchor */}
           <section
@@ -359,7 +407,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
             className="card-flat card-pad prose-col"
             style={{ scrollMarginTop: 'calc(var(--header-h) + 12px)' }}
           >
-            <h2 id="state-law-heading" className="font-body font-semibold mb-3" style={{ fontSize: 16 }}>
+            <h2 id="state-law-heading" className="font-body font-semibold mb-3" style={{ fontSize: 17 }}>
               {stateData.name} Car Accident Law — Key Facts
             </h2>
             <dl className="flex flex-col gap-3 text-sm" style={{ color: 'var(--ink-2)' }}>
@@ -449,13 +497,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Use the{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>{' '}
                 above to run your own estimate, then read through what California law actually says about what you are owed.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 What a California Car Accident Settlement Covers
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -469,13 +517,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Understanding{' '}
-                <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--accent)' }}>how pain and suffering is calculated</Link>{' '}
+                <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--primary)' }}>how pain and suffering is calculated</Link>{' '}
                 is especially important in California because non-economic damages often represent the largest share of a total settlement.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Car Accident Settlements Are Calculated in California
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -486,7 +534,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 California also allows the per diem method — assigning a daily dollar rate to your pain and suffering and multiplying it by your recovery days. If you assign $150 per day and recovered over 240 days, that produces $36,000 in pain and suffering. Which method produces a higher number depends on your facts, and the{' '}
-                <Link href="/pain-and-suffering-calculator/california/" style={{ color: 'var(--accent)' }}>California pain and suffering calculator</Link>{' '}
+                <Link href="/pain-and-suffering-calculator/california/" style={{ color: 'var(--primary)' }}>California pain and suffering calculator</Link>{' '}
                 lets you run both.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -495,7 +543,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 California Pure Comparative Fault and Your Settlement
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -513,7 +561,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 California Insurance Minimums and Policy Limits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -534,7 +582,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Factors That Affect California Car Accident Settlements
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -552,7 +600,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 California Statute of Limitations for Car Accidents
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -582,24 +630,24 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={CA_CAR_FAQS} />
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Use the Calculator to Estimate Your Settlement
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 You were just in a California car accident, and the other side has already started building their case. The adjuster who called you works for the insurer, not for you. Running your own estimate with the{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>{' '}
                 gives you a baseline before you accept any offer, respond to any recorded statement request, or sign any release.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 For the non-economic damages portion of your estimate, the{' '}
-                <Link href="/pain-and-suffering-calculator/california/" style={{ color: 'var(--accent)' }}>California pain and suffering calculator</Link>{' '}
+                <Link href="/pain-and-suffering-calculator/california/" style={{ color: 'var(--primary)' }}>California pain and suffering calculator</Link>{' '}
                 walks through both the multiplier method and the per diem method so you can see which produces a higher result under your specific facts.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -617,13 +665,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
                 If you were just in a car accident in Texas, you already know what comes next — the other driver&apos;s insurance company calls within 24 hours, sounds sympathetic, and offers you a number that sounds reasonable until you realize your medical bills alone will exceed it. Texas insurers are legally required to acknowledge your claim within 15 days and accept or deny it within 15 business days after receiving your documentation. They know the clock. They also know most injured people do not. Use the{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>{' '}
                 to see what your claim is actually worth before you respond to anything.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 What a Texas Car Accident Settlement Covers
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -638,7 +686,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Car Accident Settlements Are Calculated in Texas
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -649,13 +697,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 For serious injuries — fractures, herniated discs, surgeries — multipliers of 3.5 to 4.5 are standard. A $40,000 medical bill at a 3.5 multiplier yields $140,000 in pain and suffering alone. To understand exactly{' '}
-                <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--accent)' }}>how pain and suffering is calculated</Link>{' '}
+                <Link href="/pain-and-suffering-calculator/guide/" style={{ color: 'var(--primary)' }}>how pain and suffering is calculated</Link>{' '}
                 under both the multiplier and per diem methods, review our dedicated guide.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Texas Modified Comparative Fault — The 51% Rule
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -670,7 +718,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Texas Insurance Requirements and Policy Limits
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -688,7 +736,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Texas Diminished Value Claims
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -700,7 +748,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Factors That Affect Texas Car Accident Settlements
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -712,7 +760,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Texas Statute of Limitations for Car Accidents
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -736,26 +784,26 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={TX_CAR_FAQS} />
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Use the Texas Car Accident Settlement Calculator
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 If you were injured in a Texas car accident and the insurance company is already pushing you toward a quick settlement, run your numbers first. The{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>{' '}
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>{' '}
                 walks you through your economic damages, applies the correct multiplier for your injury severity, accounts for your fault percentage under Texas law, and gives you a documented estimate you can use as a baseline in negotiations.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 For a detailed breakdown of your non-economic damages specifically, the{' '}
-                <Link href="/pain-and-suffering-calculator/texas/" style={{ color: 'var(--accent)' }}>Texas pain and suffering calculator</Link>{' '}
+                <Link href="/pain-and-suffering-calculator/texas/" style={{ color: 'var(--primary)' }}>Texas pain and suffering calculator</Link>{' '}
                 gives you a state-specific estimate under both the multiplier and per diem methods. If you want to compare how Texas settlement values compare to other high-value states, the{' '}
-                <Link href="/car-accident-settlement-calculator/california/" style={{ color: 'var(--accent)' }}>California car accident settlement calculator</Link>{' '}
+                <Link href="/car-accident-settlement-calculator/california/" style={{ color: 'var(--primary)' }}>California car accident settlement calculator</Link>{' '}
                 shows how California&apos;s pure comparative fault system produces different outcomes on identical facts.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -779,7 +827,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 What Pennsylvania Car Accident Settlement Covers
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -794,7 +842,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Limited Tort vs Full Tort: The Checkbox That Dictates Your Rights
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -817,13 +865,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </ul>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 To test how your specific injury severity interacts with your policy election, you can run your specific parameters through our specialized{' '}
-                <Link href="/pain-and-suffering-calculator/pennsylvania/" style={{ color: 'var(--accent)' }}>Pennsylvania pain and suffering calculator</Link>{' '}
+                <Link href="/pain-and-suffering-calculator/pennsylvania/" style={{ color: 'var(--primary)' }}>Pennsylvania pain and suffering calculator</Link>{' '}
                 to see whether your medical evidence clears the serious impairment hurdle.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Your Pennsylvania Accident Settlement Is Calculated
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -841,7 +889,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Pennsylvania&apos;s 51% Modified Comparative Fault Bar
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -856,7 +904,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Venue Impact: Philadelphia vs. Pittsburgh Case Valuations
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -871,7 +919,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Two-Year Statute of Limitations Clock
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -898,7 +946,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions About Pennsylvania Car Settlements
               </h2>
               <FAQAccordion faqs={[
@@ -936,7 +984,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Maximize Your Claim Value Today
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -963,7 +1011,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 What an Illinois Car Accident Settlement Covers
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -978,7 +1026,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Your Settlement is Calculated: The Multiplier Method
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -986,7 +1034,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 The exact multiplier assigned to your file depends heavily on the severity of your injuries, the invasiveness of your medical treatment, and the geographic location where your eventual lawsuit would be filed. For example, Cook County jury verdicts consistently rank among the highest in the Midwest. Because insurance adjusters know that a Chicago jury is statistically more likely to award substantial general damages than a conservative jury in a rural downstate county, claims arising in Cook County naturally command higher negotiation multipliers. You can explore how adjusters weigh these subjective injury variables by utilizing our specialized{' '}
-                <Link href="/pain-and-suffering-calculator/illinois/" style={{ color: 'var(--accent)' }}>Illinois pain and suffering calculator</Link>.
+                <Link href="/pain-and-suffering-calculator/illinois/" style={{ color: 'var(--primary)' }}>Illinois pain and suffering calculator</Link>.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Consider a realistic scenario involving a multi-vehicle rear-end collision on the Dan Ryan Expressway in Chicago. You suffer a severe herniated disc at the L4-L5 vertebrae requiring an emergency lumbar microdiscectomy surgery. Your verifiable special damages include $12,000 in surgical fee charges, $28,000 in hospital facility bills, $6,500 in post-operative physical therapy, and $9,000 in documented lost wages from six weeks of missed work. Your total baseline special damages equal <strong style={{ color: 'var(--amber)' }}>$55,500</strong>.
@@ -997,7 +1045,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Illinois 51% Modified Comparative Fault
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1012,7 +1060,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Illinois No Damage Cap Protections
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1024,7 +1072,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Critical Factors Affecting Your Settlement Value
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1045,7 +1093,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Illinois Statute of Limitations Deadlines
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1069,7 +1117,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -1107,7 +1155,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Take the Next Step Toward Your Maximum Illinois Recovery
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1134,7 +1182,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 What a Georgia Car Accident Settlement Actually Covers
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1146,7 +1194,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Your Settlement Is Calculated: The Multiplier Method
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1154,14 +1202,14 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Imagine you are struck head-on by a distracted driver on Peachtree Street in Midtown. You require invasive knee surgery followed by three months of grueling rehabilitation. Your total medical bills equal <strong style={{ color: 'var(--amber)' }}>$45,000</strong>, and your documented lost income totals <strong style={{ color: 'var(--amber)' }}>$15,000</strong>. Your hard economic damages sit at <strong style={{ color: 'var(--amber)' }}>$60,000</strong>. Because your injury required surgical intervention and left you with a permanent limp, an adjuster might assign a multiplier of 3 to calculate your pain and suffering. Multiplying your $60,000 economic loss by 3 yields <strong style={{ color: 'var(--amber)' }}>$180,000</strong> in non-economic damages. Adding both figures together gives you a gross settlement valuation of <strong style={{ color: 'var(--amber)' }}>$240,000</strong>. You can experiment with different economic baselines using our{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>
                 {' '}and isolate the subjective variables by exploring our{' '}
-                <Link href="/pain-and-suffering-calculator/georgia/" style={{ color: 'var(--accent)' }}>Georgia pain and suffering calculator</Link>.
+                <Link href="/pain-and-suffering-calculator/georgia/" style={{ color: 'var(--primary)' }}>Georgia pain and suffering calculator</Link>.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Brutal Reality of the Georgia Modified Comparative Fault 50% Bar
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1176,7 +1224,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 No Damage Caps and the Threat of Punitive Damages
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1188,7 +1236,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Why an Atlanta Car Accident Settlement Demands a Premium
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1203,7 +1251,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Ticking Clock: Georgia Statute of Limitations 2 Years
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1217,7 +1265,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -1255,12 +1303,12 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Protect Your Financial Recovery Today
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Navigating a high-stakes injury claim while recovering from major surgery is a recipe for being taken advantage of by a predatory insurance adjuster. One recorded statement where you accidentally apologize for the crash can push your liability to 50 percent, permanently destroying your right to compensation. Before you sign any release forms or accept a lowball initial offer, use the{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>
                 {' '}to benchmark your economic damages, then ensure the insurance company is forced to pay the absolute maximum value of your claim under Georgia law.
               </p>
 
@@ -1281,7 +1329,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 What Your Ohio Car Accident Settlement Actually Covers
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1293,7 +1341,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Adjusters Calculate Your Claim Value
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1304,12 +1352,12 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Alternatively, if you suffer a severe femur fracture requiring surgical plates and screws in Cuyahoga County, the math shifts aggressively in your favor. A Cleveland car accident settlement for a victim with <strong style={{ color: 'var(--amber)' }}>$80,000</strong> in medical bills and a permanent limp might command a multiplier of 4 or 5. If the adjuster uses a 4, your $80,000 in economic damages generates <strong style={{ color: 'var(--amber)' }}>$320,000</strong> in pain and suffering, creating a <strong style={{ color: 'var(--amber)' }}>$400,000</strong> total settlement target. For a more tailored estimate of the non-economic portion of your specific claim, you can run your unique numbers through our{' '}
-                <Link href="/pain-and-suffering-calculator/ohio/" style={{ color: 'var(--accent)' }}>Ohio pain and suffering calculator</Link>.
+                <Link href="/pain-and-suffering-calculator/ohio/" style={{ color: 'var(--primary)' }}>Ohio pain and suffering calculator</Link>.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Navigating the Ohio 51% Comparative Fault Rule
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1321,7 +1369,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Truth About Statutory Damage Caps
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1333,7 +1381,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Why Your Venue Changes Your Valuation
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1345,7 +1393,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Strict Ohio Statute of Limitations
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1357,7 +1405,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Insurance Limits and Your Recovery
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1378,7 +1426,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -1416,12 +1464,12 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Take Action on Your Claim Today
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 The insurance company already has a dedicated team of adjusters and defense lawyers working around the clock to devalue your injuries and protect their corporate profit margins. Stop guessing about the true value of your case and start building the legal leverage you need to secure a maximum financial payout. Use our{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>
                 {' '}to understand your baseline numbers, then hold the negligent driver fully accountable and aggressively demand every single dollar you are owed under Ohio law.
               </p>
 
@@ -1442,7 +1490,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 What Your Arizona Car Accident Settlement Actually Covers
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1457,7 +1505,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Your Settlement Is Calculated: The Multiplier Method in Action
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1465,13 +1513,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Imagine you were T-boned at a busy intersection in downtown Phoenix. You suffer a torn rotator cuff that requires surgery. Your medical bills total <strong style={{ color: 'var(--amber)' }}>$40,000</strong>, and you lose <strong style={{ color: 'var(--amber)' }}>$10,000</strong> in wages during your recovery. Your baseline economic damages are <strong style={{ color: 'var(--amber)' }}>$50,000</strong>. Because your injury required invasive surgery and months of painful rehabilitation, an insurance adjuster or a Maricopa County jury might assign a multiplier of three to your case. You take your $50,000 baseline and multiply it by three, giving you <strong style={{ color: 'var(--amber)' }}>$150,000</strong> in non-economic pain and suffering damages. You then add that $150,000 back to your $50,000 in hard costs. In this scenario, a fair baseline settlement target would be <strong style={{ color: 'var(--amber)' }}>$200,000</strong>. If you want to see how different severity levels impact your specific multiplier, you can run your numbers through our dedicated{' '}
-                <Link href="/pain-and-suffering-calculator/arizona/" style={{ color: 'var(--accent)' }}>Arizona pain and suffering calculator</Link>
+                <Link href="/pain-and-suffering-calculator/arizona/" style={{ color: 'var(--primary)' }}>Arizona pain and suffering calculator</Link>
                 {' '}to get a more tailored estimate.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Arizona Pure Comparative Fault: Why You Still Win If You Share the Blame
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1486,7 +1534,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Arizona Constitution Prohibits Personal Injury Damage Caps
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1501,7 +1549,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Arizona Dram Shop Liability: Finding Deeper Pockets
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1513,7 +1561,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Venue Matters: Why Maricopa County Commands Higher Payouts
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1525,7 +1573,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Two-Year Ticking Clock: Arizona Statute of Limitations
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1549,7 +1597,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -1587,12 +1635,12 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Maximize Your Recovery Today
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Insurance companies make billions of dollars by convincing injured victims to accept cheap, early settlement offers before they understand the true value of their pain. Do not let a corporate adjuster dictate your financial future. Use our{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>
                 {' '}right now to get a concrete, data-backed estimate of what your Arizona personal injury claim is actually worth, and take the first step toward demanding every dollar you deserve.
               </p>
 
@@ -1606,13 +1654,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
                 You are sitting at a red light on Mercer Street in Seattle when a distracted driver slams into your rear bumper at forty miles per hour. Suddenly, you are staring down a mountain of Harborview Medical Center bills, nursing a torn rotator cuff, and missing weeks of your livelihood. Your very first instinct is to figure out the financial reality of your situation. While our main{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>
                 {' '}gives you a powerful national baseline for valuing your damages, Washington State plays by its own highly distinct set of legal rules. When you desperately need to know how much your car accident is worth in Washington, you cannot rely on generic national advice. You have to factor in the state&apos;s generous pure comparative fault laws, the total lack of arbitrary damage caps, and the intense difference in jury behavior between urban King County and rural eastern farming communities.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 What a Washington Car Accident Settlement Covers
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1624,7 +1672,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Your Settlement Is Calculated
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1632,13 +1680,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Let us run a concrete Seattle car accident settlement scenario to see the math in action. Imagine a negligent delivery driver blows through a stop sign in Bellevue and crushes your passenger door. You rack up <strong style={{ color: 'var(--amber)' }}>$18,500</strong> in medical bills for a fractured collarbone and lose <strong style={{ color: 'var(--amber)' }}>$4,500</strong> in salary while recovering at home. This creates a hard economic base of <strong style={{ color: 'var(--amber)' }}>$23,000</strong>. Because your injury was highly painful and required immobilization but you are expected to make a full medical recovery, the insurance adjuster assigns a multiplier of 3. They multiply your $23,000 economic base by 3 to reach <strong style={{ color: 'var(--amber)' }}>$69,000</strong> for your human losses. Add that $69,000 back to your $23,000 out-of-pocket costs, and your estimated baseline settlement value sits at <strong style={{ color: 'var(--amber)' }}>$92,000</strong>. If you want to isolate just the human cost of your trauma without the medical bills muddying the water, our{' '}
-                <Link href="/pain-and-suffering-calculator/washington/" style={{ color: 'var(--accent)' }}>Washington pain and suffering calculator</Link>
+                <Link href="/pain-and-suffering-calculator/washington/" style={{ color: 'var(--primary)' }}>Washington pain and suffering calculator</Link>
                 {' '}can help you test different multiplier scenarios based on your specific daily struggles.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Washington Pure Comparative Fault
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1650,7 +1698,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Power of the Washington No Damage Cap Rule
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1662,7 +1710,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Washington Statute of Limitations: 3 Years Advantage
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1674,7 +1722,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Washington Dram Shop Liability
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1686,7 +1734,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Seattle vs. Rural Washington Venue Dynamics
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1710,7 +1758,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -1748,12 +1796,12 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Take the Next Step
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Calculating your damages is only the beginning of the battle. Insurance companies deploy massive legal teams to minimize your injuries and weaponize comparative fault against you. You do not have to fight a multi-billion dollar corporation on your own. Use our{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>
                 {' '}to find your baseline, and then reach out to a verified Washington personal injury law firm to force the insurance adjuster to pay exactly what your recovery demands.
               </p>
 
@@ -1767,7 +1815,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
                 Calculating the potential value of your recovery after a collision on I-25 or a side street in Denver is never as simple as inputting numbers into a generic form. While you may be looking for a{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>
                 {' '}Colorado specific, true case valuation requires an understanding of how Colorado&apos;s unique statutes — from the state&apos;s modified comparative fault rules to the recent, significant adjustments in damage caps — interact with the specific facts of your crash.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1776,7 +1824,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 What Your Colorado Car Accident Settlement Covers
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1791,7 +1839,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Calculating Your Claim: The Multiplier Method
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1802,13 +1850,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 This is merely a starting point for negotiation, not a final verdict. If your case is strong, it may be worth using a{' '}
-                <Link href="/pain-and-suffering-calculator/colorado/" style={{ color: 'var(--accent)' }}>Colorado pain and suffering calculator</Link>
+                <Link href="/pain-and-suffering-calculator/colorado/" style={{ color: 'var(--primary)' }}>Colorado pain and suffering calculator</Link>
                 {' '}to better understand how these qualitative factors might increase that multiplier. A skilled attorney will challenge a lowball multiplier by presenting evidence of the long-term, irreversible changes to your quality of life, effectively pushing that number toward the upper limit.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Navigating the Colorado 50% Comparative Fault Bar
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1823,7 +1871,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The New $1.5 Million Noneconomic Damage Cap
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1838,7 +1886,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Venue Matters: Denver vs. Rural Colorado
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1850,7 +1898,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Protecting Your Right to Claim
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1877,7 +1925,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -1915,12 +1963,12 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Securing Your Future
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 A car accident in Colorado can turn your life upside down in an instant. With the legal landscape shifting toward greater protections for injured victims — most notably the new <strong style={{ color: 'var(--amber)' }}>$1.5 million</strong> cap on noneconomic damages — it is more important than ever to have a clear understanding of your claim&apos;s true value. Do not let an insurance adjuster dictate the worth of your recovery based on a simple algorithm. Focus on the facts, understand your rights under Colorado&apos;s specific statutes, and ensure that every dollar of your economic and noneconomic damages is accounted for using our{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>.
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>.
               </p>
 
             </article>
@@ -1936,13 +1984,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Using a{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>
                 {' '}can provide a baseline for understanding your potential claim, but in Michigan, the final figure is rarely a simple mathematical equation. It is the result of navigating Michigan&apos;s specific No-Fault system, meeting the &quot;serious impairment&quot; threshold, and strategically addressing liability.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Michigan No-Fault System Overview
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1954,7 +2002,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 PIP Coverage and the 2019 Reform
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1969,7 +2017,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Serious Impairment Threshold: Your Key to Suing for Pain and Suffering
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1984,12 +2032,12 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Settlements Are Calculated
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 A settlement is not just a random number; it is a calculation of your total losses, both current and future. Our{' '}
-                <Link href="/pain-and-suffering-calculator/michigan/" style={{ color: 'var(--accent)' }}>Michigan pain and suffering calculator</Link>
+                <Link href="/pain-and-suffering-calculator/michigan/" style={{ color: 'var(--primary)' }}>Michigan pain and suffering calculator</Link>
                 {' '}can help you estimate these amounts, but lawyers typically evaluate claims using two core components. First, <strong style={{ color: 'var(--ink)' }}>economic damages</strong> are the hard costs. They include medical bills that exceed your PIP limits, lost wages (paid at <strong style={{ color: 'var(--ink)' }}>85%</strong> of gross pay for up to three years), and replacement services for household chores you can no longer perform. Second, <strong style={{ color: 'var(--ink)' }}>non-economic damages</strong> compensate for the human cost of the crash, including the pain of rehabilitation, the loss of enjoyment of life, disfigurement, and mental anguish. Because there is no mathematical formula for pain, the value is often determined by the severity of the injury, your prognosis, and the quality of your legal representation.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -1998,7 +2046,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Michigan 51% Comparative Fault
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2007,7 +2055,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Venue Matters: Detroit vs. Other Michigan Regions
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2019,7 +2067,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Statute of Limitations
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2043,7 +2091,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -2081,7 +2129,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Protect Your Future
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2089,7 +2137,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 If you have been injured, don&apos;t leave your recovery to chance. Use our{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>
                 {' '}to estimate your baseline, understand your rights under the No-Fault Act, and fight to ensure you receive the full compensation you deserve.
               </p>
 
@@ -2106,13 +2154,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Using a{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>
                 {' '}for Nevada is a starting point, but true recovery requires navigating a system that is distinct from many other states. Nevada is an at-fault state, meaning the person responsible for the crash is legally obligated to cover your losses. Because Nevada does not require personal injury protection (PIP), you cannot rely on automatic, no-fault coverage to pay your medical bills. Instead, you must prove fault and aggressively pursue the at-fault driver&apos;s insurance policy or a commercial defendant&apos;s liability coverage.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 What Your Nevada Car Accident Settlement Covers
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2123,13 +2171,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Non-economic damages</strong> are more complex, as they compensate you for the intangible burdens of your injury. These are the life-altering effects: the physical pain of chronic injuries, the emotional distress of trauma, the loss of enjoyment of your hobbies, and the strain on your personal relationships. While these lack a specific invoice, they are often the largest component of a high-value settlement. Many victims use a{' '}
-                <Link href="/pain-and-suffering-calculator/nevada/" style={{ color: 'var(--accent)' }}>Nevada pain and suffering calculator</Link>
+                <Link href="/pain-and-suffering-calculator/nevada/" style={{ color: 'var(--primary)' }}>Nevada pain and suffering calculator</Link>
                 {' '}to establish a baseline for these damages, which are then multiplied by the severity and long-term prognosis of the injuries you sustained.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 How Settlements Are Calculated: The Multiplier Method
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2144,7 +2192,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Nevada&apos;s 51% Modified Comparative Fault Rule
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2156,7 +2204,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Advantage of No Damage Caps
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2168,7 +2216,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Las Vegas Tourism Cases and Commercial Defendants
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2183,7 +2231,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Venue Matters: Clark County vs. Rural Nevada
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2192,7 +2240,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Statute of Limitations
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2213,7 +2261,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               />
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 For those who want a more granular look at their specific pain and suffering, our{' '}
-                <Link href="/pain-and-suffering-calculator/nevada/" style={{ color: 'var(--accent)' }}>Nevada pain and suffering calculator</Link>
+                <Link href="/pain-and-suffering-calculator/nevada/" style={{ color: 'var(--primary)' }}>Nevada pain and suffering calculator</Link>
                 {' '}can help you understand how different injuries are weighted and valued in our local courts.
               </p>
 
@@ -2221,7 +2269,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -2259,12 +2307,12 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Take Control of Your Recovery
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 The aftermath of a car accident is a period of vulnerability, but you do not have to navigate it alone. Understanding the nuances of Nevada law — from the complexities of comparative fault to the significant advantages of litigating in Clark County — is the first step toward securing the compensation you deserve. Do not leave your financial future to the discretion of an insurance adjuster whose primary goal is to minimize your payment. Use our{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>
                 {' '}to understand the numbers, then reach out to a legal advocate who can fight for the full value of your claim. Your recovery is worth fighting for, and the time to start is now.
               </p>
 
@@ -2278,7 +2326,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
                 You are behind the wheel on a busy stretch of I-77 in Charlotte or navigating a quiet residential street in Raleigh when, in a split second, the unexpected happens. Another driver&apos;s negligence turns your day into a wreckage of bent metal, emergency room visits, and mounting financial worry. In the aftermath, you are not just dealing with physical recovery; you are facing a complex legal landscape. If you are searching for a{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>
                 {' '}in North Carolina, you need to understand that the math of your recovery is governed by some of the most unforgiving laws in the United States.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2287,7 +2335,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 What Your North Carolina Car Accident Settlement Covers
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2298,13 +2346,13 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>Non-economic damages</strong>, often described as pain and suffering, account for the physical and emotional toll the accident has taken on your life. This includes physical pain, mental anguish, loss of enjoyment of life, and the inconvenience caused by your recovery process. Because these damages are subjective, attorneys and insurance adjusters often use a{' '}
-                <Link href="/pain-and-suffering-calculator/north-carolina/" style={{ color: 'var(--accent)' }}>North Carolina pain and suffering calculator</Link>
+                <Link href="/pain-and-suffering-calculator/north-carolina/" style={{ color: 'var(--primary)' }}>North Carolina pain and suffering calculator</Link>
                 {' '}to assign a concrete value to these experiences, frequently employing a multiplier of your economic losses or a per-diem rate for every day you spent in pain.
               </p>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The North Carolina Contributory Negligence Trap
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2316,7 +2364,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The Last Clear Chance Doctrine
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2325,7 +2373,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 No Statutory Damage Caps in North Carolina
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2337,7 +2385,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Venue Matters: Charlotte vs. Other NC Venues
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2349,7 +2397,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 The 3-Year Statute of Limitations
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2361,7 +2409,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Insurance Requirements
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2385,7 +2433,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <SourcesSection sources={stateSources} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Frequently Asked Questions
               </h2>
               <FAQAccordion faqs={[
@@ -2423,12 +2471,12 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
-              <h2 className="heading-serif h2-editorial">
+              <h2 className="heading-display h2-editorial">
                 Are you ready to understand the value of your case?
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 The aftermath of a car accident is overwhelming, but you do not have to navigate the insurance process alone. Use our{' '}
-                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--accent)' }}>car accident settlement calculator</Link>
+                <Link href="/car-accident-settlement-calculator/" style={{ color: 'var(--primary)' }}>car accident settlement calculator</Link>
                 {' '}to get an estimate of your potential claim value based on current North Carolina law, and remember that professional legal counsel is the best way to protect your rights against a system that is designed to minimize your payout.
               </p>
 
@@ -2442,8 +2490,8 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
             ───────────────────────────────────────────────────────────────── */
             <article className="editorial">
               <h2
-                className="heading-serif"
-                style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
+                className="heading-display"
+                style={{ fontSize: '30px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
               >
                 Car Accident Settlements in {stateData.name}
               </h2>
@@ -2489,8 +2537,8 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               {stateData.isNoFaultState && (
                 <>
                   <h2
-                    className="heading-serif"
-                    style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
+                    className="heading-display"
+                    style={{ fontSize: '30px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
                   >
                     {stateData.name} No-Fault Insurance and the Serious Injury Threshold
                   </h2>
@@ -2514,8 +2562,8 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               )}
 
               <h2
-                className="heading-serif"
-                style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
+                className="heading-display"
+                style={{ fontSize: '30px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
               >
                 How This Calculator Estimates Your {stateData.name} Settlement
               </h2>
@@ -2541,8 +2589,8 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2
-                className="heading-serif"
-                style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
+                className="heading-display"
+                style={{ fontSize: '30px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
               >
                 {stateData.name} Car Accident Settlement — Key Numbers
               </h2>
@@ -2586,8 +2634,8 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2
-                className="heading-serif"
-                style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
+                className="heading-display"
+                style={{ fontSize: '30px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
               >
                 Frequently Asked Questions
               </h2>
@@ -2596,8 +2644,8 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
               <h2
-                className="heading-serif"
-                style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
+                className="heading-display"
+                style={{ fontSize: '30px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}
               >
                 Get Your {stateData.name} Estimate Now
               </h2>
@@ -2610,7 +2658,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 If you are also evaluating a pain and suffering claim separately from vehicle damage,
                 the{' '}
-                <Link href="/pain-and-suffering-calculator/" style={{ color: 'var(--accent)' }}>
+                <Link href="/pain-and-suffering-calculator/" style={{ color: 'var(--primary)' }}>
                   Pain &amp; Suffering Calculator
                 </Link>{' '}
                 runs both the multiplier and per diem methods side by side for direct comparison.
@@ -2620,66 +2668,8 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
           )}
 
           <DisclaimerBanner variant="footer" stateName={stateData.name} />
-          </div>
-
-          {/* ── RELATED (sidebar on desktop, after the article on mobile) ── */}
-          <aside aria-label="Related state information" className="lg:col-span-4 flex flex-col gap-4 lg:sticky" style={{ top: 'calc(var(--header-h) + 16px)' }}>
-            <SideCard>
-              <h3 className="font-body font-semibold mb-1" style={{ fontSize: 15 }}>How Are {stateData.name} Car Accident Settlements Calculated?</h3>
-              <p className="text-sm mb-3" style={{ color: 'var(--ink-2)' }}>
-                Learn the multiplier method, per diem method, policy limits, and how {stateData.name}&apos;s{' '}
-                {stateData.faultRuleLabel.toLowerCase()} rule affects your final number.
-              </p>
-              <Link href="/pain-and-suffering-calculator/guide/" className="btn-secondary btn-sm w-full">
-                Read the Complete Guide →
-              </Link>
-            </SideCard>
-
-            {tier1States.length > 0 && (
-              <nav aria-label="Other state car accident calculators">
-                <SideCard>
-                  <h2 className="font-body font-semibold mb-2" style={{ fontSize: 15 }}>Other State Calculators</h2>
-                  <ul className="flex flex-col">
-                    {tier1States.map((state) => (
-                      <li key={state.slug}>
-                        <Link href={`/car-accident-settlement-calculator/${state.slug}/`} className="flex items-center justify-between text-sm py-2 text-link" style={{ textDecoration: 'none' }}>
-                          <span>{state.name} Car Accident Calculator</span>
-                          <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>→</span>
-                        </Link>
-                      </li>
-                    ))}
-                    <li className="pt-2 mt-1" style={{ borderTop: '1px solid var(--line)' }}>
-                      <Link href="/car-accident-settlement-calculator/" className="text-xs font-semibold inline-block py-1" style={{ color: 'var(--ink-3)' }}>
-                        ← All states calculator
-                      </Link>
-                    </li>
-                  </ul>
-                </SideCard>
-              </nav>
-            )}
-
-            <nav aria-label="Other settlement calculators">
-              <SideCard>
-                <h2 className="font-body font-semibold mb-2" style={{ fontSize: 15 }}>Other Calculators</h2>
-                <ul className="flex flex-col">
-                  <li>
-                    <Link href="/pain-and-suffering-calculator/" className="inline-block text-sm font-semibold py-2" style={{ color: 'var(--accent)' }}>
-                      Pain &amp; Suffering Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/workers-comp-settlement-calculator/" className="inline-block text-sm font-semibold py-2" style={{ color: 'var(--accent)' }}>
-                      Workers Comp Calculator
-                    </Link>
-                  </li>
-                </ul>
-              </SideCard>
-            </nav>
-          </aside>
-          </div>
+          </EditorialLayout>
         </div>
-
-        <BackToCalculator targetId="calculator" />
       </main>
     </>
   )

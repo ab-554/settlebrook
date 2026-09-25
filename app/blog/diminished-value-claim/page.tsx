@@ -15,6 +15,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import EditorialLayout from '@/components/ui/EditorialLayout'
+import BlogRail from '@/components/ui/BlogRail'
 
 const canonicalUrl = '/blog/diminished-value-claim/'
 const PUBLISHED_DATE = '2026-09-24'
@@ -140,7 +142,7 @@ const breadcrumbSchema = {
 // ─── Shared inline styles (match the [state] editorial templates) ─────────────
 
 const bodyStyle = { color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' } as const
-const linkStyle = { color: 'var(--accent)' } as const
+const linkStyle = { color: 'var(--primary)' } as const
 const ruleStyle = { borderColor: 'var(--line)', margin: '36px 0' } as const
 
 export default function DiminishedValueClaimPost() {
@@ -153,7 +155,7 @@ export default function DiminishedValueClaimPost() {
       <main className="min-h-screen">
 
         {/* ── PAGE HEADER ── */}
-        <header className="page-band">
+        <header className="hero-band">
           <div className="container-page py-8 sm:py-10">
             <BreadcrumbNav items={[
               { label: 'Home', href: '/' },
@@ -175,8 +177,9 @@ export default function DiminishedValueClaimPost() {
         </header>
 
         {/* ── ARTICLE ── */}
-        <article className="container-page py-10 sm:py-12">
-          <div className="editorial">
+        <div className="container-page py-10 sm:py-14">
+          <EditorialLayout rootId="editorial-root" rail={<BlogRail currentSlug={canonicalUrl} />}>
+          <article className="editorial">
 
             <p style={bodyStyle}>You get your car repaired after a wreck. The body shop does good work, the panels line up, the paint matches. On paper, the car is fixed. But if you tried to sell it next month, a buyer who ran a vehicle history report would see the accident — and offer less than for an identical car with a clean history.</p>
             <p style={bodyStyle}>That gap in resale value is a diminished value claim. It&rsquo;s a category of loss that insurance adjusters, appraisers, and courts have argued over for more than two decades, and it comes up in almost every car accident settlement where the vehicle wasn&rsquo;t totaled.</p>
@@ -184,7 +187,7 @@ export default function DiminishedValueClaimPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">What Is a Diminished Value Claim?</h2>
+            <h2 className="heading-display h2-editorial">What Is a Diminished Value Claim?</h2>
             <p style={bodyStyle}>A diminished value claim asks an insurer to pay for the loss in your vehicle&rsquo;s market value caused by the accident itself — separate from, and in addition to, the cost of the physical repairs.</p>
             <p style={bodyStyle}>People in the diminished value field generally talk about three kinds of loss:</p>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
@@ -196,14 +199,14 @@ export default function DiminishedValueClaimPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Third-Party Claims vs. First-Party Claims</h2>
+            <h2 className="heading-display h2-editorial">Third-Party Claims vs. First-Party Claims</h2>
             <p style={bodyStyle}>Diminished value claims come in two forms, and the distinction matters a lot for whether you&rsquo;re likely to get paid.</p>
             <p style={bodyStyle}><strong style={{ color: 'var(--ink)' }}>Third-party claims</strong> are filed against the at-fault driver&rsquo;s liability insurance. Because you weren&rsquo;t at fault, you&rsquo;re asserting a right to be made whole under general tort law — not a contract you signed. The NAIC review notes that in a third-party claim, &ldquo;an injured person (the third party) asks an at-fault person&rsquo;s liability insurance to pay for damages,&rdquo; and that many states recognize this kind of recovery as part of ordinary property damage.</p>
             <p style={bodyStyle}><strong style={{ color: 'var(--ink)' }}>First-party claims</strong> are filed against your own insurance company, usually under your collision or uninsured/underinsured motorist coverage. Because this is a contract claim, the outcome depends heavily on your policy&rsquo;s exact wording — and courts in different states have read similar language differently. Whether you can recover diminished value from your own insurer, and how much, varies by state and by policy terms.</p>
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Where the &ldquo;17c&rdquo; Formula Came From</h2>
+            <h2 className="heading-display h2-editorial">Where the &ldquo;17c&rdquo; Formula Came From</h2>
             <p style={bodyStyle}>The formula most often associated with diminished value calculations is known in the industry as the &ldquo;17c&rdquo; method. Its name and use trace directly back to Georgia litigation over State Farm&rsquo;s claims practices.</p>
             <p style={bodyStyle}>In 2001, the Georgia Supreme Court decided <em>State Farm Mutual Automobile Insurance Co. v. Mabry</em>, 274 Ga. 498, 556 S.E.2d 114 (2001), a class action arguing that State Farm had to evaluate diminished value as part of ordinary first-party physical damage claims, not just pay for repairs. The court agreed, holding that State Farm was &ldquo;obligated to pay for diminution in value when it occurs,&rdquo; and that it had to assess that element of loss for every applicable claim rather than requiring a separate demand for it.</p>
             <p style={bodyStyle}>The case was sent back to the Superior Court of Muscogee County to work out how State Farm would calculate and pay those claims. A later federal case, <em>Tiller v. State Farm Mutual Automobile Insurance Co.</em>, No. 1:12-CV-3432-TWT (N.D. Ga. Feb. 5, 2013), explains that the resulting methodology — the one now commonly called &ldquo;17c&rdquo; — was &ldquo;referenced in Section 10 of the March 6, 2002, order&rdquo; issued by that Muscogee County court in the Mabry case. The &ldquo;17c&rdquo; label has since become common shorthand whenever people discuss formula-based diminished value estimates.</p>
@@ -217,8 +220,8 @@ export default function DiminishedValueClaimPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">A Hypothetical Example of the 17c Method</h2>
-            <p style={{ ...bodyStyle, fontSize: '14px' }}><em>The following is a hypothetical example to illustrate the arithmetic. It is one method some insurers use — it is not a legal formula required in every state, and it is not how Settlebrook&rsquo;s calculator produces its own results.</em></p>
+            <h2 className="heading-display h2-editorial">A Hypothetical Example of the 17c Method</h2>
+            <p style={{ ...bodyStyle, fontSize: '15px' }}><em>The following is a hypothetical example to illustrate the arithmetic. It is one method some insurers use — it is not a legal formula required in every state, and it is not how Settlebrook&rsquo;s calculator produces its own results.</em></p>
             <p style={bodyStyle}>Say a car was worth $20,000 right before the accident.</p>
             <ol style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'decimal' }}>
               <li><strong style={{ color: 'var(--ink)' }}>Base loss:</strong> 10% of $20,000 = $2,000</li>
@@ -230,25 +233,25 @@ export default function DiminishedValueClaimPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Why the 17c Formula Draws Criticism</h2>
+            <h2 className="heading-display h2-editorial">Why the 17c Formula Draws Criticism</h2>
             <p style={bodyStyle}>The 17c formula is popular with insurers because it&rsquo;s fast and cheap to apply — an adjuster can run the numbers from a repair estimate and a mileage reading without inspecting the car in person. But the same features that make it convenient are what critics point to.</p>
             <p style={bodyStyle}>The NAIC&rsquo;s review flags one criticism in particular: mileage is already priced into the vehicle&rsquo;s NADA retail value before the formula starts, since NADA values already account for the odometer reading. Applying a separate mileage modifier on top of that, the review notes, &ldquo;is viewed by some as a double penalty for mileage.&rdquo; The formula also ignores repair-related diminished value entirely — two vehicles with identical pre-accident value, damage severity, and mileage get the same 17c number, even if one was repaired flawlessly and the other has a visible paint mismatch.</p>
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Independent Appraisals: How They Differ</h2>
+            <h2 className="heading-display h2-editorial">Independent Appraisals: How They Differ</h2>
             <p style={bodyStyle}>An independent diminished value appraisal generally works from actual market data instead of a fixed set of modifiers. An appraiser pulls comparable sale or listing prices for the same make, model, year, and condition — some with accident history disclosed, some without — and compares them directly, rather than applying a flat percentage capped at 10%. Because the comparison is based on real transactions rather than a generic table, an independent appraisal can come out higher or lower than a 17c-style estimate, and it can account for repair-quality issues a formula ignores. Insurers aren&rsquo;t obligated to accept an independent appraisal, but it&rsquo;s commonly used as leverage when a policyholder disputes an insurer&rsquo;s formula-based figure.</p>
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Which States Recognize First-Party Diminished Value Claims</h2>
+            <h2 className="heading-display h2-editorial">Which States Recognize First-Party Diminished Value Claims</h2>
             <p style={bodyStyle}>Georgia is the one state where this is settled by a state supreme court decision: under <em>Mabry</em>, insurers must evaluate first-party diminished value as part of an ordinary physical damage claim.</p>
             <p style={bodyStyle}>Outside Georgia, whether a first-party diminished value claim succeeds depends on your state&rsquo;s law and the exact wording of your policy — insurers write &ldquo;loss&rdquo; and &ldquo;actual cash value&rdquo; provisions differently, and courts in different states have reached different conclusions about what those provisions require. Third-party claims against an at-fault driver&rsquo;s insurer tend to have an easier path, since they rest on general property-damage tort principles rather than one insurer&rsquo;s contract language, but documentation and your state&rsquo;s damages rules still matter. If you&rsquo;re not sure where your state lands, your state&rsquo;s insurance department or a local attorney can tell you how it&rsquo;s been handled in your jurisdiction.</p>
             <p style={bodyStyle}>If you were in an accident in Georgia, our <Link href="/car-accident-settlement-calculator/georgia/" style={linkStyle}>Georgia car accident settlement calculator</Link> lets you include property damage, such as a diminished value figure, in a full settlement estimate. Drivers building out a settlement estimate in <Link href="/car-accident-settlement-calculator/california/" style={linkStyle}>California</Link>, <Link href="/car-accident-settlement-calculator/texas/" style={linkStyle}>Texas</Link>, <Link href="/car-accident-settlement-calculator/florida/" style={linkStyle}>Florida</Link>, or <Link href="/car-accident-settlement-calculator/new-york/" style={linkStyle}>New York</Link> can run their own numbers through those state-specific calculators as well.</p>
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">How Diminished Value Fits Into Your Car Accident Settlement</h2>
+            <h2 className="heading-display h2-editorial">How Diminished Value Fits Into Your Car Accident Settlement</h2>
             <p style={bodyStyle}>It&rsquo;s worth being clear about where diminished value sits inside a settlement calculation, since it&rsquo;s easy to mix up with pain and suffering.</p>
             <p style={bodyStyle}>Settlebrook&rsquo;s <Link href="/car-accident-settlement-calculator/" style={linkStyle}>car accident settlement calculator</Link> uses the multiplier method: medical bills, future medical costs, lost wages, and future lost wages are added together and multiplied by a factor (typically 1.5x to 5x, depending on injury severity) to estimate pain and suffering.</p>
             <p style={bodyStyle}>Property damage, including a diminished value figure if you&rsquo;re pursuing one, is <strong style={{ color: 'var(--ink)' }}>not</strong> run through that multiplier. It&rsquo;s added on top, dollar-for-dollar, as part of your special damages total. Here&rsquo;s what that looks like with round numbers:</p>
@@ -264,37 +267,38 @@ export default function DiminishedValueClaimPost() {
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">FAQ</h2>
+            <h2 className="heading-display h2-editorial">FAQ</h2>
 
-            <h3 className="heading-serif h3-editorial">Is a diminished value claim the same thing as a property damage claim?</h3>
+            <h3 className="heading-display h3-editorial">Is a diminished value claim the same thing as a property damage claim?</h3>
             <p style={bodyStyle}>No. A property damage claim typically covers the cost to repair or replace your vehicle. A diminished value claim is a separate, additional amount for the resale value your vehicle lost simply because it now has an accident in its history, even after a good repair.</p>
 
-            <h3 className="heading-serif h3-editorial">Do I need to hire an appraiser to file a diminished value claim?</h3>
+            <h3 className="heading-display h3-editorial">Do I need to hire an appraiser to file a diminished value claim?</h3>
             <p style={bodyStyle}>Not always — you can submit a claim using an insurer&rsquo;s own formula-based estimate. But because insurer formulas like 17c tend to produce lower numbers, many people who dispute the insurer&rsquo;s figure get an independent appraisal, which relies on actual comparable sales rather than a fixed set of modifiers.</p>
 
-            <h3 className="heading-serif h3-editorial">Can I get diminished value from my own insurance company?</h3>
+            <h3 className="heading-display h3-editorial">Can I get diminished value from my own insurance company?</h3>
             <p style={bodyStyle}>It depends on your state and your policy&rsquo;s wording. Georgia is the clearest example of a state where the state supreme court, in <em>Mabry</em>, required insurers to evaluate diminished value on first-party claims. In other states, coverage for a first-party diminished value claim varies, and you&rsquo;ll want to check your policy language and your state&rsquo;s rules.</p>
 
-            <h3 className="heading-serif h3-editorial">Does the 17c formula apply everywhere?</h3>
+            <h3 className="heading-display h3-editorial">Does the 17c formula apply everywhere?</h3>
             <p style={bodyStyle}>No. It&rsquo;s the method associated with the Georgia <em>Mabry</em> litigation. It isn&rsquo;t a nationwide legal standard, and other states&rsquo; rules and your policy wording decide how diminished value is handled.</p>
 
-            <h3 className="heading-serif h3-editorial">Will a diminished value payout be added to my pain and suffering, or counted separately?</h3>
+            <h3 className="heading-display h3-editorial">Will a diminished value payout be added to my pain and suffering, or counted separately?</h3>
             <p style={bodyStyle}>In Settlebrook&rsquo;s car accident settlement calculator, property damage and diminished value are added to your special damages total dollar-for-dollar — they are not multiplied along with pain and suffering, because a multiplier is meant to reflect physical and emotional harm, not a drop in resale value.</p>
 
             <hr style={ruleStyle} />
 
-            <h2 className="heading-serif h2-editorial">Not Legal Advice</h2>
+            <h2 className="heading-display h2-editorial">Not Legal Advice</h2>
             <p style={bodyStyle}>This article is for general information only and isn&rsquo;t legal, financial, or insurance advice. Diminished value rules vary by state and by the specific language in your insurance policy. For advice about your own situation, talk to a licensed attorney or your state&rsquo;s department of insurance.</p>
 
-            <h2 className="heading-serif h2-editorial">Sources</h2>
+            <h2 className="heading-display h2-editorial">Sources</h2>
             <ul style={{ ...bodyStyle, paddingLeft: 24, listStyleType: 'disc' }}>
               <li><em>State Farm Mutual Automobile Insurance Co. v. Mabry</em>, 274 Ga. 498, 556 S.E.2d 114 (Ga. 2001) — CourtListener: <a href="https://www.courtlistener.com/opinion/1418705/state-farm-mut-auto-ins-co-v-mabry/" target="_blank" rel="noopener noreferrer" style={linkStyle}>courtlistener.com</a></li>
               <li><em>Tiller v. State Farm Mutual Automobile Insurance Co.</em>, No. 1:12-CV-3432-TWT (N.D. Ga. Feb. 5, 2013) — U.S. Government Publishing Office: <a href="https://www.govinfo.gov/content/pkg/USCOURTS-gand-1_12-cv-03432/pdf/USCOURTS-gand-1_12-cv-03432-0.pdf" target="_blank" rel="noopener noreferrer" style={linkStyle}>govinfo.gov</a></li>
               <li>National Association of Insurance Commissioners, &ldquo;Automobile Diminished Value Claims,&rdquo; <em>Journal of Insurance Regulation</em> — <a href="https://content.naic.org/sites/default/files/cipr-jir-2023-5_0.pdf" target="_blank" rel="noopener noreferrer" style={linkStyle}>content.naic.org</a></li>
             </ul>
 
-          </div>
-        </article>
+          </article>
+          </EditorialLayout>
+        </div>
 
       </main>
     </>

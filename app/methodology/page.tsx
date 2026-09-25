@@ -118,8 +118,8 @@ export default function MethodologyPage() {
           <section aria-labelledby="formulas-heading">
             <h2
               id="formulas-heading"
-              className="heading-serif mb-3"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-3"
+              style={{ fontSize: 30 }}
             >
               Our Formulas Are Public
             </h2>
@@ -143,8 +143,8 @@ export default function MethodologyPage() {
           <section aria-labelledby="sources-heading">
             <h2
               id="sources-heading"
-              className="heading-serif mb-3"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-3"
+              style={{ fontSize: 30 }}
             >
               State Law Figures Come From Official Sources
             </h2>
@@ -172,8 +172,8 @@ export default function MethodologyPage() {
           <section aria-labelledby="review-heading">
             <h2
               id="review-heading"
-              className="heading-serif mb-3"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-3"
+              style={{ fontSize: 30 }}
             >
               How Often Content Is Reviewed
             </h2>
@@ -191,8 +191,8 @@ export default function MethodologyPage() {
           <section aria-labelledby="boundaries-heading">
             <h2
               id="boundaries-heading"
-              className="heading-serif mb-3"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-3"
+              style={{ fontSize: 30 }}
             >
               What Settlebrook Deliberately Does Not Do
             </h2>
@@ -215,8 +215,8 @@ export default function MethodologyPage() {
           <section aria-labelledby="who-heading">
             <h2
               id="who-heading"
-              className="heading-serif mb-3"
-              style={{ fontSize: 26 }}
+              className="heading-display mb-3"
+              style={{ fontSize: 30 }}
             >
               Who Runs Settlebrook
             </h2>

@@ -95,7 +95,7 @@ export function StatePickerList({ onNavigate, autoFocus = false }: { onNavigate?
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Type your state, e.g. Texas"
           className="field-input"
-          style={{ paddingLeft: 36, minHeight: 44, fontSize: 15 }}
+          style={{ paddingLeft: 36, minHeight: 44, fontSize: 16 }}
           aria-controls={`${inputId}-list`}
         />
       </div>
