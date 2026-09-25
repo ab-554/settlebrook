@@ -62,6 +62,18 @@ const PAIN_SUFFERING_STATE_LAST_MODIFIED = '2026-09-24'
 const CAR_ACCIDENT_STATE_LAST_MODIFIED = '2026-09-24'
 const WORKERS_COMP_STATE_LAST_MODIFIED = '2026-09-24'
 
+// Sprint C1 (2026-09-25) rewrote these 6 states with page-specific editorial
+// content, splitting them off from the shared template date above per the
+// policy in the comment two lines up.
+const WORKERS_COMP_STATE_LAST_MODIFIED_OVERRIDES: Record<string, string> = {
+  georgia: '2026-09-25',
+  michigan: '2026-09-25',
+  'new-jersey': '2026-09-25',
+  virginia: '2026-09-25',
+  colorado: '2026-09-25',
+  minnesota: '2026-09-25',
+}
+
 // Per-post lastModified — new posts default to their publish date unless
 // listed here. Add an entry when a published post is materially edited.
 const BLOG_POST_LAST_MODIFIED: Record<string, string> = {
@@ -120,7 +132,7 @@ function resolvePathMeta(path: string): PathMeta {
   if (workersCompMatch) {
     const slug = workersCompMatch[1]
     return {
-      lastModified: WORKERS_COMP_STATE_LAST_MODIFIED,
+      lastModified: WORKERS_COMP_STATE_LAST_MODIFIED_OVERRIDES[slug] ?? WORKERS_COMP_STATE_LAST_MODIFIED,
       changeFrequency: 'monthly',
       priority: WORKERS_COMP_TIER1_SLUGS.has(slug) ? 0.8 : 0.7,
     }

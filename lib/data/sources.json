@@ -600,181 +600,475 @@
     "main": [],
     "georgia": [
       {
-        "label": "Georgia State Board of Workers' Compensation - Summary of Provisions (official rate/benefit summary PDF)",
+        "label": "Georgia State Board of Workers' Compensation, Summary of Workers' Compensation Provisions (official PDF)",
         "url": "https://sbwc.georgia.gov/document/publication/provisionspdf/download",
-        "supports": "Max TTD/PPD weekly rate $800 (rev. 07/01/25); PTD-related TPD $533; confirms rate current through 2025-2026",
+        "supports": "2026 TTD/PPD max $800/wk, min $50/wk (eff. 7/1/23, unchanged through 2026); TPD max $533/wk; 7-day waiting period, retroactive after 21 days",
         "tier": "primary"
       },
       {
-        "label": "O.C.G.A. \u00a7 34-9-261 - Compensation for total disability (Justia mirror of Georgia Code)",
-        "url": "https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-261/",
-        "supports": "400-week maximum TTD duration; catastrophic-injury exception",
-        "tier": "secondary"
+        "label": "Georgia State Board of Workers' Compensation, About Us",
+        "url": "https://sbwc.georgia.gov/about-us",
+        "supports": "SBWC administers Georgia workers' comp; coverage applies to employers with 3+ employees",
+        "tier": "primary"
       },
       {
-        "label": "O.C.G.A. \u00a7 34-9-263 - Compensation for specific member losses (Justia mirror)",
-        "url": "https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/",
-        "supports": "PPD = AMA Guides 5th ed. impairment % x statutory scheduled weeks per body part (arm 225, hand 160, thumb 60, etc.)",
-        "tier": "secondary"
-      },
-      {
-        "label": "O.C.G.A. \u00a7 34-9-82 - Statute of limitations for filing claim (Justia mirror)",
-        "url": "https://law.justia.com/codes/georgia/2022/title-34/chapter-9/article-3/part-1/section-34-9-82",
-        "supports": "1-year filing deadline (2 years if income benefits paid; 1 year after last remedial treatment)",
-        "tier": "secondary"
-      },
-      {
-        "label": "O.C.G.A. \u00a7 34-9-15 - Settlement approval by Board (Justia mirror)",
-        "url": "https://law.justia.com/codes/georgia/title-34/chapter-9/article-1/section-34-9-15/",
-        "supports": "Settlement not binding until approved by the State Board of Workers' Compensation",
-        "tier": "secondary"
-      },
-      {
-        "label": "Georgia SBWC - Settlement Division",
+        "label": "Georgia SBWC, Settlement Division",
         "url": "https://sbwc.georgia.gov/divisions-offices/settlement",
-        "supports": "Board settlement/approval process",
+        "supports": "Settlement Division reviews settlement agreements for Board approval",
         "tier": "primary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 34-9-2 (coverage/employers)",
+        "url": "https://law.justia.com/codes/georgia/title-34/chapter-9/article-1/section-34-9-2/",
+        "supports": "Coverage threshold: employers with 3 or more full- or part-time employees",
+        "tier": "secondary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 34-9-261 (TTD rate, cap, duration)",
+        "url": "https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-261/",
+        "supports": "TTD = 66 2/3% of AWW; 400-week duration cap; catastrophic-injury exception",
+        "tier": "secondary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 34-9-260 (average weekly wage calculation)",
+        "url": "https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-260/",
+        "supports": "AWW = 13-week average of wages immediately before the injury",
+        "tier": "secondary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 34-9-200.1 (catastrophic injury)",
+        "url": "https://law.justia.com/codes/georgia/title-34/chapter-9/article-6/part-1/section-34-9-200-1/",
+        "supports": "Catastrophic-injury classification that removes the 400-week TTD cap",
+        "tier": "secondary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 34-9-263 (PPD method, schedule, PTD presumption)",
+        "url": "https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/",
+        "supports": "PPD = AMA Guides 5th ed. impairment % x scheduled weeks x comp rate; PPD paid after TTD/TPD ends; PTD rebuttable presumption for loss of 2+ major members",
+        "tier": "secondary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 34-9-15 (settlement approval)",
+        "url": "https://law.justia.com/codes/georgia/title-34/chapter-9/article-1/section-34-9-15/",
+        "supports": "Settlement agreement not binding until approved by the State Board of Workers' Compensation",
+        "tier": "secondary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 34-9-82 (claim-filing deadlines)",
+        "url": "https://law.justia.com/codes/georgia/2022/title-34/chapter-9/article-3/part-1/section-34-9-82",
+        "supports": "1-year claim filing deadline; extended to 2 years from last payment or 1 year from last furnished treatment",
+        "tier": "secondary"
+      },
+      {
+        "label": "O.C.G.A. \u00a7 34-9-201 (panel of physicians)",
+        "url": "https://law.justia.com/codes/georgia/title-34/chapter-9/article-6/part-1/section-34-9-201/",
+        "supports": "Employer must post a panel of at least 6 physicians; worker chooses treating doctor from the panel; one free change allowed",
+        "tier": "secondary"
       }
     ],
     "michigan": [
       {
-        "label": "Michigan LEO - 2026 WDCA Weekly Benefit Rate Book (official PDF)",
+        "label": "Michigan LEO, Workers' Disability Compensation Agency overview",
+        "url": "https://www.michigan.gov/leo/bureaus-agencies/wdca",
+        "supports": "WDCA (under LEO) administers Michigan workers' comp under the Worker's Disability Compensation Act of 1969 (Act 317)",
+        "tier": "primary"
+      },
+      {
+        "label": "Michigan LEO, Workers' Disability Compensation Insurance Requirements",
+        "url": "https://www.michigan.gov/leo/bureaus-agencies/wdca/insurance-requirements/pages/workers-disability-compensation-insurance-requirements",
+        "supports": "Coverage thresholds by employee count/hours; public employers always covered",
+        "tier": "primary"
+      },
+      {
+        "label": "Michigan LEO/WDCA, 2026 Rate Book (weekly benefit tables, max/min, SAWW)",
         "url": "https://www.michigan.gov/leo/-/media/Project/Websites/leo/Documents/WDCA-Calculation-Program/wca_2026_Rate_Book.pdf",
-        "supports": "2026 max weekly benefit $1,201.00; min $0.74; 80% of after-tax (net) AWW basis; SAWW $1,333.88",
+        "supports": "2026 max weekly rate $1,201.00, SAWW $1,333.88; 80%-of-after-tax-AWW conversion tables",
         "tier": "primary"
       },
       {
-        "label": "MCL 418.351 - Michigan Legislature (Weekly compensation, total disability)",
-        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-418-351",
-        "supports": "80% of after-tax AWW formula; no fixed week cap on TTD payments; 800-week conclusive-presumption cutoff (different concept)",
+        "label": "Michigan LEO/WDCA, Michigan Workers' Disability Compensation Rights & Responsibilities",
+        "url": "https://www.michigan.gov/-/media/Project/Websites/leo/Documents/WDCA-RESOURCES-AND-REPORTS/Publications/wca_WCPUB006.pdf",
+        "supports": "Confirms benefits can continue for life; possible 50% reduction after age 65; 7-day/14-day waiting-period practice; first-28-days physician choice",
         "tier": "primary"
       },
       {
-        "label": "MCL 418.361 - Specific loss schedule (FindLaw mirror; official site blocked WebFetch by robots.txt)",
-        "url": "https://codes.findlaw.com/mi/chapter-418-workers-disability-compensation/mi-comp-laws-418-361/",
-        "supports": "Fixed statutory weeks per body part (thumb 65, hand 215, arm 269, leg 215, foot 162, eye 162); no AMA Guides reference; 500-week permanency-determination deadline is separate from any TTD cap",
+        "label": "Michigan LEO/WDCA, Redemption Order form WC-113",
+        "url": "https://www.michigan.gov/leo/-/media/Project/Websites/leo/Documents/WDCA-FORMS/Litigation/wca_WC113_fillin.pdf",
+        "supports": "Redemption becomes final if no review requested within 15 days of the magistrate's order",
+        "tier": "primary"
+      },
+      {
+        "label": "MCL 418.351 (weekly compensation, total disability)",
+        "url": "https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-351/",
+        "supports": "TTD = 80% of after-tax AWW; no fixed week cap on TTD; 800-week conclusive-presumption rule is a separate concept",
         "tier": "secondary"
       },
       {
-        "label": "Michigan Redemption Order form WC-113 (official Dept. of Labor and Economic Opportunity)",
-        "url": "https://www.michigan.gov/-/media/Project/Websites/leo/Documents/WDCA-FORMS/Litigation/wca_WC113_fillin.pdf",
-        "supports": "Settlement ('redemption') approved by a Workers' Disability Compensation Agency Magistrate",
-        "tier": "primary"
+        "label": "MCL 418.361 (specific-loss schedule; permanent and total disability definition)",
+        "url": "https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-361/",
+        "supports": "PPD = Michigan's own fixed schedule of weeks per body part, not AMA Guides; first-phalange = half digit's weeks; PTD statutory definition",
+        "tier": "secondary"
+      },
+      {
+        "label": "MCL 418.371 (partial incapacity)",
+        "url": "https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-371/",
+        "supports": "TPD = proportionate wage-loss percentage, capped so benefit plus post-injury earnings do not exceed pre-injury AWW",
+        "tier": "secondary"
+      },
+      {
+        "label": "MCL 418.381 (notice of injury; claim filing time limit)",
+        "url": "https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-381/",
+        "supports": "90-day notice deadline; 2-year claim filing deadline",
+        "tier": "secondary"
+      },
+      {
+        "label": "MCL 418.315 (medical care; choice of physician)",
+        "url": "https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-315/",
+        "supports": "Employer chooses treating physician for first 28 days; worker may then switch by notifying employer/carrier",
+        "tier": "secondary"
+      },
+      {
+        "label": "MCL 418.835 (redemption agreements)",
+        "url": "https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-8/section-418-835/",
+        "supports": "Settlement (\"redemption\") not available until 6+ months post-injury; requires magistrate approval; $100 filing fee; 10%/year present-worth discount",
+        "tier": "secondary"
+      },
+      {
+        "label": "MCL 418.837 (approval/rejection of redemption agreements; finality)",
+        "url": "https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-8/section-418-837/",
+        "supports": "Redemption order becomes final absent a timely request for director review",
+        "tier": "secondary"
       }
     ],
     "new-jersey": [
       {
-        "label": "NJDOL press release - New Benefit Rates for 2026 (official)",
-        "url": "https://www.nj.gov/labor/lwdhome/press/2025/20251229_newbenefitrates2026.shtml",
-        "supports": "2026 max weekly workers' comp benefit $1,199 (up from $1,159 in 2025), effective Jan 1, 2026",
+        "label": "NJDOL, Division of Workers' Compensation \u2014 About",
+        "url": "https://www.nj.gov/labor/workerscompensation/about/index.shtml",
+        "supports": "DWC administers workers' comp through 15 workers' compensation courts",
         "tier": "primary"
       },
       {
-        "label": "N.J. Dept. of Labor - Schedule of Disabilities (official PPD schedule PDF)",
-        "url": "https://www.nj.gov/labor/workerscompensation/assets/PDFs/Legal/2022_schedule.pdf",
-        "supports": "PPD = statutory schedule of weeks by body part (arm 330, hand up to 300, thumb 80, etc.); rate 70% of wages; illustrates schedule-based (not AMA-based) conversion of % disability to weeks",
+        "label": "NJDOL, Injured Worker Protections",
+        "url": "https://www.nj.gov/labor/workerscompensation/injured-worker-protections/index.shtml",
+        "supports": "Nearly all NJ employers must carry workers' comp insurance or be approved to self-insure",
         "tier": "primary"
       },
       {
-        "label": "N.J. Dept. of Labor - full Workers' Compensation Law text (official PDF, rev. Dec 15, 2025)",
+        "label": "NJDOL, Injured Worker Protections",
+        "url": "https://www.nj.gov/labor/workerscompensation/injured-worker-protections/",
+        "supports": "Employer/insurance carrier designates the authorized treating physician",
+        "tier": "primary"
+      },
+      {
+        "label": "NJDOL, compiled New Jersey Workers' Compensation Law (R.S. 34:15-12, 34:15-14, 34:15-15, 34:15-17, 34:15-20)",
         "url": "https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf",
-        "supports": "R.S. 34:15-12(a) 400-week TTD cap and 70%/min-max AWW formula; R.S. 34:15-12(c) schedule-based PPD (no AMA Guides); R.S. 34:15-14 7-day waiting period; R.S. 34:15-17 90-day notice; R.S. 34:15-41/51 2-year filing deadline",
+        "supports": "TTD = 70% of AWW; PPD schedule (not AMA Guides); 7-day waiting period; notice deadlines; Section 20 settlement mechanics",
         "tier": "primary"
+      },
+      {
+        "label": "NJDOL, Injured Worker FAQ",
+        "url": "https://www.nj.gov/labor/workerscompensation/get-support/faqs/workerfaqs.shtml",
+        "supports": "Occupational-illness claim deadline runs from awareness of work-relatedness",
+        "tier": "primary"
+      },
+      {
+        "label": "NJDOL, 2026 Schedule of Disabilities and Maximum Benefits (PDF)",
+        "url": "https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/2026_schedule.pdf",
+        "supports": "2026 PPD schedule weeks by body part; 90-week award maximum of $28,800",
+        "tier": "primary"
+      },
+      {
+        "label": "NJDOL, 2026 benefit-rate press release",
+        "url": "https://www.nj.gov/labor/lwdhome/press/2025/20251229_newbenefitrates2026.shtml",
+        "supports": "2026 TTD max $1,199/week (up from $1,159 in 2025); 2026 SAWW $1,598.66",
+        "tier": "primary"
+      },
+      {
+        "label": "NJDOL form WC-370_i, Order Approving Settlement with Dismissal (N.J.S.A. 34:15-20)",
+        "url": "https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc-370_i.pdf",
+        "supports": "Section 20 settlement = lump sum, dismissal with prejudice, closes future medical benefits",
+        "tier": "primary"
+      },
+      {
+        "label": "NJDOL form WC-368, Application for Review or Modification of Formal Award (N.J.S.A. 34:15-27)",
+        "url": "https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc-368.pdf",
+        "supports": "Section 22 formal award keeps the case open and reviewable under R.S. 34:15-27",
+        "tier": "primary"
+      },
+      {
+        "label": "N.J.S.A. 34:15-12 (statute text via Justia)",
+        "url": "https://law.justia.com/codes/new-jersey/title-34/section-34-15-12/",
+        "supports": "400-week hard TTD cap; PTD up to 450 weeks",
+        "tier": "secondary"
+      },
+      {
+        "label": "N.J.S.A. 34:15-15 (statute text via Justia)",
+        "url": "https://law.justia.com/codes/new-jersey/title-34/section-34-15-15/",
+        "supports": "Employer's duty to furnish treatment and designate the treating physician",
+        "tier": "secondary"
+      },
+      {
+        "label": "N.J.S.A. 34:15-22 (statute text via Justia)",
+        "url": "https://law.justia.com/codes/new-jersey/title-34/section-34-15-22/",
+        "supports": "Section 22 formal award mechanics",
+        "tier": "secondary"
+      },
+      {
+        "label": "N.J.S.A. 34:15-51 (statute text via Justia)",
+        "url": "https://law.justia.com/codes/new-jersey/title-34/section-34-15-51/",
+        "supports": "2-year claim petition deadline from accident or last payment",
+        "tier": "secondary"
       }
     ],
     "virginia": [
       {
-        "label": "Virginia Workers' Compensation Commission - Notice of 2026 Rates (official)",
+        "label": "Virginia Workers' Compensation Commission, Notice of 2026 Rates",
         "url": "https://www.workcomp.virginia.gov/news/notice-of-2026-rates",
-        "supports": "Max weekly compensation $1,507.01 and min $376.75, effective July 1, 2026; COLA 2.65% effective Oct 1, 2026",
+        "supports": "2026 max weekly rate $1,507.01, min $376.75, effective July 1, 2026; 2.65% COLA effective Oct 1, 2026",
         "tier": "primary"
       },
       {
-        "label": "Va. Code \u00a7 65.2-518 - Limitation upon total compensation (official Code of Virginia)",
-        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-518/",
-        "supports": "500-week overall cap on total compensation",
-        "tier": "primary"
-      },
-      {
-        "label": "Va. Code \u00a7 65.2-503 - Permanent loss of use of member (official Code of Virginia)",
-        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/",
-        "supports": "PPD = Virginia's own statutory schedule of weeks by body part (arm 200, hand 150, thumb 60, etc.); statute text does not reference AMA Guides",
-        "tier": "primary"
-      },
-      {
-        "label": "Va. Code \u00a7 65.2-701 - Agreement as to compensation (official Code of Virginia)",
-        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter7/section65.2-701/",
-        "supports": "Settlement agreement void unless approved by the Commission",
-        "tier": "primary"
-      },
-      {
-        "label": "Virginia Workers' Compensation Commission - Injured Workers page (official)",
+        "label": "Virginia Workers' Compensation Commission, Injured Workers guidance",
         "url": "https://workcomp.virginia.gov/content/injured-workers",
-        "supports": "2-year claim filing deadline; 30-day notice-to-employer deadline",
+        "supports": "Notice and claim-filing deadlines; panel-of-physicians medical care rule",
+        "tier": "primary"
+      },
+      {
+        "label": "Va. Code \u00a7 65.2-101 (definitions; employer size exclusion)",
+        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter1/section65.2-101/",
+        "supports": "Employers with fewer than 3 employees generally exempt from mandatory coverage",
+        "tier": "primary"
+      },
+      {
+        "label": "Va. Code \u00a7 65.2-300 (presumption of coverage)",
+        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter3/section65.2-300/",
+        "supports": "Employers/employees conclusively presumed to have accepted the Act unless opted out in writing",
+        "tier": "primary"
+      },
+      {
+        "label": "Va. Code \u00a7 65.2-500 (temporary total incapacity; rate; permanent and total incapacity)",
+        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-500/",
+        "supports": "TTD = 66 2/3% of AWW; permanent and total incapacity paid for life, uncapped",
+        "tier": "primary"
+      },
+      {
+        "label": "Va. Code \u00a7 65.2-502 (temporary partial incapacity)",
+        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-502/",
+        "supports": "TPD = 66 2/3% of wage difference, capped at Commonwealth AWW",
+        "tier": "primary"
+      },
+      {
+        "label": "Va. Code \u00a7 65.2-503 (permanent loss; schedule; permanent and total incapacity; timing of payment)",
+        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/",
+        "supports": "PPD = Virginia's own statutory schedule of weeks by body part; paid after TTD ends; concurrent-with-TPD double-counting rule",
+        "tier": "primary"
+      },
+      {
+        "label": "Va. Code \u00a7 65.2-509 (commencement of compensation; waiting period)",
+        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-509/",
+        "supports": "7-day waiting period, retroactive to day one if incapacity exceeds 3 weeks",
+        "tier": "primary"
+      },
+      {
+        "label": "Va. Code \u00a7 65.2-518 (500-week/dollar limitation on total compensation)",
+        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-518/",
+        "supports": "500-week combined cap on total compensation, with exceptions",
+        "tier": "primary"
+      },
+      {
+        "label": "Va. Code \u00a7 65.2-603 (medical attention; panel of physicians)",
+        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter6/section65.2-603/",
+        "supports": "Employer must provide a panel of at least 3 physicians for the worker to choose from",
+        "tier": "primary"
+      },
+      {
+        "label": "Va. Code \u00a7 65.2-701 (settlement agreements; Commission approval)",
+        "url": "https://law.lis.virginia.gov/vacode/title65.2/chapter7/section65.2-701/",
+        "supports": "Settlement not enforceable until approved by the Commission; 14-day filing deadline",
         "tier": "primary"
       }
     ],
     "colorado": [
       {
-        "label": "Colorado Dept. of Labor & Employment - Division of Workers' Compensation Updates (official)",
-        "url": "https://cdle.colorado.gov/dwc/dowc-updates",
-        "supports": "Confirms a new Maximum Benefits Order effective July 1, 2026 exists (2026-2027 order); exact new dollar figure not extractable from this page (linked PDF requires JS/Box viewer)",
+        "label": "CDLE, Division of Workers' Compensation overview",
+        "url": "https://cdle.colorado.gov/dwc",
+        "supports": "DOWC/CDLE administers Colorado workers' comp; coverage required regardless of employee count",
         "tier": "primary"
       },
       {
-        "label": "C.R.S. \u00a7 8-42-105 - Temporary total disability (Justia mirror)",
-        "url": "https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-105/",
-        "supports": "TTD has NO fixed week cap - continues until MMI, return to work, or written release, not a fixed 104-week limit",
-        "tier": "secondary"
-      },
-      {
-        "label": "C.R.S. \u00a7 8-43-103 - Notice of injury (Colorado.Public.Law mirror)",
-        "url": "https://colorado.public.law/statutes/crs_8-43-103",
-        "supports": "Employer must notify Division/carrier within 10 days of injury",
-        "tier": "secondary"
-      },
-      {
-        "label": "Colorado DOWC - FAQ Uniform Settlement Agreements (official PDF)",
-        "url": "https://cdle.colorado.gov/sites/cdle/files/FAQ_Uniform_Settlement_Agreements.pdf",
-        "supports": "Full & final settlements require DOWC review/approval via Uniform Settlement Agreement form",
-        "tier": "primary"
-      },
-      {
-        "label": "Colorado Division of Workers' Compensation \u2014 Maximum Benefits Order (eff. July 1, 2026)",
+        "label": "CDLE Division of Workers' Compensation, 2026 Max Benefits Order (effective July 1, 2026 \u2013 June 30, 2027)",
         "url": "https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g",
-        "supports": "Max weekly TTD $1464.12 (Effective July 1, 2026, 12:01 a.m. (FY2026-2027))",
+        "supports": "2026-2027 max TTD/PPD/PTD rate $1,464.12/wk; scheduled PPD flat rate $459.45/wk; whole-person PPD rate range $150.00-$804.46/wk; combined TTD+PPD caps $202,297.46/$328,049.94; PTD earnings-termination threshold $9,474.74/yr",
         "tier": "primary"
+      },
+      {
+        "label": "CDLE, Uniform Settlement Agreement FAQ",
+        "url": "https://cdle.colorado.gov/sites/cdle/files/FAQ_Uniform_Settlement_Agreements.pdf",
+        "supports": "Full and final settlements use the Division's Uniform Settlement Agreement form; medical-closing mechanics",
+        "tier": "primary"
+      },
+      {
+        "label": "C.R.S. \u00a7 8-44-101, Insurance requirements",
+        "url": "https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-44/part-1/section-8-44-101/",
+        "supports": "Nearly all Colorado employers must carry workers' comp insurance regardless of employee count",
+        "tier": "secondary"
+      },
+      {
+        "label": "C.R.S. \u00a7 8-42-105, Temporary total disability",
+        "url": "https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-105/",
+        "supports": "TTD = 66 2/3% of AWW; no fixed week cap \u2014 ends at MMI, return to work, or written release",
+        "tier": "secondary"
+      },
+      {
+        "label": "C.R.S. \u00a7 8-42-103, Disability indemnity payable as wages \u2014 period of disability",
+        "url": "https://law.justia.com/codes/colorado/2021/title-8/article-42/section-8-42-103/",
+        "supports": "3-day waiting period, retroactive to day one if disability exceeds 2 weeks",
+        "tier": "secondary"
+      },
+      {
+        "label": "C.R.S. \u00a7 8-42-106, Temporary partial disability",
+        "url": "https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-106/",
+        "supports": "TPD = 66 2/3% of wage-loss difference, capped at 91% of SAWW",
+        "tier": "secondary"
+      },
+      {
+        "label": "C.R.S. \u00a7 8-42-107, Permanent partial disability benefits \u2014 schedule \u2014 medical impairment benefits \u2014 how determined",
+        "url": "https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107/",
+        "supports": "Scheduled PPD paid at a flat compensation rate; whole-person formula (impairment % x age factor x 400 weeks); AMA Guides 3rd ed. Revised (1991) for whole-person ratings",
+        "tier": "secondary"
+      },
+      {
+        "label": "C.R.S. \u00a7 8-42-107.5, Limit on temporary disability payments and permanent partial disability payments",
+        "url": "https://law.justia.com/codes/colorado/2023/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107-5-d-1/",
+        "supports": "Combined TTD+PPD dollar cap tied to whole-person impairment rating",
+        "tier": "secondary"
+      },
+      {
+        "label": "C.R.S. \u00a7 8-42-111, Award for permanent total disability",
+        "url": "https://law.justia.com/codes/colorado/2021/title-8/article-42/section-8-42-111/",
+        "supports": "PTD = 66 2/3% of AWW, same max as TTD, continues until death",
+        "tier": "secondary"
+      },
+      {
+        "label": "C.R.S. \u00a7 8-43-102, Notice to employer of injury",
+        "url": "https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-43/part-1/section-8-43-102/",
+        "supports": "10-day notice-to-employer deadline and late-notice penalty",
+        "tier": "secondary"
+      },
+      {
+        "label": "C.R.S. \u00a7 8-43-103, Notice of injury \u2014 time limit",
+        "url": "https://law.justia.com/codes/colorado/2021/title-8/article-43/part-1/section-8-43-103/",
+        "supports": "2-year claim filing deadline (5 years for certain occupational diseases)",
+        "tier": "secondary"
+      },
+      {
+        "label": "C.R.S. \u00a7 8-43-204, Settlements \u2014 rules",
+        "url": "https://law.justia.com/codes/colorado/2021/title-8/article-43/part-2/section-8-43-204/",
+        "supports": "Settlement not binding until reviewed in person and approved in writing by an ALJ or the Director; 15-day lump-sum payment deadline",
+        "tier": "secondary"
+      },
+      {
+        "label": "C.R.S. \u00a7 8-43-404, Choice/change of treating physician",
+        "url": "https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-43/part-4/section-8-43-404/",
+        "supports": "Employer must designate at least 4 physicians; worker gets one change within 120 days of first designation",
+        "tier": "secondary"
       }
     ],
     "minnesota": [
       {
-        "label": "Minnesota DLI - Workers' Compensation Rates (official PDF, comprates.pdf)",
-        "url": "https://www.dli.mn.gov/sites/default/files/pdf/comprates.pdf",
-        "supports": "2026 max weekly rate $1,594.08 effective Oct 1, 2026 (108% of SAWW $1,476); min $318.82",
-        "tier": "primary"
-      },
-      {
-        "label": "Minnesota DLI - Work comp rate information / SAWW page (official)",
-        "url": "https://www.dli.mn.gov/business/workers-compensation/work-comp-rate-information-statewide-average-weekly-wage-saww",
-        "supports": "Prior-year (effective Oct 1, 2025) max weekly rate $1,536.84, min $307.37 - the rate actually in effect for claims on Sept 24, 2026",
-        "tier": "primary"
-      },
-      {
-        "label": "Minn. Stat. \u00a7 176.101 - Permanent partial disability / temporary total disability (official MN Revisor's Office)",
+        "label": "Minn. Stat. \u00a7 176.101 (TTD, TPD, PPD, PTD)",
         "url": "https://www.revisor.mn.gov/statutes/cite/176.101",
-        "supports": "TTD caps at 130 weeks paid; PPD = impairment % (Minnesota's own rules) multiplied by a dollar-value table (not scheduled weeks, not AMA Guides by name), ranging $114,260-$567,840 by impairment tier",
+        "supports": "TTD = 66 2/3% of AWW, caps at 130 weeks paid; TPD up to 275/450 weeks; PPD = whole-body impairment % x dollar-band table; PTD = 66 2/3% of daily wage",
         "tier": "primary"
       },
       {
-        "label": "Minn. Stat. \u00a7 176.151 - Limitations (official MN Revisor's Office)",
+        "label": "Minn. Stat. \u00a7 176.041 (coverage exemptions)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/176.041",
+        "supports": "Narrow coverage exemptions (family farm relatives, sole proprietors, independent contractors, casual employment, etc.)",
+        "tier": "primary"
+      },
+      {
+        "label": "Minn. Stat. \u00a7 176.135 (medical treatment)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/176.135",
+        "supports": "Worker generally chooses own provider; managed-care-plan, CBA, and pharmacy-distance exceptions",
+        "tier": "primary"
+      },
+      {
+        "label": "Minn. Stat. \u00a7 176.121 (waiting period)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/176.121",
+        "supports": "3-day waiting period, retroactive if disability lasts 10+ days",
+        "tier": "primary"
+      },
+      {
+        "label": "Minn. Stat. \u00a7 176.141 (notice of injury)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/176.141",
+        "supports": "14-day notice-to-employer deadline; 30-day cure window; 180-day absolute bar",
+        "tier": "primary"
+      },
+      {
+        "label": "Minn. Stat. \u00a7 176.151 (claim/action time limits)",
         "url": "https://www.revisor.mn.gov/statutes/cite/176.151",
-        "supports": "3-year filing deadline from written injury report, capped at 6 years from accident date",
+        "supports": "3-year claim filing deadline from written injury report, capped at 6 years from the accident",
         "tier": "primary"
       },
       {
-        "label": "MN Office of Administrative Hearings - Workers' Comp General Proceedings Guide (official)",
+        "label": "Minnesota Rules Chapter 5223 (impairment rating standards)",
+        "url": "https://www.revisor.mn.gov/rules/5223",
+        "supports": "Minnesota's own whole-body impairment rating tables (not the AMA Guides)",
+        "tier": "primary"
+      },
+      {
+        "label": "2026 Minnesota Laws, chapter 103, \u00a7 10 (new PPD table, effective 10/1/2026)",
+        "url": "https://www.revisor.mn.gov/laws/2026/0/103/laws.0.12.0",
+        "supports": "Table B PPD dollar bands for injuries on or after October 1, 2026",
+        "tier": "primary"
+      },
+      {
+        "label": "MN DLI, Workers' compensation rate information / SAWW",
+        "url": "https://www.dli.mn.gov/business/workers-compensation/work-comp-rate-information-statewide-average-weekly-wage-saww",
+        "supports": "2026 max/min weekly rates and statewide average weekly wage figures",
+        "tier": "primary"
+      },
+      {
+        "label": "MN DLI, annual adjustment chart (PDF)",
+        "url": "https://www.dli.mn.gov/sites/default/files/pdf/annladj.pdf",
+        "supports": "Annual TTD/TPD/PTD maximum and minimum rate adjustments",
+        "tier": "primary"
+      },
+      {
+        "label": "MN DLI, Workers' compensation overview",
+        "url": "https://www.dli.mn.gov/business/workers-compensation",
+        "supports": "DLI administers Minnesota workers' comp under Chapter 176; no-fault coverage",
+        "tier": "primary"
+      },
+      {
+        "label": "Minn. Stat. ch. 175A (Workers' Compensation Court of Appeals)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/175A.01",
+        "supports": "Appeals from workers' comp judges go to the Workers' Compensation Court of Appeals",
+        "tier": "primary"
+      },
+      {
+        "label": "Workers' Compensation Court of Appeals",
+        "url": "https://mn.gov/workcomp/",
+        "supports": "Appellate body for disputed Minnesota workers' comp claims",
+        "tier": "primary"
+      },
+      {
+        "label": "MN DLI, FAQs \u2014 claim process",
+        "url": "https://www.dli.mn.gov/business/workers-compensation/faqs-claim-process",
+        "supports": "Worker generally chooses own treating provider",
+        "tier": "primary"
+      },
+      {
+        "label": "MN DLI, certified managed care plans",
+        "url": "https://www.dli.mn.gov/business/workers-compensation/work-comp-certified-managed-care-plans-minnesota",
+        "supports": "Managed-care-plan network exceptions to free choice of doctor",
+        "tier": "primary"
+      },
+      {
+        "label": "MN Office of Administrative Hearings, Workers' Compensation General Proceedings Guide",
         "url": "https://mn.gov/cah/lawyers-and-litigants/workers-compensation/general-proceedings-guide/",
-        "supports": "Settlements = Stipulation for Settlement approved by a Workers' Compensation Judge; must be filed within 45 days of agreement",
+        "supports": "Settlements = Stipulation for Settlement, filed within 45 days, approved by a Workers' Compensation Judge",
         "tier": "primary"
       }
     ],

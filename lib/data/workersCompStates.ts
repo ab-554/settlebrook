@@ -295,19 +295,17 @@ export const WORKERS_COMP_STATES: WorkersCompStateData[] = [
 
 /**
  * Tier 3 state pages pulled from indexing/internal links during the 2026-09-23
- * AdSense fix sprint — content is a stubbed template with no state-specific
- * editorial (see stateSpecificNotes above). Pages stay live but noindexed
- * until each one gets real state-specific content, per context.md-style
- * decision tracking for this repo.
+ * AdSense fix sprint — content was a stubbed template with no state-specific
+ * editorial (see stateSpecificNotes above). Pages stayed live but noindexed
+ * until each one got real state-specific content.
+ *
+ * Sprint C1 (2026-09-25) gave Georgia, Michigan, New Jersey, Virginia,
+ * Colorado, and Minnesota real custom editorial content — see the
+ * stateData.slug ternary in app/workers-comp-settlement-calculator/[state]/
+ * page.tsx — so this set is now empty. Kept (rather than deleted) so a
+ * future Tier 3 rollout state has somewhere to go.
  */
-export const NOINDEXED_WORKERS_COMP_SLUGS = new Set([
-  'georgia',
-  'michigan',
-  'new-jersey',
-  'virginia',
-  'colorado',
-  'minnesota',
-])
+export const NOINDEXED_WORKERS_COMP_SLUGS = new Set<string>([])
 
 /**
  * States where this calculator's generic PPD formula (AMA scheduled weeks ×

@@ -32,7 +32,7 @@ import {
   NOINDEXED_WORKERS_COMP_SLUGS,
   NON_GENERIC_PPD_SLUGS,
 } from '@/lib/data/workersCompStates'
-import { WORKERS_COMP_FAQS, buildWorkersCompFAQSchema } from '@/lib/data/workersCompFaqs'
+import { getWorkersCompFaqsForState, buildWorkersCompFAQSchema } from '@/lib/data/workersCompFaqs'
 import sourcesData from '@/lib/data/sources.json'
 import type { ScheduledLossStateSlug } from '@/lib/data/ppdSchedules2026'
 
@@ -47,6 +47,43 @@ import type { ScheduledLossStateSlug } from '@/lib/data/ppdSchedules2026'
 const PPD_MODULE_SLUGS = new Set<ScheduledLossStateSlug | 'minnesota'>([
   'michigan', 'minnesota', 'new-jersey', 'virginia', 'georgia', 'colorado',
 ])
+
+// Sprint C1 (2026-09-25) per-state metadata overrides — title/description
+// pulled verbatim from each draft's frontmatter in
+// research/2026-09-24/wc-states/<state>.md. States not listed here keep the
+// generic template built in generateMetadata() below.
+const STATE_METADATA: Partial<Record<string, { title: string; description: string }>> = {
+  georgia: {
+    title: "Georgia Workers' Comp Settlement Guide (2026)",
+    description:
+      "How Georgia workers' comp settlements work in 2026: TTD/PPD rates, the 400-week cap, deadlines, and a worked settlement example. Sourced to Georgia law.",
+  },
+  michigan: {
+    title: "Michigan Workers' Comp Settlement Calculator 2026",
+    description:
+      'Estimate Michigan workers\' comp settlements: 2026 weekly rates, PPD schedule, redemption process, deadlines, and a worked example.',
+  },
+  'new-jersey': {
+    title: "NJ Workers' Comp Settlement Calculator (2026)",
+    description:
+      "Estimate NJ workers' comp settlements: 2026 TTD rates, the state's PPD weeks schedule, deadlines, and a worked example.",
+  },
+  virginia: {
+    title: "Virginia Workers' Comp Settlement Calculator",
+    description:
+      "See Virginia's 2026 workers' comp weekly rates, PPD schedule, deadlines, and settlement rules — then estimate your case below.",
+  },
+  colorado: {
+    title: "Colorado Workers' Comp Settlement Calculator",
+    description:
+      "Colorado workers' comp guide: 2026 TTD/PPD rates, the state's schedule vs. whole-person PPD rules, settlement steps, deadlines, and a worked example.",
+  },
+  minnesota: {
+    title: "Minnesota Workers' Comp Benefits & Settlement Guide",
+    description:
+      "How Minnesota calculates workers' comp weekly benefits, PPD payouts, and settlements in 2026, with a worked example and official sources.",
+  },
+}
 
 // E-E-A-T review stamp. Bump this one string when state law is re-verified
 // - it stamps every state page generated from this template.
@@ -73,11 +110,16 @@ export async function generateMetadata({
 
   const canonicalUrl = `/workers-comp-settlement-calculator/${stateData.slug}/`
 
-  // Title: "[State] Workers Comp Settlement Calculator — Free Tool"
-  const pageTitle = `${stateData.name} Workers Comp Settlement Calculator — Free Tool`
+  const stateMetadata = STATE_METADATA[stateData.slug]
+
+  // Title: "[State] Workers Comp Settlement Calculator — Free Tool", unless
+  // Sprint C1 gave this state its own draft title/description.
+  const pageTitle = stateMetadata?.title ?? `${stateData.name} Workers Comp Settlement Calculator — Free Tool`
 
   // State-specific description (~155 chars)
-  const description = `Free ${stateData.name} workers compensation settlement calculator. Estimate TTD and PPD benefits under ${stateData.name} law. Enter weekly wages for an instant estimate.`.slice(0, 155)
+  const description =
+    stateMetadata?.description ??
+    `Free ${stateData.name} workers compensation settlement calculator. Estimate TTD and PPD benefits under ${stateData.name} law. Enter weekly wages for an instant estimate.`.slice(0, 155)
 
   return {
     title: pageTitle,
@@ -186,7 +228,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
     ],
   }
 
-  const faqSchema = buildWorkersCompFAQSchema(WORKERS_COMP_FAQS)
+  const activeFaqs = getWorkersCompFaqsForState(stateData.slug)
+  const faqSchema = buildWorkersCompFAQSchema(activeFaqs)
 
   // Tier-1 launch state link list — CA, TX, and FL (excluding current state)
   const tier1States = WORKERS_COMP_STATES.filter(
@@ -2040,6 +2083,1343 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
 
             </article>
 
+          ) : stateData.slug === 'georgia' ? (
+            <article style={{ margin: '0 auto' }}>
+
+              {/* ── Workers' comp in Georgia at a glance ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Workers&apos; Comp in Georgia at a Glance
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Georgia&apos;s workers&apos; compensation system is run by the{' '}
+                <strong style={{ color: '#E2E8F0' }}>State Board of Workers&apos; Compensation (SBWC)</strong>, the state agency that reviews claims, approves settlements, and sets the benefit rates used below (
+                <a href="https://sbwc.georgia.gov/about-us" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>SBWC About Us</a>
+                ). The system is governed by Title 34, Chapter 9 of the Official Code of Georgia Annotated (O.C.G.A.), often just called &quot;the Act.&quot;
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Coverage is broad but not universal. The Act applies to employers, including public corporations and nonprofits, that regularly have <strong style={{ color: '#E2E8F0' }}>three or more employees</strong>, whether full-time or part-time — count doesn&apos;t distinguish between the two (
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-1/section-34-9-2/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>O.C.G.A. §34-9-2</a>
+                {' '}(statute text via Justia);{' '}
+                <a href="https://sbwc.georgia.gov/about-us" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>SBWC About Us</a>
+                ). If you were hurt on the job in Georgia and your employer meets that threshold, you&apos;re almost certainly covered from your first day of work — there&apos;s no waiting period for eligibility, only a waiting period before wage checks start.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The SBWC has been around since 1920 and, by its own account, currently serves more than a quarter million Georgia employers and roughly 3.8 million workers (
+                <a href="https://sbwc.georgia.gov/about-us" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>SBWC About Us</a>
+                ). It&apos;s funded through assessments on insurers and self-insured employers, not general tax revenue, which is part of why claims move through an administrative Board process rather than straight into court.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Temporary disability benefits ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Temporary Disability Benefits
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If your injury keeps you out of work, Georgia pays <strong style={{ color: '#E2E8F0' }}>temporary total disability (TTD)</strong> at <strong style={{ color: '#E2E8F0' }}>two-thirds (66 2/3%) of your average weekly wage (AWW)</strong>, subject to a state maximum and minimum (
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-261/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>O.C.G.A. §34-9-261</a>
+                {' '}(statute text via Justia)). For 2026 injuries, that maximum is <strong style={{ color: '#E2E8F0' }}>${stateData.weeklyCapAmount.toLocaleString()} per week</strong>, and the minimum is <strong style={{ color: '#E2E8F0' }}>$50 per week</strong>. Those figures took effect July 1, 2023, and the SBWC&apos;s most recent published summary (revised July 1, 2025) confirms no rate change since — so $800/$50 is still the operative cap for injuries happening now (
+                <a href="https://sbwc.georgia.gov/document/publication/provisionspdf/download" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>SBWC Summary of Workers&apos; Compensation Provisions</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                There&apos;s also a <strong style={{ color: '#E2E8F0' }}>temporary partial disability (TPD)</strong> benefit for workers who can do some work but earn less than before — it&apos;s capped separately at <strong style={{ color: '#E2E8F0' }}>$533 per week</strong> (
+                <a href="https://sbwc.georgia.gov/document/publication/provisionspdf/download" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>SBWC Summary of Provisions</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Your AWW itself is normally calculated by taking your total wages over the <strong style={{ color: '#E2E8F0' }}>13 weeks immediately before the injury</strong> and dividing by 13 — as long as you worked substantially the whole of that period for the same employer (
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-260/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>O.C.G.A. §34-9-260</a>
+                {' '}(statute text via Justia)). That 13-week average, not your most recent paycheck, is what feeds the two-thirds calculation above.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Waiting period.</strong> You don&apos;t get paid for the first 7 days you&apos;re out of work. If your disability lasts more than 21 consecutive days from the date of injury, though, that first week becomes payable retroactively — you&apos;re made whole for the whole period (
+                <a href="https://sbwc.georgia.gov/document/publication/provisionspdf/download" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>SBWC Summary of Provisions</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>How long it lasts.</strong> For most injuries, TTD is capped at <strong style={{ color: '#E2E8F0' }}>400 weeks from the date of injury</strong> — a little over 7.5 years (
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-261/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>O.C.G.A. §34-9-261</a>
+                {' '}(statute text via Justia)). That cap disappears entirely for injuries the SBWC classifies as <strong style={{ color: '#E2E8F0' }}>catastrophic</strong> — things like spinal cord injuries with severe paralysis, amputation, severe traumatic brain injury, severe burns, total blindness, or any injury severe enough that it keeps you from doing your old job or any other work that exists in meaningful numbers in the national economy (
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-6/part-1/section-34-9-200-1/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>O.C.G.A. §34-9-200.1</a>
+                {' '}(statute text via Justia)). Catastrophic-injury TTD instead continues &quot;until such time as the employee undergoes a change in condition for the better,&quot; with no fixed week count.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Permanent partial disability (PPD) ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Permanent Partial Disability (PPD)
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Georgia&apos;s PPD system is different from a lot of states in one important way: it uses a specific, named medical standard. Your treating doctor (or an independent medical examiner) rates the percentage of impairment to the injured body part using the <strong style={{ color: '#E2E8F0' }}>AMA Guides to the Evaluation of Permanent Impairment, 5th Edition</strong> — the statute names that exact edition, not a newer one (
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>O.C.G.A. §34-9-263(d)</a>
+                {' '}(statute text via Justia)).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                That impairment percentage is then applied to a <strong style={{ color: '#E2E8F0' }}>fixed schedule of weeks</strong> set by statute for each body part. The math is: impairment % × scheduled weeks for that body part × your weekly compensation rate (66 2/3% of AWW, subject to the same $800 maximum used for TTD). The PPD calculator below runs this exact statutory method using the schedule below.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Importantly, PPD checks don&apos;t start immediately. Georgia law is explicit that PPD income benefits &quot;shall not become payable so long as the employee is entitled to&quot; TTD or TPD benefits for the same injury — so PPD is paid <strong style={{ color: '#E2E8F0' }}>after</strong> your temporary benefits stop, not alongside them (
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>O.C.G.A. §34-9-263(b)</a>
+                {' '}(statute text via Justia)).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Here&apos;s Georgia&apos;s statutory schedule for some of the most commonly rated body parts:
+              </p>
+
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Scheduled Weeks</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ['Arm', '225'], ['Leg', '225'], ['Hand', '160'], ['Foot', '135'], ['Thumb', '60'],
+                      ['Index finger', '40'], ['Great toe', '30'], ['Hearing, one ear', '75'],
+                      ['Hearing, both ears', '150'], ['Vision, one eye', '150'], ['Body as a whole', '300'],
+                    ].map(([part, weeks], i, arr) => (
+                      <tr key={part} style={i < arr.length - 1 ? { borderBottom: '1px solid rgba(99,179,237,0.08)' } : undefined}>
+                        <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>{part}</td>
+                        <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>{weeks}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p style={{ color: '#64748B', lineHeight: '1.6', marginBottom: '18px', fontSize: '13px' }}>
+                Source for the full schedule:{' '}
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>O.C.G.A. §34-9-263</a>
+                {' '}(statute text via Justia).
+              </p>
+
+              <StatePPDSection state="georgia" />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Permanent total disability ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Permanent Total Disability
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Georgia doesn&apos;t have a separate PPD-style schedule for &quot;permanent total disability&quot; — instead, certain severe losses trigger a legal presumption. The loss of both arms, hands, legs, or feet, any two or more of those, or permanent total loss of vision in both eyes creates a <strong style={{ color: '#E2E8F0' }}>rebuttable presumption of permanent total disability</strong>, which is then compensated the same way as ongoing TTD, under O.C.G.A. §34-9-261, rather than under the PPD schedule (
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-7/section-34-9-263/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>O.C.G.A. §34-9-263</a>
+                {' '}(statute text via Justia)). In practice, most permanent-total situations in Georgia are handled through the catastrophic-injury classification described above, which removes the 400-week cap on weekly benefits.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── How settlements work in Georgia ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                How Settlements Work in Georgia
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Georgia calls a workers&apos; comp settlement a <strong style={{ color: '#E2E8F0' }}>&quot;stipulation and agreement&quot;</strong> or, more commonly, just a <strong style={{ color: '#E2E8F0' }}>settlement agreement</strong>. Whatever the injured worker and the employer/insurer agree to, it has to be written up and filed with the SBWC — and it is <strong style={{ color: '#E2E8F0' }}>not binding on anyone until the Board approves it</strong> (
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-1/section-34-9-15/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>O.C.G.A. §34-9-15</a>
+                {' '}(statute text via Justia)). Once approved, the settlement becomes a final, enforceable disposition of the claims it covers, similar in effect to a judgment.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The SBWC&apos;s Settlement Division exists specifically to review these agreements for compliance before approval; it publishes guidance on the settlement approval process but is barred from telling either side what a claim is &quot;worth&quot; (
+                <a href="https://sbwc.georgia.gov/divisions-offices/settlement" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>SBWC Settlement Division</a>
+                ). Settlements in Georgia commonly resolve future indemnity (wage-loss) benefits and can also close out future medical treatment for the claim, depending on what the parties agree to and the Board approves — but nothing is final until that Board sign-off happens.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Deadlines ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Deadlines
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Two different clocks matter in a Georgia workers&apos; comp case, and missing either one can end your right to benefits:
+              </p>
+              <ul style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', paddingLeft: '20px', listStyleType: 'disc' }}>
+                <li style={{ marginBottom: '8px' }}><strong style={{ color: '#E2E8F0' }}>Notice to your employer:</strong> report the injury as soon as possible. Georgia&apos;s claim-filing deadlines run from either the date of injury or the date benefits/treatment stopped, so prompt reporting protects your position either way.</li>
+                <li><strong style={{ color: '#E2E8F0' }}>Claim-filing deadline (statute of limitations):</strong> you generally must file a claim with the SBWC <strong style={{ color: '#E2E8F0' }}>within one year of the injury</strong>. That window extends if the employer has been paying you: you get <strong style={{ color: '#E2E8F0' }}>two years from the date of the last weekly benefit payment</strong>, or <strong style={{ color: '#E2E8F0' }}>one year from the date of the last remedial (authorized) medical treatment</strong> furnished by the employer, whichever gives you more time (
+                  <a href="https://law.justia.com/codes/georgia/2022/title-34/chapter-9/article-3/part-1/section-34-9-82" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>O.C.G.A. §34-9-82</a>
+                  {' '}(statute text via Justia)).
+                </li>
+              </ul>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Medical care ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Medical Care
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Georgia uses a <strong style={{ color: '#E2E8F0' }}>panel of physicians</strong> system rather than free choice of any doctor. Your employer must post and maintain a list of <strong style={{ color: '#E2E8F0' }}>at least six physicians or physician groups</strong> who are reasonably accessible to employees, and you choose your treating doctor from that posted list (
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-6/part-1/section-34-9-201/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>O.C.G.A. §34-9-201</a>
+                {' '}(statute text via Justia)). You&apos;re also allowed to make <strong style={{ color: '#E2E8F0' }}>one change to a different doctor already on the same panel without needing the Board&apos;s permission</strong> — after that, further changes generally need approval.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                A few built-in exceptions matter. In a genuine emergency, the panel-selection rule doesn&apos;t apply for as long as the emergency lasts — go get emergency care wherever you need to. The panel itself must include at least one orthopedic surgeon, and the Board is directed to encourage minority-physician participation on panels where feasible. And if your employer never actually posts a valid panel in the first place, you&apos;re not stuck: you&apos;re free to select any physician at the employer&apos;s expense (
+                <a href="https://law.justia.com/codes/georgia/title-34/chapter-9/article-6/part-1/section-34-9-201/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>O.C.G.A. §34-9-201</a>
+                {' '}(statute text via Justia)).
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Worked example ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Worked Example (Hypothetical)
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This is a simplified, hypothetical illustration to show how the pieces fit together — it is not a prediction of what any real claim is worth. A worker earns an average weekly wage (AWW) of <strong style={{ color: '#E2E8F0' }}>$1,200</strong>. They&apos;re out of work for 10 weeks (TTD), then are found to have a 20% permanent impairment to the hand.
+              </p>
+
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Weekly TTD rate: 66 2/3% × $1,200</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$800.00/week (at Georgia&apos;s 2026 cap)</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>TTD for 10 weeks: $800 × 10</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$8,000.00</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>PPD: hand at 160 scheduled weeks × 20% = 32 weeks × $800</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$25,600.00</td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: '14px 16px', color: '#E2E8F0', fontSize: '14px', fontWeight: 600 }}>Combined estimated total</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$33,600.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This is a rough estimate covering only these two benefit types — it doesn&apos;t include medical expenses, potential vocational or dependency benefits, or any settlement discount/negotiation that would actually apply in a real case. Use the calculator above with your own AWW, weeks out of work, and impairment rating to see your own numbers.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
+
+            </article>
+
+          ) : stateData.slug === 'michigan' ? (
+            <article style={{ margin: '0 auto' }}>
+
+              {/* ── Workers' comp in Michigan at a glance ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Workers&apos; Comp in Michigan at a Glance
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Michigan&apos;s workers&apos; compensation system is administered by the Workers&apos; Disability Compensation Agency (WDCA), part of the Michigan Department of Labor and Economic Opportunity (LEO). The underlying law is the Worker&apos;s Disability Compensation Act of 1969 (Act 317 of 1969, codified at MCL 418.101 et seq.), which replaced Michigan&apos;s original 1912 workers&apos; comp law (
+                <a href="https://www.michigan.gov/leo/bureaus-agencies/wdca" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>WDCA overview</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Coverage isn&apos;t universal by headcount alone. Under Michigan&apos;s insurance rules, a private employer must carry workers&apos; comp coverage if it regularly employs 1 or more workers 35+ hours a week for 13 or more weeks in the preceding 52 weeks, <em>or</em> regularly employs 3 or more workers at one time (part-time counted), agricultural employers with 3+ workers meeting the same 35-hour/13-week test, and household employers with a domestic worker on the same 35-hour/13-week schedule. All public employers must carry coverage regardless of size. Partners, corporate officers, and LLC manager-members count as employees for this test; sole proprietors working in their own business don&apos;t (
+                <a href="https://www.michigan.gov/leo/bureaus-agencies/wdca/insurance-requirements/pages/workers-disability-compensation-insurance-requirements" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>LEO Workers&apos; Disability Compensation Insurance Requirements</a>
+                ).
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Temporary disability benefits ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Temporary Disability Benefits
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Rate.</strong> Michigan doesn&apos;t pay a straight percentage of gross pay. The weekly benefit for total incapacity is <strong style={{ color: '#E2E8F0' }}>80% of the employee&apos;s after-tax average weekly wage</strong> (MCL 418.351(1), statute text via Justia:{' '}
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-351/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>MCL 418.351</a>
+                ). &quot;After-tax&quot; means the wage is first reduced for federal/state income tax and FICA withholding, based on the worker&apos;s filing status and number of dependents, before the 80% is applied. Michigan doesn&apos;t leave that conversion to guesswork — the WDCA publishes an annual rate book with tables that do the after-tax conversion and 80% calculation for you, indexed by gross wage, filing status, and dependents (
+                <a href="https://www.michigan.gov/leo/-/media/Project/Websites/leo/Documents/WDCA-Calculation-Program/wca_2026_Rate_Book.pdf" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>2026 Rate Book, michigan.gov/LEO</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>2026 max/min.</strong> For injuries in the 2026 benefit year (calendar year 2026), the maximum weekly rate is <strong style={{ color: '#E2E8F0' }}>${stateData.weeklyCapAmount.toLocaleString()}</strong>, tied to the 2026 state average weekly wage of $1,333.88. Michigan doesn&apos;t set a flat dollar minimum the way some states do; the &quot;floor&quot; is simply wherever the after-tax 80% calculation lands for very low earners (
+                <a href="https://www.michigan.gov/leo/-/media/Project/Websites/leo/Documents/WDCA-Calculation-Program/wca_2026_Rate_Book.pdf" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>2026 Rate Book</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Waiting period.</strong> Michigan&apos;s WDCA materials direct an insurer to file the first report of injury &quot;immediately upon the disability exceeding 7 consecutive days, death, or specific loss&quot; — meaning wage-loss checks start once the disability passes the 7-day mark, with the norm being retroactive payment back to day one once disability continues beyond 14 days (
+                <a href="https://www.michigan.gov/-/media/Project/Websites/leo/Documents/WDCA-RESOURCES-AND-REPORTS/Publications/wca_WCPUB006.pdf" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>WDCA, Michigan Workers&apos; Disability Compensation Rights &amp; Responsibilities</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Duration.</strong> There&apos;s no fixed number of weeks that cuts off temporary total disability (TTD) in Michigan. MCL 418.351(1) says compensation &quot;shall be paid for the duration of the disability,&quot; and only caps a <em>conclusive legal presumption</em> of total-and-permanent disability at 800 weeks from the injury date — after 800 weeks, whether the worker is still totally disabled becomes a question of fact again rather than an automatic legal conclusion. That 800-week rule is not a benefit cutoff. The WDCA&apos;s own consumer publication confirms wage-loss benefits &quot;continue so long as you are disabled, which could be for the rest of your life,&quot; though the amount can be reduced by up to 50% once the worker turns 65 and has been drawing benefits for at least 5 years (
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-351/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>MCL 418.351</a>
+                {' '}(statute text via Justia)).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Temporary partial disability.</strong> If a worker returns to lighter or part-time duty and earns less than before, Michigan pays a percentage of average weekly earnings equal to the proportionate loss of wage-earning capacity, under MCL 418.371(1). By statute, benefits plus actual post-injury earnings can&apos;t add up to more than the worker&apos;s pre-injury average weekly wage — the combination is capped there, not stacked on top of it (
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-371/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>MCL 418.371</a>
+                {' '}(statute text via Justia)).
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Permanent partial disability ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Permanent Partial Disability
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Michigan doesn&apos;t use the AMA <em>Guides to the Evaluation of Permanent Impairment</em> to set dollar values for lost body parts. Instead, MCL 418.361 lays out Michigan&apos;s own fixed schedule: a set number of compensation <em>weeks</em> is assigned by statute to each listed body part, paid at the same 80%-of-after-tax-AWW rate used for total incapacity, subject to the same statutory max/min. Loss of the first phalange (bone segment) of a thumb, finger, or toe counts as half that digit&apos;s scheduled weeks; losing more than the first phalange counts as loss of the whole digit (statute text via Justia:{' '}
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-361/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>MCL 418.361</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                A percentage loss of use of a scheduled member (rather than outright amputation) is prorated against that member&apos;s full scheduled weeks — a 20% loss of use of a hand, for example, is compensated as 20% of the hand&apos;s 215 scheduled weeks, at the applicable weekly rate.
+              </p>
+
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Scheduled Weeks</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ['Thumb', '65'], ['Index (first) finger', '38'], ['Second finger', '33'], ['Third finger', '22'],
+                      ['Fourth (little) finger', '16'], ['Great toe', '33'], ['Other toe (each)', '11'], ['Hand', '215'],
+                      ['Arm', '269'], ['Foot', '162'], ['Leg', '215'], ['Eye', '162'],
+                    ].map(([part, weeks], i, arr) => (
+                      <tr key={part} style={i < arr.length - 1 ? { borderBottom: '1px solid rgba(99,179,237,0.08)' } : undefined}>
+                        <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>{part}</td>
+                        <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>{weeks}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p style={{ color: '#64748B', lineHeight: '1.6', marginBottom: '18px', fontSize: '13px' }}>
+                Source: MCL 418.361 (statute text via Justia,{' '}
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-361/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>MCL 418.361</a>
+                ).
+              </p>
+
+              <StatePPDSection state="michigan" />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Permanent total disability ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Permanent Total Disability
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Michigan treats certain injuries as permanent and total by statutory definition rather than case-by-case argument: loss of both eyes, both legs or feet at or above the ankle, both arms or hands at or above the wrist, permanent and complete paralysis of both legs, both arms, or one leg and one arm, incurable insanity, imbecility caused by the injury, or <em>any two</em> of the losses listed elsewhere in the schedule (for example, one hand and one eye). These cases are compensated as total and permanent disability rather than under the specific-loss schedule for a single member (MCL 418.361, statute text via Justia,{' '}
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-361/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>MCL 418.361</a>
+                ).
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── How settlements work in Michigan ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                How Settlements Work in Michigan
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Michigan calls a workers&apos; comp settlement a <strong style={{ color: '#E2E8F0' }}>&quot;redemption&quot;</strong> — the parties agree to redeem (buy out) the employer&apos;s/carrier&apos;s entire liability for the injury with a lump-sum payment, instead of continuing weekly checks. Redemption isn&apos;t available until at least six months after the injury (MCL 418.835, statute text via Justia,{' '}
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-8/section-418-835/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>MCL 418.835</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Every redemption agreement must be submitted to and approved (or rejected) by a workers&apos; compensation magistrate — it isn&apos;t a private contract the parties can just sign and walk away with. Filing a redemption agreement is expressly <em>not</em> an admission of liability by the employer or carrier. If either side requests review by the WDCA director within 15 days after the magistrate&apos;s order is mailed or electronically distributed, the case goes to the director; if no one requests review within that 15-day window, the magistrate&apos;s order becomes final (MCL 418.835 and MCL 418.837, statute text via Justia:{' '}
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-8/section-418-835/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>418.835</a>
+                ,{' '}
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-8/section-418-837/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>418.837</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                A &quot;full&quot; redemption can close out both wage-loss and future medical benefits for the claim in exchange for the lump sum, since it redeems the employer&apos;s entire liability arising from the injury — that&apos;s a decision a magistrate reviews before approving, precisely because closing out future medical care is a permanent, one-way step for the worker.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                A few procedural details are specific to Michigan&apos;s process: the carrier has to notify the employer in writing at least 10 business days before the redemption hearing, spelling out the proposed settlement amount and hearing details, and giving the employer a chance to object. Each party filing a redemption agreement pays a $100 filing fee. Separately, when a magistrate orders that already-awarded, still-running weekly payments be converted into one or more lump sums (rather than the parties negotiating a redemption by agreement), the conversion uses a 10%-per-year present-worth discount.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Deadlines ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Deadlines
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Notice to employer:</strong> an injured worker must give notice of the injury (oral or written) within 90 days after the injury happens, or within 90 days of when the worker knew or should have known about it. A late notice is excused unless the employer can show it was actually prejudiced by the delay (MCL 418.381(1), statute text via Justia,{' '}
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-381/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>MCL 418.381</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Claim filing deadline:</strong> separately, a claim for compensation — made to the employer or filed with the agency — must happen within 2 years after the injury occurred, or the claim can&apos;t be maintained at all. Even within a timely-filed claim, back pay generally can&apos;t reach further than 2 years before the date the worker filed for a hearing (1 year for nursing/attendant-care claims specifically) (MCL 418.381(1)-(3), statute text via Justia,{' '}
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-381/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>MCL 418.381</a>
+                ).
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Medical care ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Medical Care
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                For the first 28 days of treatment after a work injury, the employer (or its insurer) has the right to choose the treating physician. After that 28-day window, the injured worker can switch to a doctor of their own choosing simply by notifying the employer and carrier of the change — no permission needed. The employer or carrier can still ask a workers&apos; compensation magistrate to order the worker to stop treating with their chosen doctor, but only after notice to all parties and a hearing, and only if they can show cause (MCL 418.315, statute text via Justia,{' '}
+                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-315/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>MCL 418.315</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Employers must furnish all reasonable and necessary medical, surgical, hospital, and dental care, plus prosthetics, eyeglasses, and hearing aids needed because of the injury, for as long as the need connected to the injury continues. If the employer doesn&apos;t provide needed care, the worker can be reimbursed for reasonable expenses, or a magistrate can order direct payment to the provider.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Worked example ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Worked Example (Hypothetical Only)
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This example is for illustration. It is not a prediction of what any real claim would pay. Facts: average weekly wage (AWW) of $1,200 before the injury; 10 weeks of temporary total disability; a 20% loss of use of one hand.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Michigan&apos;s rate is 80% of <em>after-tax</em> AWW, and that after-tax conversion runs through the WDCA&apos;s own rate-book tables (filing status and dependents affect the result), not a simple 80% of gross pay. For this illustration we&apos;ll use an assumed, clearly-labeled weekly rate of <strong style={{ color: '#E2E8F0' }}>$700</strong> — a plausible after-tax-adjusted figure for a $1,200 gross AWW, not a number we calculated ourselves. That figure is comfortably under the 2026 maximum of ${stateData.weeklyCapAmount.toLocaleString()}, so the statutory cap doesn&apos;t come into play here.
+              </p>
+
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>TTD for 10 weeks: $700 × 10 (assumed after-tax rate)</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$7,000.00</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>PPD: hand at 215 scheduled weeks × 20% = 43 weeks × $700</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$30,100.00</td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: '14px 16px', color: '#E2E8F0', fontSize: '14px', fontWeight: 600 }}>Combined estimated total</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$37,100.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Again: this is a simplified hypothetical using a labeled assumed rate, not a computed after-tax figure, an actual WDCA rate-book lookup, or a real adjudicated claim. Real Michigan cases turn on the worker&apos;s actual after-tax rate from the current rate book, medical evidence of the percentage of loss, whether TTD and specific-loss periods overlap or run consecutively, and whether a redemption resolves the whole claim for a different lump sum than a week-by-week total would suggest.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
+
+            </article>
+
+          ) : stateData.slug === 'new-jersey' ? (
+            <article style={{ margin: '0 auto' }}>
+
+              {/* ── Workers' comp in New Jersey at a glance ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Workers&apos; Comp in New Jersey at a Glance
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                New Jersey&apos;s workers&apos; compensation system is run by the Division of Workers&apos; Compensation (DWC), part of the Department of Labor and Workforce Development, through 15 workers&apos; compensation courts around the state (
+                <a href="https://www.nj.gov/labor/workerscompensation/about/index.shtml" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>DWC About page</a>
+                ). The rules come from the New Jersey Workers&apos; Compensation Act, N.J.S.A. 34:15-1 and following (
+                <a href="https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>compiled law text, NJDOL</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Coverage is broad: state law requires nearly every New Jersey employer that isn&apos;t covered by a federal program to either carry workers&apos; compensation insurance or be approved to self-insure (
+                <a href="https://www.nj.gov/labor/workerscompensation/injured-worker-protections/index.shtml" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>DWC Injured Worker Protections</a>
+                ). If you&apos;re an employee hurt on the job or made sick by your work, you&apos;re generally covered from your first day, regardless of fault.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Temporary disability benefits ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Temporary Disability Benefits
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If your injury keeps you out of work, New Jersey pays temporary total disability (TTD) at <strong style={{ color: '#E2E8F0' }}>70% of your average weekly wage (AWW)</strong> at the time of injury, subject to a statutory maximum and minimum. Source: R.S. 34:15-12(a) (
+                <a href="https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>NJDOL compiled law, PDF</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>2026 rates, effective January 1, 2026 through December 31, 2026:</strong> maximum <strong style={{ color: '#E2E8F0' }}>${stateData.weeklyCapAmount.toLocaleString()}/week</strong> (up from $1,159 in 2025); minimum <strong style={{ color: '#E2E8F0' }}>$320/week</strong> (the statute sets the floor at 20% of the statewide average weekly wage; 20% of the 2026 SAWW of $1,598.66 is $319.73, which rounds to $320). Sources: NJDOL 2026 benefit-rate press release (
+                <a href="https://www.nj.gov/labor/lwdhome/press/2025/20251229_newbenefitrates2026.shtml" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>nj.gov</a>
+                ) for the $1,199 maximum and the $1,598.66 SAWW; R.S. 34:15-12(a) for the 20%-of-SAWW minimum formula.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Waiting period:</strong> no cash benefits (only medical care) are paid until you&apos;ve been disabled for 7 days. If your disability lasts longer than 7 days, that first week is paid retroactively. Source: R.S. 34:15-14 (
+                <a href="https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>NJDOL compiled law, PDF</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Duration:</strong> TTD is capped at a hard <strong style={{ color: '#E2E8F0' }}>400 weeks</strong>, unlike states where it runs until you reach maximum medical improvement with no set limit. Source: R.S. 34:15-12(a); confirmed against N.J.S.A. 34:15-12 via Justia (
+                <a href="https://law.justia.com/codes/new-jersey/title-34/section-34-15-12/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>statute text via Justia</a>
+                ).
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Permanent partial disability (PPD) ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Permanent Partial Disability (PPD)
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                New Jersey does not use the AMA <em>Guides to the Evaluation of Permanent Impairment</em> to set dollar values. Instead, the state has its <strong style={{ color: '#E2E8F0' }}>own statutory schedule</strong> that assigns a maximum number of weeks to each body part; a doctor rates your percentage of permanent loss of function, and that percentage is applied against the part&apos;s maximum weeks. Source: R.S. 34:15-12(c) (
+                <a href="https://nj.gov/labor/workerscompensation/assets/PDFs/Forms/wc_law.pdf" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>NJDOL compiled law, PDF</a>
+                ); schedule of body-part weeks (
+                <a href="https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/2026_schedule.pdf" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>NJDOL 2026 Schedule of Disabilities, PDF</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                PPD is paid after your temporary disability (TTD) period ends — it compensates for the permanent loss left once you&apos;ve healed as much as you&apos;re going to.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The dollar value of a PPD award is <strong style={{ color: '#E2E8F0' }}>not</strong> simply your wage times a percentage. New Jersey&apos;s official 2026 schedule sets a maximum total dollar award tied to the <em>total number of weeks</em> the award covers (more weeks land in a higher dollar bracket). For example, the 2026 schedule sets the maximum award for a 90-week case at <strong style={{ color: '#E2E8F0' }}>$28,800</strong>. Source:{' '}
+                <a href="https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/2026_schedule.pdf" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>NJDOL 2026 Schedule of Disabilities and Maximum Benefits, PDF</a>
+                .
+              </p>
+
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Maximum Weeks</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ['Arm', '330'], ['Leg', '315'], ['Hand (loss of function under 25%)', '260'], ['Hand (loss of function 25% or more)', '300'],
+                      ['Foot (loss of function under 25%)', '250'], ['Foot (loss of function 25% or more)', '285'], ['Eye (loss of vision)', '200'],
+                      ['Thumb', '80'], ['Index finger', '60'], ['Hearing, both ears', '200'],
+                    ].map(([part, weeks], i, arr) => (
+                      <tr key={part} style={i < arr.length - 1 ? { borderBottom: '1px solid rgba(99,179,237,0.08)' } : undefined}>
+                        <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>{part}</td>
+                        <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>{weeks}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p style={{ color: '#64748B', lineHeight: '1.6', marginBottom: '18px', fontSize: '13px' }}>
+                Source: R.S. 34:15-12(c); NJDOL 2026 Schedule of Disabilities (
+                <a href="https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/2026_schedule.pdf" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>PDF</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                A note on fingers: New Jersey treats the loss of the first joint (phalange) of a finger as half the finger&apos;s scheduled weeks, and loss reaching into the second joint as the full finger — but no combination of finger losses can be compensated at more than the value of a full hand. Source: R.S. 34:15-12(c).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Two more details worth knowing if your case involves more than one body part or an amputation:
+              </p>
+              <ul style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', paddingLeft: '20px', listStyleType: 'disc' }}>
+                <li style={{ marginBottom: '8px' }}><strong style={{ color: '#E2E8F0' }}>Multiple body parts in one case.</strong> If your claim petition covers more than one disability, each one is rated and assigned its own number of weeks separately — they aren&apos;t added together before the weeks-to-dollars bracket is applied.</li>
+                <li><strong style={{ color: '#E2E8F0' }}>Amputation.</strong> When the injury involves an actual amputation (as opposed to loss of use without amputation), New Jersey adds an extra 30% on top of the scheduled award, and that extra 30% isn&apos;t counted when figuring an attorney&apos;s fee.</li>
+              </ul>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Use the PPD calculator below to work through your own body part and percentage against this schedule.
+              </p>
+
+              <StatePPDSection state="new-jersey" />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Permanent total disability ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Permanent Total Disability
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If your injury leaves you permanently and totally unable to work, New Jersey pays the same 70%-of-wages rate (subject to the same 2026 max/min) for up to <strong style={{ color: '#E2E8F0' }}>450 weeks</strong>, after which payments stop unless you complete an approved rehabilitation program and still can&apos;t earn a wage comparable to your pre-injury pay — in that case, reduced payments continue. Source: R.S. 34:15-12(b) (
+                <a href="https://law.justia.com/codes/new-jersey/title-34/section-34-15-12/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>statute text via Justia</a>
+                ).
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── How settlements work in New Jersey ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                How Settlements Work in New Jersey
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                New Jersey workers&apos; comp cases resolve one of two ways once a claim petition is filed:
+              </p>
+              <ul style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', paddingLeft: '20px', listStyleType: 'disc' }}>
+                <li style={{ marginBottom: '8px' }}><strong style={{ color: '#E2E8F0' }}>Order Approving Settlement (&quot;Section 20&quot; settlement).</strong> Named for its statutory home, R.S. 34:15-20, this is a lump-sum settlement approved by a judge of compensation. It results in a dismissal of the case &quot;with prejudice&quot; and is final as to all rights and benefits — meaning it closes out the claim entirely, including future medical treatment for that injury.</li>
+                <li><strong style={{ color: '#E2E8F0' }}>Formal award / agreement for compensation (&quot;Section 22&quot;).</strong> Under R.S. 34:15-22, the parties can agree on the extent of disability and have a judge approve a formal award instead of a full dismissal. This route leaves the case open: medical or disability benefits tied to the award can later be reviewed or modified under R.S. 34:15-27 if your condition changes.</li>
+              </ul>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Either way, a judge of compensation must approve the settlement before it&apos;s binding — you and your employer/insurer can&apos;t finalize a workers&apos; comp settlement on your own.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Deadlines ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Deadlines
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Notice to your employer:</strong> tell your employer as soon as you can. The statute sets up a layered rule: if your employer doesn&apos;t already know about the injury, you generally need to give notice within 14 days to avoid a delay in when benefits start, and notice given within 30 days generally cures small defects unless your employer can show it was actually harmed by the delay. As an outer limit, if your employer has no actual knowledge and gets no notice within 90 days of the injury, no compensation is allowed at all. Source: R.S. 34:15-17.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Claim petition (statute of limitations):</strong> you generally must file a formal claim petition with the Division of Workers&apos; Compensation within <strong style={{ color: '#E2E8F0' }}>2 years</strong> of the date of the accident (or, where compensation has already been paid, within 2 years of the last payment). For an occupational illness — a condition caused gradually by your work rather than a single accident — the 2-year clock instead runs from when you first became aware, or should reasonably have become aware, that the condition was connected to your job. Sources: R.S. 34:15-51 (
+                <a href="https://law.justia.com/codes/new-jersey/title-34/section-34-15-51/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>statute text via Justia</a>
+                ); DWC Injured Worker FAQ.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Medical care ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Medical Care
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                In New Jersey, <strong style={{ color: '#E2E8F0' }}>your employer (or its insurance carrier) chooses the treating doctor</strong> for a work injury — this is the opposite of states that let the injured worker pick. You can generally only see your own doctor at the employer&apos;s expense in a true emergency, or if the employer unreasonably refuses or neglects to provide care. Sources: R.S. 34:15-15 (employer&apos;s duty to furnish treatment); DWC Injured Worker Protections page, stating &quot;the employer, and/or the insurance carrier, has the right to designate the authorized treating physician for all work-related injuries.&quot;
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Worked example ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Worked Example (Hypothetical)
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This is a simplified illustration, not a prediction of any real case. Facts: average weekly wage (AWW) of $1,200. Worker is out of work for 10 weeks (TTD), then rated with a 20% permanent loss of use of the hand.
+              </p>
+
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Weekly TTD rate: 70% × $1,200</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$840.00/week (below the 2026 max)</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>TTD for 10 weeks: $840 × 10</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$8,400.00</td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>PPD weeks: hand under 25% at 260-week max × 20%</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>52 weeks</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                New Jersey&apos;s official 2026 schedule sets the maximum total award for a 52-week case; check the schedule&apos;s exact dollar figure for 52 weeks before relying on a number — this page doesn&apos;t display a figure it can&apos;t confirm directly against the current chart. (For reference, the same 2026 schedule shows a 90-week award capped at $28,800, so the amount scales with the week bracket, not a flat weekly rate.) Combined, TTD ($8,400) plus the 52-week PPD award from the current official schedule gives a rough total. Source for the schedule itself:{' '}
+                <a href="https://www.nj.gov/labor/workerscompensation/assets/PDFs/Forms/2026_schedule.pdf" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>NJDOL 2026 Schedule of Disabilities and Maximum Benefits, PDF</a>
+                . This is only an estimate based on simplified facts. It is not a settlement offer, a prediction of any outcome, or legal advice.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
+
+            </article>
+
+          ) : stateData.slug === 'virginia' ? (
+            <article style={{ margin: '0 auto' }}>
+
+              {/* ── Workers' comp in Virginia at a glance ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Workers&apos; Comp in Virginia at a Glance
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Workers&apos; compensation claims in Virginia are handled by the <strong style={{ color: '#E2E8F0' }}>Virginia Workers&apos; Compensation Commission (VWC)</strong>, a state agency separate from the courts. The program is set out in <strong style={{ color: '#E2E8F0' }}>Title 65.2 of the Code of Virginia</strong>.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Coverage is close to automatic once you&apos;re on payroll: every employer and employee in Virginia is &quot;conclusively presumed&quot; to have accepted the Act unless they&apos;ve opted out in writing ahead of time (
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter3/section65.2-300/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Va. Code § 65.2-300</a>
+                ). The main carve-out is size — a private employer with <strong style={{ color: '#E2E8F0' }}>fewer than three employees</strong> regularly working in the same business in Virginia generally isn&apos;t required to carry coverage, though underground coal mine operators don&apos;t get this exception and volunteer fire and EMS companies can elect to be covered (
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter1/section65.2-101/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Va. Code § 65.2-101</a>
+                ). If you were hurt on the job for a business with three or more workers, you&apos;re almost certainly covered.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The rest of this page walks through how Virginia calculates weekly checks, how permanent injuries are paid out under the state&apos;s own schedule (not the AMA Guides), how settlements get approved, and the deadlines that can end a claim before it starts.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Temporary disability benefits ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Temporary Disability Benefits
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If your injury keeps you out of work entirely, you receive <strong style={{ color: '#E2E8F0' }}>temporary total incapacity (TTD)</strong> benefits equal to <strong style={{ color: '#E2E8F0' }}>66 2/3% of your average weekly wage (AWW)</strong>, subject to Virginia&apos;s statewide minimum and maximum (
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-500/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Va. Code § 65.2-500(A)</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>2026 rate caps:</strong> effective <strong style={{ color: '#E2E8F0' }}>July 1, 2026</strong>, the maximum weekly compensation rate is <strong style={{ color: '#E2E8F0' }}>${stateData.weeklyCapAmount.toLocaleString()}</strong> and the minimum is <strong style={{ color: '#E2E8F0' }}>$376.75</strong>. A cost-of-living adjustment of 2.65% is separately scheduled to take effect October 1, 2026. Source: VWC Notice of 2026 Rates,{' '}
+                <a href="https://www.workcomp.virginia.gov/news/notice-of-2026-rates" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>workcomp.virginia.gov</a>
+                . These figures apply to injuries during the Commission&apos;s July 2026–June 2027 rate year; Virginia resets its min/max every July 1, so an injury earlier in 2026 falls under the prior year&apos;s figures instead.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Waiting period:</strong> the first <strong style={{ color: '#E2E8F0' }}>7 calendar days</strong> of lost time are unpaid; if you&apos;re still out of work on the 8th day, benefits start from day 8. If your incapacity lasts <strong style={{ color: '#E2E8F0' }}>more than three weeks</strong>, the waiting-period days become retroactively payable, and you&apos;re paid from day one of your incapacity (
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-509/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Va. Code § 65.2-509</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Duration:</strong> TTD isn&apos;t capped by a fixed number of weeks on its own. Instead, Virginia caps <em>total</em> compensation (TTD plus permanent partial disability combined) at <strong style={{ color: '#E2E8F0' }}>500 weeks</strong>, and also caps the dollar total at 500 times the Commonwealth&apos;s average weekly wage for the applicable year — except for permanent and total incapacity, certain permanent disability cases, and coal workers&apos; pneumoconiosis deaths, none of which are subject to that ceiling (
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-518/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Va. Code § 65.2-518</a>
+                ). If your condition is found to be permanent and total, weekly compensation instead continues for your <strong style={{ color: '#E2E8F0' }}>lifetime without limit</strong> (
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-500/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Va. Code § 65.2-500(D)</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Temporary partial disability (TPD):</strong> if you can return to work but at reduced wages, you&apos;re paid 66 2/3% of the difference between your pre-injury and post-injury average weekly wages, also capped at the Commonwealth&apos;s average weekly wage (
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-502/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Va. Code § 65.2-502</a>
+                ).
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Permanent partial disability ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Permanent Partial Disability
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Virginia does <strong style={{ color: '#E2E8F0' }}>not</strong> use the AMA Guides to price out a permanent injury the way some states do. Instead, it uses its own fixed schedule of weeks per body part, written directly into the statute. Your doctor rates the percentage of permanent loss of use of the body part, that percentage is applied to the body part&apos;s scheduled weeks, and the result is paid at the same 66 2/3%-of-AWW rate (subject to the same min/max) used for TTD (
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Va. Code § 65.2-503(B), (D)</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Here&apos;s Virginia&apos;s own schedule for some of the most common body parts:
+              </p>
+
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Scheduled Weeks (100% Loss)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ['Arm', '200'], ['Leg', '175'], ['Hand', '150'], ['Foot', '125'], ['Vision, one eye (total loss)', '100'],
+                      ['Thumb', '60'], ['Hearing, one ear (total loss)', '50'], ['First finger (index)', '35'],
+                    ].map(([part, weeks], i, arr) => (
+                      <tr key={part} style={i < arr.length - 1 ? { borderBottom: '1px solid rgba(99,179,237,0.08)' } : undefined}>
+                        <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>{part}</td>
+                        <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>{weeks}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p style={{ color: '#64748B', lineHeight: '1.6', marginBottom: '18px', fontSize: '13px' }}>
+                Source:{' '}
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Va. Code § 65.2-503(B)</a>
+                . Partial loss is paid proportionately — for example, losing the first phalanx of a finger or thumb is treated as half the digit&apos;s compensation, and losing more than the first phalanx is treated as loss of the whole digit.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Timing matters here: PPD compensation is <strong style={{ color: '#E2E8F0' }}>payable only after your TTD payments end</strong> — it isn&apos;t paid on top of active TTD checks. It <em>can</em> run at the same time as TPD payments under § 65.2-502, but when it does, each combined week of payment counts as <strong style={{ color: '#E2E8F0' }}>two weeks</strong> against the overall 500-week cap discussed above (
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Va. Code § 65.2-503(E)</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Use the PPD calculator below to plug in a body part and impairment percentage and see how Virginia&apos;s statutory schedule applies to your situation.
+              </p>
+
+              <StatePPDSection state="virginia" />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Permanent total disability ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Permanent Total Disability
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Virginia treats certain injuries as permanent and total automatically: the loss of <strong style={{ color: '#E2E8F0' }}>both hands, both arms, both feet, both legs, both eyes, or any two of these</strong> (from the same accident, or as a compensable consequence of it) (
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-503/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Va. Code § 65.2-503(C)</a>
+                ). In these cases, compensation is paid weekly at the same 66 2/3%-of-AWW rate for the rest of the worker&apos;s life, with no 500-week or dollar cap (
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter5/section65.2-500/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Va. Code § 65.2-500(D)</a>
+                ).
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── How settlements work in Virginia ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                How Settlements Work in Virginia
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Virginia workers&apos; comp claims can be resolved by a settlement agreement between the employee and the employer/insurer, but the agreement is not enforceable on its own. It must be submitted to and approved by the Commission, which will approve it only when a Commissioner is &quot;clearly of the opinion&quot; that the deal is in the best interests of the employee (or the employee&apos;s dependents in a death claim). The employer or carrier must file the signed settlement memorandum with the Commission within <strong style={{ color: '#E2E8F0' }}>14 calendar days</strong> of it being fully executed. Once approved, the agreement becomes enforceable as a Commission award (
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter7/section65.2-701/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Va. Code § 65.2-701</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Virginia settlements can resolve indemnity (wage-loss) benefits, and can also close out future medical treatment for the injury depending on what the parties and the Commission agree to — but nothing is final until the Commission signs off.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Deadlines ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Deadlines
+              </h2>
+              <ul style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px', paddingLeft: '20px', listStyleType: 'disc' }}>
+                <li style={{ marginBottom: '8px' }}><strong style={{ color: '#E2E8F0' }}>Notice to employer:</strong> report the injury to your employer within <strong style={{ color: '#E2E8F0' }}>30 days</strong> of the accident, or within <strong style={{ color: '#E2E8F0' }}>60 days</strong> of being told an illness is an occupational disease.</li>
+                <li><strong style={{ color: '#E2E8F0' }}>Claim filing deadline:</strong> file your formal claim with the Commission within <strong style={{ color: '#E2E8F0' }}>2 years of the date of accident</strong>. For most occupational diseases, the deadline is 2 years from when you&apos;re told the disease is work-related, and no more than 5 years from your last workplace exposure.</li>
+              </ul>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Source: VWC Injured Workers guidance,{' '}
+                <a href="https://workcomp.virginia.gov/content/injured-workers" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>workcomp.virginia.gov</a>
+                . Missing either deadline can end your right to benefits, so don&apos;t wait to report an injury or file if your employer or its insurer isn&apos;t cooperating.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Medical care ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Medical Care
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Once you report an injury, your employer must furnish medical treatment free of charge for as long as necessary. You don&apos;t get free choice of any doctor in Virginia — instead, your employer (or its insurer) gives you a <strong style={{ color: '#E2E8F0' }}>panel of at least three physicians</strong>, and you choose your treating doctor from that list (
+                <a href="https://law.lis.virginia.gov/vacode/title65.2/chapter6/section65.2-603/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Va. Code § 65.2-603</a>
+                ). If your employer doesn&apos;t offer a panel, or the panel doesn&apos;t meet the statutory requirements, you generally have more freedom to select your own treating physician — the VWC&apos;s injured-worker guidance addresses this directly.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Worked example ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Worked Example (Hypothetical Only)
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Say an injured worker in Virginia has an average weekly wage of <strong style={{ color: '#E2E8F0' }}>$1,200</strong> before the injury.
+              </p>
+
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Weekly TTD rate: 66 2/3% × $1,200 (no cap; between the 2026 min/max)</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$800.00/week</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>TTD for 10 weeks: $800 × 10</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$8,000.00</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>PPD: hand at 150 scheduled weeks × 20% = 30 weeks × $800 (paid after TTD ends)</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$24,000.00</td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: '14px 16px', color: '#E2E8F0', fontSize: '14px', fontWeight: 600 }}>Combined total (40 weeks, well under the 500-week cap)</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$32,000.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This is a simplified hypothetical to show the math, not an estimate of what any real claim is worth. Actual claims depend on your medical records, average weekly wage calculation, whether you have permanent restrictions, and how your case is rated — use the calculator above with your own numbers, and talk to your claims examiner or an attorney about your specific situation.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
+
+            </article>
+
+          ) : stateData.slug === 'minnesota' ? (
+            <article style={{ margin: '0 auto' }}>
+
+              {/* ── Workers' comp in Minnesota at a glance ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Workers&apos; Comp in Minnesota at a Glance
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Minnesota&apos;s workers&apos; compensation system is administered by the{' '}
+                <a href="https://www.dli.mn.gov/business/workers-compensation" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Minnesota Department of Labor and Industry (DLI)</a>
+                , under{' '}
+                <a href="https://www.revisor.mn.gov/statutes/cite/176.101" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Minnesota Statutes Chapter 176</a>
+                . Disputed claims are heard by workers&apos; compensation judges at the Office of Administrative Hearings, with appeals going to the{' '}
+                <a href="https://mn.gov/workcomp/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Workers&apos; Compensation Court of Appeals</a>
+                {' '}under Minn. Stat. ch. 175A.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Most Minnesota employers must carry workers&apos; compensation insurance or qualify as self-insured. A handful of narrow categories are exempt under{' '}
+                <a href="https://www.revisor.mn.gov/statutes/cite/176.041" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Minn. Stat. §176.041</a>
+                , including a farmer&apos;s spouse, parent, or child working on the family farm; sole proprietors, partners, and certain closely held corporate officers or LLC managers with limited payroll hours and 25%+ ownership; statutory independent contractors; household workers earning under $1,000 in cash per three months from one home; and casual employment outside the usual course of a business. Everyone else working for a covered employer is generally entitled to benefits from the date of injury, regardless of fault.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Temporary disability benefits ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Temporary Disability Benefits
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Rate.</strong> Temporary total disability (TTD) is paid at 66 2/3% of the worker&apos;s average weekly wage (AWW) at the time of injury, subject to the statewide maximum and minimum. Source: Minn. Stat. §176.101, subd. 1.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>2026 maximum and minimum.</strong> For injuries occurring October 1, 2025 through September 30, 2026, the maximum weekly benefit is <strong style={{ color: '#E2E8F0' }}>${stateData.weeklyCapAmount.toLocaleString()}</strong> and the minimum is <strong style={{ color: '#E2E8F0' }}>$307.37</strong>. For injuries occurring on or after October 1, 2026, the maximum rises to <strong style={{ color: '#E2E8F0' }}>$1,594.08</strong> (set at 108% of the statewide average weekly wage of $1,476) and the minimum to <strong style={{ color: '#E2E8F0' }}>$318.82</strong>. These figures adjust every October 1 and should be re-checked against DLI&apos;s rate page for injuries near that date. Source:{' '}
+                <a href="https://www.dli.mn.gov/business/workers-compensation/work-comp-rate-information-statewide-average-weekly-wage-saww" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>DLI SAWW/rate information page</a>
+                {' '}and{' '}
+                <a href="https://www.dli.mn.gov/sites/default/files/pdf/annladj.pdf" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>DLI annual adjustment chart</a>
+                .
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Duration.</strong> TTD stops entirely once <strong style={{ color: '#E2E8F0' }}>130 weeks</strong> of TTD compensation have been paid, counting initial and any recommenced TTD together — it doesn&apos;t matter how much time has elapsed since the injury, only how many weeks of TTD checks have gone out. The one exception: weeks paid while the employee is in a DLI-approved retraining plan don&apos;t count against the 130-week limit. This is a hard cap, not a &quot;until you recover&quot; open-ended benefit like some states use. Source: Minn. Stat. §176.101, subd. 1(k).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Waiting period.</strong> No TTD or TPD is paid for the first three calendar days of disability, unless the disability continues for 10 calendar days or longer, in which case those three days are paid retroactively from the start of the disability. Source: Minn. Stat. §176.121.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Temporary partial disability (TPD).</strong> If an injured worker returns to lighter or lower-paying work before reaching maximum medical improvement, Minnesota pays TPD at 66 2/3% of the difference between the pre-injury wage and what the worker is now able to earn, capped at the TTD maximum rate. TPD can run for up to 275 weeks, or 450 weeks after the date of injury, whichever comes first (longer if the worker is in approved retraining). Source: Minn. Stat. §176.101, subd. 2.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Permanent partial disability ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Permanent Partial Disability
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Minnesota does not use a &quot;weeks per body part&quot; schedule the way many states do. Instead, a physician rates the worker&apos;s <strong style={{ color: '#E2E8F0' }}>permanent impairment as a percentage of the whole body</strong>, following the state&apos;s own impairment tables in{' '}
+                <a href="https://www.revisor.mn.gov/rules/5223" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Minnesota Rules Chapter 5223</a>
+                {' '}— not the AMA Guides. That whole-body percentage is then multiplied by a flat dollar amount tied to the impairment band it falls into, producing a lump-sum PPD award. An employee can&apos;t be compensated for more than 100% whole-body disability even with injuries to multiple body parts. Source: Minn. Stat. §176.101, subd. 2a.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                PPD is paid only after TTD ends — the statute is explicit that &quot;permanent partial disability is not payable while temporary total compensation is being paid.&quot; If a worker asks for a lump-sum payout, the insurer must pay it within 30 days (and may discount it to present value at up to 5%); otherwise it&apos;s paid in installments at the worker&apos;s TTD rate as of the injury date. Source: Minn. Stat. §176.101, subd. 2a(c).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                There are two dollar tables in effect in 2026, split by injury date:
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '10px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Table A — injuries on or after October 1, 2023 and before October 1, 2026</strong> (first four bands of twenty):
+              </p>
+
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Whole-Body Impairment</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Dollar Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ['Less than 5.5%', '$114,260'], ['5.5% to less than 10.5%', '$121,800'],
+                      ['10.5% to less than 15.5%', '$129,485'], ['15.5% to less than 20.5%', '$137,025'],
+                    ].map(([band, amount], i, arr) => (
+                      <tr key={band} style={i < arr.length - 1 ? { borderBottom: '1px solid rgba(99,179,237,0.08)' } : undefined}>
+                        <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>{band}</td>
+                        <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>{amount}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '10px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Table B — injuries on or after October 1, 2026</strong> (same first four bands, enacted by 2026 Minn. Laws ch. 103, §10):
+              </p>
+
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Whole-Body Impairment</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Dollar Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ['Less than 5.5%', '$137,240'], ['5.5% to less than 10.5%', '$146,297'],
+                      ['10.5% to less than 15.5%', '$155,527'], ['15.5% to less than 20.5%', '$164,584'],
+                    ].map(([band, amount], i, arr) => (
+                      <tr key={band} style={i < arr.length - 1 ? { borderBottom: '1px solid rgba(99,179,237,0.08)' } : undefined}>
+                        <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>{band}</td>
+                        <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>{amount}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Both tables run up through the 95.5%–100% band ($567,840 under Table A, $682,045 under Table B). Sources: Minn. Stat. §176.101, subd. 2a (Table A, current text);{' '}
+                <a href="https://www.revisor.mn.gov/laws/2026/0/103/laws.0.12.0" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>2026 Minn. Laws ch. 103, §10</a>
+                {' '}(Table B and its effective date). Every even-numbered year, including 2026, the legislature&apos;s Workers&apos; Compensation Advisory Council is required to reconsider whether the table provides adequate compensation, so expect another revision cycle in 2028.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The PPD calculator below uses these two tables directly — enter the whole-body impairment percentage and injury date, and it applies the correct band and dollar figure.
+              </p>
+
+              <StatePPDSection state="minnesota" />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Permanent total disability ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Permanent Total Disability
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Permanent total disability (PTD) is paid at 66 2/3% of the worker&apos;s daily wage at the time of injury, subject to the same maximum as TTD and a minimum of 65% of the statewide average weekly wage. After $25,000 in PTD compensation has been paid, the benefit is offset by certain concurrent government disability benefits tied to the same injury. PTD generally continues until age 72, or for five years if the worker was already over 67 at the time of injury. Source: Minn. Stat. §176.101, subd. 4.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── How settlements work in Minnesota ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                How Settlements Work in Minnesota
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Minnesota workers&apos; comp claims are resolved through a <strong style={{ color: '#E2E8F0' }}>Stipulation for Settlement</strong> — the official name for a negotiated settlement agreement between the employee, employer, and insurer. Once the parties reach terms, the stipulation must be filed with the Office of Administrative Hearings within 45 days of the agreement; a Workers&apos; Compensation Judge reviews the document and must approve it before it&apos;s binding. If the parties notify the court of a settlement but don&apos;t file the stipulation in time without good cause shown, the judge can put the case back on the trial calendar or dismiss it. Source:{' '}
+                <a href="https://mn.gov/cah/lawyers-and-litigants/workers-compensation/general-proceedings-guide/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>Office of Administrative Hearings, Workers&apos; Compensation General Proceedings Guide</a>
+                .
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Settlements are commonly structured as &quot;full, final, and complete,&quot; closing out future indemnity and, often, future medical benefits for the accepted injury in exchange for a lump sum. The exact scope of what&apos;s closed out is negotiated case by case and spelled out in the stipulation itself.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Deadlines ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Deadlines
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Notice to employer.</strong> An injured worker (or someone on their behalf) must give the employer notice within 14 days of the injury, or compensation isn&apos;t due until notice is given or the employer already has actual knowledge of the injury. Notice within 30 days cures most minor defects. After 180 days without notice or actual knowledge, compensation is generally barred, subject to limited exceptions for mistake, inadvertence, or inability to give notice. Source: Minn. Stat. §176.141.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Claim filing deadline.</strong> A workers&apos; comp claim generally must be commenced within three years after a written report of the injury is filed with DLI, and in any event no later than six years from the date of the accident. Occupational disease claims run three years from when the employee knew the disease was caused by work. If the injured worker is physically or mentally incapacitated (not counting minority), the three-year window is extended by an additional three years from when the incapacity ends. Source: Minn. Stat. §176.151.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Medical care ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Medical Care
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Minnesota generally lets an injured employee choose their own treating health care provider. That default narrows in a few situations: the employer may require treatment through a DLI-certified managed care plan under Minn. Stat. §176.1351; an employer party to a qualifying collective bargaining agreement may restrict treatment to an approved provider list; and pharmacy purchases can be limited to a pharmacy near the employee&apos;s home. Under a certified managed care plan, the worker must generally use in-network providers, with exceptions for emergencies, adjuster-approved out-of-network care, an existing relationship with a provider seen at least twice in the prior two years, living or working beyond 30 miles (Twin Cities) or 50 miles (Greater Minnesota) from network providers, and a few other statutory carve-outs.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Disputes over a requested change of doctor, chiropractor, or podiatrist are resolved under standards DLI has adopted by rule, and any medical expenses tied to an agreed or ordered change are paid by the employer on the same terms as other authorized treatment. Source: Minn. Stat. §176.135, subd. 2.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Worked example ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Worked Example (Hypothetical)
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This example is for illustration only — it is not a prediction of what any real claim is worth, and it does not reflect every offset, dependent adjustment, or attorney&apos;s fee that could apply to an actual case. Facts: average weekly wage of $1,200. Injury occurs before October 1, 2026. Worker draws 10 weeks of temporary total disability, then is rated with a 10% whole-body permanent partial impairment.
+              </p>
+
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Weekly TTD rate: 66 2/3% × $1,200 (between the min/max, no cap)</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$800.00/week</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>TTD for 10 weeks: $800 × 10</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$8,000.00</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>PPD: 10% rating in the &quot;5.5% to less than 10.5%&quot; Table A band ($121,800) × 10%</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$12,180.00</td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: '14px 16px', color: '#E2E8F0', fontSize: '14px', fontWeight: 600 }}>Combined estimated total</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$20,180.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This is a simplified estimate of two benefit types only. It doesn&apos;t include medical bills, mileage reimbursement, permanent total disability, vocational rehabilitation, dependent benefits, or any settlement discount/present-value adjustment — and it assumes the 10% rating and $1,200 wage are exactly as stated, which a real case would need a physician&apos;s rating and payroll records to establish.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
+
+            </article>
+
+          ) : stateData.slug === 'colorado' ? (
+            <article style={{ margin: '0 auto' }}>
+
+              {/* ── Workers' comp in Colorado at a glance ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Workers&apos; Comp in Colorado at a Glance
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Colorado&apos;s workers&apos; compensation system is run by the Division of Workers&apos; Compensation (DOWC), part of the Colorado Department of Labor and Employment (CDLE) (
+                <a href="https://cdle.colorado.gov/dwc" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>CDLE, Division of Workers&apos; Compensation</a>
+                ). The benefits themselves come from the Workers&apos; Compensation Act of Colorado, C.R.S. Title 8, Articles 40 through 47.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Coverage is close to universal: CDLE states that all businesses with employees operating in Colorado must carry workers&apos; compensation insurance (or qualify as self-insured), regardless of the number of employees, whether they work part-time, or whether they&apos;re family members of the owner (
+                <a href="https://cdle.colorado.gov/dwc" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>CDLE, Division of Workers&apos; Compensation</a>
+                ;{' '}
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-44/part-1/section-8-44-101/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-44-101</a>
+                {' '}(statute text via Justia)).
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Temporary disability benefits ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Temporary Disability Benefits
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If a work injury keeps you off the job or cuts your hours, Colorado replaces part of your lost wages while you recover.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Rate.</strong> Temporary total disability (TTD) pays <strong style={{ color: '#E2E8F0' }}>66 2/3% of your average weekly wage (AWW)</strong> at the time of injury (
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-105/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-42-105</a>
+                {' '}(statute text via Justia)).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>2026-2027 maximum.</strong> The rate is capped at 91% of the state average weekly wage. Under the Division&apos;s 2026 Max Benefits Order, that ceiling is <strong style={{ color: '#E2E8F0' }}>${stateData.weeklyCapAmount.toLocaleString()} a week</strong>, effective July 1, 2026 through June 30, 2027 — you need to earn at least $2,196.18 a week to hit it (
+                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>DOWC 2026 Max Benefits Order</a>
+                ). Colorado&apos;s order does not publish a separate statutory minimum dollar floor for TTD the way some states do.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Waiting period.</strong> The first 3 days off work go unpaid. But if the disability lasts more than two weeks, payment becomes retroactive all the way back to your first day off (
+                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-42/section-8-42-103/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-42-103</a>
+                {' '}(statute text via Justia)).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Duration.</strong> Colorado does not cap TTD at a set number of weeks. Checks continue until you reach maximum medical improvement (MMI), return to your regular or modified job, or are given a written release to return to regular work — whichever comes first. Do not trust any claim that Colorado has a &quot;104-week&quot; TTD limit; that number doesn&apos;t apply here (
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-105/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-42-105</a>
+                {' '}(statute text via Justia)).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Temporary partial disability (TPD).</strong> Once you&apos;re released to work with restrictions but can only earn a reduced wage, TPD pays 66 2/3% of the difference between your pre-injury AWW and what you&apos;re earning now, subject to the same 91%-of-SAWW cap that applies to TTD (
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-106/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-42-106</a>
+                {' '}(statute text via Justia)).
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Permanent partial disability (PPD) ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Permanent Partial Disability (PPD)
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This is where Colorado departs from the simple &quot;weeks × your wage&quot; formula used in many states. PPD splits into two separate tracks, and which one applies depends on the body part hurt.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Scheduled injuries.</strong> For a defined list of body parts — arms, hands, legs, feet, fingers, toes, eyes, hearing, and a few others — the statute sets a fixed number of weeks for a total loss, and you&apos;re paid your percentage of that many weeks. The important quirk: scheduled awards are <strong style={{ color: '#E2E8F0' }}>not</strong> paid at 66 2/3% of your own wage. They&apos;re paid at a flat weekly compensation rate the Division sets by rule and adjusts every year with the state average weekly wage. For the 2026-2027 benefit year, that flat rate is <strong style={{ color: '#E2E8F0' }}>$459.45 a week</strong>, no matter what you actually earned (
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-42-107(2), (6)</a>
+                {' '}(statute text via Justia);{' '}
+                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>DOWC 2026 Max Benefits Order</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Whole-person (non-scheduled) injuries.</strong> Injuries not on the schedule — most spine, internal, and systemic conditions — are rated differently. A physician assigns a whole-person impairment percentage under the American Medical Association&apos;s <em>Guides to the Evaluation of Permanent Impairment</em>, Third Edition, Revised, as it stood on July 1, 1991 (Colorado has not adopted a newer edition for this purpose). That percentage is multiplied by an age factor — which runs from 1.80 for a worker age 20 or younger down to 1.00 at age 60 or older, so an older worker&apos;s award reflects fewer remaining working years — and then by 400 weeks. The result is paid at your TTD rate, subject to a Division-set floor and ceiling: <strong style={{ color: '#E2E8F0' }}>$150.00 to $804.46 a week</strong> for the 2026-2027 year (
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-42-107(8)</a>
+                {' '}(statute text via Justia);{' '}
+                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>DOWC 2026 Max Benefits Order</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Under either track, PPD is paid <strong style={{ color: '#E2E8F0' }}>after</strong> temporary disability ends, starting on the date of MMI.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Colorado also caps the combined dollar total of temporary disability plus PPD payable on a claim rated by whole-person impairment: <strong style={{ color: '#E2E8F0' }}>$202,297.46</strong> for a rating of 19% or less, and <strong style={{ color: '#E2E8F0' }}>$328,049.94</strong> for a rating of 20% or greater, for 2026-2027 (
+                <a href="https://law.justia.com/codes/colorado/2023/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107-5-d-1/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-42-107.5</a>
+                {' '}(statute text via Justia);{' '}
+                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>DOWC 2026 Max Benefits Order</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Colorado&apos;s scheduled PPD table (2026-2027 rate: $459.45/week):
+              </p>
+
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Body Part</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Scheduled Weeks (100% Loss)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ['Arm, at the shoulder', '208'], ['Leg, at the hip joint', '208'], ['Hand, below the wrist', '104'],
+                      ['Foot, below the ankle', '104'], ['Total deafness, both ears', '139'], ['Total blindness, one eye', '104'],
+                      ['Thumb, with the metacarpal bone', '50'], ['Index finger, with the metacarpal bone', '26'],
+                    ].map(([part, weeks], i, arr) => (
+                      <tr key={part} style={i < arr.length - 1 ? { borderBottom: '1px solid rgba(99,179,237,0.08)' } : undefined}>
+                        <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>{part}</td>
+                        <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>{weeks}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p style={{ color: '#64748B', lineHeight: '1.6', marginBottom: '18px', fontSize: '13px' }}>
+                Source:{' '}
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-42-107(2), (6)</a>
+                {' '}(statute text via Justia);{' '}
+                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>DOWC 2026 Max Benefits Order</a>
+                .
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                The PPD calculator below runs both the scheduled-weeks math and the whole-person (impairment % × age factor × 400 weeks) math for you — plug in your own rating and date of birth to see an estimate.
+              </p>
+
+              <StatePPDSection state="colorado" />
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Permanent total disability ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Permanent Total Disability (PTD)
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                If you&apos;re unable to earn any wages in the same or other employment, you may qualify for permanent total disability. PTD pays 66 2/3% of your AWW, subject to the same weekly maximum as TTD, and continues until death — Colorado does not cut PTD off at a fixed number of weeks (
+                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-42/section-8-42-111/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-42-111</a>
+                {' '}(statute text via Justia)). Under the 2026 order, PTD can be terminated if the worker earns, or is shown capable of earning, more than <strong style={{ color: '#E2E8F0' }}>$9,474.74 a year</strong> (
+                <a href="https://codwc.box.com/s/9def89oiq7q4z24v2y4axffrgfuehf5g" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>DOWC 2026 Max Benefits Order</a>
+                ).
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── How settlements work in Colorado ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                How Settlements Work in Colorado
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Most Colorado workers&apos; comp cases end in a &quot;full and final&quot; settlement, documented on the Division&apos;s own Uniform Settlement Agreement (USA) form (
+                <a href="https://cdle.colorado.gov/sites/cdle/files/FAQ_Uniform_Settlement_Agreements.pdf" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>CDLE, Uniform Settlement Agreement FAQ</a>
+                ).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                By statute, a settlement is not binding until it has been reviewed in person with the injured worker and approved in writing by an administrative law judge or the Director of the Division (
+                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-43/part-2/section-8-43-204/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-43-204</a>
+                {' '}(statute text via Justia)).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                A full and final settlement can leave future medical benefits open or closed. &quot;Closing&quot; medical means giving up the right to further Division-ordered treatment for that claim in exchange for settlement money; the USA form has a specific paragraph the parties can use instead to agree medical benefits stay open. If the agreement states the claim cannot be reopened, it generally can&apos;t be — except for fraud or a mutual mistake about a material fact (
+                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-43/part-2/section-8-43-204/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-43-204</a>
+                {' '}(statute text via Justia)). Once approved, any lump sum owed must be paid within 15 calendar days.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Deadlines ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Deadlines
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Notice to your employer.</strong> Report the injury to your employer in writing within <strong style={{ color: '#E2E8F0' }}>10 days</strong>. Missing this can cost you up to a day of benefits for every day you&apos;re late — but the penalty doesn&apos;t apply if your employer already knew about the injury, you had good cause for the delay, or you were physically or mentally unable to report it yourself (
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-43/part-1/section-8-43-102/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-43-102</a>
+                {' '}(statute text via Justia)).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: '#E2E8F0' }}>Filing your claim.</strong> A notice claiming compensation must be filed with the Division within <strong style={{ color: '#E2E8F0' }}>2 years</strong> of the injury or death. That stretches to <strong style={{ color: '#E2E8F0' }}>5 years</strong> for occupational diseases involving radioactive/fissionable materials, radiation-induced malignancy, uranium poisoning, asbestosis, silicosis, or anthracosis. The 2-year deadline does not apply once compensation has already been paid on the claim (
+                <a href="https://law.justia.com/codes/colorado/2021/title-8/article-43/part-1/section-8-43-103/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-43-103</a>
+                {' '}(statute text via Justia)).
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Medical care ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Medical Care
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Your employer or its insurer picks the doctor at the start of your claim — but not by handing you a single name. They must designate at least four physicians, or a combination of at least two physicians and two corporate medical providers, within 30 miles of your workplace, with at least one location that isn&apos;t commonly owned with the others (
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-43/part-4/section-8-43-404/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-43-404(5)</a>
+                {' '}(statute text via Justia)).
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                You get one chance to switch your own treating physician, as long as you do it in writing within 120 days of the first doctor being designated and before you reach MMI. If your employer fails to designate a physician in time, you&apos;re free to pick your own treating doctor (
+                <a href="https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-43/part-4/section-8-43-404/" target="_blank" rel="noopener noreferrer" style={{ color: '#60A5FA' }}>C.R.S. § 8-43-404(5)</a>
+                {' '}(statute text via Justia)).
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              {/* ── Worked example ── */}
+              <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
+                Worked Example (Hypothetical — Not a Prediction of Your Case)
+              </h2>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                Say your average weekly wage before the injury was <strong style={{ color: '#E2E8F0' }}>$1,200</strong>, and you hurt your hand at work.
+              </p>
+
+              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.15)', borderRadius: '12px', overflow: 'hidden', marginBottom: '18px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step</th>
+                      <th style={{ padding: '14px 16px', textAlign: 'left', color: '#60A5FA', fontWeight: 700, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>Weekly TTD rate: 66 2/3% × $1,200 (well under the 2026-2027 max)</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$800.00/week</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>TTD for 10 weeks: $800.00 × 10 (no waiting-period deduction)</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$8,000.00</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid rgba(99,179,237,0.08)' }}>
+                      <td style={{ padding: '14px 16px', color: '#94A3B8', fontSize: '14px' }}>PPD: hand at 104 scheduled weeks × 20% = 20.8 weeks × the flat $459.45/week rate</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$9,556.56</td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: '14px 16px', color: '#E2E8F0', fontSize: '14px', fontWeight: 600 }}>Combined estimate</td>
+                      <td style={{ padding: '14px 16px', color: '#FBBF24', fontWeight: 600, fontSize: '14px' }}>$17,556.56</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                That total sits far below Colorado&apos;s combined-benefit cap for whole-person claims, but note that cap is written in terms of whole-person impairment percentage, so it may not be the operative ceiling for a purely scheduled injury like this one.
+              </p>
+              <p style={{ color: '#94A3B8', lineHeight: '1.8', marginBottom: '18px' }}>
+                This is a simplified estimate for illustration only. It leaves out medical bills, any temporary partial disability, vocational or disfigurement add-ons, and disputes over the rating itself, and it is not a prediction of what any real claim would settle for. Use the calculator above to run your own numbers.
+              </p>
+
+              <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
+
+            </article>
+
           ) : (
             <article style={{ margin: '0 auto' }}>
               <h2 className="heading-gradient" style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', marginTop: '40px' }}>
@@ -2100,7 +3480,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
           >
             Frequently Asked Questions
           </h2>
-          <FAQAccordion faqs={WORKERS_COMP_FAQS} />
+          <FAQAccordion faqs={activeFaqs} />
 
           <hr style={{ borderColor: 'rgba(99,179,237,0.15)', margin: '36px 0' }} />
 
