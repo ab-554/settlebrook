@@ -9,9 +9,15 @@
 // citation, official source URL, and each state's body-part schedule in
 // weeks). Full sourcing notes, edge cases, and status flags live in the
 // research JSON this was built from — see that file for provenance.
+//
+// Colorado added 2026-09-25 per
+// research/2026-09-24/ppd/PPD-SPEC-ADDENDUM-COLORADO.md — its scheduled-loss
+// track uses a flat statutory weekly rate (not a share of wages), so it's
+// handled as its own case in lib/calculations/ppdState.ts rather than
+// reusing the AWW-based rate logic the other 5 states share.
 // ─────────────────────────────────────────────────────────────────────────────
 
-export type ScheduledLossStateSlug = 'michigan' | 'new-jersey' | 'virginia' | 'georgia' | 'new-york'
+export type ScheduledLossStateSlug = 'michigan' | 'new-jersey' | 'virginia' | 'georgia' | 'new-york' | 'colorado'
 
 export interface ScheduledLossStateData {
   slug: ScheduledLossStateSlug
@@ -155,12 +161,47 @@ export const NEW_YORK_PPD: ScheduledLossStateData = {
   },
 }
 
+// Colorado's scheduled-impairment track (C.R.S. § 8-42-107(2) and (6)) —
+// per PPD-SPEC-ADDENDUM-COLORADO.md. Uses only the 10 listed body parts; the
+// weekly rate is a flat statutory figure, not wage-based — see
+// COLORADO_FLAT_WEEKLY_RATE below and scheduledPPD()'s Colorado case in
+// lib/calculations/ppdState.ts.
+export const COLORADO_PPD: ScheduledLossStateData = {
+  slug: 'colorado',
+  name: 'Colorado',
+  statuteCitation: 'C.R.S. § 8-42-107(2) and (6)',
+  officialUrl: 'https://law.justia.com/codes/colorado/title-8/labor-ii-workers-compensation-and-related-provisions/workers-compensation/article-42/section-8-42-107/',
+  scheduleWeeks: {
+    arm_at_shoulder: 208,
+    hand_below_wrist: 104,
+    thumb_with_metacarpal: 50,
+    index_finger_with_metacarpal: 26,
+    leg_at_hip: 208,
+    foot_below_ankle: 104,
+    great_toe_with_metatarsal: 26,
+    total_blindness_one_eye: 104,
+    total_deafness_one_ear: 35,
+    total_deafness_both_ears: 139,
+  },
+}
+
+// Flat weekly rate for Colorado's scheduled-impairment PPD, July 1, 2026 -
+// June 30, 2027 benefit year (DOWC 2026 Max Benefits Order). Not a share of
+// the worker's wage — AWW is not used for this track.
+export const COLORADO_FLAT_WEEKLY_RATE = 459.45
+
+// Colorado's whole-person (non-scheduled) track — explanation only, no
+// calculation, per the addendum: the full age-factor table isn't verified.
+export const COLORADO_WHOLE_PERSON_EXPLANATION =
+  'Injuries not on the schedule (e.g. back, neck) are rated as whole-person impairment: rating % × an age factor (1.80 at age 20 or younger, down to 1.00 at 60 or older) × 400 weeks, paid at the TTD rate within a 2026–2027 range of $150.00–$804.46 per week. Combined TTD and PPD are capped at $202,297.46 (whole-person rating 19% or less) or $328,049.94 (20% or more) for 2026–2027 (C.R.S. § 8-42-107.5; DOWC 2026 Max Benefits Order).'
+
 export const SCHEDULED_LOSS_STATES: Record<ScheduledLossStateSlug, ScheduledLossStateData> = {
   michigan: MICHIGAN_PPD,
   'new-jersey': NEW_JERSEY_PPD,
   virginia: VIRGINIA_PPD,
   georgia: GEORGIA_PPD,
   'new-york': NEW_YORK_PPD,
+  colorado: COLORADO_PPD,
 }
 
 // ─── Minnesota: whole-body percentage, not a member schedule ──────────────────

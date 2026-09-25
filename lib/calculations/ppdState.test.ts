@@ -50,6 +50,13 @@ describe('scheduledPPD', () => {
     expect(result.total).toBeNull()
   })
 
+  it('CO hand below wrist, 20% loss (AWW ignored) -> 20.8 weeks x $459.45 = $9,556.56', () => {
+    const result = scheduledPPD({ state: 'colorado', bodyPart: 'hand_below_wrist', lossPercent: 20, aww: 1500 })
+    expect(result.weeks).toBe(20.8)
+    expect(result.weeklyRate).toBe(459.45)
+    expect(result.total).toBe(9556.56)
+  })
+
   it('NJ hand, 20% loss -> 52 weeks (260 x 20%), total null', () => {
     const result = scheduledPPD({ state: 'new-jersey', bodyPart: 'hand', lossPercent: 20 })
     expect(result.weeks).toBe(52)

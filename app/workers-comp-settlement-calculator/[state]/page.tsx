@@ -40,10 +40,12 @@ import type { ScheduledLossStateSlug } from '@/lib/data/ppdSchedules2026'
 // the generic AMA-schedule calculator's estimate. Georgia is included even
 // though it isn't in NON_GENERIC_PPD_SLUGS (Georgia's generic AMA-schedule
 // estimate isn't "wrong" the way MI/MN/NJ/VA's is, but Georgia has its own
-// real statutory schedule now — see PPD-MODULE-SPEC.md item 8). Colorado is
-// explicitly out of scope per that spec and keeps the generic text.
+// real statutory schedule now — see PPD-MODULE-SPEC.md item 8). Colorado
+// added 2026-09-25 per PPD-SPEC-ADDENDUM-COLORADO.md — its generic PPD
+// output applied a wage-based rate that's wrong for Colorado's flat
+// statutory scheduled-loss rate.
 const PPD_MODULE_SLUGS = new Set<ScheduledLossStateSlug | 'minnesota'>([
-  'michigan', 'minnesota', 'new-jersey', 'virginia', 'georgia',
+  'michigan', 'minnesota', 'new-jersey', 'virginia', 'georgia', 'colorado',
 ])
 
 // E-E-A-T review stamp. Bump this one string when state law is re-verified

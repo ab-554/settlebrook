@@ -2,15 +2,18 @@
 
 // ─────────────────────────────────────────────────────────────────────────────
 // components/calculator/StatePPDSection.tsx
-// State-specific PPD (permanent partial disability) estimator for the 5
+// State-specific PPD (permanent partial disability) estimator for the 6
 // states whose real statutory schedule differs from this site's generic
-// AMA-schedule calculator: Michigan, Minnesota, New Jersey, Virginia, and
-// Georgia. Renders on those 5 workers-comp state pages in place of the
-// former "PPD hidden" text block — see PPD-MODULE-SPEC.md.
+// AMA-schedule calculator: Michigan, Minnesota, New Jersey, Virginia,
+// Georgia, and Colorado. Renders on those 6 workers-comp state pages in
+// place of the former generic (wage-based) PPD output — see
+// PPD-MODULE-SPEC.md and, for Colorado, PPD-SPEC-ADDENDUM-COLORADO.md.
 //
 // Pure display component: all math comes from lib/calculations/ppdState.ts.
 // New Jersey shows weeks only, by statute design (see the spec) — this
-// component does not invent a dollar figure for it.
+// component does not invent a dollar figure for it. Colorado's scheduled
+// track uses a flat statutory rate (AWW not collected); its whole-person
+// (non-scheduled) track is explanation-only, no calculation.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useId, useMemo, useState } from 'react'
@@ -19,6 +22,7 @@ import {
   SCHEDULED_LOSS_STATES,
   MINNESOTA_STATUTE_CITATION,
   MINNESOTA_OFFICIAL_URL,
+  COLORADO_WHOLE_PERSON_EXPLANATION,
   type ScheduledLossStateSlug,
 } from '@/lib/data/ppdSchedules2026'
 import { scheduledPPD, minnesotaPPD } from '@/lib/calculations/ppdState'
@@ -57,6 +61,16 @@ const LABEL_OVERRIDES: Record<string, string> = {
   hearing_traumatic_one_ear: 'Hearing, One Ear',
   hearing_traumatic_both_ears: 'Hearing, Both Ears',
   disability_to_body_as_a_whole: 'Body as a Whole',
+  arm_at_shoulder: 'Arm at Shoulder',
+  hand_below_wrist: 'Hand Below Wrist',
+  thumb_with_metacarpal: 'Thumb with Metacarpal',
+  index_finger_with_metacarpal: 'Index Finger with Metacarpal',
+  leg_at_hip: 'Leg at Hip',
+  foot_below_ankle: 'Foot Below Ankle',
+  great_toe_with_metatarsal: 'Great Toe with Metatarsal',
+  total_blindness_one_eye: 'Total Blindness, One Eye',
+  total_deafness_one_ear: 'Total Deafness, One Ear',
+  total_deafness_both_ears: 'Total Deafness, Both Ears',
 }
 
 function formatBodyPartLabel(key: string): string {
@@ -268,6 +282,17 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
             </p>
           )}
         </>
+      )}
+
+      {state === 'colorado' && (
+        <div
+          className="rounded-xl px-4 py-3 mt-4"
+          style={{ background: 'rgba(96,165,250,0.06)', border: '1px solid rgba(96,165,250,0.15)' }}
+        >
+          <p className="text-xs leading-relaxed" style={{ color: '#93C5FD' }}>
+            <strong>Injuries not on this schedule (whole-person impairment):</strong> {COLORADO_WHOLE_PERSON_EXPLANATION}
+          </p>
+        </div>
       )}
 
       {(scheduledResult || minnesotaResult) && (

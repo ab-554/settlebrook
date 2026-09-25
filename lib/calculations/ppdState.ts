@@ -1,10 +1,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/calculations/ppdState.ts
 // State-specific scheduled-loss PPD (permanent partial disability) formulas
-// for Michigan, New Jersey, Virginia, Georgia, New York, and Minnesota.
+// for Michigan, New Jersey, Virginia, Georgia, New York, Minnesota, and
+// Colorado.
 //
-// NEW, ADDITIVE file per research/2026-09-24/ppd/PPD-MODULE-SPEC.md — this
-// does not modify workersComp.ts or any other existing function in
+// NEW, ADDITIVE file per research/2026-09-24/ppd/PPD-MODULE-SPEC.md (and,
+// for Colorado, research/2026-09-24/ppd/PPD-SPEC-ADDENDUM-COLORADO.md) —
+// this does not modify workersComp.ts or any other existing function in
 // lib/calculations/*. Pure functions only: no React, no I/O, no side effects.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -12,6 +14,7 @@ import {
   SCHEDULED_LOSS_STATES,
   VIRGINIA_RATE_PERIODS,
   GEORGIA_MAX_WEEKLY,
+  COLORADO_FLAT_WEEKLY_RATE,
   MINNESOTA_TABLE_A,
   MINNESOTA_TABLE_B,
   MINNESOTA_TABLE_CUTOFF_DATE,
@@ -120,6 +123,15 @@ export function scheduledPPD(input: ScheduledPPDInput): ScheduledPPDResult {
       if (aww !== undefined) {
         weeklyRate = roundToCents(Math.min((2 / 3) * aww, NEW_YORK_MAX_WEEKLY))
       }
+      break
+    }
+    case 'colorado': {
+      // Flat statutory rate — not a share of wages. AWW is intentionally
+      // ignored even if the caller passes one.
+      weeklyRate = COLORADO_FLAT_WEEKLY_RATE
+      notes.push(
+        `Colorado pays scheduled PPD at a flat statutory rate of $${COLORADO_FLAT_WEEKLY_RATE.toFixed(2)}/week (July 1, 2026 – June 30, 2027 benefit year) — average weekly wage is not used for scheduled injuries.`,
+      )
       break
     }
   }
