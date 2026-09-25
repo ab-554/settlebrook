@@ -193,10 +193,12 @@ export const SECONDARY_STATES: StateData[] = [
     // 2026-09-24 legal accuracy sprint: the specific dollar figures previously
     // here ($596,400 / $1,065,000) could not be independently confirmed against
     // an official Michigan Treasury notice — see research/2026-09-24/LEGAL-FIXES.md
-    // A.9. damageCap left null; the CPI-adjustment mechanism is real (MCL 600.1483)
-    // and described in damageCapNotes without a specific number.
+    // A.9. damageCap left null; the CPI-adjustment mechanism is real (MCL 600.1483).
+    // 2026-09-25: MCL 600.1483 is a MEDICAL MALPRACTICE cap only — it does not
+    // apply to ordinary injury or motor vehicle claims, so hasDamageCap is
+    // scoped 'med-mal' in lib/damageCaps.ts and the notes say so explicitly.
     damageCap: null,
-    damageCapNotes: 'Noneconomic damages are capped under MCL 600.1483, with a higher elevated cap for catastrophic injuries (paraplegia, quadriplegia, permanent cognitive incapacity, loss of reproductive organ). Both caps are adjusted annually based on the Consumer Price Index — check the statute for the current-year dollar figures.',
+    damageCapNotes: 'Michigan has no general cap on non-economic damages in ordinary personal injury claims. MCL 600.1483 caps non-economic damages in medical malpractice cases only (with a higher cap for specified severe injuries), adjusted annually for inflation; it does not apply to ordinary injury or motor vehicle claims. Auto negligence claims must instead meet the no-fault tort threshold in MCL 500.3135 (death, serious impairment of body function, or permanent serious disfigurement).',
     isNoFaultState: true,
     faultRule: 'modified-comparative-51',
     faultRuleLabel: 'Modified Comparative Fault (51% Bar)',

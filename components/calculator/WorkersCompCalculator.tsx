@@ -2,28 +2,31 @@
 
 // ─────────────────────────────────────────────────────────────────────────────
 // components/calculator/WorkersCompCalculator.tsx
-// Tool #3 — Workers Comp Settlement Calculator main panel.
-// Mirrors CarAccidentCalculator.tsx structure:
+// Tool #3 — Workers Comp Settlement Calculator panel (live estimate):
 //   • Step 1: State selector + Average Weekly Wage
-//   • Step 2: Benefit type toggle (TTD / PPD / PTD)
-//   • Step 3: Benefit-specific inputs (varies per type)
+//   • Step 2: Benefit type (TTD / PPD / PTD)
+//   • Step 3: Benefit-specific inputs
 //   • Step 4: Has Attorney toggle
-//   • Calls calculateWorkersComp() from workersComp.ts
-//   • Passes WorkersCompResult to WorkersCompResult component
-//   • Texas non-subscriber warning panel
-//   • No manual ad slots (Auto Ads only, per 2026-09-23 cleanup)
-//   • Same glassmorphism card + AGENTS.md color tokens throughout
+//   • Calls calculateWorkersComp() from workersComp.ts (protected)
+//   • Texas non-subscriber warning, Illinois PPD note, PTD note — wording unchanged
+//   • Non-generic PPD states (MI, MN, NJ, VA): PPD output replaced by the
+//     statute explanation, exactly as before (LEGAL-FIXES.md A.12)
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import Link from 'next/link'
 import CalculatorInput from './CalculatorInput'
 import BodyPartSelector from './BodyPartSelector'
 import ImpairmentSlider from './ImpairmentSlider'
 import WorkersCompResult from './WorkersCompResult'
 import DisclaimerBanner from './DisclaimerBanner'
+import { StepHeader, Progress, PrivacyNote } from './Steps'
+import { EmptyResult, NextSteps } from './ResultFrame'
+import { useDebouncedValue } from './hooks'
+import { trackEvent } from '@/lib/analytics'
+import type { NextStepCard } from '@/lib/nextSteps'
 import { calculateWorkersComp } from '@/lib/calculations/workersComp'
-import { WORKERS_COMP_STATES, NON_GENERIC_PPD_SLUGS } from '@/lib/data/workersCompStates'
-import type { WorkersCompResult as WorkersCompResultType } from '@/lib/calculations/types'
+import { WORKERS_COMP_STATES, NON_GENERIC_PPD_SLUGS, NOINDEXED_WORKERS_COMP_SLUGS } from '@/lib/data/workersCompStates'
 
 // ─── States where the generic AMA-scheduled-weeks PPD formula does not match
 // the state's real method (LEGAL-FIXES.md A.12). PPD output is hidden for
@@ -56,49 +59,28 @@ const NON_GENERIC_PPD_INFO: Record<string, { explanation: string; statuteLabel: 
   },
 }
 
-// ─── Props ───────────────────────────────────────────────────────────────────
-
 interface WorkersCompCalculatorProps {
   stateSlug?: string
   stateName?: string
+  nextSteps?: NextStepCard[]
 }
-
-// ─── Benefit type toggle option ───────────────────────────────────────────────
 
 type BenefitType = 'ttd' | 'ppd' | 'ptd'
 
-const BENEFIT_TYPES: { id: BenefitType; label: string; description: string }[] = [
-  {
-    id: 'ttd',
-    label: 'TTD',
-    description: 'Temporary Total Disability — unable to work while recovering',
-  },
-  {
-    id: 'ppd',
-    label: 'PPD',
-    description: 'Permanent Partial Disability — permanent impairment to a body part',
-  },
-  {
-    id: 'ptd',
-    label: 'PTD',
-    description: 'Permanent Total Disability — unable to return to any gainful employment',
-  },
+const BENEFIT_TYPES: { id: BenefitType; label: string; short: string; description: string }[] = [
+  { id: 'ttd', label: 'TTD', short: 'Temporary total', description: 'Temporary Total Disability — unable to work while recovering' },
+  { id: 'ppd', label: 'PPD', short: 'Permanent partial', description: 'Permanent Partial Disability — permanent impairment to a body part' },
+  { id: 'ptd', label: 'PTD', short: 'Permanent total', description: 'Permanent Total Disability — unable to return to any gainful employment' },
 ]
-
-// ─── Internal form shape ─────────────────────────────────────────────────────
 
 interface FormState {
   stateSlug: string
   averageWeeklyWage: string
   benefitType: BenefitType
-  // TTD
   treatmentWeeks: string
-  // PPD
   bodyPartKey: string
   impairmentPercent: number
-  // PTD
   claimantAge: string
-  // Shared
   hasAttorney: boolean
 }
 
@@ -113,8 +95,11 @@ const INITIAL_FORM: FormState = {
   hasAttorney: false,
 }
 
-// ─── Validation helpers ───────────────────────────────────────────────────────
+const TOOL = 'workers-comp' as const
+export const WC_CALC_ID = 'calculator'
+export const WC_RESULT_ID = 'wc-results'
 
+// ─── Validation (unchanged rules) ────────────────────────────────────────────
 function validateForm(form: FormState): Record<string, string> {
   const errors: Record<string, string> = {}
 
@@ -157,464 +142,417 @@ function validateForm(form: FormState): Record<string, string> {
   return errors
 }
 
-// ─── Component ───────────────────────────────────────────────────────────────
-
 export default function WorkersCompCalculator({
   stateSlug: propStateSlug,
   stateName: propStateName,
+  nextSteps = [],
 }: WorkersCompCalculatorProps) {
-  const [form, setForm]       = useState<FormState>({
-    ...INITIAL_FORM,
-    // Pre-fill state when the component is rendered on a state page
-    stateSlug: propStateSlug ?? '',
-  })
-  const [errors, setErrors]   = useState<Record<string, string>>({})
-  const [result, setResult]   = useState<WorkersCompResultType | null>(null)
-  const [hasCalc, setHasCalc] = useState(false)
+  const [form, setForm] = useState<FormState>({ ...INITIAL_FORM, stateSlug: propStateSlug ?? '' })
+  const [touched, setTouched] = useState<Record<string, boolean>>({})
+  const [submitted, setSubmitted] = useState(false)
+  const startedRef = useRef(false)
+  const completedRef = useRef(false)
+  const stateSelectId = useId()
+  const attorneyId = useId()
 
-  // Resolve state data for the selected slug (used for non-subscriber warning)
+  const debouncedForm = useDebouncedValue(form, 250)
   const selectedState = WORKERS_COMP_STATES.find((s) => s.slug === form.stateSlug) ?? null
 
-  // ── Field helpers ──────────────────────────────────────────────────────────
-
+  function markStarted() {
+    if (startedRef.current) return
+    startedRef.current = true
+    trackEvent('calculator_start', { tool: TOOL, state: propStateSlug })
+  }
   function updateField<K extends keyof FormState>(field: K, value: FormState[K]) {
+    markStarted()
     setForm((prev) => ({ ...prev, [field]: value }))
-    if (errors[field as string]) {
-      setErrors((prev) => { const n = { ...prev }; delete n[field as string]; return n })
-    }
+  }
+  function touch(field: keyof FormState) {
+    setTouched((prev) => (prev[field] ? prev : { ...prev, [field]: true }))
   }
 
-  // ── Calculate ──────────────────────────────────────────────────────────────
+  const errors = useMemo(() => validateForm(form), [form])
+  const visibleErrors = useMemo(
+    () => Object.fromEntries(Object.entries(errors).filter(([k]) => submitted || touched[k])),
+    [errors, submitted, touched],
+  )
 
-  function handleCalculate(e: React.FormEvent) {
+  const result = useMemo(() => {
+    if (Object.keys(validateForm(debouncedForm)).length) return null
+    return calculateWorkersComp({
+      state:             debouncedForm.stateSlug,
+      benefitType:       debouncedForm.benefitType,
+      averageWeeklyWage: parseFloat(debouncedForm.averageWeeklyWage) || 0,
+      hasAttorney:       debouncedForm.hasAttorney,
+      treatmentWeeks:    debouncedForm.benefitType === 'ttd' ? parseFloat(debouncedForm.treatmentWeeks) || 0 : undefined,
+      bodyPartKey:       debouncedForm.benefitType === 'ppd' ? debouncedForm.bodyPartKey : undefined,
+      impairmentPercent: debouncedForm.benefitType === 'ppd' ? debouncedForm.impairmentPercent : undefined,
+      claimantAge:       debouncedForm.benefitType === 'ptd' ? parseInt(debouncedForm.claimantAge, 10) || 40 : undefined,
+    })
+  }, [debouncedForm])
+
+  useEffect(() => {
+    if (result && !completedRef.current) {
+      completedRef.current = true
+      trackEvent('calculator_complete', { tool: TOOL, state: propStateSlug })
+    }
+  }, [result, propStateSlug])
+
+  function handleShow(e: React.FormEvent) {
     e.preventDefault()
-
-    const validationErrors = validateForm(form)
-    if (Object.keys(validationErrors).length) {
-      setErrors(validationErrors)
-      document.querySelector('[aria-invalid="true"]')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    setSubmitted(true)
+    if (Object.keys(errors).length) {
+      setTimeout(() => {
+        const el = document.querySelector<HTMLElement>('[aria-invalid="true"]')
+        el?.focus()
+        el?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 0)
       return
     }
-
-    const calc = calculateWorkersComp({
-      state:             form.stateSlug,
-      benefitType:       form.benefitType,
-      averageWeeklyWage: parseFloat(form.averageWeeklyWage) || 0,
-      hasAttorney:       form.hasAttorney,
-      // TTD
-      treatmentWeeks:    form.benefitType === 'ttd' ? parseFloat(form.treatmentWeeks) || 0 : undefined,
-      // PPD
-      bodyPartKey:       form.benefitType === 'ppd' ? form.bodyPartKey : undefined,
-      impairmentPercent: form.benefitType === 'ppd' ? form.impairmentPercent : undefined,
-      // PTD
-      claimantAge:       form.benefitType === 'ptd' ? parseInt(form.claimantAge, 10) || 40 : undefined,
-    })
-
-    setResult(calc)
-    setHasCalc(true)
-    setErrors({})
-    setTimeout(
-      () => document.getElementById('wc-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
-      100,
-    )
+    document.getElementById(WC_RESULT_ID)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   function handleReset() {
     setForm({ ...INITIAL_FORM, stateSlug: propStateSlug ?? '' })
-    setErrors({})
-    setResult(null)
-    setHasCalc(false)
+    setTouched({}); setSubmitted(false)
   }
 
-  // ── Render ─────────────────────────────────────────────────────────────────
+  // Hub only: once a state is chosen, offer its dedicated page as a next step.
+  const resultState = WORKERS_COMP_STATES.find((s) => s.slug === debouncedForm.stateSlug) ?? null
+  const dynamicSteps: NextStepCard[] = useMemo(() => {
+    if (propStateSlug || !resultState || NOINDEXED_WORKERS_COMP_SLUGS.has(resultState.slug)) return nextSteps
+    const stateCard: NextStepCard = {
+      id: 'state-page',
+      kicker: 'Your state',
+      title: `${resultState.name} workers comp settlement guide`,
+      desc: 'Rates, caps, PPD rules, and deadlines specific to your state.',
+      href: `/workers-comp-settlement-calculator/${resultState.slug}/`,
+    }
+    return [stateCard, ...nextSteps.filter((c) => c.id !== 'choose-state')].slice(0, 3)
+  }, [propStateSlug, resultState, nextSteps])
+
+  const aww = parseFloat(form.averageWeeklyWage) || 0
+  const step1Done = !!form.stateSlug && aww > 0 && !errors.averageWeeklyWage
+  const step2Done = step1Done
+  const step3Done = step2Done && !errors.treatmentWeeks && !errors.bodyPartKey && !errors.impairmentPercent && !errors.claimantAge && result !== null
+  const doneCount = [step1Done, step2Done, step3Done, step3Done].filter(Boolean).length
+  const stateOf = (done: boolean, prevDone: boolean) => (done ? 'done' : prevDone ? 'active' : 'todo')
+
+  const showNonGenericPPD = !!result && result.benefitType === 'ppd' && !!resultState && NON_GENERIC_PPD_SLUGS.has(resultState.slug)
 
   return (
-    <div className="mx-auto flex flex-col gap-5" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
+    <div className="flex flex-col gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
 
-      <DisclaimerBanner variant="banner" stateName={propStateName} />
-
-      <section aria-label="Workers comp settlement calculator" className="calc-panel">
-
-        <div className="calc-panel-header">
-          <h2 className="text-lg font-bold leading-tight" style={{ color: '#F1F5F9' }}>
-            {propStateName
-              ? `${propStateName} Workers Comp Settlement Calculator`
-              : 'Workers Comp Settlement Calculator'}
-          </h2>
-          <p className="text-sm mt-1" style={{ color: '#94A3B8' }}>
-            Estimate TTD, PPD, or PTD benefits based on your state&apos;s workers comp rates
-          </p>
-        </div>
-
-        <form onSubmit={handleCalculate} noValidate className="px-6 py-6 flex flex-col">
-
-          {/* ── Step 1: State + AWW ── */}
-          <fieldset>
-            <legend className="text-sm font-bold flex items-center gap-2.5 mb-3" style={{ color: '#E2E8F0' }}>
-              <span className="calc-step-badge">1</span>
-              Your State &amp; Average Weekly Wage
-            </legend>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-              {/* State selector — disabled when a state is pre-filled from the page route */}
-              <div className="mb-4">
-                <label
-                  htmlFor="wc-state-select"
-                  className="block text-sm font-medium mb-1.5"
-                  style={{ color: '#94A3B8' }}
-                >
-                  State of Injury
-                  <span className="block text-xs mt-0.5" style={{ color: '#64748B' }}>
-                    Benefits and caps vary by state
-                  </span>
-                </label>
-                <div className="relative">
-                  <select
-                    id="wc-state-select"
-                    value={form.stateSlug}
-                    onChange={(e) => updateField('stateSlug', e.target.value)}
-                    disabled={!!propStateSlug}
-                    aria-invalid={errors.stateSlug ? 'true' : 'false'}
-                    className="w-full px-4 py-3 rounded-xl appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{
-                      background: 'rgba(255,255,255,0.06)',
-                      border: `1px solid ${errors.stateSlug ? '#F87171' : 'rgba(99,179,237,0.22)'}`,
-                      color: form.stateSlug ? '#F1F5F9' : '#64748B',
-                      fontSize: '14px',
-                    }}
-                  >
-                    <option value="" disabled style={{ background: '#0D1526', color: '#64748B' }}>
-                      — Select state —
-                    </option>
-                    {WORKERS_COMP_STATES.map((s) => (
-                      <option key={s.slug} value={s.slug} style={{ background: '#0D1526', color: '#E2E8F0' }}>
-                        {s.name}
-                      </option>
-                    ))}
-                  </select>
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" style={{ color: '#60A5FA' }}>
-                      <polyline points="6 9 12 15 18 9" />
-                    </svg>
-                  </span>
-                </div>
-                {errors.stateSlug && (
-                  <p role="alert" className="text-xs font-medium leading-snug mt-1.5" style={{ color: '#F87171' }}>
-                    {errors.stateSlug}
-                  </p>
-                )}
+        <section id={WC_CALC_ID} aria-label="Workers comp settlement calculator" className="calc-panel lg:col-span-7">
+          <div className="calc-panel-header">
+            <div className="flex items-start justify-between gap-3 flex-wrap">
+              <div>
+                <h2 className="heading-display" style={{ fontSize: 22 }}>
+                  {propStateName ? `${propStateName} workers comp estimate` : 'Your workers comp estimate'}
+                </h2>
+                <p className="text-sm mt-0.5" style={{ color: 'var(--ink-3)' }}>
+                  Estimate TTD, PPD, or PTD benefits based on your state&apos;s workers comp rates. Updates as you type.
+                </p>
               </div>
-
-              <CalculatorInput
-                label="Average Weekly Wage (AWW)"
-                name="averageWeeklyWage"
-                value={form.averageWeeklyWage}
-                onChange={(v) => updateField('averageWeeklyWage', v)}
-                prefix="$"
-                placeholder="1200"
-                helpText="Your gross weekly earnings before the injury"
-                error={errors.averageWeeklyWage}
-              />
+              <PrivacyNote />
             </div>
+            <div className="mt-3">
+              <Progress total={4} done={doneCount} />
+            </div>
+          </div>
 
-            {/* State benefit rate summary — shown after state selection */}
-            {selectedState && (
-              <div
-                className="rounded-xl px-4 py-3 flex flex-wrap gap-4 mt-1"
-                style={{ background: 'rgba(96,165,250,0.06)', border: '1px solid rgba(96,165,250,0.14)' }}
-              >
-                <div className="flex flex-col">
-                  <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#475569' }}>State Rate</span>
-                  <span className="text-sm font-bold" style={{ color: '#60A5FA' }}>
-                    {(selectedState.benefitRate * 100).toFixed(1)}% of AWW
-                  </span>
+          <form onSubmit={handleShow} noValidate className="calc-body">
+
+            {/* ── Step 1: State + AWW ── */}
+            <fieldset className="calc-step">
+              <StepHeader
+                n={1}
+                title="Your state and weekly wage"
+                hint="Benefits and caps vary by state. Use your gross weekly pay before the injury."
+                state={stateOf(step1Done, true)}
+              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
+                <div className="mb-4">
+                  <label htmlFor={stateSelectId} className="field-label">State of injury</label>
+                  <span className="field-help">Benefits and caps vary by state</span>
+                  <div className="field-select-wrap">
+                    <select
+                      id={stateSelectId}
+                      value={form.stateSlug}
+                      onChange={(e) => updateField('stateSlug', e.target.value)}
+                      onBlur={() => touch('stateSlug')}
+                      disabled={!!propStateSlug}
+                      aria-invalid={visibleErrors.stateSlug ? 'true' : 'false'}
+                      className={`field-select ${visibleErrors.stateSlug ? 'error' : ''}`}
+                      style={{ color: form.stateSlug ? 'var(--ink)' : 'var(--ink-3)' }}
+                    >
+                      <option value="" disabled>— Select state —</option>
+                      {WORKERS_COMP_STATES.map((s) => (
+                        <option key={s.slug} value={s.slug}>{s.name}</option>
+                      ))}
+                    </select>
+                    <span className="field-select-chevron" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                    </span>
+                  </div>
+                  {visibleErrors.stateSlug && (
+                    <p role="alert" className="field-error">{visibleErrors.stateSlug}</p>
+                  )}
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#475569' }}>Weekly Cap ({selectedState.weeklyCapEffectivePeriod})</span>
-                  <span className="text-sm font-bold" style={{ color: '#34D399' }}>
-                    ${selectedState.weeklyCapAmount.toLocaleString()}/wk
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#475569' }}>Max TTD Weeks</span>
-                  <span className="text-sm font-bold" style={{ color: '#E2E8F0' }}>
-                    {Number.isFinite(selectedState.maxWeeksTTD) ? `${selectedState.maxWeeksTTD} wks` : 'No fixed limit'}
-                  </span>
-                </div>
+
+                <CalculatorInput
+                  label="Average weekly wage (AWW)"
+                  name="averageWeeklyWage"
+                  value={form.averageWeeklyWage}
+                  onChange={(v) => updateField('averageWeeklyWage', v)}
+                  onBlur={() => touch('averageWeeklyWage')}
+                  prefix="$"
+                  placeholder="1,200"
+                  helpText="Your gross weekly earnings before the injury"
+                  error={visibleErrors.averageWeeklyWage}
+                />
               </div>
-            )}
 
-            {/* Texas non-subscriber warning — surfaces before calculation */}
-            {selectedState?.hasNonSubscriberSystem && (
-              <div
-                className="rounded-xl px-4 py-3 flex items-start gap-2.5 text-xs leading-snug mt-3"
-                style={{ background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.28)' }}
-                role="alert"
-              >
-                <svg className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#FBBF24' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-                </svg>
-                <p style={{ color: '#A8843A' }}>
-                  <span className="font-semibold" style={{ color: '#FBBF24' }}>Texas Non-Subscriber Alert: </span>
+              {/* State benefit rate summary — shown after state selection */}
+              {selectedState && (
+                <dl className="card-flat grid grid-cols-3 gap-3 text-sm" style={{ padding: '12px 14px', background: 'var(--bg-2)' }}>
+                  <div>
+                    <dt className="result-range-label">State rate</dt>
+                    <dd className="font-semibold tabular-nums" style={{ color: 'var(--ink)' }}>{(selectedState.benefitRate * 100).toFixed(1)}% of AWW</dd>
+                  </div>
+                  <div>
+                    <dt className="result-range-label">Weekly cap</dt>
+                    <dd className="font-semibold tabular-nums" style={{ color: 'var(--primary)' }}>${selectedState.weeklyCapAmount.toLocaleString()}/wk</dd>
+                    <dd className="text-xs" style={{ color: 'var(--ink-3)' }}>{selectedState.weeklyCapEffectivePeriod}</dd>
+                  </div>
+                  <div>
+                    <dt className="result-range-label">Max TTD weeks</dt>
+                    <dd className="font-semibold tabular-nums" style={{ color: 'var(--ink)' }}>
+                      {Number.isFinite(selectedState.maxWeeksTTD) ? `${selectedState.maxWeeksTTD} wks` : 'No fixed limit'}
+                    </dd>
+                  </div>
+                </dl>
+              )}
+
+              {/* Texas non-subscriber warning — surfaces before calculation */}
+              {selectedState?.hasNonSubscriberSystem && (
+                <p className="note note-caution mt-3" role="alert">
+                  <strong>Texas Non-Subscriber Alert: </strong>
                   Texas employers can opt out of workers compensation. If your employer is a
                   non-subscriber, you cannot file a WC claim — you must file a personal injury
                   lawsuit instead. Verify your employer&apos;s status before proceeding.
                 </p>
+              )}
+            </fieldset>
+
+            {/* ── Step 2: Benefit type ── */}
+            <fieldset className="calc-step">
+              <StepHeader
+                n={2}
+                title="Type of disability benefit"
+                hint="Pick the benefit that matches where you are in recovery."
+                state={stateOf(step2Done, step1Done)}
+              />
+              <div role="radiogroup" aria-label="Disability benefit type" className="seg" style={{ gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' }}>
+                {BENEFIT_TYPES.map((bt) => {
+                  const isActive = form.benefitType === bt.id
+                  return (
+                    <button
+                      key={bt.id}
+                      type="button"
+                      id={`wc-benefit-${bt.id}`}
+                      role="radio"
+                      aria-checked={isActive}
+                      tabIndex={isActive ? 0 : -1}
+                      onClick={() => updateField('benefitType', bt.id)}
+                      className="seg-btn"
+                    >
+                      {bt.label}
+                      <span className="seg-sub">{bt.short}</span>
+                    </button>
+                  )
+                })}
               </div>
-            )}
-          </fieldset>
+              <p className="text-sm mt-2 leading-snug" style={{ color: 'var(--ink-3)' }} aria-live="polite">
+                {BENEFIT_TYPES.find((bt) => bt.id === form.benefitType)?.description}
+              </p>
+            </fieldset>
 
-          <hr className="my-5" style={{ borderColor: 'rgba(99,179,237,0.10)' }} />
+            {/* ── Step 3: Benefit-specific inputs ── */}
+            <fieldset className="calc-step">
+              <StepHeader
+                n={3}
+                title={
+                  form.benefitType === 'ttd' ? 'Duration of disability'
+                    : form.benefitType === 'ppd' ? 'Injury details'
+                    : 'Claimant details'
+                }
+                state={stateOf(step3Done, step2Done)}
+              />
 
-          {/* ── Step 2: Benefit type toggle ── */}
-          <fieldset className="mt-6">
-            <legend className="text-sm font-bold flex items-center gap-2.5 mb-3" style={{ color: '#E2E8F0' }}>
-              <span className="calc-step-badge">2</span>
-              Type of Disability Benefit
-            </legend>
+              {form.benefitType === 'ttd' && (
+                <div className="max-w-xs">
+                  <CalculatorInput
+                    label="Weeks unable to work"
+                    name="treatmentWeeks"
+                    value={form.treatmentWeeks}
+                    onChange={(v) => updateField('treatmentWeeks', v)}
+                    onBlur={() => touch('treatmentWeeks')}
+                    suffix="weeks"
+                    placeholder="12"
+                    format="decimal"
+                    helpText={
+                      selectedState
+                        ? Number.isFinite(selectedState.maxWeeksTTD)
+                          ? `${selectedState.name} TTD maximum: ${selectedState.maxWeeksTTD} weeks`
+                          : `${selectedState.name} sets no fixed week limit — paid until maximum medical improvement or return to work`
+                        : 'Number of weeks you were totally disabled'
+                    }
+                    error={visibleErrors.treatmentWeeks}
+                  />
+                </div>
+              )}
 
-            {/* Toggle buttons — mirrors MethodToggle.tsx visual pattern */}
-            <div
-              className="grid grid-cols-3 gap-2 rounded-xl p-1.5"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(99,179,237,0.12)' }}
-              role="group"
-              aria-label="Disability benefit type"
-            >
-              {BENEFIT_TYPES.map((bt) => {
-                const isActive = form.benefitType === bt.id
-                return (
-                  <button
-                    key={bt.id}
-                    type="button"
-                    id={`wc-benefit-${bt.id}`}
-                    onClick={() => updateField('benefitType', bt.id)}
-                    aria-pressed={isActive}
-                    className="rounded-lg py-2.5 px-3 text-xs font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-                    style={{
-                      background: isActive
-                        ? 'linear-gradient(135deg, #3B82F6, #06B6D4)'
-                        : 'transparent',
-                      color: isActive ? '#FFFFFF' : '#94A3B8',
-                      border: isActive ? 'none' : '1px solid transparent',
-                    }}
-                  >
-                    {bt.label}
-                  </button>
-                )
-              })}
-            </div>
-
-            {/* Benefit type description */}
-            <p className="text-xs mt-2 leading-snug" style={{ color: '#64748B' }}>
-              {BENEFIT_TYPES.find((bt) => bt.id === form.benefitType)?.description}
-            </p>
-          </fieldset>
-
-          <hr className="my-5" style={{ borderColor: 'rgba(99,179,237,0.10)' }} />
-
-          {/* ── Step 3: Benefit-specific inputs ── */}
-          <fieldset className="mt-6">
-            <legend className="text-sm font-bold flex items-center gap-2.5 mb-3" style={{ color: '#E2E8F0' }}>
-              <span className="calc-step-badge">3</span>
-              {form.benefitType === 'ttd' && 'Duration of Disability'}
-              {form.benefitType === 'ppd' && 'Injury Details'}
-              {form.benefitType === 'ptd' && 'Claimant Details'}
-            </legend>
-
-            {/* TTD: treatment weeks */}
-            {form.benefitType === 'ttd' && (
-              <div className="max-w-xs">
-                <CalculatorInput
-                  label="Weeks Unable to Work"
-                  name="treatmentWeeks"
-                  value={form.treatmentWeeks}
-                  onChange={(v) => updateField('treatmentWeeks', v)}
-                  suffix="weeks"
-                  placeholder="12"
-                  helpText={
-                    selectedState
-                      ? Number.isFinite(selectedState.maxWeeksTTD)
-                        ? `${selectedState.name} TTD maximum: ${selectedState.maxWeeksTTD} weeks`
-                        : `${selectedState.name} sets no fixed week limit — paid until maximum medical improvement or return to work`
-                      : 'Number of weeks you were totally disabled'
-                  }
-                  error={errors.treatmentWeeks}
-                />
-              </div>
-            )}
-
-            {/* PPD: body part + impairment slider */}
-            {form.benefitType === 'ppd' && (
-              <div className="flex flex-col gap-4">
-                <BodyPartSelector
-                  value={form.bodyPartKey}
-                  onChange={(v) => updateField('bodyPartKey', v)}
-                  error={errors.bodyPartKey}
-                />
-                <ImpairmentSlider
-                  value={form.impairmentPercent}
-                  onChange={(v) => updateField('impairmentPercent', v)}
-                  error={errors.impairmentPercent}
-                />
-                {/* Illinois PPD method note */}
-                {selectedState?.ppdMethod === 'percentage_of_person' && (
-                  <div
-                    className="rounded-xl px-4 py-3 text-xs leading-snug"
-                    style={{ background: 'rgba(96,165,250,0.07)', border: '1px solid rgba(96,165,250,0.18)' }}
-                  >
-                    <p style={{ color: '#93C5FD' }}>
+              {form.benefitType === 'ppd' && (
+                <div className="flex flex-col gap-2">
+                  <BodyPartSelector
+                    value={form.bodyPartKey}
+                    onChange={(v) => { updateField('bodyPartKey', v); touch('bodyPartKey') }}
+                    error={visibleErrors.bodyPartKey}
+                  />
+                  <ImpairmentSlider
+                    value={form.impairmentPercent}
+                    onChange={(v) => { updateField('impairmentPercent', v); touch('impairmentPercent') }}
+                    error={visibleErrors.impairmentPercent}
+                  />
+                  {/* Illinois PPD method note */}
+                  {selectedState?.ppdMethod === 'percentage_of_person' && (
+                    <p className="note note-info">
                       <strong>{selectedState.name}</strong> uses the{' '}
                       <strong>percentage-of-person</strong> PPD method rather than the AMA
                       scheduled-weeks table. PPD is calculated as:{' '}
                       <em>weekly benefit × 500 whole-body weeks × impairment %</em>.
                     </p>
-                  </div>
-                )}
-              </div>
-            )}
+                  )}
+                </div>
+              )}
 
-            {/* PTD: claimant age */}
-            {form.benefitType === 'ptd' && (
-              <div className="max-w-xs">
-                <CalculatorInput
-                  label="Age at Time of Injury"
-                  name="claimantAge"
-                  value={form.claimantAge}
-                  onChange={(v) => updateField('claimantAge', v)}
-                  suffix="years"
-                  placeholder="40"
-                  helpText="Used to calculate remaining life expectancy for PTD lump-sum estimate"
-                  error={errors.claimantAge}
-                />
-                <div
-                  className="rounded-xl px-4 py-3 text-xs leading-snug"
-                  style={{ background: 'rgba(96,165,250,0.07)', border: '1px solid rgba(96,165,250,0.18)' }}
-                >
-                  <p style={{ color: '#93C5FD' }}>
+              {form.benefitType === 'ptd' && (
+                <div className="max-w-xs flex flex-col gap-2">
+                  <CalculatorInput
+                    label="Age at time of injury"
+                    name="claimantAge"
+                    value={form.claimantAge}
+                    onChange={(v) => updateField('claimantAge', v)}
+                    onBlur={() => touch('claimantAge')}
+                    suffix="years"
+                    placeholder="40"
+                    format="integer"
+                    helpText="Used to calculate remaining life expectancy for PTD lump-sum estimate"
+                    error={visibleErrors.claimantAge}
+                  />
+                  <p className="note note-info">
                     PTD settlements are present-value estimates of lifetime benefit streams,
                     discounted at 15% to reflect a lump-sum negotiated value. Actual PTD
                     settlements require independent medical and vocational evidence.
                   </p>
                 </div>
+              )}
+            </fieldset>
+
+            {/* ── Step 4: Attorney representation toggle ── */}
+            <fieldset className="calc-step">
+              <StepHeader
+                n={4}
+                title="Attorney representation"
+                state={stateOf(step3Done, step3Done)}
+                optional
+              />
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  id={attorneyId}
+                  role="switch"
+                  aria-checked={form.hasAttorney}
+                  onClick={() => updateField('hasAttorney', !form.hasAttorney)}
+                  className="switch"
+                >
+                  <span className="sr-only">I have an attorney</span>
+                  <span className="switch-knob" aria-hidden="true" />
+                </button>
+                <label htmlFor={attorneyId} className="text-sm font-medium cursor-pointer" style={{ color: 'var(--ink)' }}>
+                  {form.hasAttorney ? 'I have an attorney' : 'No attorney (self-represented)'}
+                </label>
               </div>
-            )}
-          </fieldset>
-
-          <hr className="my-5" style={{ borderColor: 'rgba(99,179,237,0.10)' }} />
-
-          {/* ── Step 4: Attorney representation toggle ── */}
-          <fieldset className="mt-6 mb-6">
-            <legend className="text-sm font-bold flex items-center gap-2.5 mb-3" style={{ color: '#E2E8F0' }}>
-              <span className="calc-step-badge">4</span>
-              Attorney Representation
-            </legend>
-
-            <div className="flex items-center gap-4">
-              {/* Toggle switch */}
-              <button
-                type="button"
-                id="wc-has-attorney"
-                role="switch"
-                aria-checked={form.hasAttorney}
-                onClick={() => updateField('hasAttorney', !form.hasAttorney)}
-                className="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-                style={{
-                  background: form.hasAttorney
-                    ? 'linear-gradient(135deg, #3B82F6, #06B6D4)'
-                    : 'rgba(255,255,255,0.10)',
-                  border: '1px solid rgba(99,179,237,0.22)',
-                }}
-              >
-                <span
-                  className="inline-block h-5 w-5 rounded-full bg-white shadow-sm transform transition-transform duration-200"
-                  style={{ transform: form.hasAttorney ? 'translateX(20px)' : 'translateX(2px)', marginTop: '0.5px' }}
-                  aria-hidden="true"
-                />
-              </button>
-              <label htmlFor="wc-has-attorney" className="text-sm" style={{ color: '#E2E8F0', cursor: 'pointer' }}>
-                {form.hasAttorney ? 'I have an attorney' : 'No attorney (self-represented)'}
-              </label>
-            </div>
-
-            {/* Attorney adjustment note */}
-            <div
-              className="mt-3 rounded-xl px-4 py-3 text-xs leading-snug"
-              style={{
-                background: form.hasAttorney ? 'rgba(52,211,153,0.07)' : 'rgba(255,255,255,0.02)',
-                border: `1px solid ${form.hasAttorney ? 'rgba(52,211,153,0.22)' : 'rgba(99,179,237,0.10)'}`,
-              }}
-            >
-              <p style={{ color: form.hasAttorney ? '#34D399' : '#64748B' }}>
+              <p className={`note mt-3 ${form.hasAttorney ? 'note-info' : ''}`}>
                 {form.hasAttorney
-                  ? '✓ Attorney adjustment applied (+25%). Represented claimants receive higher settlements on average — attorney fees typically run 15–25% of the final award.'
+                  ? 'Attorney adjustment applied (+25%). Represented claimants receive higher settlements on average — attorney fees typically run 15–25% of the final award.'
                   : 'Represented claimants receive higher settlements on average. Toggle on if you have or plan to retain a workers comp attorney.'}
               </p>
-            </div>
-          </fieldset>
+            </fieldset>
 
-          {/* ── Actions ── */}
-          <div className="flex flex-col sm:flex-row gap-3 pt-1">
-            <button
-              type="submit"
-              className="btn-primary flex-1 py-3.5 px-6 text-base font-bold rounded-2xl animate-pulse-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
-            >
-              Calculate My Estimate
-            </button>
-            {hasCalc && (
-              <button
-                type="button"
-                onClick={handleReset}
-                className="rounded-2xl font-semibold text-sm py-3.5 px-5 transition-all duration-200 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                style={{
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(99,179,237,0.18)',
-                  color: '#94A3B8',
-                }}
-              >
-                Reset
+            <div className="flex flex-col sm:flex-row gap-3 mt-6">
+              <button type="submit" className="btn-primary btn-lg flex-1">
+                Show my estimate
               </button>
-            )}
-          </div>
-        </form>
-      </section>
+              {(startedRef.current || submitted) && (
+                <button type="button" onClick={handleReset} className="btn-ghost">
+                  Reset
+                </button>
+              )}
+            </div>
 
-      {/* ── Results section ── */}
-      {result && (
-        <section
-          id="wc-results"
+            <div className="mt-5">
+              <DisclaimerBanner variant="banner" stateName={propStateName} />
+            </div>
+          </form>
+        </section>
+
+        <div
+          id={WC_RESULT_ID}
           aria-label="Your workers comp settlement estimate"
           aria-live="polite"
-          className="scroll-mt-4"
+          className="lg:col-span-5 lg:sticky"
+          style={{ top: 'calc(var(--header-h) + 16px)', scrollMarginTop: 'calc(var(--header-h) + 12px)' }}
         >
-          <div className="mt-4">
-            {result.benefitType === 'ppd' && selectedState && NON_GENERIC_PPD_SLUGS.has(selectedState.slug) ? (
-              <div
-                className="rounded-xl px-4 py-4 flex flex-col gap-2"
-                style={{ background: 'rgba(96,165,250,0.07)', border: '1px solid rgba(96,165,250,0.18)' }}
+          {result && showNonGenericPPD && resultState ? (
+            <div className="note note-info flex flex-col gap-2" style={{ padding: '16px' }}>
+              <p className="font-semibold" style={{ color: 'var(--primary)' }}>
+                {resultState.name} PPD isn&apos;t calculated by this tool yet
+              </p>
+              <p className="text-sm leading-relaxed">
+                {NON_GENERIC_PPD_INFO[resultState.slug].explanation}
+              </p>
+              <a
+                href={NON_GENERIC_PPD_INFO[resultState.slug].statuteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-link text-sm"
               >
-                <p className="text-sm font-semibold" style={{ color: '#60A5FA' }}>
-                  {selectedState.name} PPD isn&apos;t calculated by this tool yet
-                </p>
-                <p className="text-xs leading-relaxed" style={{ color: '#93C5FD' }}>
-                  {NON_GENERIC_PPD_INFO[selectedState.slug].explanation}
-                </p>
-                <a
-                  href={NON_GENERIC_PPD_INFO[selectedState.slug].statuteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs underline"
-                  style={{ color: '#60A5FA' }}
-                >
-                  {NON_GENERIC_PPD_INFO[selectedState.slug].statuteLabel} →
-                </a>
-              </div>
-            ) : (
-              <WorkersCompResult result={result} />
-            )}
-          </div>
-        </section>
-      )}
+                {NON_GENERIC_PPD_INFO[resultState.slug].statuteLabel} →
+              </a>
+              {!propStateSlug && (
+                <Link href={`/workers-comp-settlement-calculator/${resultState.slug}/`} className="text-link text-sm">
+                  Open the {resultState.name} page for its own PPD estimator →
+                </Link>
+              )}
+            </div>
+          ) : result ? (
+            <WorkersCompResult result={result} inputs={debouncedForm} />
+          ) : (
+            <EmptyResult>
+              <p className="font-semibold mb-1" style={{ color: 'var(--ink)' }}>Your estimate appears here as you type.</p>
+              <p>
+                Choose your state and enter your average weekly wage. You&rsquo;ll see your capped weekly
+                benefit, the weeks it covers, and the estimated settlement for the benefit type you pick.
+              </p>
+            </EmptyResult>
+          )}
+        </div>
+      </div>
+
+      {!showNonGenericPPD && <NextSteps cards={dynamicSteps} tool={TOOL} stateSlug={propStateSlug} />}
     </div>
   )
 }

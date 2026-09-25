@@ -14,7 +14,7 @@ interface BreadcrumbNavProps { items: BreadcrumbItem[] }
 export function BreadcrumbNav({ items }: BreadcrumbNavProps) {
   return (
     <nav aria-label="Breadcrumb" itemScope itemType="https://schema.org/BreadcrumbList">
-      <ol className="flex items-center flex-wrap gap-1 text-xs" style={{ color: '#64748B' }}>
+      <ol className="flex items-center flex-wrap gap-1 text-xs" style={{ color: 'var(--ink-3)' }}>
         {items.map((item, index) => {
           const isLast = index === items.length - 1
           return (
@@ -29,7 +29,7 @@ export function BreadcrumbNav({ items }: BreadcrumbNavProps) {
                 // Last item: current page — no link, just the name
                 <span
                   className="font-medium"
-                  style={{ color: '#94A3B8' }}
+                  style={{ color: 'var(--ink-2)' }}
                   aria-current="page"
                   itemProp="name"
                 >
@@ -40,8 +40,7 @@ export function BreadcrumbNav({ items }: BreadcrumbNavProps) {
                 <Link
                   href={item.href}
                   id={`https://www.settlebrook.com${item.href}`}
-                  className="transition-colors hover:opacity-80"
-                  style={{ color: '#60A5FA' }}
+                  className="py-1"
                   itemProp="item"
                 >
                   <span itemProp="name">{item.label}</span>
@@ -49,7 +48,7 @@ export function BreadcrumbNav({ items }: BreadcrumbNavProps) {
               )}
               <meta itemProp="position" content={String(index + 1)} />
               {!isLast && (
-                <span aria-hidden="true" className="select-none" style={{ color: 'rgba(99,179,237,0.3)' }}>
+                <span aria-hidden="true" className="select-none" style={{ color: 'var(--line-strong)' }}>
                   /
                 </span>
               )}

@@ -120,20 +120,33 @@ Organization JSON-LD, GA4 (`G-K3PV0YLHFG`), the AdSense script (`ca-pub-96425254
 
 ## Design system — do not change without instruction
 
+Design v2 (25 September 2026): cool, clean, financial-trust. Canonical tokens are CSS
+custom properties in `app/globals.css`; `AGENTS.md` → Design System carries the full table
+with measured contrast ratios. Use `var(--token)` inline or the Tailwind aliases.
+
 ```
-Background        #050A18                 Body text     #E2E8F0
-Card background   rgba(255,255,255,0.04) + backdrop-blur 16px
-Card border       rgba(99,179,237,0.15)
-Primary accent    #60A5FA                 Muted text    #94A3B8
-Secondary accent  #34D399                 Gold/amounts  #FBBF24
-Button gradient   linear-gradient(135deg, #3B82F6, #06B6D4)
-Font display      Playfair Display (--font-display) — headings, logo, H1–H3
-Font body         Inter (--font-body) — body text, labels, inputs, nav
+Page bg          #F6F8FB  (--bg)         Ink / headings   #0F1B2D  (--ink)
+Alt band         #EEF3FF  (--bg-2)       Body prose       #334155  (--ink-2)
+Surface / cards  #FFFFFF  (--surface)    Muted / labels   #5B6776  (--ink-3)
+Hairline         #E2E8F0  (--line)       Primary (links, buttons, focus)  #1D4ED8 (--primary)
+Primary deep     #1E3A8A  (--primary-deep)  Primary tint  #EAF0FF (--primary-tint)
+Money (result figures, success)  #047857 (--money)     Money tint #E7F6EF (--money-tint)
+Amber (deadlines) #B45309 (--amber)      Danger (errors)  #B91C1C  (--danger)
+Font display     Plus Jakarta Sans 700/800 (--font-display) — H1–H3, wordmark
+Font body        Inter (--font-body) — body, UI, inputs, nav; money uses tabular-nums
+Scale            body 18px (17px < 480px) · labels 16px · inputs 18px · H1 clamp(36px,5vw,60px)
+                 H2 clamp(28px,3.4vw,40px) · H3 22px · result clamp(44px,7vw,64px) · nothing < 14px
+Layout           container 1360px (24px / 16px gutters) · controls 52px · prose 760px
+                 editorial 3 columns from 1200px (TOC · prose · rail) · calc 7/12 + result 5/12 from 1024px
 ```
 
-Glassmorphism for all cards/panels: the card background + blur + border above, `border-radius: 16px`, `box-shadow: 0 8px 32px rgba(0,0,0,0.3)`.
-
-Note that `tailwind.config.ts` defines a `brand.*` palette with slightly different hex values than the list above, and most pages set the design-system colors inline instead. Match whatever the surrounding file already does rather than converting between the two.
+Cards: `.card` (surface, 1px `--line`, 14px radius, `--shadow-card`); `.card-flat` without shadow;
+`.card-hover` adds the lift. Notes: `.note`, `.note-info`, `.note-caution`, `.note-danger`,
+`.note-success`. Buttons: `.btn-primary` (the one gradient button), `.btn-secondary`, `.btn-ghost`
+(52px; `.btn-sm` 44px). Chips: `.fact-chip`. Prose: wrap long-form content in `.editorial`; use
+`EditorialLayout` for the three-column shell and `HeroBand` for tool/state page tops.
+Only three gradients exist (hero band, primary button, result-card accent line). No glassmorphism,
+no floating animations; every transition is off under `prefers-reduced-motion`.
 
 ## SEO targets
 

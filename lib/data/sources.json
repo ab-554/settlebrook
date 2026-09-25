@@ -247,10 +247,16 @@
         "tier": "secondary"
       },
       {
-        "label": "Mich. Comp. Laws \u00a7 600.1483 \u2014 noneconomic damages cap and CPI-adjustment mechanism",
+        "label": "Mich. Comp. Laws \u00a7 600.1483 \u2014 noneconomic damages cap in medical malpractice actions (CPI-adjusted)",
         "url": "https://codes.findlaw.com/mi/chapter-600-revised-judicature-act-of-1961/mi-comp-laws-600-1483/",
-        "supports": "base caps $280,000 (standard) / $500,000 (catastrophic), annually adjusted by the state treasurer using CPI \u2014 mechanism confirmed; the specific 2026 figures ($596,400/$1,065,000) on the page were not independently confirmed against an official 2026 notice (see discrepancies file)",
+        "supports": "Cap applies to medical malpractice actions only \u2014 not ordinary injury or motor vehicle claims; base caps $280,000 (standard) / $500,000 (specified severe injuries), adjusted annually by the state treasurer using CPI; current-year dollar figures not stated on the page",
         "tier": "secondary"
+      },
+      {
+        "label": "Mich. Comp. Laws \u00a7 500.3135 \u2014 no-fault tort threshold for noneconomic damages (Michigan Legislature)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-500-3135",
+        "supports": "Noneconomic damages against an at-fault driver only for death, serious impairment of body function, or permanent serious disfigurement; no general dollar cap in ordinary negligence claims",
+        "tier": "primary"
       }
     ],
     "nevada": [

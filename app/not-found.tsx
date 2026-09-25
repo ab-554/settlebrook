@@ -20,47 +20,30 @@ const TOOLS = [
 
 export default function NotFound() {
   return (
-    <main
-      className="min-h-screen flex flex-col items-center justify-center text-center px-4"
-      style={{
-        minHeight: '70vh',
-        background: 'radial-gradient(ellipse at top, #1E3A5F 0%, #050A18 70%)',
-      }}
-    >
-      <div className="max-w-xl mx-auto py-20 flex flex-col items-center gap-6">
-        <span className="trust-pill">
-          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#34D399' }} />
-          404
-        </span>
+    <main className="page-band flex flex-col items-center justify-center text-center px-4" style={{ minHeight: '70vh' }}>
+      <div className="max-w-xl mx-auto py-20 flex flex-col items-center gap-5">
+        <span className="trust-pill">404</span>
 
-        <h1
-          className="heading-gradient"
-          style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em' }}
-        >
-          Page Not Found
-        </h1>
+        <h1>Page Not Found</h1>
 
-        <p className="text-base leading-relaxed" style={{ color: '#94A3B8' }}>
+        <p className="lede">
           The page you&rsquo;re looking for doesn&rsquo;t exist or may have moved. Try one of
           our free calculators below, or head back to the homepage.
         </p>
 
-        <Link href="/" className="btn-primary inline-flex items-center gap-2 px-8 py-4 text-lg">
+        <Link href="/" className="btn-primary btn-lg">
           Back to Homepage →
         </Link>
 
-        <div className="mt-6 flex flex-col gap-2">
+        <ul className="mt-4 flex flex-col gap-1">
           {TOOLS.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="text-sm underline transition-colors"
-              style={{ color: '#60A5FA' }}
-            >
-              {tool.label}
-            </Link>
+            <li key={tool.href}>
+              <Link href={tool.href} className="text-link inline-block py-2 text-sm">
+                {tool.label}
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </main>
   )

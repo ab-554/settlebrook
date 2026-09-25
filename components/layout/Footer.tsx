@@ -1,144 +1,90 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// components/layout/Footer.tsx  —  Dark footer with link columns
+// components/layout/Footer.tsx — white footer with calculators, a state-guides
+// band listing EVERY published state per tool (components/ui/StateList.tsx —
+// no truncated "by state" column), and every trust page (methodology,
+// editorial policy, about, contact, privacy, terms). Server component.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import Link from 'next/link'
-import Image from 'next/image'
-import { getPriorityStates } from '@/lib/data/states'
+import { Lock } from 'lucide-react'
+import { BrandWordmark } from '@/components/ui/Brand'
+import { StateChips, StateCountBadge, getToolStates, getToolMeta, type StateListTool } from '@/components/ui/StateList'
+
+const FOOTER_STATE_TOOLS: StateListTool[] = ['pain-suffering', 'car-accident', 'workers-comp']
 
 export default function Footer() {
-  const priorityStates = getPriorityStates()
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer
-      className="mt-auto"
-      style={{
-        backgroundColor: '#060B18',
-        borderTop: '1px solid rgba(99,179,237,0.10)',
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 py-12">
+    <footer className="site-footer mt-auto">
+      <div className="container-page py-14">
 
-        {/* Brand */}
-        <div className="mb-10">
-          <Link href="/" className="inline-block">
-            <Image src="/logo.png" alt="Settlebrook" width={140} height={35} />
-          </Link>
-        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-10">
+          <div className="lg:col-span-2 flex flex-col gap-4">
+            <Link href="/" className="inline-flex w-fit rounded-md" aria-label="Settlebrook home">
+              <BrandWordmark size={30} />
+            </Link>
+            <p className="leading-relaxed max-w-sm" style={{ color: 'var(--ink-2)', fontSize: 'var(--label)' }}>
+              Free settlement calculators for people with injury claims in the United States.
+              Open formulas, official sources, no signup.
+            </p>
+            <p className="calc-privacy" style={{ fontSize: 'var(--small)' }}>
+              <Lock aria-hidden="true" size={15} strokeWidth={2.2} />
+              Your calculator inputs stay in your browser.
+            </p>
+          </div>
 
-          {/* Site */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#60A5FA' }}>
-              Site
-            </h3>
-            <ul className="flex flex-col gap-2.5">
-              {[
-                { href: '/', label: 'Home' },
-                { href: '/about/', label: 'About' },
-                { href: '/methodology/', label: 'Methodology' },
-                { href: '/editorial-policy/', label: 'Editorial Policy' },
-                { href: '/blog/', label: 'Blog' },
-                { href: '/contact/', label: 'Contact' },
-                { href: '/privacy-policy/', label: 'Privacy Policy' },
-                { href: '/terms-of-use/', label: 'Terms of Use' },
-              ].map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+            <h2 className="footer-heading">Calculators</h2>
+            <ul className="flex flex-col">
+              <li><Link href="/pain-and-suffering-calculator/" className="footer-link">Pain &amp; Suffering</Link></li>
+              <li><Link href="/car-accident-settlement-calculator/" className="footer-link">Car Accident Settlement</Link></li>
+              <li><Link href="/workers-comp-settlement-calculator/" className="footer-link">Workers Comp Settlement</Link></li>
+              <li><Link href="/workers-comp-maximum-weekly-benefits-by-state/" className="footer-link">Max Weekly Benefits by State</Link></li>
+              <li><Link href="/pain-and-suffering-calculator/guide/" className="footer-link">How Pain &amp; Suffering Is Calculated</Link></li>
             </ul>
           </div>
 
-          {/* Pain & Suffering */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#60A5FA' }}>
-              Pain &amp; Suffering
-            </h3>
-            <ul className="flex flex-col gap-2.5">
-              <li>
-                <Link href="/pain-and-suffering-calculator/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
-                  Calculator (All States)
-                </Link>
-              </li>
-              {priorityStates.map((state) => (
-                <li key={state.slug}>
-                  <Link href={`/pain-and-suffering-calculator/${state.slug}/`} className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
-                    {state.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Car Accident */}
-          <div>
-            <h3 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#60A5FA' }}>
-              Car Accident
-            </h3>
-            <ul className="flex flex-col gap-2.5">
-              <li>
-                <Link href="/car-accident-settlement-calculator/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
-                  Calculator (All States)
-                </Link>
-              </li>
-              <li>
-                <Link href="/car-accident-settlement-calculator/california/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
-                  California
-                </Link>
-              </li>
-              <li>
-                <Link href="/car-accident-settlement-calculator/texas/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
-                  Texas
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Workers Comp */}
-          <div>
-            <h3 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#60A5FA' }}>
-              Workers Comp
-            </h3>
-            <ul className="flex flex-col gap-2.5">
-              <li>
-                <Link href="/workers-comp-settlement-calculator/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
-                  Calculator (All States)
-                </Link>
-              </li>
-              <li>
-                <Link href="/workers-comp-settlement-calculator/california/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
-                  California
-                </Link>
-              </li>
-              <li>
-                <Link href="/workers-comp-settlement-calculator/texas/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
-                  Texas
-                </Link>
-              </li>
-              <li>
-                <Link href="/workers-comp-settlement-calculator/florida/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
-                  Florida
-                </Link>
-              </li>
-              <li>
-                <Link href="/workers-comp-maximum-weekly-benefits-by-state/" className="text-sm transition-colors" style={{ color: '#94A3B8' }}>
-                  Max Benefits by State
-                </Link>
-              </li>
+            <h2 className="footer-heading">Settlebrook</h2>
+            <ul className="flex flex-col">
+              <li><Link href="/methodology/" className="footer-link">Methodology</Link></li>
+              <li><Link href="/editorial-policy/" className="footer-link">Editorial Policy</Link></li>
+              <li><Link href="/about/" className="footer-link">About</Link></li>
+              <li><Link href="/blog/" className="footer-link">Guides</Link></li>
+              <li><Link href="/contact/" className="footer-link">Contact</Link></li>
+              <li><Link href="/privacy-policy/" className="footer-link">Privacy Policy</Link></li>
+              <li><Link href="/terms-of-use/" className="footer-link">Terms of Use</Link></li>
             </ul>
           </div>
 
         </div>
+
+        {/* State guides — every published state page, per tool */}
+        <nav className="footer-states" aria-label="State guides">
+          <h2 className="footer-heading">State guides</h2>
+          <div className="footer-states-groups">
+            {FOOTER_STATE_TOOLS.map((tool) => {
+              const meta = getToolMeta(tool)
+              const count = getToolStates(tool).length
+              return (
+                <div key={tool} className="footer-states-group">
+                  <p className="flex items-center gap-2 mb-1 font-semibold" style={{ color: 'var(--ink)', fontSize: 'var(--label)' }}>
+                    <Link href={meta.hub} className="footer-link" style={{ padding: 0 }}>{meta.short}</Link>
+                    <StateCountBadge count={count} />
+                  </p>
+                  <StateChips tool={tool} variant="inline" ariaLabel={`${meta.label} state pages`} />
+                </div>
+              )
+            })}
+          </div>
+        </nav>
 
         {/* Disclaimer */}
-        <div className="pt-8 mb-6" style={{ borderTop: '1px solid rgba(99,179,237,0.08)' }}>
-          <p className="text-xs leading-relaxed max-w-3xl" style={{ color: 'rgba(148,163,184,0.6)' }}>
-            <span className="font-semibold" style={{ color: '#94A3B8' }}>Disclaimer: </span>
+        <div className="pt-6" style={{ borderTop: '1px solid var(--line)' }}>
+          <p className="leading-relaxed max-w-3xl" style={{ color: 'var(--ink-3)', fontSize: 'var(--small)' }}>
+            <span className="font-semibold" style={{ color: 'var(--ink-2)' }}>Disclaimer: </span>
             The calculators and information on Settlebrook are for informational purposes only and
             do not constitute legal advice. Results are estimates based on common formulas — actual
             settlement values depend on the specific facts of your case, applicable state law,
@@ -147,13 +93,11 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs" style={{ color: 'rgba(148,163,184,0.45)' }}>
+        <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2" style={{ color: 'var(--ink-3)', fontSize: 'var(--small)' }}>
           <p>© {currentYear} Settlebrook. All rights reserved.</p>
           <p>
             This site may display advertisements.{' '}
-            <Link href="/privacy-policy/" className="underline transition-colors" style={{ color: 'rgba(148,163,184,0.45)' }}>
-              Privacy Policy
-            </Link>
+            <Link href="/privacy-policy/" className="underline">Privacy Policy</Link>
           </p>
         </div>
 

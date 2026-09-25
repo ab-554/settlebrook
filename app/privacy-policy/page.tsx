@@ -30,62 +30,31 @@ const LAST_UPDATED = "September 23, 2026";
 
 export default function PrivacyPolicyPage() {
   return (
-    <main className="min-h-screen" style={{ backgroundColor: "#050A18" }}>
+    <main className="min-h-screen">
 
-        {/* ── HERO ── */}
-        <section
-          className="relative overflow-hidden flex flex-col items-center justify-center text-center px-4"
-          style={{
-            minHeight: '52vh',
-            background: 'radial-gradient(ellipse at top, #1E3A5F 0%, #050A18 70%)',
-          }}
-        >
-          {/* Orbs */}
-          <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none select-none">
-            <div className="orb-1 absolute rounded-full" style={{ width: 480, height: 480, top: '-10%', left: '-8%', background: 'radial-gradient(circle, rgba(96,165,250,0.18) 0%, transparent 70%)', filter: 'blur(48px)' }} />
-            <div className="orb-2 absolute rounded-full" style={{ width: 380, height: 380, bottom: '5%', right: '-5%', background: 'radial-gradient(circle, rgba(52,211,153,0.14) 0%, transparent 70%)', filter: 'blur(48px)' }} />
-            <div className="orb-3 absolute rounded-full" style={{ width: 300, height: 300, top: '45%', left: '55%', background: 'radial-gradient(circle, rgba(96,165,250,0.10) 0%, transparent 70%)', filter: 'blur(40px)' }} />
-          </div>
-
-          <div className="relative max-w-5xl mx-auto py-20 sm:py-24 flex flex-col items-center gap-8">
-            {/* Badge */}
-            <div className="animate-fade-in-up">
-              <span className="trust-pill">
-                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#34D399', animation: 'pulseGlow 2s infinite' }} />
-                Last Updated · 2026
-              </span>
-            </div>
-
-            {/* H1 */}
-            <h1
-              className="animate-fade-in-up-d1 heading-gradient"
-              style={{ fontSize: 'clamp(36px, 6vw, 56px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em' }}
-            >
-              Privacy Policy
-            </h1>
-
-            {/* Subheading */}
-            <p
-              className="animate-fade-in-up-d2 max-w-2xl text-lg leading-relaxed"
-              style={{ color: '#94A3B8' }}
-            >
+        {/* ── HEADER BAND ── */}
+        <header className="page-band">
+          <div className="container-page py-8 sm:py-12">
+            <p className="eyebrow mb-2">Last Updated · 2026</p>
+            <h1>Privacy Policy</h1>
+            <p className="lede mt-3 max-w-2xl">
               Your calculator inputs never leave your browser. We never sell your
               information — here&rsquo;s exactly what this site does collect, and why.
             </p>
           </div>
-        </section>
+        </header>
 
-      <article className="max-w-3xl mx-auto px-6 sm:px-8 py-14 flex flex-col gap-10">
+      <article className="editorial mx-auto px-4 sm:px-6 py-10 sm:py-14 flex flex-col gap-8">
 
         {/* Header */}
         <header>
-          <p className="text-sm mb-4" style={{ color: "#64748B" }}>
+          <p className="text-sm mb-4" style={{ color: 'var(--ink-3)' }}>
             Last updated: <time dateTime="2026-09-23">{LAST_UPDATED}</time>
           </p>
-          <p className="mt-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <p className="mt-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             This Privacy Policy describes how Settlebrook (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;),
             operated at{" "}
-            <Link href="/" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+            <Link href="/" className="hover:opacity-80" style={{ color: 'var(--primary)' }}>
               settlebrook.com
             </Link>
             , handles information when you use our website and free settlement
@@ -96,17 +65,17 @@ export default function PrivacyPolicyPage() {
 
         {/* 1. Calculator Inputs: What We Don't Collect */}
         <section aria-labelledby="no-collect-heading">
-          <h2 id="no-collect-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="no-collect-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             1. Calculator Inputs: What We Don&apos;t Collect
           </h2>
-          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>
               Settlebrook does not have user accounts. We do not require registration,
               login, or any form of identification to use our calculators. Specifically
               for calculator use, we do not collect, store, transmit, or sell:
             </p>
-            <ul className="flex flex-col gap-2 pl-4 text-sm" style={{ color: "#94A3B8", listStyleType: "disc" }}>
+            <ul className="flex flex-col gap-2 pl-4 text-sm" style={{ color: 'var(--ink-2)', listStyleType: "disc" }}>
               <li>Your name, email address, phone number, or mailing address</li>
               <li>Social Security numbers, insurance policy numbers, or claim numbers</li>
               <li>Any dollar amounts, medical details, or injury information you enter into our calculators</li>
@@ -125,17 +94,17 @@ export default function PrivacyPolicyPage() {
 
         {/* 2. Information Automatically Collected */}
         <section aria-labelledby="auto-collect-heading">
-          <h2 id="auto-collect-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="auto-collect-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             2. Information Automatically Collected
           </h2>
-          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>
               Like virtually all websites, Settlebrook&apos;s hosting infrastructure
               (Vercel) automatically logs standard server-level data when your browser
               requests a page. This includes:
             </p>
-            <ul className="flex flex-col gap-2 pl-4 text-sm" style={{ color: "#94A3B8", listStyleType: "disc" }}>
+            <ul className="flex flex-col gap-2 pl-4 text-sm" style={{ color: 'var(--ink-2)', listStyleType: "disc" }}>
               <li>Your IP address (used for routing; not stored by us)</li>
               <li>Browser type and version</li>
               <li>Operating system</li>
@@ -149,7 +118,7 @@ export default function PrivacyPolicyPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:opacity-80"
-                style={{ color: "#60A5FA" }}
+                style={{ color: 'var(--primary)' }}
               >
                 Vercel&apos;s own privacy policy
               </a>
@@ -161,11 +130,11 @@ export default function PrivacyPolicyPage() {
 
         {/* 3. Cookies */}
         <section aria-labelledby="cookies-heading">
-          <h2 id="cookies-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="cookies-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             3. Cookies
           </h2>
-          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>
               Settlebrook itself does not set first-party cookies. However, third-party
               services we use — specifically Google AdSense and Google Analytics —
@@ -173,7 +142,7 @@ export default function PrivacyPolicyPage() {
               privacy policies, not ours.
             </p>
 
-            <h3 className="text-base font-semibold mt-2" style={{ color: "#F1F5F9" }}>
+            <h3 className="text-base font-semibold mt-2" style={{ color: 'var(--ink)' }}>
               Google AdSense Cookies
             </h3>
             <p>
@@ -190,7 +159,7 @@ export default function PrivacyPolicyPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:opacity-80"
-                style={{ color: "#60A5FA" }}
+                style={{ color: 'var(--primary)' }}
               >
                 Google Ad Settings
               </a>
@@ -200,14 +169,14 @@ export default function PrivacyPolicyPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:opacity-80"
-                style={{ color: "#60A5FA" }}
+                style={{ color: 'var(--primary)' }}
               >
                 aboutads.info
               </a>
               .
             </p>
 
-            <h3 className="text-base font-semibold mt-2" style={{ color: "#F1F5F9" }}>
+            <h3 className="text-base font-semibold mt-2" style={{ color: 'var(--ink)' }}>
               Google Analytics Cookies
             </h3>
             <p>
@@ -219,18 +188,18 @@ export default function PrivacyPolicyPage() {
             <p>
               Google Analytics uses cookies including{" "}
               <code className="text-xs px-1.5 py-0.5 rounded"
-                style={{ background: "rgba(255,255,255,0.08)", color: "#E2E8F0" }}>_ga</code>,{" "}
+                style={{ background: 'var(--surface)', color: 'var(--ink)' }}>_ga</code>,{" "}
               <code className="text-xs px-1.5 py-0.5 rounded"
-                style={{ background: "rgba(255,255,255,0.08)", color: "#E2E8F0" }}>_gid</code>, and{" "}
+                style={{ background: 'var(--surface)', color: 'var(--ink)' }}>_gid</code>, and{" "}
               <code className="text-xs px-1.5 py-0.5 rounded"
-                style={{ background: "rgba(255,255,255,0.08)", color: "#E2E8F0" }}>_gat</code>. You
+                style={{ background: 'var(--surface)', color: 'var(--ink)' }}>_gat</code>. You
               can opt out of Google Analytics tracking by installing the{" "}
               <a
                 href="https://tools.google.com/dlpage/gaoptout"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:opacity-80"
-                style={{ color: "#60A5FA" }}
+                style={{ color: 'var(--primary)' }}
               >
                 Google Analytics Opt-out Browser Add-on
               </a>
@@ -241,18 +210,18 @@ export default function PrivacyPolicyPage() {
 
         {/* 4. Third-Party Services */}
         <section aria-labelledby="third-party-heading">
-          <h2 id="third-party-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="third-party-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             4. Third-Party Services
           </h2>
-          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>The following third-party services operate on Settlebrook:</p>
             <div className="overflow-x-auto rounded-xl"
-              style={{ border: "1px solid rgba(99,179,237,0.15)" }}>
+              style={{ border: "1px solid var(--line)" }}>
               <table className="w-full text-sm border-collapse">
                 <thead>
                   <tr className="text-left text-xs font-semibold uppercase tracking-wider"
-                    style={{ color: "#64748B", borderBottom: "1px solid rgba(99,179,237,0.12)", backgroundColor: "rgba(255,255,255,0.03)" }}>
+                    style={{ color: 'var(--ink-3)', borderBottom: "1px solid var(--line)", backgroundColor: "rgba(255,255,255,0.03)" }}>
                     <th className="py-3 px-4">Service</th>
                     <th className="py-3 px-4">Purpose</th>
                     <th className="py-3 px-4">Privacy Policy</th>
@@ -266,14 +235,14 @@ export default function PrivacyPolicyPage() {
                     { name: "Formspree", purpose: "Contact form processing (name, email, message)", url: "https://formspree.io/legal/privacy-policy/" },
                   ].map((s, i) => (
                     <tr key={s.name} style={{
-                      color: "#94A3B8",
-                      borderTop: i > 0 ? "1px solid rgba(99,179,237,0.08)" : undefined,
+                      color: 'var(--ink-2)',
+                      borderTop: i > 0 ? "1px solid var(--line)" : undefined,
                     }}>
-                      <td className="py-3 px-4 font-medium" style={{ color: "#E2E8F0" }}>{s.name}</td>
+                      <td className="py-3 px-4 font-medium" style={{ color: 'var(--ink)' }}>{s.name}</td>
                       <td className="py-3 px-4">{s.purpose}</td>
                       <td className="py-3 px-4">
                         <a href={s.url} target="_blank" rel="noopener noreferrer"
-                          className="text-xs hover:opacity-80" style={{ color: "#60A5FA" }}>
+                          className="text-xs hover:opacity-80" style={{ color: 'var(--primary)' }}>
                           View Policy ↗
                         </a>
                       </td>
@@ -292,11 +261,11 @@ export default function PrivacyPolicyPage() {
 
         {/* 5. GDPR Rights */}
         <section aria-labelledby="gdpr-heading">
-          <h2 id="gdpr-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="gdpr-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             5. Your GDPR Rights (EU / EEA Visitors)
           </h2>
-          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>
               Although Settlebrook is a U.S.-focused website, we acknowledge the
               rights established under the General Data Protection Regulation (GDPR)
@@ -306,17 +275,17 @@ export default function PrivacyPolicyPage() {
               services (Google) process data about you through our site, you retain
               the following rights:
             </p>
-            <ul className="flex flex-col gap-2 pl-4 text-sm" style={{ color: "#94A3B8", listStyleType: "disc" }}>
-              <li><strong style={{ color: "#E2E8F0" }}>Right of Access</strong> — Request information about what data exists about you</li>
-              <li><strong style={{ color: "#E2E8F0" }}>Right to Rectification</strong> — Request correction of inaccurate data</li>
-              <li><strong style={{ color: "#E2E8F0" }}>Right to Erasure</strong> — Request deletion of your personal data</li>
-              <li><strong style={{ color: "#E2E8F0" }}>Right to Restrict Processing</strong> — Request that processing be limited</li>
-              <li><strong style={{ color: "#E2E8F0" }}>Right to Data Portability</strong> — Receive your data in a structured format</li>
-              <li><strong style={{ color: "#E2E8F0" }}>Right to Object</strong> — Object to processing based on legitimate interests</li>
+            <ul className="flex flex-col gap-2 pl-4 text-sm" style={{ color: 'var(--ink-2)', listStyleType: "disc" }}>
+              <li><strong style={{ color: 'var(--ink)' }}>Right of Access</strong> — Request information about what data exists about you</li>
+              <li><strong style={{ color: 'var(--ink)' }}>Right to Rectification</strong> — Request correction of inaccurate data</li>
+              <li><strong style={{ color: 'var(--ink)' }}>Right to Erasure</strong> — Request deletion of your personal data</li>
+              <li><strong style={{ color: 'var(--ink)' }}>Right to Restrict Processing</strong> — Request that processing be limited</li>
+              <li><strong style={{ color: 'var(--ink)' }}>Right to Data Portability</strong> — Receive your data in a structured format</li>
+              <li><strong style={{ color: 'var(--ink)' }}>Right to Object</strong> — Object to processing based on legitimate interests</li>
             </ul>
             <p>
               To exercise these rights, contact us at{" "}
-              <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+              <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: 'var(--primary)' }}>
                 contact@settlebrook.com
               </a>
               . For rights related to Google&apos;s data processing, contact Google directly
@@ -327,11 +296,11 @@ export default function PrivacyPolicyPage() {
 
         {/* 6. CCPA Rights */}
         <section aria-labelledby="ccpa-heading">
-          <h2 id="ccpa-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="ccpa-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             6. Your CCPA Rights (California Residents)
           </h2>
-          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-4 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>
               Under the California Consumer Privacy Act (CCPA) and its amendment the
               California Privacy Rights Act (CPRA), California residents have specific
@@ -339,7 +308,7 @@ export default function PrivacyPolicyPage() {
               in compliance with those requirements:
             </p>
             <p>
-              <strong style={{ color: "#F1F5F9" }}>We do not sell personal information.</strong>{" "}
+              <strong style={{ color: 'var(--ink)' }}>We do not sell personal information.</strong>{" "}
               Settlebrook has not sold, and does not sell, any personal information
               belonging to California residents. No &ldquo;Do Not Sell My Personal Information&rdquo;
               opt-out link is required because we have no personal data to sell.
@@ -354,7 +323,7 @@ export default function PrivacyPolicyPage() {
             </p>
             <p>
               To submit a CCPA request, email{" "}
-              <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+              <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: 'var(--primary)' }}>
                 contact@settlebrook.com
               </a>{" "}
               with &ldquo;CCPA Request&rdquo; in the subject line.
@@ -364,17 +333,17 @@ export default function PrivacyPolicyPage() {
 
         {/* 7. Children */}
         <section aria-labelledby="children-heading">
-          <h2 id="children-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="children-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             7. Children&apos;s Privacy
           </h2>
-          <p className="text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <p className="text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             Settlebrook is not directed at children under the age of 13. We do not
             knowingly collect any information from children. Our content is intended
             for adults researching personal injury or workplace injury claims. If you
             believe a child has used our site in a way that raised privacy concerns,
             please contact us at{" "}
-            <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+            <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: 'var(--primary)' }}>
               contact@settlebrook.com
             </a>
             .
@@ -383,11 +352,11 @@ export default function PrivacyPolicyPage() {
 
         {/* 8. Changes */}
         <section aria-labelledby="changes-heading">
-          <h2 id="changes-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="changes-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             8. Changes to This Policy
           </h2>
-          <p className="text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <p className="text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             We may update this Privacy Policy to reflect changes in our practices or
             applicable law. The &ldquo;Last Updated&rdquo; date at the top of this page will
             reflect any revisions. Continued use of Settlebrook after any modification
@@ -398,22 +367,22 @@ export default function PrivacyPolicyPage() {
 
         {/* 9. Contact */}
         <section aria-labelledby="privacy-contact-heading">
-          <h2 id="privacy-contact-heading" className="heading-gradient font-bold mb-4"
-            style={{ fontSize: 22, fontWeight: 700 }}>
+          <h2 id="privacy-contact-heading" className="heading-display mb-3"
+            style={{ fontSize: 26 }}>
             9. Contact Us
           </h2>
-          <div className="flex flex-col gap-3 text-base leading-relaxed" style={{ color: "#94A3B8" }}>
+          <div className="flex flex-col gap-3 text-base leading-relaxed" style={{ color: 'var(--ink-2)' }}>
             <p>For any privacy-related questions, requests, or concerns, contact us at:</p>
             <div className="rounded-xl p-4 text-sm flex flex-col gap-1"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(99,179,237,0.15)" }}>
-              <p className="font-semibold" style={{ color: "#F1F5F9" }}>Settlebrook</p>
+              style={{ background: 'var(--surface)', border: "1px solid var(--line)" }}>
+              <p className="font-semibold" style={{ color: 'var(--ink)' }}>Settlebrook</p>
               <p>Email:{" "}
-                <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+                <a href="mailto:contact@settlebrook.com" className="hover:opacity-80" style={{ color: 'var(--primary)' }}>
                   contact@settlebrook.com
                 </a>
               </p>
               <p>Website:{" "}
-                <a href="/contact" className="hover:opacity-80" style={{ color: "#60A5FA" }}>
+                <a href="/contact" className="hover:opacity-80" style={{ color: 'var(--primary)' }}>
                   settlebrook.com/contact
                 </a>
               </p>

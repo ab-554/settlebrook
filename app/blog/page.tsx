@@ -2,8 +2,8 @@
 // app/blog/page.tsx
 // Blog index. Structure mirrors app/methodology/page.tsx:
 //   • Same metadata shape (title without " | Settlebrook" — template appends it)
-//   • Same hero + relative canonical + relative OG/Twitter image paths
-//   • WebPage + BreadcrumbList JSON-LD, BreadcrumbNav in the article body
+//   • Same paper header band + relative canonical + relative OG/Twitter image paths
+//   • WebPage + BreadcrumbList JSON-LD, BreadcrumbNav in the header
 // The post list lives in lib/data/blogPosts.ts (shared with the homepage's
 // "latest posts" section). When a new post ships, add it there and to
 // app/sitemap.ts.
@@ -12,6 +12,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import BalancedGrid from '@/components/ui/BalancedGrid'
 import { getPublishedBlogPosts, getPostDisplayDate } from '@/lib/data/blogPosts'
 
 const canonicalUrl = '/blog/'
@@ -20,12 +21,12 @@ export const metadata: Metadata = {
   // Title stays short — the root layout template appends " | Settlebrook" (13 chars)
   title: 'Settlement Guides & Insights — Blog',
   description:
-    'Plain-English guides on how insurers value injury claims, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
+    'Plain-English guides on how injury claims are valued, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
   alternates: { canonical: canonicalUrl },
   openGraph: {
     title: 'Settlement Guides & Insights — Blog | Settlebrook',
     description:
-      'Plain-English guides on how insurers value injury claims, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
+      'Plain-English guides on how injury claims are valued, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
     url: canonicalUrl,
     siteName: 'Settlebrook',
     locale: 'en_US',
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Settlement Guides & Insights — Blog | Settlebrook',
     description:
-      'Plain-English guides on how insurers value injury claims, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
+      'Plain-English guides on how injury claims are valued, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
     images: ['/og-image.png'],
   },
 }
@@ -56,7 +57,7 @@ const webPageSchema = {
   name: 'Settlement Guides & Insights — Blog',
   url: canonicalUrl,
   description:
-    'Plain-English guides on how insurers value injury claims, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
+    'Plain-English guides on how injury claims are valued, how pain and suffering is calculated, and how to estimate what your settlement is actually worth.',
   inLanguage: 'en-US',
   isPartOf: {
     '@type': 'WebSite',
@@ -80,6 +81,7 @@ const breadcrumbSchema = {
 }
 
 export default function BlogIndexPage() {
+  const posts = getPublishedBlogPosts()
   return (
     <>
       <script
@@ -91,78 +93,44 @@ export default function BlogIndexPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <main className="min-h-screen" style={{ backgroundColor: '#050A18' }}>
+      <main className="min-h-screen">
 
-        {/* ── HERO ── */}
-        <section
-          className="relative overflow-hidden flex flex-col items-center justify-center text-center px-4"
-          style={{
-            minHeight: '46vh',
-            background: 'radial-gradient(ellipse at top, #1E3A5F 0%, #050A18 70%)',
-          }}
-        >
-          {/* Orbs */}
-          <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none select-none">
-            <div className="orb-1 absolute rounded-full" style={{ width: 480, height: 480, top: '-10%', left: '-8%', background: 'radial-gradient(circle, rgba(96,165,250,0.18) 0%, transparent 70%)', filter: 'blur(48px)' }} />
-            <div className="orb-2 absolute rounded-full" style={{ width: 380, height: 380, bottom: '5%', right: '-5%', background: 'radial-gradient(circle, rgba(52,211,153,0.14) 0%, transparent 70%)', filter: 'blur(48px)' }} />
-            <div className="orb-3 absolute rounded-full" style={{ width: 300, height: 300, top: '45%', left: '55%', background: 'radial-gradient(circle, rgba(96,165,250,0.10) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+        {/* ── HEADER BAND ── */}
+        <header className="hero-band">
+          <div className="container-page py-8 sm:py-12">
+            <BreadcrumbNav
+              items={[
+                { label: 'Home', href: '/' },
+                { label: 'Blog', href: canonicalUrl },
+              ]}
+            />
+            <p className="eyebrow mt-5 mb-2">Plain English · Cited sources · No sales pitch</p>
+            <h1>Settlement Guides &amp; Insights</h1>
           </div>
-
-          <div className="relative max-w-5xl mx-auto py-16 sm:py-20 flex flex-col items-center gap-7">
-            {/* Badge */}
-            <div className="animate-fade-in-up">
-              <span className="trust-pill">
-                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#34D399', animation: 'pulseGlow 2s infinite' }} />
-                Plain English · Cited Sources · No Sales Pitch
-              </span>
-            </div>
-
-            {/* H1 */}
-            <h1
-              className="animate-fade-in-up-d1 heading-gradient"
-              style={{ fontSize: 'clamp(32px, 5.5vw, 52px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em' }}
-            >
-              Settlement Guides &amp; Insights
-            </h1>
-          </div>
-        </section>
+        </header>
 
         {/* Main content */}
-        <article className="max-w-7xl mx-auto px-6 sm:px-8 py-14 flex flex-col gap-10">
-
-          {/* Breadcrumb */}
-          <BreadcrumbNav
-            items={[
-              { label: 'Home', href: '/' },
-              { label: 'Blog', href: canonicalUrl },
-            ]}
-          />
+        <div className="container-page py-10 sm:py-14 flex flex-col gap-10">
 
           {/* Intro */}
-          <div className="max-w-3xl flex flex-col gap-4 text-base leading-relaxed" style={{ color: '#94A3B8' }}>
+          <div className="editorial">
             <p>
               Our calculators give you a number. These guides explain where that number
-              comes from and what the person on the other side of the table is looking at
-              when they decide what your claim is worth. An insurance adjuster and a
-              plaintiff attorney are working from the same playbook &mdash; multiplier
-              methods, impairment ratings, statutory rate tables &mdash; and the gap between
-              a lowball first offer and a fair settlement usually comes down to who
-              understands that playbook better.
+              comes from and how the figures that shape a settlement are built &mdash; multiplier
+              methods, impairment ratings, statutory rate tables &mdash; and why the gap between
+              a first offer and a fair settlement usually comes down to who understands
+              those figures better.
             </p>
             <p>
               Everything here is written in plain English, using the same formulas and
               official sources we publish on our{' '}
-              <Link href="/methodology/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
-                methodology page
-              </Link>
-              . We cover how specific insurers evaluate claims, how individual benefit
-              types (like permanent partial disability) are actually calculated
+              <Link href="/methodology/">methodology page</Link>
+              . We cover what shapes a specific insurer&rsquo;s offer, how individual benefit
+              types (like permanent partial disability) are calculated
               state-by-state, and the mechanics behind the multiplier and per diem
               methods our tools use. Every guide is reviewed against current law and
               cites its sources &mdash; see our{' '}
-              <Link href="/editorial-policy/" className="underline transition-colors" style={{ color: '#60A5FA' }}>
-                editorial policy
-              </Link>
+              <Link href="/editorial-policy/">editorial policy</Link>
               {' '}for how that review works.
             </p>
           </div>
@@ -173,39 +141,28 @@ export default function BlogIndexPage() {
               Published guides
             </h2>
 
-            {/* Single column on mobile; the grid holds its shape as posts are added */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {getPublishedBlogPosts().map((post) => (
-                <Link
-                  key={post.slug}
-                  href={post.slug}
-                  className="glass-card block p-6 sm:p-7 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-                >
-                  <time
-                    dateTime={post.publishDate}
-                    className="text-xs font-medium uppercase tracking-widest"
-                    style={{ color: '#60A5FA' }}
-                  >
+            {/* Balanced grid — rows stay full as posts are added (4 → 2×2, 5 → 1 featured + 4, 7 → 1 + 6) */}
+            <BalancedGrid count={posts.length} maxCols={3} gap={16}>
+              {posts.map((post) => (
+                <Link key={post.slug} href={post.slug} className="card card-pad card-hover flex flex-col">
+                  <time dateTime={post.publishDate} className="eyebrow">
                     {getPostDisplayDate(post)}
                   </time>
-                  <h3
-                    className="mt-3 font-bold leading-snug"
-                    style={{ fontSize: 22, color: '#E2E8F0', letterSpacing: '-0.01em' }}
-                  >
+                  <h3 className="heading-display mt-2" style={{ fontSize: 24 }}>
                     {post.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed" style={{ color: '#94A3B8' }}>
+                  <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--ink-2)' }}>
                     {post.description}
                   </p>
-                  <span className="mt-4 inline-block text-sm font-medium" style={{ color: '#60A5FA' }}>
-                    Read the guide
+                  <span className="mt-auto pt-3 inline-block text-sm font-semibold" style={{ color: 'var(--primary)' }}>
+                    Read the guide →
                   </span>
                 </Link>
               ))}
-            </div>
+            </BalancedGrid>
           </section>
 
-        </article>
+        </div>
 
       </main>
     </>
