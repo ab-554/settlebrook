@@ -35,7 +35,7 @@ const organizationSchema = {
   logo: 'https://www.settlebrook.com/logo.png',
   description:
     'Free legal settlement calculators for personal injury and workplace injury claims in the United States.',
-  foundingDate: '2024',
+  foundingDate: '2026',
   areaServed: 'US',
   contactPoint: {
     '@type': 'ContactPoint',
