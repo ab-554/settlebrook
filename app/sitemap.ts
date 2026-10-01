@@ -24,6 +24,7 @@
 import type { MetadataRoute } from 'next'
 import { PRIORITY_STATES } from '@/lib/data/states'
 import { getIndexablePaths } from '@/lib/data/sitePaths'
+import { getBlogPostBySlug } from '@/lib/data/blogPosts'
 
 const BASE_URL = 'https://www.settlebrook.com'
 const PRIORITY_STATE_SLUGS = new Set(PRIORITY_STATES.map((s) => s.slug))
@@ -103,7 +104,13 @@ function resolvePathMeta(path: string): PathMeta {
   const staticMeta = STATIC_PATH_METADATA[path]
   if (staticMeta) return staticMeta
 
-  const blogLastModified = BLOG_POST_LAST_MODIFIED[path]
+  // Blog posts: an explicit override in BLOG_POST_LAST_MODIFIED wins (for
+  // posts edited after publishing); otherwise the post's own publishDate from
+  // lib/data/blogPosts.ts is used. Scheduled posts go live on their
+  // publishDate during a daily rebuild, so their metadata must never depend
+  // on a hand-maintained map — a missing entry here broke every production
+  // build from 2026-09-27 (first scheduled post) onward.
+  const blogLastModified = BLOG_POST_LAST_MODIFIED[path] ?? getBlogPostBySlug(path)?.publishDate
   if (blogLastModified) {
     return { lastModified: blogLastModified, changeFrequency: 'monthly', priority: 0.7 }
   }
