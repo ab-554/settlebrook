@@ -62,6 +62,20 @@ export const BLOG_POSTS: BlogPost[] = [
     publishDate: '2026-10-01',
   },
   {
+    slug: '/blog/workers-comp-settlement-chart/',
+    title: "Workers' Comp Settlement Chart by Body Part (2026)",
+    description:
+      "See how workers' comp pays for body-part injuries in 7 states: verified PPD schedule weeks, each state's rate rule, and two worked dollar examples.",
+    publishDate: '2026-10-03',
+  },
+  {
+    slug: '/blog/uninsured-motorist-claim/',
+    title: 'Uninsured Motorist Claims: How They Work by State',
+    description:
+      'How uninsured motorist claims work, whether UM coverage is required in your state, and how to estimate your claim with a free calculator.',
+    publishDate: '2026-10-05',
+  },
+  {
     slug: '/blog/ppd-settlement-calculator-guide/',
     title: 'PPD Settlement Calculator & Payout Guide',
     description:
