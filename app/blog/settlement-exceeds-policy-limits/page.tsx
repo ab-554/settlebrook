@@ -35,7 +35,6 @@ export const metadata: Metadata = {
   title: 'When Your Injury Claim Exceeds Policy Limits',
   description: metaDescription,
   alternates: { canonical: canonicalUrl },
-  robots: { index: false, follow: false },
   openGraph: {
     title: "When Your Injury Claim Exceeds the At-Fault Driver's Policy Limits",
     description: metaDescription,
