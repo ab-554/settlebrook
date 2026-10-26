@@ -88,13 +88,15 @@ describe('app/sitemap.ts', () => {
     setSiteDate('2026-12-31')
     const entries = sitemap()
 
-    // Posts 3-5 are the ones that originally broke the build: they have no
-    // BLOG_POST_LAST_MODIFIED entry, so their lastModified must fall back to
-    // publishDate.
+    // Posts 3, 5, 6-9 have no BLOG_POST_LAST_MODIFIED entry, so their
+    // lastModified must fall back to publishDate. (Post 4, the weekly-benefit
+    // guide, has an explicit entry since its 2026-10-26 Texas-row update.)
     for (const slug of [
       '/blog/settlement-exceeds-policy-limits/',
-      '/blog/workers-comp-weekly-benefit-calculator/',
       '/blog/minor-car-accident-settlement/',
+      '/blog/workers-comp-settlement-chart/',
+      '/blog/impairment-rating-payout-calculator/',
+      '/blog/california-compromise-and-release/',
     ]) {
       const entry = entries.find((e) => e.url === `${BASE_URL}${slug}`)
       expect(entry, slug).toBeDefined()

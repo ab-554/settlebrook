@@ -22,9 +22,9 @@
 import fs from 'fs'
 import path from 'path'
 import type { Metadata } from 'next'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { getIndexablePaths } from '@/lib/data/sitePaths'
-import { getPublishedBlogPosts } from '@/lib/data/blogPosts'
+import { BLOG_POSTS, getPublishedBlogPosts } from '@/lib/data/blogPosts'
 
 const APP_DIR = path.resolve(__dirname)
 
@@ -77,12 +77,27 @@ async function metadataFor(urlPath: string): Promise<Metadata> {
   throw new Error(`${urlPath} exports neither metadata nor generateMetadata`)
 }
 
+// Each test cold-imports many page modules; the first one timed out at the
+// 5s default when `npm test` ran alongside other suites.
+vi.setConfig({ testTimeout: 30000 })
+
 describe('page indexability', () => {
   it('every published blog post has index/follow metadata', async () => {
     const posts = getPublishedBlogPosts()
     expect(posts.length).toBeGreaterThan(0)
 
     for (const post of posts) {
+      const meta = await metadataFor(post.slug)
+      expect(robotsProblems(meta.robots), post.slug).toEqual([])
+    }
+  })
+
+  // Scheduled posts are not in getIndexablePaths() until their publishDate, so
+  // the two checks above cannot see them. Checking every registered post means
+  // a robots override on a post still waiting to go live fails today, not on
+  // the morning the daily rebuild publishes it.
+  it('every registered blog post, scheduled or live, has index/follow metadata', async () => {
+    for (const post of BLOG_POSTS) {
       const meta = await metadataFor(post.slug)
       expect(robotsProblems(meta.robots), post.slug).toEqual([])
     }
