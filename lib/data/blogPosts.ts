@@ -76,6 +76,20 @@ export const BLOG_POSTS: BlogPost[] = [
     publishDate: '2026-10-05',
   },
   {
+    slug: '/blog/impairment-rating-payout-calculator/',
+    title: 'Impairment Rating Payout: How a % Becomes Dollars',
+    description:
+      "How a workers' comp impairment rating turns into weeks and dollars. Texas worked example with 2026-27 rates, plus Colorado and California rules.",
+    publishDate: '2026-10-29',
+  },
+  {
+    slug: '/blog/california-compromise-and-release/',
+    title: 'California Compromise and Release vs. Stipulated Award',
+    description:
+      'California C&R vs. Stipulations with Request for Award: what each closes, how future medical and the settlement amount are handled, and WCAB approval.',
+    publishDate: '2026-11-02',
+  },
+  {
     slug: '/blog/ppd-settlement-calculator-guide/',
     title: 'PPD Settlement Calculator & Payout Guide',
     description:
