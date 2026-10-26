@@ -155,8 +155,6 @@ export interface WorkersCompInputs {
   benefitType: BenefitType
   /** Average Weekly Wage — gross earnings divided by weeks worked. */
   averageWeeklyWage: number
-  /** Whether the claimant has retained an attorney — applies ×1.25 adjustment. */
-  hasAttorney: boolean
   // TTD fields
   /** Number of weeks of temporary total disability treatment. Required for TTD. */
   treatmentWeeks?: number
@@ -174,12 +172,8 @@ export interface WorkersCompResult {
   benefitType: BenefitType
   /** Capped weekly benefit after applying stateRate and weeklyCap. */
   weeklyBenefit: number
-  /** Settlement before attorney adjustment. */
+  /** Estimated settlement; statutory formula only. */
   baseSettlement: number
-  /** Settlement after attorney adjustment (×1.25 if hasAttorney, else equals baseSettlement). */
-  adjustedSettlement: number
-  /** Whether the ×1.25 attorney adjustment was applied. */
-  hasAttorneyAdjustment: boolean
   /** TTD: treatmentWeeks. PPD: scheduledWeeks × impairmentPct / 100. PTD: lifeExpectancyYears × 52. */
   weeksCovered?: number
   /** The state's weekly benefit cap in dollars (from WorkersCompStateData). */

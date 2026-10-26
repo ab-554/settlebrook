@@ -83,7 +83,6 @@ TTD  = weeklyBenefit * treatmentWeeks               (capped at state.maxWeeksTTD
 PPD  = scheduledWeeks * (impairmentPct/100) * weeklyBenefit   [AMA schedule]
 PPD  = weeklyBenefit * 500 * (impairmentPct/100)              [percentage-of-person]
 PTD  = weeklyBenefit * 52 * lifeExpectancyYears * 0.85
-final = base * 1.25 if hasAttorney
 ```
 
 `calculateWorkersComp` is the orchestrator: it resolves state + body-part data, guards on unknown state and monopolistic-fund states (WA, WY — skipped by design), then dispatches by `benefitType`. It **returns a zero result with warnings rather than throwing** on bad input; mirror that pattern in any new tool.

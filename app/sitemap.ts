@@ -42,14 +42,14 @@ interface PathMeta {
 // as of 2026-09-24 (the day of the legal-accuracy fix sprint — commits cff534c,
 // 93e2496 — and the 50-states/TTD-duration cleanup sprint that followed it).
 const HOMEPAGE_LAST_MODIFIED = '2026-09-24'
-const PAIN_SUFFERING_HUB_LAST_MODIFIED = '2026-09-24'
-const PAIN_SUFFERING_GUIDE_LAST_MODIFIED = '2026-09-24'
+const PAIN_SUFFERING_HUB_LAST_MODIFIED = '2026-10-27'
+const PAIN_SUFFERING_GUIDE_LAST_MODIFIED = '2026-10-27'
 const CAR_ACCIDENT_HUB_LAST_MODIFIED = '2026-09-24'
-const WORKERS_COMP_HUB_LAST_MODIFIED = '2026-10-26'
+const WORKERS_COMP_HUB_LAST_MODIFIED = '2026-10-27'
 const METHODOLOGY_LAST_MODIFIED = '2026-09-24'
 const BLOG_INDEX_LAST_MODIFIED = '2026-09-24'
-const BLOG_PPD_GUIDE_LAST_MODIFIED = '2026-09-24'
-const BLOG_STATE_FARM_LAST_MODIFIED = '2026-08-19'
+const BLOG_PPD_GUIDE_LAST_MODIFIED = '2026-10-27'
+const BLOG_STATE_FARM_LAST_MODIFIED = '2026-10-27'
 const ABOUT_LAST_MODIFIED = '2026-09-24'
 const CONTACT_LAST_MODIFIED = '2026-09-24'
 const PRIVACY_POLICY_LAST_MODIFIED = '2026-09-24'
@@ -59,9 +59,9 @@ const EDITORIAL_POLICY_LAST_MODIFIED = '2026-09-24'
 
 // All state pages for a given tool share one template file, so they share
 // that template's last-modified date until a state gets page-specific edits.
-const PAIN_SUFFERING_STATE_LAST_MODIFIED = '2026-09-24'
-const CAR_ACCIDENT_STATE_LAST_MODIFIED = '2026-09-24'
-const WORKERS_COMP_STATE_LAST_MODIFIED = '2026-10-26'
+const PAIN_SUFFERING_STATE_LAST_MODIFIED = '2026-10-27'
+const CAR_ACCIDENT_STATE_LAST_MODIFIED = '2026-10-27'
+const WORKERS_COMP_STATE_LAST_MODIFIED = '2026-10-27'
 
 // Sprint C1 (2026-09-25) rewrote these 6 states with page-specific editorial
 // content, splitting them off from the shared template date above per the

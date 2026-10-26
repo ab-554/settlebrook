@@ -773,7 +773,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 You cannot afford to guess when dealing with the complexities of subscriber caps and non-subscriber civil lawsuits. One missed deadline or one accepted lowball impairment rating can cost you tens of thousands of dollars. Use our{' '}
                 <Link href="/workers-comp-settlement-calculator/" style={{ color: 'var(--primary)' }}>workers comp settlement calculator</Link>
-                {' '}to establish a baseline for your potential IIB payout, and then seek aggressive legal representation to hold the insurance company accountable for every single dollar you are legally owed.
+                {' '}to establish a baseline for your potential IIB payout, and then confirm the figures against your own benefit notices and the Texas DWC rules.
               </p>
 
             </article>
@@ -1109,7 +1109,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 1. The IME Battle
               </h3>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Your treating doctor is your advocate; the New York IME doctor is a defense witness. If your doctor says you need a <strong style={{ color: 'var(--amber)' }}>$45,000</strong> spinal fusion and the IME doctor claims you just have mild arthritis that requires over-the-counter ibuprofen, your settlement value stalls. Winning a high settlement requires hiring legal counsel who can cross-examine the IME physician on their flawed orthopedic testing methods during WCB depositions.
+                Your treating doctor is your advocate; the New York IME doctor is a defense witness. If your doctor says you need a <strong style={{ color: 'var(--amber)' }}>$45,000</strong> spinal fusion and the IME doctor claims you just have mild arthritis that requires over-the-counter ibuprofen, your settlement value stalls. In a contested case, an attorney can cross-examine the IME physician during WCB depositions.
               </p>
 
               <h3 className="heading-display" style={{ fontSize: '22px', fontWeight: 600, marginBottom: '12px', marginTop: '24px' }}>

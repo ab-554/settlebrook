@@ -6,7 +6,6 @@
 //   • Step 1: State selector + Average Weekly Wage
 //   • Step 2: Benefit type (TTD / PPD / PTD)
 //   • Step 3: Benefit-specific inputs
-//   • Step 4: Has Attorney toggle
 //   • Calls calculateWorkersComp() from workersComp.ts (protected)
 //   • Texas non-subscriber warning, Illinois PPD note, PTD note — wording unchanged
 //   • Non-generic PPD states (MI, MN, NJ, VA): PPD output replaced by the
@@ -96,7 +95,6 @@ interface FormState {
   bodyPartKey: string
   impairmentPercent: number
   claimantAge: string
-  hasAttorney: boolean
 }
 
 const INITIAL_FORM: FormState = {
@@ -107,7 +105,6 @@ const INITIAL_FORM: FormState = {
   bodyPartKey: '',
   impairmentPercent: 0,
   claimantAge: '',
-  hasAttorney: false,
 }
 
 const TOOL = 'workers-comp' as const
@@ -169,7 +166,6 @@ export default function WorkersCompCalculator({
   const startedRef = useRef(false)
   const completedRef = useRef(false)
   const stateSelectId = useId()
-  const attorneyId = useId()
 
   const debouncedForm = useDebouncedValue(form, 250)
   const selectedState = WORKERS_COMP_STATES.find((s) => s.slug === form.stateSlug) ?? null
@@ -199,7 +195,6 @@ export default function WorkersCompCalculator({
       state:             debouncedForm.stateSlug,
       benefitType:       debouncedForm.benefitType,
       averageWeeklyWage: parseFloat(debouncedForm.averageWeeklyWage) || 0,
-      hasAttorney:       debouncedForm.hasAttorney,
       treatmentWeeks:    debouncedForm.benefitType === 'ttd' ? parseFloat(debouncedForm.treatmentWeeks) || 0 : undefined,
       bodyPartKey:       debouncedForm.benefitType === 'ppd' ? debouncedForm.bodyPartKey : undefined,
       impairmentPercent: debouncedForm.benefitType === 'ppd' ? debouncedForm.impairmentPercent : undefined,
@@ -251,7 +246,7 @@ export default function WorkersCompCalculator({
   const step1Done = !!form.stateSlug && aww > 0 && !errors.averageWeeklyWage
   const step2Done = step1Done
   const step3Done = step2Done && !errors.treatmentWeeks && !errors.bodyPartKey && !errors.impairmentPercent && !errors.claimantAge && result !== null
-  const doneCount = [step1Done, step2Done, step3Done, step3Done].filter(Boolean).length
+  const doneCount = [step1Done, step2Done, step3Done].filter(Boolean).length
   const stateOf = (done: boolean, prevDone: boolean) => (done ? 'done' : prevDone ? 'active' : 'todo')
 
   const showNonGenericPPD = !!result && result.benefitType === 'ppd' && !!resultState && NON_GENERIC_PPD_SLUGS.has(resultState.slug)
@@ -274,7 +269,7 @@ export default function WorkersCompCalculator({
               <PrivacyNote />
             </div>
             <div className="mt-3">
-              <Progress total={4} done={doneCount} />
+              <Progress total={3} done={doneCount} />
             </div>
           </div>
 
@@ -475,37 +470,6 @@ export default function WorkersCompCalculator({
                   </p>
                 </div>
               )}
-            </fieldset>
-
-            {/* ── Step 4: Attorney representation toggle ── */}
-            <fieldset className="calc-step">
-              <StepHeader
-                n={4}
-                title="Attorney representation"
-                state={stateOf(step3Done, step3Done)}
-                optional
-              />
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  id={attorneyId}
-                  role="switch"
-                  aria-checked={form.hasAttorney}
-                  onClick={() => updateField('hasAttorney', !form.hasAttorney)}
-                  className="switch"
-                >
-                  <span className="sr-only">I have an attorney</span>
-                  <span className="switch-knob" aria-hidden="true" />
-                </button>
-                <label htmlFor={attorneyId} className="text-sm font-medium cursor-pointer" style={{ color: 'var(--ink)' }}>
-                  {form.hasAttorney ? 'I have an attorney' : 'No attorney (self-represented)'}
-                </label>
-              </div>
-              <p className={`note mt-3 ${form.hasAttorney ? 'note-info' : ''}`}>
-                {form.hasAttorney
-                  ? 'Attorney adjustment applied (+25%). Represented claimants receive higher settlements on average — attorney fees typically run 15–25% of the final award.'
-                  : 'Represented claimants receive higher settlements on average. Toggle on if you have or plan to retain a workers comp attorney.'}
-              </p>
             </fieldset>
 
             <div className="flex flex-col sm:flex-row gap-3 mt-6">

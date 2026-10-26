@@ -9,7 +9,6 @@
 //   PPD (AMA schedule) = scheduledWeeks × (impairmentPct / 100) × weeklyBenefit
 //   PPD (pct-of-person)= weeklyBenefit × 500 × (impairmentPct / 100)   [IL + non-scheduled]
 //   PTD total          = annualBenefit × lifeExpectancyYears × 0.85 (discount factor)
-//   Attorney adjust    = base × 1.25 if hasAttorney
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type {
@@ -74,16 +73,6 @@ export function calculateWeeklyBenefit(
   return Math.min(raw, weeklyCap)
 }
 
-/**
- * Applies the attorney adjustment.
- * Returns base × 1.25 when hasAttorney is true; base unchanged otherwise.
- * Studies show represented claimants settle for ~25% more on average,
- * which is the industry-standard adjustment applied to WC benefit estimates.
- */
-export function applyAttorneyAdjustment(base: number, hasAttorney: boolean): number {
-  return hasAttorney ? base * 1.25 : base
-}
-
 // ─── Benefit-type calculators ─────────────────────────────────────────────────
 
 /**
@@ -129,14 +118,11 @@ export function calculateTTD(
   }
 
   const baseSettlement = weeklyBenefit * treatmentWeeks
-  const adjustedSettlement = applyAttorneyAdjustment(baseSettlement, inputs.hasAttorney)
 
   return {
     benefitType: 'ttd',
     weeklyBenefit,
     baseSettlement,
-    adjustedSettlement,
-    hasAttorneyAdjustment: inputs.hasAttorney,
     weeksCovered: treatmentWeeks,
     stateWeeklyCap: stateData.weeklyCapAmount,
     stateBenefitRate: stateData.benefitRate,
@@ -210,14 +196,10 @@ export function calculatePPD(
     )
   }
 
-  const adjustedSettlement = applyAttorneyAdjustment(baseSettlement, inputs.hasAttorney)
-
   return {
     benefitType: 'ppd',
     weeklyBenefit,
     baseSettlement,
-    adjustedSettlement,
-    hasAttorneyAdjustment: inputs.hasAttorney,
     weeksCovered,
     stateWeeklyCap: stateData.weeklyCapAmount,
     stateBenefitRate: stateData.benefitRate,
@@ -273,14 +255,10 @@ export function calculatePTD(
     )
   }
 
-  const adjustedSettlement = applyAttorneyAdjustment(baseSettlement, inputs.hasAttorney)
-
   return {
     benefitType: 'ptd',
     weeklyBenefit,
     baseSettlement,
-    adjustedSettlement,
-    hasAttorneyAdjustment: inputs.hasAttorney,
     weeksCovered,
     stateWeeklyCap: stateData.weeklyCapAmount,
     stateBenefitRate: stateData.benefitRate,
@@ -296,7 +274,7 @@ export function calculatePTD(
  *
  * Resolves state data and (for PPD) body part data, then delegates to the
  * appropriate benefit-type calculator. Returns a WorkersCompResult with all
- * fields populated, including the attorney adjustment and any advisory warnings.
+ * fields populated, including any advisory warnings.
  *
  * Returns a result with warnings and $0 settlement values when required inputs
  * are missing rather than throwing — mirrors the pattern in carAccident.ts.
@@ -310,8 +288,6 @@ export function calculateWorkersComp(inputs: WorkersCompInputs): WorkersCompResu
       benefitType: inputs.benefitType,
       weeklyBenefit: 0,
       baseSettlement: 0,
-      adjustedSettlement: 0,
-      hasAttorneyAdjustment: false,
       stateWeeklyCap: 0,
       stateBenefitRate: 0,
       warnings: [`State "${inputs.state}" is not supported. Select a supported state and recalculate.`],
@@ -326,8 +302,6 @@ export function calculateWorkersComp(inputs: WorkersCompInputs): WorkersCompResu
       benefitType: inputs.benefitType,
       weeklyBenefit: 0,
       baseSettlement: 0,
-      adjustedSettlement: 0,
-      hasAttorneyAdjustment: false,
       stateWeeklyCap: stateData.weeklyCapAmount,
       stateBenefitRate: stateData.benefitRate,
       warnings: [

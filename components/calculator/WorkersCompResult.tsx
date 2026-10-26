@@ -4,8 +4,8 @@
 // components/calculator/WorkersCompResult.tsx
 // Tool #3 result on the shared ResultFrame. Key differences from Tools #1/#2:
 //   • No pain & suffering line — WC does not include it (note wording unchanged)
-//   • Shows: weekly benefit, benefit rate, weeks covered, base settlement,
-//     attorney adjustment
+//   • Shows: weekly benefit, benefit rate, weeks covered, estimated settlement
+//     (statutory formula only — no representation adjustment)
 //   • Renders the warnings[] array as caution notes (wording unchanged)
 //   • No low/likely/high range — the WC math produces a single figure
 // ─────────────────────────────────────────────────────────────────────────────
@@ -26,7 +26,6 @@ interface WorkersCompResultProps {
     bodyPartKey: string
     impairmentPercent: number
     claimantAge: string
-    hasAttorney: boolean
   }
 }
 
@@ -41,19 +40,12 @@ const PPD_METHOD_LABELS: Record<string, string> = {
   percentage_of_person: 'Percentage of Person',
 }
 
-const BASE_SWATCH = 'var(--primary)'
-const ATTY_SWATCH = 'var(--money)'
-
 export default function WorkersCompResult({ result, inputs }: WorkersCompResultProps) {
   const {
-    benefitType, weeklyBenefit, baseSettlement, adjustedSettlement, hasAttorneyAdjustment,
+    benefitType, weeklyBenefit, baseSettlement,
     weeksCovered, stateWeeklyCap, stateBenefitRate, ppdMethod, warnings,
   } = result
 
-  const attorneyDelta = adjustedSettlement - baseSettlement
-  const total = adjustedSettlement
-  const basePct = total > 0 ? (baseSettlement / total) * 100 : 100
-  const attorneyPct = total > 0 ? (attorneyDelta / total) * 100 : 0
   const isCapped = weeklyBenefit >= stateWeeklyCap
   const aww = parseFloat(inputs.averageWeeklyWage) || 0
 
@@ -66,13 +58,9 @@ export default function WorkersCompResult({ result, inputs }: WorkersCompResultP
             ? `Base PPD (${ppdMethod ? PPD_METHOD_LABELS[ppdMethod] : ''} formula)`
             : 'Base PTD (lifetime benefit stream, discounted)',
       value: baseSettlement,
-      swatch: hasAttorneyAdjustment ? BASE_SWATCH : undefined,
     },
   ]
-  if (hasAttorneyAdjustment && attorneyDelta > 0) {
-    rows.push({ label: 'Attorney adjustment (+25%)', value: attorneyDelta, swatch: ATTY_SWATCH })
-  }
-  rows.push({ label: 'Estimated total', value: adjustedSettlement, total: true })
+  rows.push({ label: 'Estimated total', value: baseSettlement, total: true })
 
   const weeklyLine = `Weekly benefit = min(${formatCurrency(aww)} × ${(stateBenefitRate * 100).toFixed(1)}%, ${formatCurrency(stateWeeklyCap)} cap) = ${formatCurrency(weeklyBenefit)}`
   let typeLines: string[] = []
@@ -88,19 +76,14 @@ export default function WorkersCompResult({ result, inputs }: WorkersCompResultP
     const years = weeksCovered ? weeksCovered / 52 : 0
     typeLines = [`PTD = ${formatCurrency(weeklyBenefit)} × 52 × ${years} years remaining × 0.85 present-value factor = ${formatCurrency(baseSettlement)}`]
   }
-  const formulaLines = [
-    weeklyLine,
-    ...typeLines,
-    ...(hasAttorneyAdjustment ? [`With attorney = ${formatCurrency(baseSettlement)} × 1.25 = ${formatCurrency(adjustedSettlement)}`] : []),
-  ]
+  const formulaLines = [weeklyLine, ...typeLines]
 
   const copyText = [
     `Settlebrook workers comp estimate — ${BENEFIT_LABELS[benefitType] ?? benefitType.toUpperCase()}`,
-    `Estimated settlement: ${formatCurrency(adjustedSettlement)}`,
+    `Estimated settlement: ${formatCurrency(baseSettlement)}`,
     `Weekly benefit: ${formatCurrency(weeklyBenefit)}/wk${isCapped ? ' (capped at state maximum)' : ''}`,
     `Benefit rate: ${(stateBenefitRate * 100).toFixed(1)}% of AWW`,
     weeksCovered !== undefined ? `Weeks covered: ${weeksCovered % 1 === 0 ? weeksCovered.toLocaleString() : weeksCovered.toFixed(1)}` : null,
-    hasAttorneyAdjustment ? 'Includes +25% attorney adjustment' : null,
     '',
     'Estimate only — not legal advice. Pain and suffering is not included in workers comp.',
     typeof window !== 'undefined' ? window.location.href : 'https://www.settlebrook.com/workers-comp-settlement-calculator/',
@@ -111,14 +94,9 @@ export default function WorkersCompResult({ result, inputs }: WorkersCompResultP
       tool="workers-comp"
       title="Estimated workers comp settlement"
       methodLabel={BENEFIT_LABELS[benefitType] ?? benefitType.toUpperCase()}
-      amount={adjustedSettlement}
+      amount={baseSettlement}
       amountLabel="Estimated settlement"
-      amountNote={hasAttorneyAdjustment ? 'Includes +25% attorney adjustment' : undefined}
       range={null}
-      bar={hasAttorneyAdjustment ? [
-        { pct: basePct, color: BASE_SWATCH, label: 'Base settlement' },
-        { pct: attorneyPct, color: ATTY_SWATCH, label: 'Attorney adjustment' },
-      ] : undefined}
       rows={rows}
       formula={<Formula lines={formulaLines} />}
       copyText={copyText}

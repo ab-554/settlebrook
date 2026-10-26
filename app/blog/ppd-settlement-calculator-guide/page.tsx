@@ -128,7 +128,7 @@ const faqSchema = {
       name: 'Do I need a lawyer for a PPD settlement?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'You do not legally need a lawyer to settle a workers compensation claim, and you can accept the insurance company offer based on the undisputed medical rating. A lawyer helps immensely when the insurer forces you to see their doctor for a lower rating. A lawyer also helps ensure your average weekly wage was calculated correctly by the adjuster. Unrepresented workers frequently miss future medical value when negotiating their own lump sum claim closures.',
+        text: 'You do not legally need a lawyer to settle a workers compensation claim, and you can accept the insurance company offer based on the undisputed medical rating. A lawyer helps immensely when the insurer forces you to see their doctor for a lower rating. Whether or not you hire one, check that the adjuster calculated your average weekly wage correctly and weigh future medical care before agreeing to a lump sum claim closure.',
       },
     },
   ],
@@ -221,7 +221,7 @@ export default function PPDSettlementCalculatorGuidePost() {
 
             <h2 className="heading-display h2-editorial">What Can Change Your PPD Payout</h2>
             <p style={bodyStyle}>The standard formula provides a firm mathematical baseline, but several real-world factors can still change what you actually walk away with. Your initial medical impairment rating is rarely the final word if a financial dispute arises. Insurance companies frequently disagree with high ratings from treating physicians and will demand an independent medical examination. Their chosen doctor will almost always assign a lower impairment percentage to your injury, which creates an immediate dispute over the true workers comp impairment rating.</p>
-            <p style={bodyStyle}>Attorney involvement significantly shifts the settlement dynamics. A lawyer will often push back against a low independent medical examination rating, and they might negotiate a financial compromise between the two conflicting medical ratings. They might also take the medical dispute to a formal hearing before a judge. The insurance company knows that fighting a represented worker costs real money and introduces risk. This reality often leads to higher settlement offers to avoid ongoing litigation costs.</p>
+            <p style={bodyStyle}>When two medical ratings conflict, a lawyer can challenge a low independent medical examination rating, negotiate a compromise between the two ratings, or take the medical dispute to a formal hearing before a judge. Which route applies depends on your state&apos;s dispute process.</p>
             <p style={bodyStyle}>Returning to work also influences the final payout in many specific jurisdictions. If you return to work at your exact same wages, some states limit your compensation strictly to the impairment rating figures. Conversely, if you return to work at reduced wages because of your new injury restrictions, you might qualify for additional wage loss benefits on top of the standard impairment rating payout.</p>
             <p style={bodyStyle}>Apportionment frequently reduces settlements for older workers with a long medical history. If you have a pre-existing condition in the exact same body part, the doctor must separate the old impairment from the new impairment. The insurance company will only pay for the exact percentage of disability directly caused by the workplace accident.</p>
 
@@ -242,7 +242,7 @@ export default function PPDSettlementCalculatorGuidePost() {
             <p style={bodyStyle}>A 10 percent rating can represent a significant financial payout or a modest one, since the exact dollar value depends on the injured body part and your state laws. A 10 percent whole person rating often yields substantial financial compensation, while a 10 percent rating to a single finger will result in a much smaller dollar amount. The financial impact depends entirely on your state maximum limits, your weekly wages, and the specific rating type.</p>
 
             <h3 className="heading-display h3-editorial">Do I need a lawyer for a PPD settlement?</h3>
-            <p style={bodyStyle}>You do not legally need a lawyer to settle a workers compensation claim, and you can accept the insurance company offer based on the undisputed medical rating. A lawyer helps immensely when the insurer forces you to see their doctor for a lower rating. A lawyer also helps ensure your average weekly wage was calculated correctly by the adjuster. Unrepresented workers frequently miss future medical value when negotiating their own lump sum claim closures.</p>
+            <p style={bodyStyle}>You do not legally need a lawyer to settle a workers compensation claim, and you can accept the insurance company offer based on the undisputed medical rating. A lawyer helps immensely when the insurer forces you to see their doctor for a lower rating. Whether or not you hire one, check that the adjuster calculated your average weekly wage correctly and weigh future medical care before agreeing to a lump sum claim closure.</p>
 
             <hr style={ruleStyle} />
 

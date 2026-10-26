@@ -31,7 +31,6 @@ export default function WorkedExampleWorkersComp({
     state: stateSlug,
     benefitType: 'ttd',
     averageWeeklyWage: EXAMPLE_AWW,
-    hasAttorney: false,
     treatmentWeeks: EXAMPLE_TREATMENT_WEEKS,
   })
 

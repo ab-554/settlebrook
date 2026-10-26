@@ -230,7 +230,6 @@ Benefit types:
 - PPD: scheduledWeeks × (impairmentPct / 100) × weeklyBenefit
 - PTD: annualBenefit × lifeExpectancyYears × discountFactor (0.85)
 - weeklyBenefit = Math.min(AWW × stateRate, stateWeeklyCap)
-- Attorney adjustment: × 1.25 if hasAttorney
 New files:
 - lib/calculations/workersComp.ts
 - lib/data/workersCompStates.ts (stateRate, weeklyCap, ppdMethod flag)

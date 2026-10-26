@@ -68,9 +68,9 @@ const MAIN_PAGE_FAQS: FAQItem[] = [
     id: 'do-i-need-a-lawyer',
     question: 'Do I need a lawyer to get pain and suffering damages?',
     answer:
-      'You are not legally required to hire an attorney. An attorney can negotiate on your behalf, identify additional insurance coverage, and take a case to trial if the insurer won\'t offer a fair number — leverage you don\'t have negotiating alone. That value has to be weighed against contingency fees, which are typically a third of the settlement. Insurance companies have professional adjusters trained to minimize payouts, so the decision deserves serious thought before you negotiate alone.',
+      'You are not legally required to hire an attorney. An attorney can negotiate on your behalf, identify additional insurance coverage, and take a case to trial if the insurer won\'t offer a fair number — that has to be weighed against contingency fees, which are typically a third of the settlement. Hiring an attorney is your decision, and it deserves serious thought before you negotiate alone.',
     schemaAnswer:
-      'You are not required to hire an attorney, but an attorney provides negotiating leverage, can identify additional coverage, and can take a case to trial — weighed against a contingency fee, typically a third of the settlement.',
+      'You are not required to hire an attorney, but an attorney can negotiate for you, identify additional coverage, and take a case to trial — which you should weigh against a contingency fee, typically a third of the settlement.',
   },
   {
     id: 'how-long-to-settle',
