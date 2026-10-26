@@ -72,7 +72,7 @@ const WORKERS_COMP_STATE_LAST_MODIFIED_OVERRIDES: Record<string, string> = {
   'new-jersey': '2026-10-26',
   virginia: '2026-10-26',
   colorado: '2026-10-26',
-  minnesota: '2026-10-26',
+  minnesota: '2026-10-27',
 }
 
 // Per-post lastModified — new posts default to their publish date unless

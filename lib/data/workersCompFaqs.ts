@@ -280,9 +280,9 @@ export const STATE_WORKERS_COMP_FAQS: Partial<Record<string, FAQItem[]>> = {
       id: 'wc-mn-faq-3',
       question: 'Which PPD dollar table applies to my injury?',
       answer:
-        "It depends only on your date of injury, not when you're rated or paid. Injuries from October 1, 2023 through September 30, 2026 use the current table; injuries on or after October 1, 2026 use the higher table enacted by 2026 Minn. Laws ch. 103, §10.",
+        "It depends only on your date of injury, not when you're rated or paid. Injuries before October 1, 2026 use table A, which runs from $114,260 (impairment under 5.5%) to $567,840 (95.5% to 100%); injuries on or after October 1, 2026 use table B, which runs from $137,240 to $682,045 across the same bands, as enacted by 2026 Minn. Laws ch. 103, §10.",
       schemaAnswer:
-        "It depends only on your date of injury, not when you're rated or paid. Injuries from October 1, 2023 through September 30, 2026 use the current table; injuries on or after October 1, 2026 use the higher table enacted by 2026 Minn. Laws ch. 103, §10.",
+        "It depends only on your date of injury, not when you're rated or paid. Injuries before October 1, 2026 use table A, which runs from $114,260 (impairment under 5.5%) to $567,840 (95.5% to 100%); injuries on or after October 1, 2026 use table B, which runs from $137,240 to $682,045 across the same bands, as enacted by 2026 Minn. Laws ch. 103, §10.",
     },
     {
       id: 'wc-mn-faq-4',
