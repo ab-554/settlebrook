@@ -26,9 +26,9 @@ export const WORKERS_COMP_FAQS: FAQItem[] = [
     id: 'get-attorney',
     question: 'Should I get an attorney for my workers comp claim?',
     answer:
-      'While you are not required to hire an attorney, data from the National Council on Compensation Insurance (NCCI) shows that represented workers receive higher settlements on average — often yielding a 25% average uplift in payout even after accounting for attorney fees. Workers comp attorneys can help negotiate lump-sum amounts, dispute low impairment ratings, and ensure medical treatment is fully covered.',
+      "You aren't required to hire an attorney. An attorney can help dispute a low impairment rating and review a settlement before you sign.",
     schemaAnswer:
-      'Represented workers receive higher settlements on average, with an average uplift of 25% according to NCCI data. Attorneys help dispute low impairment ratings and negotiate lump-sum settlements.',
+      "You aren't required to hire an attorney. An attorney can help dispute a low impairment rating and review a settlement before you sign.",
   },
   {
     id: 'ttd-ppd-ptd-difference',
@@ -306,7 +306,33 @@ export const STATE_WORKERS_COMP_FAQS: Partial<Record<string, FAQItem[]>> = {
 // Returns the state's own FAQ set if Sprint C1 gave it one, otherwise the
 // shared generic set every other workers-comp state page uses.
 export function getWorkersCompFaqsForState(slug: string): FAQItem[] {
-  return STATE_WORKERS_COMP_FAQS[slug] ?? WORKERS_COMP_FAQS
+  return STATE_WORKERS_COMP_FAQS[slug] ?? FORMULA_OVERRIDE_FAQS[slug] ?? WORKERS_COMP_FAQS
+}
+
+// California and Texas keep the shared generic FAQ set, but its two formula
+// answers ("AWW × benefit rate × impairment weeks × rating" and "scheduled
+// weeks for that body part") are wrong for them: neither state pays PPD that
+// way. Added 2026-10-26; answer and schemaAnswer stay identical so the
+// FAQPage JSON-LD matches the visible accordion.
+function withFormulaOverrides(overrides: Record<string, string>): FAQItem[] {
+  return WORKERS_COMP_FAQS.map((faq) =>
+    overrides[faq.id] ? { ...faq, answer: overrides[faq.id], schemaAnswer: overrides[faq.id] } : faq,
+  )
+}
+
+const FORMULA_OVERRIDE_FAQS: Partial<Record<string, FAQItem[]>> = {
+  california: withFormulaOverrides({
+    'how-calculated':
+      "Workers' compensation settlements do not include pain and suffering. Temporary disability pays two-thirds of your average weekly wage, up to the state weekly maximum. Permanent disability starts from a whole-person impairment rating under the AMA Guides, 5th Edition; for injuries on or after January 1, 2013 that rating is multiplied by 1.4, then adjusted for occupation and age under the Permanent Disability Rating Schedule and for apportionment, and the result is converted to statutory weeks of benefits at the statutory weekly rate.",
+    'impairment-rating':
+      "An impairment rating is a percentage assigned by a doctor once you reach Maximum Medical Improvement (MMI). In California it is a whole-person impairment under the AMA Guides, 5th Edition. That rating is only the starting point: it is multiplied by 1.4 for injuries on or after January 1, 2013 and then adjusted for occupation, age, and apportionment before it is converted to weeks and dollars.",
+  }),
+  texas: withFormulaOverrides({
+    'how-calculated':
+      "Workers' compensation settlements do not include pain and suffering. Temporary income benefits are paid at 70% of your average weekly wage, within the weekly minimum and maximum for your date of injury. Permanent impairment is paid as impairment income benefits: 3 weeks for each percentage point of your impairment rating, at 70% of your average weekly wage, also held between the minimum and maximum for your date of injury (Tex. Lab. Code §§ 408.121, 408.126).",
+    'impairment-rating':
+      "An impairment rating is a percentage assigned by a certifying doctor once you reach Maximum Medical Improvement (MMI). In Texas each percentage point of the rating is worth 3 weeks of impairment income benefits, so a 15% rating pays 45 weeks (Tex. Lab. Code § 408.121).",
+  }),
 }
 
 export function buildWorkersCompFAQSchema(faqs: FAQItem[]): object {
