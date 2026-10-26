@@ -22,7 +22,10 @@ const weeklyBenefitPost = getBlogPostBySlug('/blog/workers-comp-weekly-benefit-c
 const isWeeklyBenefitPostLive = !!weeklyBenefitPost && isPostPublished(weeklyBenefitPost)
 
 const canonicalUrl = '/workers-comp-maximum-weekly-benefits-by-state/'
-const LAST_VERIFIED = 'September 24, 2026'
+// October 26, 2026: re-verified the six rates that reset October 1 (CT, MA,
+// MN, RI, TX, WY) against their official pages; every other row was last
+// verified September 24, 2026.
+const LAST_VERIFIED = 'October 26, 2026'
 
 // States whose figures need a footnote beyond the plain table read.
 const FOOTNOTES: Record<string, string> = {
@@ -32,6 +35,8 @@ const FOOTNOTES: Record<string, string> = {
     'Washington L&I pays time-loss compensation monthly and does not publish a weekly rate at all. The official monthly maximum/minimum are $9,981.00/mo and $1,247.63/mo; the weekly figures shown here are a calculated equivalent (× 12 ÷ 52) so Washington can be compared against every other state’s weekly rate in this table.',
   Wyoming:
     'Wyoming pays TTD monthly under a quarterly Statewide Average Monthly Wage table. The figures shown are calculated weekly-equivalents (monthly figure × 12 ÷ 52), not statute-stated weekly numbers.',
+  Texas:
+    'The figure shown is the temporary income benefit (TIB) maximum for injuries on or after October 1, 2026 ($1,314; minimum $197). The impairment income benefit (IIB) maximum is lower: $920 for injuries on or after October 1, 2026 ($890 for October 1, 2025 – September 30, 2026). Prior TIB figures for injuries before October 1, 2026 were $1,271 / $191.',
   'New Hampshire':
     'This is the last rate officially published on NH DOL’s own compensation rate table (revised June 9, 2025). NH DOL states it issues a new rate each July 1, but no July 2026 update could be located on the official page as of the verification date below — treat this as the most recent confirmed figure, not a guaranteed-current one.',
   Indiana:
@@ -111,7 +116,7 @@ const datasetSchema = {
     name: 'Settlebrook',
     url: 'https://www.settlebrook.com',
   },
-  dateModified: '2026-09-24',
+  dateModified: '2026-10-26',
   distribution: [
     {
       '@type': 'DataDownload',
@@ -272,7 +277,7 @@ export default function WorkersCompMaxBenefitsPage() {
               Where an official page could not be reached or did not contain the number &mdash; a JavaScript-rendered rate table, a scanned or image-only PDF, a page blocked by <code>robots.txt</code>, or simply no locatable official page &mdash; the row is marked &ldquo;Pending official confirmation&rdquo; rather than filled with a guessed figure. As of {LAST_VERIFIED}, that applies to {unverifiedCount === 1 ? unverifiedStates[0] : unverifiedStates.join(', ')}.
             </p>
             <p>
-              States update their maximum and minimum rates on different cycles, which is why the &ldquo;Effective Period&rdquo; column varies so much. Several states run a state fiscal year (July 1&ndash;June 30) rather than a calendar year, and because this dataset was collected on September 24, 2026 &mdash; after the July 1, 2026 rollover &mdash; the current fiscal-year figures were required, not the prior year&rsquo;s. A small number of states, including Georgia, set their rate by statute rather than an annual index and haven&rsquo;t changed it in several years; that&rsquo;s a real reflection of the law, not a stale lookup.
+              States update their maximum and minimum rates on different cycles, which is why the &ldquo;Effective Period&rdquo; column varies so much. Several states run a state fiscal year (July 1&ndash;June 30) rather than a calendar year, and because this dataset was collected on September 24, 2026 &mdash; after the July 1, 2026 rollover &mdash; the current fiscal-year figures were required, not the prior year&rsquo;s. The six states whose rates reset on October 1 (Connecticut, Massachusetts, Minnesota, Rhode Island, Texas) or quarterly (Wyoming) were re-checked against their official pages on October 26, 2026; the effective-period column shows which injury dates each figure covers. A small number of states, including Georgia, set their rate by statute rather than an annual index and haven&rsquo;t changed it in several years; that&rsquo;s a real reflection of the law, not a stale lookup.
             </p>
             <p>
               Three states &mdash; Arizona, Washington, and Wyoming &mdash; run their systems on a monthly basis rather than weekly and don&rsquo;t publish an official &ldquo;weekly&rdquo; figure at all. Their entries in this table are calculated weekly-equivalents of the official monthly figures, footnoted above. New Hampshire and Indiana carry their own caveats, also footnoted: New Hampshire&rsquo;s is the most recent rate NH DOL has published, not a confirmed-current one, and Indiana&rsquo;s is a precisely computed figure that secondary sources commonly round.

@@ -71,13 +71,13 @@
   {
     "state": "Connecticut",
     "ttd_rate": "Based on statutory formula referencing Connecticut State AWW",
-    "max_weekly": 1716.0,
-    "min_weekly": null,
-    "effective_period": "October 1, 2025 - September 30, 2026",
-    "basis": "Connecticut State Average Weekly Wage of $1,715.03",
-    "source_url": "https://portal.ct.gov/-/media/wcc/publications/benefit-rate-tables/benefit-rate-table-2025-2026.pdf",
+    "max_weekly": 1776,
+    "min_weekly": 355.2,
+    "effective_period": "October 1, 2026 - September 30, 2027",
+    "basis": "Connecticut State Average Weekly Wage of $1,775.92",
+    "source_url": "https://portal.ct.gov/wcc/-/media/wcc/publications/benefit-rate-tables/benefit-rate-table-2026-2027.pdf?rev=50210bea7a754fa3a23cf5d7ac9815c8&hash=BAB5282BFB420288F450F913970DF15F",
     "status": "VERIFIED",
-    "notes": "CT Workers' Compensation Commission benefit rate table for 10/1/25-9/30/26 (covers 9/24/26). Lower cap of $1,220.00/wk applies to TPD/PPD. No separate statutory minimum weekly rate found on this table."
+    "notes": "CT WCC Memorandum 2026-07 (dated 9/4/2026) and benefit rate table for injuries 10/1/26-9/30/27. Prior row was $1,716 (10/1/25-9/30/26). Lower cap of $1,175.00/wk applies to TPD/PPD. TTD/PTD minimum is 20% of max ($355.20), not to exceed 75% of the employee's AWW; PPD minimum $50.00/wk (the old row had min null)."
   },
   {
     "state": "Delaware",
@@ -243,14 +243,13 @@
   {
     "state": "Massachusetts",
     "ttd_rate": "60% of AWW (Section 34), subject to statutory min/max",
-    "max_weekly": 1922.48,
-    "min_weekly": 384.5,
-    "effective_period": "October 1, 2025 (in effect through the next annual update, ~October 2026; covers 9/24/2026)",
-    "basis": "DIA Circular Letter 362; M.G.L. c.152 Section 34; maximum = 100% of SAWW, minimum = 20% of SAWW",
-    "source_url": "https://www.mass.gov/doc/c-l-362-cola-payment-and-reimbursement-schedules-and-requests-maximum-and-minimum-weekly-compensation-rates-attorneys-fees-schedule/download",
+    "max_weekly": 2007.2,
+    "min_weekly": 401.44,
+    "effective_period": "October 1, 2026 (in effect through the next annual update, ~October 2027)",
+    "basis": "DIA Circular Letter 364 (dated Oct 1, 2026); M.G.L. c.152 Section 34; maximum = 100% of SAWW ($2,007.20), minimum = 20% of SAWW",
+    "source_url": "https://www.mass.gov/doc/cl-364-cola-saww-attorneys-fees/download",
     "status": "VERIFIED",
-    "notes": null,
-    "verified_pass": 3
+    "notes": "Replaces CL 362 figures ($1,922.48 / $384.50, effective 10/1/2025). Applies to injuries on or after 10/1/2026."
   },
   {
     "state": "Michigan",
@@ -265,15 +264,14 @@
   },
   {
     "state": "Minnesota",
-    "ttd_rate": "Min = 20% of statewide max compensation rate; max = statewide AWW-indexed",
-    "max_weekly": 1536.84,
-    "min_weekly": 307.37,
-    "effective_period": "October 1, 2025 - September 30, 2026",
-    "basis": "Minnesota statewide average weekly wage of $1,423.00 (M.S. 176.011/176.101)",
-    "source_url": "https://dli.mn.gov/sites/default/files/pdf/annladj.pdf",
+    "ttd_rate": "Min = 20% of statewide max compensation rate; max = 108% of statewide AWW",
+    "max_weekly": 1594.08,
+    "min_weekly": 318.82,
+    "effective_period": "Injuries on or after October 1, 2026 (through September 30, 2027)",
+    "basis": "Minnesota 2026 statewide average weekly wage (SAWW) of $1,476.00; max = 108% of SAWW (M.S. 176.011/176.101)",
+    "source_url": "https://dli.mn.gov/sites/default/files/pdf/2026%20SAWWTABLE%20JULY%202026%20Updated.pdf",
     "status": "VERIFIED",
-    "notes": "Minnesota DLI annual adjustment chart, effective 10/1/25 (covers 9/24/26).",
-    "verified_pass": 2
+    "notes": "Confirms prior research: max $1,594.08, new minimum $318.82 (20% of max, rounded). Prior row was $1,536.84 / $307.37 (10/1/2025). Also confirmed on DLI July 2026 Common Benefits Charts. Old row's SAWW of $1,423 and the 10/1/2025 figures are the prior period. Minimum is the lesser of $318.82 or the employee's actual weekly wage. Period end date of 9/30/2027 is inferred from the annual 10/1 adjustment cycle, not printed on the table."
   },
   {
     "state": "Mississippi",
@@ -448,13 +446,13 @@
   {
     "state": "Rhode Island",
     "ttd_rate": "Statutory percentage of AWW, subject to maximum tied to state AWW",
-    "max_weekly": 1622.0,
+    "max_weekly": 1691,
     "min_weekly": null,
-    "effective_period": "October 1, 2025 - September 30, 2026",
+    "effective_period": "Injuries on or after October 1, 2026 (through September 30, 2027)",
     "basis": "RI statewide average weekly wage-indexed maximum",
     "source_url": "https://dlt.ri.gov/workers-compensation/insurers-and-adjusters/maximum-compensation-rates",
     "status": "VERIFIED",
-    "notes": "RI Dept. of Labor & Training official Maximum Compensation Rates page, effective 10/1/25 (covers 9/24/26)."
+    "notes": "RI DLT Maximum Compensation Rates page (last updated 9/25/2026) lists 10/1/26 = $1,691; prior row was $1,622 (10/1/25). No minimum shown on the page. End date of 9/30/2027 is inferred from the annual 10/1 cycle; page shows only effective dates."
   },
   {
     "state": "South Carolina",
@@ -492,14 +490,13 @@
   {
     "state": "Texas",
     "ttd_rate": "70% (or 75% for lower earners) of AWW, subject to statutory min/max",
-    "max_weekly": 1271.0,
-    "min_weekly": 191.0,
-    "effective_period": "October 1, 2025 - September 30, 2026",
-    "basis": "88% of the Texas Workforce Commission's average weekly wage in covered employment (SAWW $1,271.05)",
+    "max_weekly": 1314,
+    "min_weekly": 197,
+    "effective_period": "October 1, 2026 - September 30, 2027 (injuries on or after 10/1/2026)",
+    "basis": "TDI-DWC max/min benefits page, FY2027: TIBs max $1,314, min $197 (88% of the TWC average weekly wage in covered employment per statute)",
     "source_url": "https://tdi.texas.gov/wc/employee/maxminbens.html",
     "status": "VERIFIED",
-    "notes": "TX Dept. of Insurance, Division of Workers' Compensation official max/min benefits page, covers 9/24/26.",
-    "verified_pass": 2
+    "notes": "Confirmed against TDI-DWC. TIBs (temporary income benefits) max $1,314 / min $197 for injuries on/after 10/1/2026. Prior period for injuries 10/1/25-9/30/26: TIBs max $1,271 / min $191. Impairment income benefits (IIBs) max is $920 for injuries on/after 10/1/2026 ($890 for 10/1/25-9/30/26); IIBs min $197 / $191 for the same periods. Death benefits max $1,314. The prior row's SAWW $1,271.05 basis was the prior year; the FY2027 underlying wage figure is not stated on the page."
   },
   {
     "state": "Utah",
@@ -574,13 +571,12 @@
   {
     "state": "Wyoming",
     "ttd_rate": "W.S. 27-14-403; TTD paid MONTHLY (max = 2/3 of Average Monthly Wage for wages >= SAMW; min = 30% of SAMW floor)",
-    "max_weekly": 800.71,
-    "min_weekly": 360.3,
-    "effective_period": "2026/QTR 3 (7/1/26-9/30/26)",
-    "basis": "Wyoming DWS official quarterly Statewide Average Monthly Wage (SAMW) table",
+    "max_weekly": 864.71,
+    "min_weekly": 389.1,
+    "effective_period": "2026/QTR 4 (10/1/26-12/31/26)",
+    "basis": "Wyoming DWS official quarterly Statewide Average Wage table; 2/3 Average Monthly Wage = $3,747.08; 30% Statewide Average Wage = $1,686.10",
     "source_url": "https://dws.wyo.gov/dws-division/workers-compensation/employers/wage-reporting-and-coverage/",
     "status": "VERIFIED",
-    "notes": "CALCULATED weekly-equivalents (monthly figure x 12/52), not statute-stated weekly figures - Wyoming pays TTD monthly, not weekly. max_weekly is the weekly-equivalent of a $3,469.73/month maximum; min_weekly is the weekly-equivalent of a $1,561.30/month floor.",
-    "verified_pass": 3
+    "notes": "CALCULATED weekly equivalents (monthly x 12/52): max $3,747.08/mo -> $864.71/wk; min $1,686.10/mo -> $389.10/wk. Supersedes Q3 2026 ($3,469.73 / $1,561.30 per month). Quarterly: next update expected 2027/QTR 1 (1/1/27). Caveat: the DWS page does not label the columns as TTD max/min or cite W.S. 27-14-403 (carried over from the prior row); mapping not independently confirmed against statute in this pass. Prior period (2026/QTR 3, 7/1/26-9/30/26): $800.71 max / $360.30 min per week (weekly equivalents of $3,469.73 / $1,561.30 per month)."
   }
 ]

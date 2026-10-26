@@ -45,7 +45,7 @@ const HOMEPAGE_LAST_MODIFIED = '2026-09-24'
 const PAIN_SUFFERING_HUB_LAST_MODIFIED = '2026-09-24'
 const PAIN_SUFFERING_GUIDE_LAST_MODIFIED = '2026-09-24'
 const CAR_ACCIDENT_HUB_LAST_MODIFIED = '2026-09-24'
-const WORKERS_COMP_HUB_LAST_MODIFIED = '2026-09-24'
+const WORKERS_COMP_HUB_LAST_MODIFIED = '2026-10-26'
 const METHODOLOGY_LAST_MODIFIED = '2026-09-24'
 const BLOG_INDEX_LAST_MODIFIED = '2026-09-24'
 const BLOG_PPD_GUIDE_LAST_MODIFIED = '2026-09-24'
@@ -54,31 +54,32 @@ const ABOUT_LAST_MODIFIED = '2026-09-24'
 const CONTACT_LAST_MODIFIED = '2026-09-24'
 const PRIVACY_POLICY_LAST_MODIFIED = '2026-09-24'
 const TERMS_OF_USE_LAST_MODIFIED = '2026-09-24'
-const WORKERS_COMP_MAX_BENEFITS_LAST_MODIFIED = '2026-09-24'
+const WORKERS_COMP_MAX_BENEFITS_LAST_MODIFIED = '2026-10-26'
 const EDITORIAL_POLICY_LAST_MODIFIED = '2026-09-24'
 
 // All state pages for a given tool share one template file, so they share
 // that template's last-modified date until a state gets page-specific edits.
 const PAIN_SUFFERING_STATE_LAST_MODIFIED = '2026-09-24'
 const CAR_ACCIDENT_STATE_LAST_MODIFIED = '2026-09-24'
-const WORKERS_COMP_STATE_LAST_MODIFIED = '2026-09-24'
+const WORKERS_COMP_STATE_LAST_MODIFIED = '2026-10-26'
 
 // Sprint C1 (2026-09-25) rewrote these 6 states with page-specific editorial
 // content, splitting them off from the shared template date above per the
 // policy in the comment two lines up.
 const WORKERS_COMP_STATE_LAST_MODIFIED_OVERRIDES: Record<string, string> = {
-  georgia: '2026-09-25',
-  michigan: '2026-09-25',
-  'new-jersey': '2026-09-25',
-  virginia: '2026-09-25',
-  colorado: '2026-09-25',
-  minnesota: '2026-09-25',
+  georgia: '2026-10-26',
+  michigan: '2026-10-26',
+  'new-jersey': '2026-10-26',
+  virginia: '2026-10-26',
+  colorado: '2026-10-26',
+  minnesota: '2026-10-26',
 }
 
 // Per-post lastModified — new posts default to their publish date unless
 // listed here. Add an entry when a published post is materially edited.
 const BLOG_POST_LAST_MODIFIED: Record<string, string> = {
   '/blog/injury-claim-calculator/': '2026-09-24',
+  '/blog/workers-comp-weekly-benefit-calculator/': '2026-10-26',
   '/blog/diminished-value-claim/': '2026-09-24',
   '/blog/ppd-settlement-calculator-guide/': BLOG_PPD_GUIDE_LAST_MODIFIED,
   '/blog/state-farm-pain-and-suffering-calculator/': BLOG_STATE_FARM_LAST_MODIFIED,

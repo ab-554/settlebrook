@@ -29,6 +29,8 @@ import { getBlogPostBySlug, isPostPublished, getPostDisplayDate } from '@/lib/da
 
 const canonicalUrl = '/blog/workers-comp-weekly-benefit-calculator/'
 const PUBLISHED_DATE = getBlogPostBySlug(canonicalUrl)!.publishDate
+// Texas row of the state-max table updated for the Oct 1, 2026 rate reset.
+const MODIFIED_DATE = '2026-10-26'
 
 const metaDescription =
   "How workers' comp weekly benefits are calculated in 2026: average weekly wage, the 66 2/3% rate, state max/min caps, waiting periods, and a worked example."
@@ -45,7 +47,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     type: 'article',
     publishedTime: PUBLISHED_DATE,
-    modifiedTime: PUBLISHED_DATE,
+    modifiedTime: MODIFIED_DATE,
     images: [
       {
         url: '/og-image.png',
@@ -76,7 +78,7 @@ const articleSchema = {
   description: metaDescription,
   image: 'https://www.settlebrook.com/og-image.png',
   datePublished: PUBLISHED_DATE,
-  dateModified: PUBLISHED_DATE,
+  dateModified: MODIFIED_DATE,
   author: {
     '@type': 'Organization',
     name: 'Settlebrook',
@@ -156,7 +158,7 @@ const ruleStyle = { borderColor: 'var(--line)', margin: '36px 0' } as const
 
 const stateMaxTable = [
   { name: 'California', href: '/workers-comp-settlement-calculator/california/', max: '$1,764.11', period: 'Jan. 1 – Dec. 31, 2026', sourceLabel: 'dir.ca.gov', sourceUrl: 'https://dir.ca.gov/DIRNews/2025/2025-116.html' },
-  { name: 'Texas', href: '/workers-comp-settlement-calculator/texas/', max: '$1,271.00', period: 'Oct. 1, 2025 – Sep. 30, 2026', sourceLabel: 'tdi.texas.gov', sourceUrl: 'https://tdi.texas.gov/wc/employee/maxminbens.html' },
+  { name: 'Texas', href: '/workers-comp-settlement-calculator/texas/', max: '$1,314.00', period: 'Oct. 1, 2026 – Sep. 30, 2027', sourceLabel: 'tdi.texas.gov', sourceUrl: 'https://tdi.texas.gov/wc/employee/maxminbens.html' },
   { name: 'Florida', href: '/workers-comp-settlement-calculator/florida/', max: '$1,358.00', period: 'Jan. 1 – Dec. 31, 2026', sourceLabel: 'myfloridacfo.com', sourceUrl: 'https://www.myfloridacfo.com/division/wc/insurer/maximum-compensation-rate-table' },
   { name: 'New York', href: '/workers-comp-settlement-calculator/new-york/', max: '$1,281.50', period: 'Jul. 1, 2026 – Jun. 30, 2027', sourceLabel: 'wcb.ny.gov', sourceUrl: 'https://www.wcb.ny.gov/content/main/SubjectNos/sn046_1805.jsp' },
   { name: 'Illinois', href: '/workers-comp-settlement-calculator/illinois/', max: '$2,045.63', period: 'Jul. 15, 2026 – Jan. 14, 2027', sourceLabel: 'iwcc.illinois.gov', sourceUrl: 'https://iwcc.illinois.gov/resources/resources-for/benefits.html' },
