@@ -33,6 +33,18 @@ import { WORKERS_COMP_STATES, NON_GENERIC_PPD_SLUGS, NOINDEXED_WORKERS_COMP_SLUG
 // these states and replaced with a short explanation + statute link.
 // State-specific PPD module planned — do not re-enable generic PPD here.
 const NON_GENERIC_PPD_INFO: Record<string, { explanation: string; statuteLabel: string; statuteUrl: string }> = {
+  texas: {
+    explanation:
+      'Texas does not use a body-part schedule for permanent impairment. It pays impairment income benefits: 3 weeks for each percentage point of your impairment rating, at 70% of your average weekly wage, held between the weekly minimum and maximum for your date of injury (Tex. Lab. Code §§ 408.121, 408.126). Use the Texas impairment income estimator on the Texas page for a figure.',
+    statuteLabel: 'TDI-DWC — impairment income benefits',
+    statuteUrl: 'https://tdi.texas.gov/wc/employee/impairmentben.html',
+  },
+  california: {
+    explanation:
+      'California permanent disability starts with a whole-person impairment rating under the AMA Guides, 5th Edition. For injuries on or after 1/1/2013 that rating is multiplied by 1.4, then adjusted for occupation and age and for apportionment under the Permanent Disability Rating Schedule. The resulting rating is converted to statutory weeks at a statutory weekly rate. A single dollar figure depends on those adjustments, so this calculator does not estimate it.',
+    statuteLabel: 'DIR-DWC — Disability Evaluation Unit',
+    statuteUrl: 'https://www.dir.ca.gov/dwc/deu.html',
+  },
   michigan: {
     explanation:
       'Michigan PPD uses a fixed statutory schedule of weeks per body part (thumb 65, hand 215, arm 269, leg 215, foot 162, eye 162) under MCL 418.361 — not the AMA Guides, and not scaled by an impairment percentage the way this calculator\'s generic formula assumes.',
@@ -62,6 +74,9 @@ const NON_GENERIC_PPD_INFO: Record<string, { explanation: string; statuteLabel: 
 interface WorkersCompCalculatorProps {
   stateSlug?: string
   stateName?: string
+  // Optional extra link shown under the PPD explanation (e.g. California's
+  // compromise-and-release guide). The page passes it only once the post is live.
+  ppdGuide?: { href: string; label: string }
   nextSteps?: NextStepCard[]
 }
 
@@ -145,6 +160,7 @@ function validateForm(form: FormState): Record<string, string> {
 export default function WorkersCompCalculator({
   stateSlug: propStateSlug,
   stateName: propStateName,
+  ppdGuide,
   nextSteps = [],
 }: WorkersCompCalculatorProps) {
   const [form, setForm] = useState<FormState>({ ...INITIAL_FORM, stateSlug: propStateSlug ?? '' })
@@ -532,6 +548,11 @@ export default function WorkersCompCalculator({
               >
                 {NON_GENERIC_PPD_INFO[resultState.slug].statuteLabel} →
               </a>
+              {ppdGuide && resultState.slug === propStateSlug && (
+                <Link href={ppdGuide.href} className="text-link text-sm">
+                  {ppdGuide.label} →
+                </Link>
+              )}
               {!propStateSlug && (
                 <Link href={`/workers-comp-settlement-calculator/${resultState.slug}/`} className="text-link text-sm">
                   Open the {resultState.name} page for its own PPD estimator →

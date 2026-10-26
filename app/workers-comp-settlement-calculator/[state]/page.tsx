@@ -30,6 +30,7 @@ import StateList from '@/components/ui/StateList'
 import StatePPDSection from '@/components/calculator/StatePPDSection'
 import BackToCalculator from '@/components/calculator/BackToCalculator'
 import { buildNextSteps } from '@/lib/nextSteps'
+import { getBlogPostBySlug, isPostPublished } from '@/lib/data/blogPosts'
 import {
   getWorkersCompStateBySlug,
   getAllWorkersCompStateSlugs,
@@ -48,8 +49,8 @@ import type { ScheduledLossStateSlug } from '@/lib/data/ppdSchedules2026'
 // added 2026-09-25 per PPD-SPEC-ADDENDUM-COLORADO.md — its generic PPD
 // output applied a wage-based rate that's wrong for Colorado's flat
 // statutory scheduled-loss rate.
-const PPD_MODULE_SLUGS = new Set<ScheduledLossStateSlug | 'minnesota'>([
-  'michigan', 'minnesota', 'new-jersey', 'virginia', 'georgia', 'colorado',
+const PPD_MODULE_SLUGS = new Set<ScheduledLossStateSlug | 'minnesota' | 'texas'>([
+  'michigan', 'minnesota', 'new-jersey', 'virginia', 'georgia', 'colorado', 'texas',
 ])
 
 // Sprint C1 (2026-09-25) per-state metadata overrides — title/description
@@ -92,7 +93,9 @@ const STATE_METADATA: Partial<Record<string, { title: string; description: strin
 // E-E-A-T review stamp. Bump this one string when state law is re-verified
 // - it stamps every state page generated from this template.
 // Updated 2026-09-24: legal accuracy sprint touched every state's content.
-const LAST_REVIEWED = 'September 2026'
+// Updated 2026-10-26: Oct 1 weekly-rate refresh (CT, MA, MN, RI, TX, WY),
+// Texas impairment income benefits, California PD explanation.
+const LAST_REVIEWED = 'October 2026'
 
 // ─── Static params ─────────────────────────────────────────────────────────────
 
@@ -220,6 +223,11 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
     ],
   }
 
+  // The California compromise-and-release guide is scheduled (2026-11-02);
+  // link to it only once it is live so the page never points at a 404.
+  const caGuide = getBlogPostBySlug('/blog/california-compromise-and-release/')
+  const californiaGuideLive = !!caGuide && isPostPublished(caGuide)
+
   const activeFaqs = getWorkersCompFaqsForState(stateData.slug)
   const faqSchema = buildWorkersCompFAQSchema(activeFaqs)
 
@@ -308,7 +316,11 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
         >
           <div className="mt-5 flex flex-wrap gap-2">
             <span className="state-badge state-badge-blue">
-              {NON_GENERIC_PPD_SLUGS.has(stateData.slug)
+              {stateData.slug === 'texas'
+                ? 'Impairment Income Benefits'
+                : stateData.slug === 'california'
+                ? 'PDRS Permanent Disability Rating'
+                : NON_GENERIC_PPD_SLUGS.has(stateData.slug)
                 ? `${stateData.name}'s Own PPD Schedule`
                 : stateData.ppdMethod === 'ama_schedule' ? 'AMA Scheduled Weeks' : 'Percentage of Person'}
             </span>
@@ -322,6 +334,11 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
             stateSlug={stateData.slug}
             stateName={stateData.name}
             nextSteps={nextSteps}
+            ppdGuide={
+              stateData.slug === 'california' && californiaGuideLive
+                ? { href: '/blog/california-compromise-and-release/', label: 'How California compromise and release settlements work' }
+                : undefined
+            }
           />
 
           {/* State notices sit under the calculator so the first input stays above the fold on
@@ -404,6 +421,20 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 The state of California does not pay settlements based on raw WPI percentages. Instead, your medical score is processed through the state&apos;s <strong style={{ color: 'var(--ink)' }}>Permanent Disability Rating Schedule (PDRS)</strong>. This statutory formula modifies your raw rating based on the exact anatomical body part injured, your age on the date of the accident, and your specific occupational classification. A 55-year-old roof framing contractor with a severe lumbar spine injury receives a substantially higher final disability rating than a 25-year-old accountant with the exact same spinal impairment, because manual heavy construction demands intense physical capacity. Each final percentage point of permanent disability corresponds to a fixed number of benefit weeks set by law, paying between $160 and $290 per week depending on the severity of your rating.
               </p>
+
+              <div className="note note-info" style={{ marginBottom: '18px' }}>
+                <p style={{ lineHeight: '1.8' }}>
+                  <strong>How California permanent disability is figured.</strong> Whole-person impairment (AMA Guides, 5th Edition) is multiplied by 1.4 for injuries on or after January 1, 2013. The Permanent Disability Rating Schedule then adjusts for occupation and age, and any apportionment to non-work causes is applied. The final rating is converted to statutory weeks of benefits at the statutory weekly rate. Because of those steps, this site does not show a single permanent disability dollar figure for California. See the Division of Workers&apos; Compensation{' '}
+                  <a href="https://www.dir.ca.gov/dwc/deu.html" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Disability Evaluation Unit</a>
+                  {californiaGuideLive && (
+                    <>
+                      {' '}and our guide to{' '}
+                      <Link href="/blog/california-compromise-and-release/" style={{ color: 'var(--primary)' }}>California compromise and release settlements</Link>
+                    </>
+                  )}
+                  .
+                </p>
+              </div>
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -572,10 +603,14 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 Once you reach MMI, a certified doctor will evaluate your permanent physical damage using the AMA Guides to the Evaluation of Permanent Impairment. The doctor assigns you an impairment rating, represented as a strict percentage. This single number dictates the entire value of your Texas workers&apos; comp permanent disability settlement.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Texas law mandates that you receive exactly <strong style={{ color: 'var(--ink)' }}>three weeks</strong> of Texas IIB benefits for every single percentage point of your impairment rating. These benefits are paid at 70 percent of your Average Weekly Wage, strictly capped at ${stateData.weeklyCapAmount.toLocaleString()} per week ({stateData.weeklyCapEffectivePeriod}).
+                Texas law mandates that you receive exactly <strong style={{ color: 'var(--ink)' }}>three weeks</strong> of Texas IIB benefits for every single percentage point of your impairment rating. These benefits are paid at 70 percent of your Average Weekly Wage, held between a weekly minimum and maximum set by your date of injury. For injuries on or after October 1, 2026, the impairment income benefit maximum is <strong style={{ color: 'var(--ink)' }}>$920 per week</strong> and the minimum is $197. For injuries from October 1, 2025 through September 30, 2026, the maximum was $890 and the minimum $191. These limits are lower than the temporary income benefit maximum of ${stateData.weeklyCapAmount.toLocaleString()} per week ({stateData.weeklyCapEffectivePeriod}) quoted above. Source:{' '}
+                <a href="https://tdi.texas.gov/wc/employee/maxminbens.html" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>TDI-DWC maximum and minimum benefits</a>
+                {' '}and{' '}
+                <a href="https://tdi.texas.gov/wc/employee/impairmentben.html" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>TDI-DWC impairment income benefits</a>
+                .
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Let&apos;s look at how a seemingly small rating translates into concrete settlement dollars. Imagine you suffered a severe back injury, and your pre-injury AWW was $1,500. Your IIB rate is 70 percent of your AWW, which equals <strong style={{ color: 'var(--amber)' }}>$1,050 per week</strong>. After a spinal fusion surgery, the doctor assigns you a 15 percent impairment rating.
+                Let&apos;s look at how a seemingly small rating translates into concrete settlement dollars. Imagine you suffered a severe back injury, and your pre-injury AWW was $1,500. Seventy percent of your AWW equals $1,050 per week, but that is above the $920 impairment income benefit maximum for injuries on or after October 1, 2026, so your IIB rate is <strong style={{ color: 'var(--amber)' }}>$920 per week</strong>. After a spinal fusion surgery, the doctor assigns you a 15 percent impairment rating.
               </p>
 
               {/* IIB calculation table */}
@@ -602,19 +637,21 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                     </tr>
                     <tr style={{ borderBottom: '1px solid var(--line)' }}>
                       <td style={{ padding: '14px 16px', color: 'var(--ink-2)', fontSize: '15px' }}>Weekly IIB Rate</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$1,050</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$920 (70% of AWW is $1,050; capped at the maximum)</td>
                     </tr>
                     <tr>
                       <td style={{ padding: '14px 16px', color: 'var(--ink)', fontSize: '15px', fontWeight: 600 }}>Total IIB Payout</td>
-                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$47,250</td>
+                      <td style={{ padding: '14px 16px', color: 'var(--amber)', fontWeight: 600, fontSize: '15px' }}>$41,400</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
 
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                In this scenario, the insurance company owes you a guaranteed <strong style={{ color: 'var(--amber)' }}>$47,250</strong> for the permanent damage to your spine. If your injury is so severe that you cannot return to work even after your IIBs run out, you may qualify for Supplemental Income Benefits (SIBs) to cover ongoing wage loss. For the most catastrophic, life-altering injuries — such as paralysis or severe brain trauma — the state provides Lifetime Income Benefits (LIBs) to ensure you are never left destitute.
+                In this scenario, the impairment income benefit is <strong style={{ color: 'var(--amber)' }}>$41,400</strong> (45 weeks at $920) for the permanent damage to your spine, assuming an injury on or after October 1, 2026. If your injury is so severe that you cannot return to work even after your IIBs run out, you may qualify for Supplemental Income Benefits (SIBs) to cover ongoing wage loss. For the most catastrophic, life-altering injuries — such as paralysis or severe brain trauma — the state provides Lifetime Income Benefits (LIBs) to ensure you are never left destitute.
               </p>
+
+              <StatePPDSection state="texas" />
 
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -2896,7 +2933,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <strong style={{ color: 'var(--ink)' }}>Rate.</strong> Temporary total disability (TTD) is paid at 66 2/3% of the worker&apos;s average weekly wage (AWW) at the time of injury, subject to the statewide maximum and minimum. Source: Minn. Stat. §176.101, subd. 1.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                <strong style={{ color: 'var(--ink)' }}>2026 maximum and minimum.</strong> For injuries occurring October 1, 2025 through September 30, 2026, the maximum weekly benefit is <strong style={{ color: 'var(--ink)' }}>${stateData.weeklyCapAmount.toLocaleString()}</strong> and the minimum is <strong style={{ color: 'var(--ink)' }}>$307.37</strong>. For injuries occurring on or after October 1, 2026, the maximum rises to <strong style={{ color: 'var(--ink)' }}>$1,594.08</strong> (set at 108% of the statewide average weekly wage of $1,476) and the minimum to <strong style={{ color: 'var(--ink)' }}>$318.82</strong>. These figures adjust every October 1 and should be re-checked against DLI&apos;s rate page for injuries near that date. Source:{' '}
+                <strong style={{ color: 'var(--ink)' }}>2026 maximum and minimum.</strong> For injuries occurring on or after October 1, 2026, the maximum weekly benefit is <strong style={{ color: 'var(--ink)' }}>${stateData.weeklyCapAmount.toLocaleString()}</strong> (set at 108% of the 2026 statewide average weekly wage of $1,476) and the minimum is <strong style={{ color: 'var(--ink)' }}>$318.82</strong>. For injuries occurring October 1, 2025 through September 30, 2026, the maximum was $1,536.84 and the minimum $307.37. These figures adjust every October 1 and should be re-checked against DLI&apos;s rate page for injuries near that date. Source:{' '}
                 <a href="https://www.dli.mn.gov/business/workers-compensation/work-comp-rate-information-statewide-average-weekly-wage-saww" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>DLI SAWW/rate information page</a>
                 {' '}and{' '}
                 <a href="https://www.dli.mn.gov/sites/default/files/pdf/annladj.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>DLI annual adjustment chart</a>

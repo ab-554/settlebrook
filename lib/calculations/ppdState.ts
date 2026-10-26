@@ -19,6 +19,10 @@ import {
   MINNESOTA_TABLE_B,
   MINNESOTA_TABLE_CUTOFF_DATE,
   MINNESOTA_STATUTE_CITATION,
+  TEXAS_IIB_CITATION,
+  TEXAS_IIB_RATE_OF_AWW,
+  TEXAS_IIB_RATE_PERIODS,
+  TEXAS_IIB_WEEKS_PER_POINT,
   type ScheduledLossStateSlug,
 } from '@/lib/data/ppdSchedules2026'
 
@@ -198,5 +202,60 @@ export function minnesotaPPD(input: MinnesotaPPDInput): MinnesotaPPDResult {
     total,
     table,
     citation: MINNESOTA_STATUTE_CITATION,
+  }
+}
+
+// ─── Texas: impairment income benefits (IIBs) ─────────────────────────────────
+// Added 2026-10-26. Additive — no existing function above is touched.
+
+export interface TexasIIBInput {
+  ratingPercent: number
+  aww: number
+  injuryDate: string // YYYY-MM-DD
+}
+
+export interface TexasIIBResult {
+  weeks: number
+  // Null when the injury predates the rate periods this module carries; the
+  // caller shows weeks only and the notes point to TDI-DWC.
+  weeklyRate: number | null
+  total: number | null
+  period: string | null
+  citation: string
+  notes: string[]
+}
+
+export function texasIIB(input: TexasIIBInput): TexasIIBResult {
+  const ratingPercent = Math.min(Math.max(input.ratingPercent, 0), 100)
+  const weeks = roundToCents(ratingPercent * TEXAS_IIB_WEEKS_PER_POINT)
+  const notes: string[] = []
+
+  const period = TEXAS_IIB_RATE_PERIODS.find((p) => input.injuryDate >= p.effectiveFrom)
+
+  let weeklyRate: number | null = null
+  if (period) {
+    const uncapped = roundToCents(TEXAS_IIB_RATE_OF_AWW * input.aww)
+    weeklyRate = Math.min(Math.max(uncapped, period.minWeekly), period.maxWeekly)
+    if (weeklyRate === period.maxWeekly && uncapped > period.maxWeekly) {
+      notes.push(`Capped at the $${period.maxWeekly.toFixed(2)}/week impairment income benefit maximum for injuries ${period.label}.`)
+    } else if (weeklyRate === period.minWeekly && uncapped < period.minWeekly) {
+      notes.push(`Raised to the $${period.minWeekly.toFixed(2)}/week minimum for injuries ${period.label}.`)
+    }
+  } else {
+    notes.push(
+      'This injury date is before October 1, 2025, when the weekly maximum and minimum were different. Check the TDI-DWC maximum and minimum benefits page for your date of injury; weeks only are shown.',
+    )
+  }
+
+  notes.push('Supplemental income benefits may follow for ratings of 15% or more (§ 408.142); not calculated.')
+  notes.push('Estimate only. Not legal advice.')
+
+  return {
+    weeks,
+    weeklyRate,
+    total: weeklyRate !== null ? roundToCents(weeks * weeklyRate) : null,
+    period: period ? period.label : null,
+    citation: TEXAS_IIB_CITATION,
+    notes,
   }
 }

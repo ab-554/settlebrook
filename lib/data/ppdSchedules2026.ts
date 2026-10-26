@@ -260,3 +260,22 @@ export const MINNESOTA_TABLE_B: Record<string, number> = {
   '90.5_to_less_than_95.5': 615833,
   '95.5_up_to_and_including_100': 682045,
 }
+
+// ─── Texas: impairment income benefits (IIBs), not a member schedule ──────────
+// Added 2026-10-26 (Oct 1 rate refresh). Tex. Lab. Code § 408.121 pays 3 weeks
+// per point of impairment rating; § 408.126 sets the weekly rate at 70% of AWW,
+// bounded by the TDI-DWC min/max for the injury date (§§ 408.061, 408.062).
+
+export const TEXAS_IIB_CITATION = 'Tex. Lab. Code §§ 408.121, 408.126, 408.061, 408.062'
+export const TEXAS_IIB_OFFICIAL_URL = 'https://tdi.texas.gov/wc/employee/impairmentben.html'
+export const TEXAS_MAX_MIN_BENEFITS_URL = 'https://tdi.texas.gov/wc/employee/maxminbens.html'
+
+export const TEXAS_IIB_WEEKS_PER_POINT = 3
+export const TEXAS_IIB_RATE_OF_AWW = 0.7
+
+// Newest period first. effectiveFrom is an inclusive YYYY-MM-DD injury date.
+// Injuries before the last entry's effectiveFrom are not priced (weeks only).
+export const TEXAS_IIB_RATE_PERIODS = [
+  { effectiveFrom: '2026-10-01', label: 'October 1, 2026 – September 30, 2027', maxWeekly: 920, minWeekly: 197 },
+  { effectiveFrom: '2025-10-01', label: 'October 1, 2025 – September 30, 2026', maxWeekly: 890, minWeekly: 191 },
+] as const

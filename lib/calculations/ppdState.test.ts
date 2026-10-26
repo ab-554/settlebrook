@@ -5,7 +5,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { describe, it, expect } from 'vitest'
-import { scheduledPPD, minnesotaPPD } from './ppdState'
+import { scheduledPPD, minnesotaPPD, texasIIB } from './ppdState'
 
 describe('scheduledPPD', () => {
   it('NY hand, 50% loss, AWW $1,200 -> 122 weeks x $800.00 = $97,600.00', () => {
@@ -78,5 +78,58 @@ describe('minnesotaPPD', () => {
     expect(result.table).toBe('B')
     expect(result.bandAmount).toBe(146297)
     expect(result.total).toBe(14629.70)
+  })
+})
+
+// Texas IIBs: 3 weeks per rating point at 70% of AWW, clamped to the TDI-DWC
+// min/max for the injury date (Tex. Lab. Code §§ 408.121, 408.126).
+describe('texasIIB', () => {
+  it('15%, AWW $1,000, injury 2026-11-02 -> 45 weeks x $700.00 = $31,500.00', () => {
+    const result = texasIIB({ ratingPercent: 15, aww: 1000, injuryDate: '2026-11-02' })
+    expect(result.weeks).toBe(45)
+    expect(result.weeklyRate).toBe(700.00)
+    expect(result.total).toBe(31500.00)
+  })
+
+  it('15%, AWW $1,500, injury 2026-11-02 -> 45 x $920.00 (max) = $41,400.00', () => {
+    const result = texasIIB({ ratingPercent: 15, aww: 1500, injuryDate: '2026-11-02' })
+    expect(result.weeks).toBe(45)
+    expect(result.weeklyRate).toBe(920.00)
+    expect(result.total).toBe(41400.00)
+  })
+
+  it('15%, AWW $1,500, injury 2026-09-15 -> 45 x $890.00 (prior-period max) = $40,050.00', () => {
+    const result = texasIIB({ ratingPercent: 15, aww: 1500, injuryDate: '2026-09-15' })
+    expect(result.weeks).toBe(45)
+    expect(result.weeklyRate).toBe(890.00)
+    expect(result.total).toBe(40050.00)
+  })
+
+  it('15%, AWW $200, injury 2026-11-02 -> 45 x $197.00 (min) = $8,865.00', () => {
+    const result = texasIIB({ ratingPercent: 15, aww: 200, injuryDate: '2026-11-02' })
+    expect(result.weeks).toBe(45)
+    expect(result.weeklyRate).toBe(197.00)
+    expect(result.total).toBe(8865.00)
+  })
+
+  it('switches periods on the 2026-10-01 and 2025-10-01 boundaries', () => {
+    expect(texasIIB({ ratingPercent: 10, aww: 5000, injuryDate: '2026-10-01' }).weeklyRate).toBe(920)
+    expect(texasIIB({ ratingPercent: 10, aww: 5000, injuryDate: '2026-09-30' }).weeklyRate).toBe(890)
+    expect(texasIIB({ ratingPercent: 10, aww: 5000, injuryDate: '2025-10-01' }).weeklyRate).toBe(890)
+    expect(texasIIB({ ratingPercent: 10, aww: 100, injuryDate: '2025-10-01' }).weeklyRate).toBe(191)
+  })
+
+  it('injury before 2025-10-01 -> weeks only, no dollar total, points to TDI-DWC', () => {
+    const result = texasIIB({ ratingPercent: 15, aww: 1000, injuryDate: '2025-06-01' })
+    expect(result.weeks).toBe(45)
+    expect(result.weeklyRate).toBeNull()
+    expect(result.total).toBeNull()
+    expect(result.notes.join(' ')).toContain('TDI-DWC')
+  })
+
+  it('always carries the supplemental-income and not-legal-advice notes', () => {
+    const result = texasIIB({ ratingPercent: 15, aww: 1000, injuryDate: '2026-11-02' })
+    expect(result.notes).toContain('Supplemental income benefits may follow for ratings of 15% or more (§ 408.142); not calculated.')
+    expect(result.notes).toContain('Estimate only. Not legal advice.')
   })
 })

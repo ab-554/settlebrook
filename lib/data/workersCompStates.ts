@@ -68,12 +68,18 @@ export const WORKERS_COMP_STATES: WorkersCompStateData[] = [
     slug: 'texas',
     name: 'Texas',
     abbreviation: 'TX',
-    // Texas pays 70% of AWW, capped at the state average weekly wage.
+    // Texas pays temporary income benefits at 70% of AWW, held between the
+    // TDI-DWC weekly minimum and maximum for the injury date. Impairment
+    // income benefits (IIBs) are separate: 3 weeks per point of impairment
+    // rating at 70% of AWW, with their own max ($920 for injuries on/after
+    // 10/1/2026) — see texasIIB() in lib/calculations/ppdState.ts.
+    // 'ama_schedule' is only a required-field placeholder: Texas is in
+    // NON_GENERIC_PPD_SLUGS, so the generic body-part PPD output never shows.
     benefitRate: 0.70,
     ppdMethod: 'ama_schedule',
     maxWeeksTTD: 104,
     stateSpecificNotes:
-      'Texas is the only state where workers compensation is not mandatory for most private employers. Non-subscribing employers (those who opt out of the WC system) can be sued directly in civil court — those claims are personal injury claims, not workers comp claims. If your employer is a non-subscriber, use the Pain & Suffering Calculator instead.',
+      'Texas is the only state where workers compensation is not mandatory for most private employers. Non-subscribing employers (those who opt out of the WC system) can be sued directly in civil court — those claims are personal injury claims, not workers comp claims. If your employer is a non-subscriber, use the Pain & Suffering Calculator instead. For subscribers, permanent impairment is paid as impairment income benefits: 3 weeks for each percentage point of the impairment rating, at 70% of average weekly wage, within the weekly minimum and maximum for the date of injury (Tex. Lab. Code §§ 408.121, 408.126). It is not a body-part schedule.',
     // Non-subscriber flag drives the UI warning in WorkersCompCalculator.
     hasNonSubscriberSystem: true,
     isMonopolisticFund: false,
@@ -314,7 +320,10 @@ export const NOINDEXED_WORKERS_COMP_SLUGS = new Set<string>([])
  * with a short explanation of the actual method — see LEGAL-FIXES.md A.12.
  * State-specific PPD module planned — do not re-enable generic PPD here.
  */
-export const NON_GENERIC_PPD_SLUGS = new Set(['michigan', 'minnesota', 'new-jersey', 'virginia'])
+// 'texas' (2026-10-26) pays impairment income benefits, not a body-part
+// schedule; 'california' (2026-10-26) rates PD through the PDRS (AMA Guides
+// 5th × 1.4, then occupation/age adjustments and apportionment).
+export const NON_GENERIC_PPD_SLUGS = new Set(['michigan', 'minnesota', 'new-jersey', 'virginia', 'texas', 'california'])
 
 /**
  * Returns a single WorkersCompStateData entry by URL slug, or undefined when

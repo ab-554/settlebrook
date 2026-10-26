@@ -23,11 +23,15 @@ import {
   MINNESOTA_STATUTE_CITATION,
   MINNESOTA_OFFICIAL_URL,
   COLORADO_WHOLE_PERSON_EXPLANATION,
+  TEXAS_IIB_CITATION,
+  TEXAS_IIB_OFFICIAL_URL,
   type ScheduledLossStateSlug,
 } from '@/lib/data/ppdSchedules2026'
-import { scheduledPPD, minnesotaPPD } from '@/lib/calculations/ppdState'
+import { scheduledPPD, minnesotaPPD, texasIIB } from '@/lib/calculations/ppdState'
 
-type PPDModuleState = ScheduledLossStateSlug | 'minnesota'
+// Minnesota and Texas are rating-based (no body-part schedule), so they have
+// no entry in SCHEDULED_LOSS_STATES.
+type PPDModuleState = ScheduledLossStateSlug | 'minnesota' | 'texas'
 
 interface StatePPDSectionProps {
   state: PPDModuleState
@@ -121,7 +125,8 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
   const dateId = useId()
 
   const isMinnesota = state === 'minnesota'
-  const scheduledState = isMinnesota ? null : SCHEDULED_LOSS_STATES[state]
+  const isTexas = state === 'texas'
+  const scheduledState = state === 'minnesota' || state === 'texas' ? null : SCHEDULED_LOSS_STATES[state]
   const bodyPartOptions = useMemo(() => (scheduledState ? getBodyPartOptions(scheduledState.slug) : []), [scheduledState])
 
   const [bodyPart, setBodyPart] = useState(bodyPartOptions[0]?.value ?? '')
@@ -137,7 +142,7 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
   const parsedRatingPercent = parseFloat(ratingPercent)
 
   const scheduledResult = useMemo(() => {
-    if (isMinnesota || !scheduledState) return null
+    if (isMinnesota || isTexas || !scheduledState) return null
     if (!bodyPart || isNaN(parsedLossPercent) || parsedLossPercent <= 0) return null
     return scheduledPPD({
       state: scheduledState.slug,
@@ -146,7 +151,7 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
       aww: parsedAww,
       weeklyRateOverride: parsedRateOverride,
     })
-  }, [isMinnesota, scheduledState, bodyPart, parsedLossPercent, parsedAww, parsedRateOverride])
+  }, [isMinnesota, isTexas, scheduledState, bodyPart, parsedLossPercent, parsedAww, parsedRateOverride])
 
   const minnesotaResult = useMemo(() => {
     if (!isMinnesota) return null
@@ -154,9 +159,17 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
     return minnesotaPPD({ ratingPercent: Math.min(parsedRatingPercent, 100), injuryDate })
   }, [isMinnesota, parsedRatingPercent, injuryDate])
 
-  const citation = isMinnesota ? MINNESOTA_STATUTE_CITATION : scheduledState!.statuteCitation
-  const officialUrl = isMinnesota ? MINNESOTA_OFFICIAL_URL : scheduledState!.officialUrl
-  const stateName = isMinnesota ? 'Minnesota' : scheduledState!.name
+  // Texas IIBs need all three inputs: the rating sets the weeks, the AWW and
+  // injury date set the weekly rate.
+  const texasResult = useMemo(() => {
+    if (!isTexas) return null
+    if (isNaN(parsedRatingPercent) || parsedRatingPercent <= 0 || !injuryDate || parsedAww === undefined || isNaN(parsedAww) || parsedAww <= 0) return null
+    return texasIIB({ ratingPercent: Math.min(parsedRatingPercent, 100), aww: parsedAww, injuryDate })
+  }, [isTexas, parsedRatingPercent, injuryDate, parsedAww])
+
+  const citation = isMinnesota ? MINNESOTA_STATUTE_CITATION : isTexas ? TEXAS_IIB_CITATION : scheduledState!.statuteCitation
+  const officialUrl = isMinnesota ? MINNESOTA_OFFICIAL_URL : isTexas ? TEXAS_IIB_OFFICIAL_URL : scheduledState!.officialUrl
+  const stateName = isMinnesota ? 'Minnesota' : isTexas ? 'Texas' : scheduledState!.name
 
   return (
     <div className="card card-pad mt-4 mb-6">
@@ -164,7 +177,9 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
         {stateName} PPD Estimator
       </h3>
       <p className="text-sm mb-4" style={{ color: 'var(--ink-3)' }}>
-        Uses {stateName}&apos;s own statutory schedule, not the generic AMA-based calculator above.
+        {isTexas
+          ? 'Uses Texas impairment income benefits (3 weeks per rating point at 70% of AWW), not the generic AMA-based calculator above.'
+          : `Uses ${stateName}'s own statutory schedule, not the generic AMA-based calculator above.`}
       </p>
 
       {isMinnesota ? (
@@ -182,6 +197,39 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
           <div className="mb-4">
             <label htmlFor={dateId} className="field-label">Date of injury</label>
             <span className="field-help">Determines which 2026 benefit table applies</span>
+            <input
+              id={dateId}
+              type="date"
+              value={injuryDate}
+              onChange={(e) => setInjuryDate(e.target.value)}
+              className="field-input"
+            />
+          </div>
+        </>
+      ) : isTexas ? (
+        <>
+          <CalculatorInput
+            label="Impairment rating"
+            name="tx-rating"
+            value={ratingPercent}
+            onChange={setRatingPercent}
+            suffix="%"
+            placeholder="15"
+            format="decimal"
+            helpText="Whole-body rating from your certifying doctor — 3 weeks of benefits per percentage point"
+          />
+          <CalculatorInput
+            label="Average weekly wage (AWW)"
+            name="tx-aww"
+            value={aww}
+            onChange={setAww}
+            prefix="$"
+            placeholder="1000"
+            helpText="Your weekly rate is 70% of this, held between the minimum and maximum for your injury date"
+          />
+          <div className="mb-4">
+            <label htmlFor={dateId} className="field-label">Date of injury</label>
+            <span className="field-help">Determines which weekly maximum and minimum apply</span>
             <input
               id={dateId}
               type="date"
@@ -264,7 +312,7 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
         </p>
       )}
 
-      {(scheduledResult || minnesotaResult) && (
+      {(scheduledResult || minnesotaResult || texasResult) && (
         <div className="mt-5 pt-2" style={{ borderTop: '1px solid var(--line)' }} aria-live="polite">
           {scheduledResult && (
             <>
@@ -286,6 +334,26 @@ export default function StatePPDSection({ state }: StatePPDSectionProps) {
                   ))}
                 </ul>
               )}
+            </>
+          )}
+          {texasResult && (
+            <>
+              <ResultRow label="Impairment income benefit weeks" value={formatWeeks(texasResult.weeks)} />
+              <ResultRow
+                label="Weekly rate"
+                value={texasResult.weeklyRate !== null ? formatCurrency(texasResult.weeklyRate) : 'Not computed'}
+              />
+              <div className="breakdown-row is-total">
+                <span className="label">Estimated total</span>
+                <span className="value text-lg" style={{ color: 'var(--primary)' }}>
+                  {texasResult.total !== null ? formatCurrency(texasResult.total) : 'Not computed'}
+                </span>
+              </div>
+              <ul className="mt-2 flex flex-col gap-1">
+                {texasResult.notes.map((note, i) => (
+                  <li key={i} className="text-xs" style={{ color: 'var(--ink-3)' }}>{note}</li>
+                ))}
+              </ul>
             </>
           )}
           {minnesotaResult && (
