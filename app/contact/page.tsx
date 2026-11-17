@@ -45,7 +45,7 @@ const jsonLd = {
 const FAQS = [
   {
     q: "Are your settlement calculators free to use?",
-    a: "Yes. All Settlebrook calculators are completely free. We support the site through non-intrusive display advertising. We will never charge for calculator access or gate results behind an email signup.",
+    a: "Yes. All Settlebrook calculators are completely free. The site is built to be supported by non-intrusive display advertising. We will never charge for calculator access or gate results behind an email signup.",
   },
   {
     q: "Are the calculator results legally binding?",

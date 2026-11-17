@@ -90,7 +90,8 @@ export default function AboutPage() {
                 two minutes.
                 There is no signup and no paywall. Your calculator inputs are never
                 transmitted anywhere — all figures stay in your browser. The site
-                itself runs on Google Analytics and Google AdSense, and our{' '}
+                itself uses Google Analytics and loads the Google AdSense script, which may
+                display advertisements, and our{' '}
                 <Link href="/contact/" className="text-link">
                   contact form
                 </Link>{' '}

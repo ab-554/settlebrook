@@ -146,8 +146,8 @@ export default function PrivacyPolicyPage() {
               Google AdSense Cookies
             </h3>
             <p>
-              We display advertisements through Google AdSense to support the free
-              operation of this site. Google uses cookies to serve ads based on your
+              This site loads Google AdSense, which may display advertisements to
+              support the free operation of this site. Google uses cookies to serve ads based on your
               prior visits to this website and other sites. Google&apos;s use of advertising
               cookies enables it and its partners to serve ads to you based on your
               visit to our site and/or other sites on the Internet.
