@@ -2642,7 +2642,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 <a href="https://www.nysenate.gov/legislation/laws/ISC/5102" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Insurance Law 5102(a)</a> defines basic economic loss as up to <strong style={{ color: 'var(--amber)' }}>$50,000</strong> per person. It covers medical, hospital and related health care. It covers lost earnings of up to <strong style={{ color: 'var(--amber)' }}>$2,000</strong> per month for up to three years from the accident. It also covers other reasonable and necessary expenses of up to $25 per day for up to one year. Loss on account of death is not part of it.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                The benefit you actually receive is narrower than that headline. Section 5102(b) defines first party benefits as basic economic loss, less 20 percent of lost earnings and certain other offsets. The monthly earnings limit also bites quickly. Someone who earns $5,000 a month has only $2,000 of it counted.
+                The benefit you actually receive can differ from that headline. Section 5102(b) defines first party benefits as basic economic loss, less 20 percent of lost earnings and certain other offsets. The monthly earnings limit also bites quickly. Someone who earns $5,000 a month has only $2,000 of it counted.
               </p>
               <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
 
@@ -2730,7 +2730,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 </ul>
               </div>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                The insurer then applies the 20 percent reduction to lost earnings and any other offsets from section 5102(b), so the check is lower than $24,000. A calculator that adds up $18,000 in bills and $15,000 in wages shows $33,000 in losses. The no-fault layer does not treat all of that as covered.
+                Section 5102(b) also deducts 20 percent of lost earnings and certain other offsets when first party benefits are worked out. This example does not work out that step, so $24,000 is the loss counted, not the amount paid. A calculator that adds up $18,000 in bills and $15,000 in wages shows $33,000 in losses. The no-fault layer does not treat all of that as covered.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 <strong style={{ color: 'var(--ink)' }}>The injury test.</strong> A fracture is one of the eight categories, so the worker can bring a pain and suffering claim in a lawsuit started on or after May 26, 2026. A sprain that heals in a few weeks would need to fit another category.
