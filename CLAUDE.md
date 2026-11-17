@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-Settlebrook is a legal settlement calculator hub at https://www.settlebrook.com — Next.js 14 (App Router) + TypeScript + Tailwind, deployed on Vercel, monetized via Google AdSense. Audience: USA adults researching personal injury settlements.
+Settlebrook is a legal settlement calculator hub at https://www.settlebrook.com — Next.js 15.5 (App Router, React 19) + TypeScript + Tailwind 3, deployed on Vercel, monetized via Google AdSense. Audience: USA adults researching personal injury settlements.
 
 `AGENTS.md` is the other agent-facing doc in this repo (shared with Gemini/Antigravity). Its rules are merged into this file; if the two ever disagree, treat `AGENTS.md` as the source for editorial/SEO tier plans and this file as the source for engineering rules.
 
@@ -11,12 +11,18 @@ Settlebrook is a legal settlement calculator hub at https://www.settlebrook.com 
 ```bash
 npm install          # Node 18+
 npm run dev          # http://localhost:3000
-npm run build        # next build — the verification gate (see below)
+npm run build        # next build, then scripts/check-noindex.mjs — the verification gate (see below)
+npm test             # vitest run
 npm run lint         # next lint
 npm start            # serve the production build
 ```
 
-There is **no test framework** in this project — no `test` script, no test runner dependency. `npx next build` is the only automated verification available: it runs type checking, ESLint, and statically prerenders every route including all `[state]` pages. Treat a clean build as the pass/fail signal.
+Verification is two gates, and both must pass before a push:
+
+- `npm run build` runs type checking and ESLint, statically prerenders every route including all `[state]` pages, then runs `scripts/check-noindex.mjs`, which fails the build if any sitemap URL renders `noindex` or `nofollow`.
+- `npm test` runs the vitest suite (`*.test.ts` beside the code): calculation modules, sitemap dates and parity, scheduled-post publishing, and indexability.
+
+`next/font` downloads Inter and Plus Jakarta Sans from Google Fonts at build time. In a sandbox without access to Google Fonts the build fails on that step only; Vercel's build is unaffected.
 
 Deployment is push-to-`main` on GitHub; Vercel auto-deploys. There are no environment variables.
 
