@@ -34,7 +34,10 @@ export const MICHIGAN_PPD: ScheduledLossStateData = {
   slug: 'michigan',
   name: 'Michigan',
   statuteCitation: 'MCL 418.361',
-  officialUrl: 'https://www.michigan.gov/-/media/Project/Websites/leo/Documents/WDCA-Calculation-Program/wca_2011_Rate_Book.pdf',
+  // All 12 week figures below were read directly from MCL 418.361(2) on
+  // legislature.mi.gov on 2026-11-17 (last amended by 2011 PA 266). Before
+  // that date they rested on secondary copies of the statute.
+  officialUrl: 'https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-418-361',
   scheduleWeeks: {
     thumb: 65,
     index_finger: 38,

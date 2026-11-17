@@ -711,9 +711,9 @@
       },
       {
         "label": "MCL 418.361 (specific-loss schedule; permanent and total disability definition)",
-        "url": "https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-361/",
-        "supports": "PPD = Michigan's own fixed schedule of weeks per body part, not AMA Guides; first-phalange = half digit's weeks; PTD statutory definition",
-        "tier": "secondary"
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-418-361",
+        "supports": "PPD = Michigan's own fixed schedule of weeks per body part, not AMA Guides; first-phalange = half digit's weeks; PTD statutory definition. Read directly on legislature.mi.gov 2026-11-17.",
+        "tier": "primary"
       },
       {
         "label": "MCL 418.371 (partial incapacity)",

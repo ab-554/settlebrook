@@ -48,7 +48,7 @@ const NON_GENERIC_PPD_INFO: Record<string, { explanation: string; statuteLabel: 
     explanation:
       'Michigan PPD uses a fixed statutory schedule of weeks per body part (thumb 65, hand 215, arm 269, leg 215, foot 162, eye 162) under MCL 418.361 — not the AMA Guides, and not scaled by an impairment percentage the way this calculator\'s generic formula assumes.',
     statuteLabel: 'MCL 418.361 — specific loss schedule',
-    statuteUrl: 'https://codes.findlaw.com/mi/chapter-418-workers-disability-compensation/mi-comp-laws-418-361/',
+    statuteUrl: 'https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-418-361',
   },
   minnesota: {
     explanation:

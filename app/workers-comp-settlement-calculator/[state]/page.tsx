@@ -2324,7 +2324,7 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
                 Michigan doesn&apos;t use the AMA <em>Guides to the Evaluation of Permanent Impairment</em> to set dollar values for lost body parts. Instead, MCL 418.361 lays out Michigan&apos;s own fixed schedule: a set number of compensation <em>weeks</em> is assigned by statute to each listed body part, paid at the same 80%-of-after-tax-AWW rate used for total incapacity, subject to the same statutory max/min. Loss of the first phalange (bone segment) of a thumb, finger, or toe counts as half that digit&apos;s scheduled weeks; losing more than the first phalange counts as loss of the whole digit (statute text via Justia:{' '}
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-361/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.361</a>
+                <a href="https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-418-361" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.361</a>
                 ).
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
@@ -2354,8 +2354,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 </table>
               </div>
               <p style={{ color: 'var(--ink-3)', lineHeight: '1.6', marginBottom: '18px', fontSize: '14px' }}>
-                Source: MCL 418.361 (statute text via Justia,{' '}
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-361/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.361</a>
+                Source: MCL 418.361 (Michigan Legislature,{' '}
+                <a href="https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-418-361" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.361</a>
                 ).
               </p>
 
@@ -2368,8 +2368,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 Permanent Total Disability
               </h2>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                Michigan treats certain injuries as permanent and total by statutory definition rather than case-by-case argument: loss of both eyes, both legs or feet at or above the ankle, both arms or hands at or above the wrist, permanent and complete paralysis of both legs, both arms, or one leg and one arm, incurable insanity, imbecility caused by the injury, or <em>any two</em> of the losses listed elsewhere in the schedule (for example, one hand and one eye). These cases are compensated as total and permanent disability rather than under the specific-loss schedule for a single member (MCL 418.361, statute text via Justia,{' '}
-                <a href="https://law.justia.com/codes/michigan/chapter-418/statute-act-317-of-1969/division-317-1969-3/section-418-361/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.361</a>
+                Michigan treats certain injuries as permanent and total by statutory definition rather than case-by-case argument: loss of both eyes, both legs or feet at or above the ankle, both arms or hands at or above the wrist, permanent and complete paralysis of both legs, both arms, or one leg and one arm, incurable insanity or imbecility, <em>any two</em> of those members or faculties (for example, one hand and one eye), or permanent and total loss of industrial use of both legs, both hands, both arms, or one leg and one arm. These cases are compensated as total and permanent disability rather than under the specific-loss schedule for a single member (MCL 418.361, statute text via Justia,{' '}
+                <a href="https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-418-361" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>MCL 418.361</a>
                 ).
               </p>
 

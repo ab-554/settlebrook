@@ -68,7 +68,7 @@ const WORKERS_COMP_STATE_LAST_MODIFIED = '2026-10-27'
 // policy in the comment two lines up.
 const WORKERS_COMP_STATE_LAST_MODIFIED_OVERRIDES: Record<string, string> = {
   georgia: '2026-10-26',
-  michigan: '2026-10-26',
+  michigan: '2026-11-17',
   'new-jersey': '2026-10-26',
   virginia: '2026-10-26',
   colorado: '2026-10-26',
