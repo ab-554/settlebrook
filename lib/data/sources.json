@@ -120,9 +120,9 @@
       },
       {
         "label": "42 Pa.C.S. \u00a7 7102(a) \u2014 comparative negligence, 51% bar",
-        "url": "https://codes.findlaw.com/pa/title-42-pacsa-judiciary-and-judicial-procedure/pa-csa-sect-42-7102/",
+        "url": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/42/00.071.002.000..HTM",
         "supports": "51% comparative negligence bar (recovery barred when plaintiff's negligence exceeds defendant's)",
-        "tier": "secondary"
+        "tier": "primary"
       },
       {
         "label": "75 Pa.C.S. \u00a7 1705 \u2014 limited tort election",
@@ -242,15 +242,15 @@
     "michigan": [
       {
         "label": "Mich. Comp. Laws \u00a7 600.5805(2) \u2014 three-year statute of limitations for injury to person/property",
-        "url": "https://codes.findlaw.com/mi/chapter-600-revised-judicature-act-of-1961/mi-comp-laws-600-5805/",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-600-5805",
         "supports": "3-year SOL, subsection (2)",
-        "tier": "secondary"
+        "tier": "primary"
       },
       {
         "label": "Mich. Comp. Laws \u00a7 600.1483 \u2014 noneconomic damages cap in medical malpractice actions (CPI-adjusted)",
-        "url": "https://codes.findlaw.com/mi/chapter-600-revised-judicature-act-of-1961/mi-comp-laws-600-1483/",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-600-1483",
         "supports": "Cap applies to medical malpractice actions only \u2014 not ordinary injury or motor vehicle claims; base caps $280,000 (standard) / $500,000 (specified severe injuries), adjusted annually by the state treasurer using CPI; current-year dollar figures not stated on the page",
-        "tier": "secondary"
+        "tier": "primary"
       },
       {
         "label": "Mich. Comp. Laws \u00a7 500.3135 \u2014 no-fault tort threshold for noneconomic damages (Michigan Legislature)",
@@ -321,10 +321,10 @@
         "tier": "secondary"
       },
       {
-        "label": "735 ILCS 5/2-1116 (FindLaw)",
-        "url": "https://codes.findlaw.com/il/chapter-735-civil-procedure/il-st-sect-735-5-2-1116/",
+        "label": "735 ILCS 5/2-1116",
+        "url": "https://ilga.gov/legislation/ilcs/documents/073500050K2-1116.htm",
         "supports": "Illinois modified comparative fault, barred if plaintiff fault is more than 50% (51% bar), as grouped with Texas/Illinois on the main page",
-        "tier": "secondary"
+        "tier": "primary"
       },
       {
         "label": "O.C.G.A. \u00a7 51-12-33 (Justia)",
@@ -433,16 +433,16 @@
         "tier": "primary"
       },
       {
-        "label": "735 ILCS 5/13-205 (FindLaw)",
-        "url": "https://codes.findlaw.com/il/chapter-735-civil-procedure/il-st-sect-735-5-13-205/",
+        "label": "735 ILCS 5/13-205",
+        "url": "https://ilga.gov/legislation/ilcs/documents/073500050K13-205.htm",
         "supports": "5-year statute of limitations for injury to property (e.g., vehicle) in Illinois",
-        "tier": "secondary"
+        "tier": "primary"
       },
       {
-        "label": "735 ILCS 5/2-1116 (FindLaw)",
-        "url": "https://codes.findlaw.com/il/chapter-735-civil-procedure/il-st-sect-735-5-2-1116/",
+        "label": "735 ILCS 5/2-1116",
+        "url": "https://ilga.gov/legislation/ilcs/documents/073500050K2-1116.htm",
         "supports": "Modified comparative fault, barred if plaintiff fault is more than 50% (51% bar)",
-        "tier": "secondary"
+        "tier": "primary"
       }
     ],
     "pennsylvania": [
