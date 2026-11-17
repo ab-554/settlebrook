@@ -2460,6 +2460,340 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
 
             </article>
 
+          ) : stateData.slug === 'florida' ? (
+            /* ─────────────────────────────────────────────────────────────────
+               FLORIDA — written from the 2026 statutes on flsenate.gov (see sources.json)
+            ───────────────────────────────────────────────────────────────── */
+            <article className="editorial">
+
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
+                Florida splits a car crash claim into two layers. The first layer is your own personal injury protection (PIP) coverage. It pays a limited amount no matter who caused the crash. The second layer is a claim against the driver who did cause it. For pain and suffering, that second layer opens only when the injury is serious enough under the statute.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                A calculator estimate cannot tell you which layer you are in. The figure above multiplies your economic losses by a severity factor. In Florida, a separate question comes first: whether you can collect the pain and suffering part at all. The sections below walk through the statutes that answer it, in the order they apply.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                Why a Florida estimate starts with PIP
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                The PIP statute, <a href="https://www.flsenate.gov/Laws/Statutes/2026/627.736" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Fla. Stat. 627.736(1)</a>, sets benefits of <strong style={{ color: 'var(--amber)' }}>$10,000</strong> for medical and disability losses and <strong style={{ color: 'var(--amber)' }}>$5,000</strong> for death. The coverage follows people, not only the policyholder. It reaches the named insured, relatives who live in the same household, people operating the insured vehicle, and passengers. It also reaches other people struck by the vehicle while they were not in a self-propelled vehicle.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                Because your own policy pays first, the early weeks after a crash in Florida are about PIP paperwork, not about the other driver. A lawsuit against the other driver is a separate step, and for pain and suffering it has its own entry test.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                What PIP pays and the 14-day rule
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                Medical benefits pay <strong style={{ color: 'var(--ink)' }}>80 percent</strong> of all reasonable expenses. That rate applies only if you receive initial services and care within <strong style={{ color: 'var(--ink)' }}>14 days</strong> after the accident. Treatment that starts after day 14 falls outside the rule, so the first visit date matters.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                The ceiling also depends on what a provider finds. If a listed provider determines you had an emergency medical condition, up to $10,000 is available. If a provider determines there was no emergency medical condition, medical benefits are limited to <strong style={{ color: 'var(--amber)' }}>$2,500</strong>.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                Disability benefits pay <strong style={{ color: 'var(--ink)' }}>60 percent</strong> of any loss of gross income and earning capacity from being unable to work. Death benefits are $5,000 per individual. Medical and disability payments come out of the same $10,000.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                These percentages are the reason a full list of bills does not equal a PIP payment. If you enter your full medical bills and full wages in the calculator, the result describes your total losses. It does not describe what your own insurer will send you.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                Four injury types that open the lawsuit door
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                <a href="https://www.flsenate.gov/Laws/Statutes/2024/627.737" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Fla. Stat. 627.737(2)</a> limits who may sue for pain, suffering, mental anguish and inconvenience. A plaintiff may recover those damages only if the injury consists, in whole or in part, of one of these:
+              </p>
+              <ul style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', paddingLeft: '24px' }}>
+                <li style={{ marginBottom: '8px' }}>a significant and permanent loss of an important bodily function;</li>
+                <li style={{ marginBottom: '8px' }}>a permanent injury within a reasonable degree of medical probability, other than scarring or disfigurement;</li>
+                <li style={{ marginBottom: '8px' }}>significant and permanent scarring or disfigurement; or</li>
+                <li style={{ marginBottom: '8px' }}>death.</li>
+              </ul>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                An injury that heals completely does not fit any item on that list. Neither does an injury that is painful but not permanent. For those injuries, the pain and suffering line in a calculator result is not something a lawsuit can deliver in Florida.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                Permanence is a medical judgment about the future. The statute asks for a reasonable degree of medical probability, so a doctor&apos;s opinion is central.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                Where shared fault cuts the claim off
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                Florida&apos;s comparative fault statute, <a href="https://www.flsenate.gov/Laws/Statutes/2026/768.81" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Fla. Stat. 768.81</a>, has two parts that matter here. Under subsection (2), contributory fault reduces the damages awarded in proportion to your share. Under subsection (6), a party in a negligence action who is found greater than 50 percent at fault for his or her own harm may not recover any damages. The exception for medical negligence claims under chapter 766 has nothing to do with a car crash.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                The line is sharp. At 50 percent fault you still recover, reduced by half. At 51 percent you recover nothing. One point of fault can decide a whole claim, so the percentage assigned to you is the most consequential number in a Florida dispute.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                Two years to file
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                An action founded on negligence must be brought within two years, and a wrongful death action also has two years. Both rules are in <a href="https://www.flsenate.gov/Laws/Statutes/2026/0095.11" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Fla. Stat. 95.11(5)(a) and (e)</a>. The two-year period came from a 2023 amendment, chapter 2023-15, Laws of Florida. An accident that happened before that amendment took effect may fall under an earlier, longer deadline. Check the accident date against the law before you assume either period applies.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                A made-up example: three steps, three different numbers
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                Every figure in this example is invented. It is not an average and not a prediction. It shows only the order in which Florida&apos;s rules act on a claim.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: 'var(--ink)' }}>Step 1, your own PIP.</strong> A driver is hit by another car and sees a doctor on day 3. The provider finds an emergency medical condition. The medical bills are $6,000, and the driver loses $3,000 of gross income while off work.
+              </p>
+              <div className="card-flat" style={{ padding: '18px 20px', marginBottom: 20 }}>
+                <ul style={{ listStyleType: 'none', paddingLeft: 0, marginBottom: 0 }}>
+                  <li className="breakdown-row"><span className="label">Medical bills, 80 percent paid</span><span className="value">$4,800</span></li>
+                  <li className="breakdown-row"><span className="label">Lost gross income, 60 percent paid</span><span className="value">$1,800</span></li>
+                  <li className="breakdown-row is-total"><span className="label">PIP paid, inside the $10,000 limit</span><span className="value">$6,600</span></li>
+                </ul>
+              </div>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: 'var(--ink)' }}>Step 2, the threshold.</strong> A doctor later says the injury is permanent within a reasonable degree of medical probability. That fits one of the four types, so a claim for pain and suffering against the other driver is open. If the doctor had said the injury would heal fully, the claim would stop at PIP.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: 'var(--ink)' }}>Step 3, fault.</strong> Suppose a jury values the pain and suffering at $50,000. If the driver is found 30 percent at fault, the figure drops to <strong style={{ color: 'var(--amber)' }}>$35,000</strong>. If the driver is found 55 percent at fault, it drops to <strong style={{ color: 'var(--amber)' }}>$0</strong>. The same injury and the same $50,000 give two very different outcomes.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                The example does not work out how PIP payments and a later award fit together. That depends on the facts of the case and is a question for a Florida attorney. The point is that a single calculator total hides three separate gates: PIP first, then the injury threshold, then fault.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
+
+              <h2 className="heading-display h2-editorial">
+                Frequently Asked Questions
+              </h2>
+              <FAQAccordion schema faqs={[
+                {
+                  id: "ca-fl-faq-1",
+                  question: "How much does Florida PIP pay after a car accident?",
+                  answer: "Florida PIP provides $10,000 in medical and disability benefits and $5,000 in death benefits under Fla. Stat. 627.736(1). Medical benefits pay 80 percent of reasonable expenses. Disability benefits pay 60 percent of lost gross income. Medical benefits are limited to $2,500 if a provider finds no emergency medical condition.",
+                  schemaAnswer: "PIP provides $10,000 in medical and disability benefits and $5,000 in death benefits. Medical pays 80 percent of reasonable expenses and disability pays 60 percent of lost gross income."
+                },
+                {
+                  id: "ca-fl-faq-2",
+                  question: "How soon must I see a doctor to use Florida PIP?",
+                  answer: "Within 14 days after the accident. PIP pays 80 percent of reasonable medical expenses only if you receive initial services and care in that window. If a provider finds an emergency medical condition, up to $10,000 is available. Without that finding, the medical limit is $2,500.",
+                  schemaAnswer: "You must receive initial services and care within 14 days after the accident for PIP to pay 80 percent of reasonable medical expenses."
+                },
+                {
+                  id: "ca-fl-faq-3",
+                  question: "When can I sue for pain and suffering in Florida?",
+                  answer: "Only when the injury consists, in whole or in part, of a significant and permanent loss of an important bodily function, a permanent injury within a reasonable degree of medical probability, significant and permanent scarring or disfigurement, or death. Fla. Stat. 627.737(2) sets this threshold for pain, suffering, mental anguish and inconvenience.",
+                  schemaAnswer: "You can sue for pain and suffering only if the injury involves significant and permanent loss of an important bodily function, a permanent injury, significant and permanent scarring or disfigurement, or death."
+                },
+                {
+                  id: "ca-fl-faq-4",
+                  question: "What happens if I am more than 50 percent at fault in Florida?",
+                  answer: "You may not recover any damages. Under Fla. Stat. 768.81(6), a party found greater than 50 percent at fault for his or her own harm recovers nothing in a negligence action. At 50 percent or less, damages are reduced by your share, so 30 percent fault turns a $50,000 award into $35,000.",
+                  schemaAnswer: "A party found greater than 50 percent at fault for his or her own harm may not recover damages. At 50 percent or less, damages are reduced by the fault share."
+                },
+                {
+                  id: "ca-fl-faq-5",
+                  question: "How long do I have to file a car accident lawsuit in Florida?",
+                  answer: "Two years for a negligence action and two years for wrongful death, under Fla. Stat. 95.11(5). That period came from a 2023 amendment. An accident that happened before the amendment took effect may fall under an earlier, longer deadline, so confirm your accident date and the rule that applies before relying on two years.",
+                  schemaAnswer: "Florida allows two years for a negligence action and two years for wrongful death. An accident before the 2023 amendment took effect may fall under an earlier, longer deadline."
+                }
+              ]} />
+
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                Using the calculator on this page
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                Enter your actual bills and wages, then read the result against the three gates above. Treat the pain and suffering portion as reachable only if your injury fits one of the four types. Treat the fault field with care, because the 50 percent line decides everything. For a broader look at how severity factors work, see our 
+                <Link href="/pain-and-suffering-calculator/florida/" style={{ color: 'var(--primary)' }}>Florida pain and suffering calculator</Link>.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                Nothing here is legal advice. A Florida attorney can tell you how these rules apply to your own accident date and injuries.
+              </p>
+
+            </article>
+
+          ) : stateData.slug === 'new-york' ? (
+            /* ─────────────────────────────────────────────────────────────────
+               NEW YORK — written from NY Senate statute text and the DFS circular (see sources.json)
+            ───────────────────────────────────────────────────────────────── */
+            <article className="editorial">
+
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', marginTop: '40px' }}>
+                New York pays first and lets you sue second. After a crash, your own auto insurer covers a defined set of losses whatever the cause. A lawsuit for pain and suffering against another driver is allowed only when the injury meets the statute&apos;s definition of serious.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                The state rewrote parts of that system in 2026, both the injury definition and the fault rule for motor vehicle lawsuits. Articles written before May 26, 2026 may describe rules that no longer apply to a new case. This page follows the current text of the statutes.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                Basic economic loss: what your own insurer owes
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                <a href="https://www.nysenate.gov/legislation/laws/ISC/5102" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Insurance Law 5102(a)</a> defines basic economic loss as up to <strong style={{ color: 'var(--amber)' }}>$50,000</strong> per person. It covers medical, hospital and related health care. It covers lost earnings of up to <strong style={{ color: 'var(--amber)' }}>$2,000</strong> per month for up to three years from the accident. It also covers other reasonable and necessary expenses of up to $25 per day for up to one year. Loss on account of death is not part of it.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                The benefit you actually receive is narrower than that headline. Section 5102(b) defines first party benefits as basic economic loss, less 20 percent of lost earnings and certain other offsets. The monthly earnings limit also bites quickly. Someone who earns $5,000 a month has only $2,000 of it counted.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                The eight kinds of serious injury
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                Between people covered by no-fault, there is no right to recover for non-economic loss, which means pain and suffering, unless the injury is a serious injury. That rule is in <a href="https://www.nysenate.gov/legislation/laws/ISC/5104" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Insurance Law 5104(a)</a>. The definition sits in <a href="https://www.nysenate.gov/legislation/laws/ISC/5102" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>section 5102(d)</a>, and it now has eight categories:
+              </p>
+              <ul style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', paddingLeft: '24px' }}>
+                <li style={{ marginBottom: '8px' }}>death;</li>
+                <li style={{ marginBottom: '8px' }}>dismemberment;</li>
+                <li style={{ marginBottom: '8px' }}>significant disfigurement;</li>
+                <li style={{ marginBottom: '8px' }}>a fracture;</li>
+                <li style={{ marginBottom: '8px' }}>loss of a fetus;</li>
+                <li style={{ marginBottom: '8px' }}>permanent loss of use of a body organ, member, function or system;</li>
+                <li style={{ marginBottom: '8px' }}>permanent consequential limitation of use of a body organ or member; and</li>
+                <li style={{ marginBottom: '8px' }}>significant limitation of use of a body function or system.</li>
+              </ul>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                A ninth category was deleted. It had covered a non-permanent injury that kept a person from substantially all of their usual daily activities for at least 90 of the first 180 days. For lawsuits started on or after May 26, 2026, that route is gone. A long but temporary recovery no longer qualifies by itself.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                The May 2026 reform in one place
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                The changes come from Part EE of Chapter 58 of the Laws of 2026. It was signed and took effect on May 26, 2026, and it applies to actions commenced on or after that date. The Department of Financial Services summarized it in <a href="https://www.dfs.ny.gov/industry-guidance/circular-letters/c32026-01" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Insurance Circular Letter No. 3 (2026)</a>, dated July 1, 2026. Four things changed. The ninth serious injury category was deleted. The jury now decides fault before it decides whether the injury is serious. A new fault bar was added. A new cap was added for certain at-fault claimants. The last three are covered next.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                Fault is decided first, and a bar now applies
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                The general rule in <a href="https://www.nysenate.gov/legislation/laws/CVP/1411" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>CPLR 1411(a)</a> is that a claimant&apos;s own culpable conduct does not bar recovery. Damages are diminished in proportion. Subsection (b), added in 2026, changes that for personal injury actions subject to Insurance Law Article 51, which means motor vehicle no-fault cases.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                Under subsection (b), recovery is barred when the claimant&apos;s culpable conduct is greater than the culpable conduct of the person sued, or greater than the combined conduct of the people sued. In plain terms, at 50 percent or less your award is reduced by your share. Above 50 percent you recover nothing. A lawsuit started before May 26, 2026 uses the older rule in (a), with no bar.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                Order matters too. Under section 5104(a) as changed, the jury decides who was at fault before it decides whether the injury is serious.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                A $100,000 cap for a narrow group
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                New <a href="https://www.nysenate.gov/legislation/laws/ISC/5104" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>subsection 5104(d)</a> caps non-economic damages at $100,000 for an injured person who was at fault and is not barred under CPLR 1411. The cap applies only if that person was operating a vehicle in one of three situations:
+              </p>
+              <ul style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px', paddingLeft: '24px' }}>
+                <li style={{ marginBottom: '8px' }}>without required insurance, though a lapse of under 30 days is excepted;</li>
+                <li style={{ marginBottom: '8px' }}>while impaired, and convicted of it; or</li>
+                <li style={{ marginBottom: '8px' }}>during a felony or a flight from one, and convicted of it.</li>
+              </ul>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                The cap does not apply to injuries that result in death.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                Deadlines depend on who you sue
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                <a href="https://www.nysenate.gov/legislation/laws/CVP/214" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>CPLR 214</a> gives three years for an action to recover damages for a personal injury (subdivision 5) and three years for an injury to property (subdivision 4). A claim against a public corporation, for example a city, has a much shorter first step. <a href="https://www.nysenate.gov/legislation/laws/GMU/50-E" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>General Municipal Law 50-e</a> requires a notice of claim to be served within ninety days after the claim arises.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                Made-up example: reading one calculator figure in New York
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                The numbers below are invented for illustration. They are not averages and not predictions of any case.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: 'var(--ink)' }}>Your own insurer.</strong> A worker breaks an arm in a crash. Medical bills reach $18,000. The worker is off work for three months and would have earned $5,000 each month.
+              </p>
+              <div className="card-flat" style={{ padding: '18px 20px', marginBottom: 20 }}>
+                <ul style={{ listStyleType: 'none', paddingLeft: 0, marginBottom: 0 }}>
+                  <li className="breakdown-row"><span className="label">Medical bills</span><span className="value">$18,000</span></li>
+                  <li className="breakdown-row"><span className="label">Lost earnings, 3 months at $2,000 counted</span><span className="value">$6,000</span></li>
+                  <li className="breakdown-row is-total"><span className="label">Basic economic loss counted, under $50,000</span><span className="value">$24,000</span></li>
+                </ul>
+              </div>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                The insurer then applies the 20 percent reduction to lost earnings and any other offsets from section 5102(b), so the check is lower than $24,000. A calculator that adds up $18,000 in bills and $15,000 in wages shows $33,000 in losses. The no-fault layer does not treat all of that as covered.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: 'var(--ink)' }}>The injury test.</strong> A fracture is one of the eight categories, so the worker can bring a pain and suffering claim in a lawsuit started on or after May 26, 2026. A sprain that heals in a few weeks would need to fit another category.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                <strong style={{ color: 'var(--ink)' }}>Fault first.</strong> Say the jury sets pain and suffering at $80,000 and finds the worker 40 percent at fault. The award is reduced to <strong style={{ color: 'var(--amber)' }}>$48,000</strong>. If the jury found the worker 60 percent at fault, the award would be <strong style={{ color: 'var(--amber)' }}>$0</strong>.
+              </p>
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <SourcesSection sources={stateSources} />
+
+              <h2 className="heading-display h2-editorial">
+                Frequently Asked Questions
+              </h2>
+              <FAQAccordion schema faqs={[
+                {
+                  id: "ca-ny-faq-1",
+                  question: "How much does New York no-fault pay?",
+                  answer: "Up to $50,000 per person in basic economic loss under Insurance Law 5102(a). That covers medical and related health care, lost earnings up to $2,000 per month for up to three years, and other reasonable and necessary expenses up to $25 per day for up to one year. First party benefits subtract 20 percent of lost earnings and certain other offsets.",
+                  schemaAnswer: "No-fault pays up to $50,000 per person in basic economic loss, including medical care, lost earnings up to $2,000 per month for three years, and other expenses up to $25 per day for one year."
+                },
+                {
+                  id: "ca-ny-faq-2",
+                  question: "What counts as a serious injury in New York?",
+                  answer: "Insurance Law 5102(d) lists eight categories: death, dismemberment, significant disfigurement, a fracture, loss of a fetus, permanent loss of use, permanent consequential limitation of use, and significant limitation of use. The former 90 of 180 days category was deleted for lawsuits started on or after May 26, 2026.",
+                  schemaAnswer: "Serious injury has eight categories, including a fracture, significant disfigurement, and permanent or significant limitation of use. The 90 of 180 days category was deleted for lawsuits started on or after May 26, 2026."
+                },
+                {
+                  id: "ca-ny-faq-3",
+                  question: "Can I recover in New York if I was partly at fault?",
+                  answer: "Yes, if you are 50 percent or less at fault. For motor vehicle injury lawsuits started on or after May 26, 2026, CPLR 1411(b) bars recovery when your fault is greater than the fault of the person you sue, or of all defendants combined. At or below that line, your award is reduced by your share.",
+                  schemaAnswer: "Yes, at 50 percent fault or less, with your award reduced by your share. For lawsuits started on or after May 26, 2026, recovery is barred above that line."
+                },
+                {
+                  id: "ca-ny-faq-4",
+                  question: "Does New York cap pain and suffering damages?",
+                  answer: "The 2026 law added a $100,000 cap on non-economic damages for certain at-fault injured people. It applies to someone driving without required insurance (a lapse under 30 days is excepted), or driving impaired and convicted, or driving during a felony or flight from one and convicted. It does not apply to injuries resulting in death.",
+                  schemaAnswer: "A $100,000 cap on non-economic damages applies to certain at-fault injured people who were uninsured, impaired and convicted, or committing a felony and convicted. It does not apply to death."
+                },
+                {
+                  id: "ca-ny-faq-5",
+                  question: "How long do I have to sue after a New York car accident?",
+                  answer: "Three years for a personal injury under CPLR 214(5), and three years for property damage under CPLR 214(4). A claim against a public corporation such as a city requires a notice of claim served within ninety days after the claim arises, under General Municipal Law 50-e. That notice deadline is far shorter than the lawsuit deadline.",
+                  schemaAnswer: "The deadline is three years for personal injury and for property damage. A claim against a public corporation such as a city needs a notice of claim within ninety days."
+                }
+              ]} />
+
+              <hr style={{ borderColor: 'var(--line)', margin: '36px 0' }} />
+
+              <h2 className="heading-display h2-editorial">
+                Before you rely on a figure
+              </h2>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                The calculator above gives a baseline from your own inputs. In New York, treat it as one input to a longer chain. Start with what no-fault covers, then check the injury against the eight categories, then check fault against the 50 percent line. Our{' '}
+                <Link href="/pain-and-suffering-calculator/new-york/" style={{ color: 'var(--primary)' }}>New York pain and suffering calculator</Link>{' '}
+                shows how severity factors move the non-economic number once you know that part is open.
+              </p>
+              <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
+                This page is general information, not legal advice. A New York attorney can apply these rules to your accident date, your injury and the people you plan to sue.
+              </p>
+
+            </article>
+
           ) : (
             /* ─────────────────────────────────────────────────────────────────
                ALL OTHER STATES — generic placeholder.

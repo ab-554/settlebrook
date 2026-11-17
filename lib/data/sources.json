@@ -409,6 +409,12 @@
         "url": "http://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0700-0799/0768/Sections/0768.81.html",
         "supports": "Modified comparative fault; a party more than 50% at fault may not recover (51% bar)",
         "tier": "primary"
+      },
+      {
+        "label": "Florida Statutes \u00a7 627.737(2)",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2024/627.737",
+        "supports": "Tort threshold: pain, suffering, mental anguish and inconvenience are recoverable only for significant and permanent loss of an important bodily function, permanent injury, significant and permanent scarring or disfigurement, or death. Read on flsenate.gov 2026-11-17.",
+        "tier": "primary"
       }
     ],
     "new-york": [
@@ -422,6 +428,12 @@
         "label": "NY Insurance Law \u00a7 5102",
         "url": "https://www.nysenate.gov/legislation/laws/ISC/5102",
         "supports": "$50,000 basic economic loss benefit and the statutory 'serious injury' threshold: eight categories after L.2026 ch.58 Part EE deleted the 90/180-day category. Read on nysenate.gov 2026-11-17.",
+        "tier": "primary"
+      },
+      {
+        "label": "NY Insurance Law \u00a7 5104",
+        "url": "https://www.nysenate.gov/legislation/laws/ISC/5104",
+        "supports": "No recovery of non-economic loss between covered persons except for a serious injury; fault decided before serious injury; $100,000 non-economic cap in 5104(d) for certain at-fault claimants (2026). Read on nysenate.gov 2026-11-17.",
         "tier": "primary"
       },
       {

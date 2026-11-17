@@ -74,6 +74,7 @@ const PAIN_SUFFERING_STATE_LAST_MODIFIED_OVERRIDES: Record<string, string> = {
   'new-york': '2026-11-17',
 }
 const CAR_ACCIDENT_STATE_LAST_MODIFIED_OVERRIDES: Record<string, string> = {
+  florida: '2026-11-17',
   'new-york': '2026-11-17',
 }
 
