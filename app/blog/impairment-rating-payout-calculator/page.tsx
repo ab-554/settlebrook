@@ -29,9 +29,39 @@ import EditorialLayout from '@/components/ui/EditorialLayout'
 import CiteThisPage from '@/components/ui/CiteThisPage'
 import BlogRail from '@/components/ui/BlogRail'
 import { getBlogPostBySlug, isPostPublished, getPostDisplayDate } from '@/lib/data/blogPosts'
+import {
+  TEXAS_IIB_RATE_OF_AWW,
+  TEXAS_IIB_RATE_PERIODS,
+  TEXAS_IIB_WEEKS_PER_POINT,
+} from '@/lib/data/ppdSchedules2026'
 
 const canonicalUrl = "/blog/impairment-rating-payout-calculator/"
 const PUBLISHED_DATE = getBlogPostBySlug(canonicalUrl)!.publishDate
+// Last material edit (2026-11-17: Texas payout chart added). Keep in step with
+// the BLOG_POST_LAST_MODIFIED entry for this post in app/sitemap.ts.
+const MODIFIED_DATE = '2026-11-17'
+
+// Texas payout chart. Every cell is computed from the same constants the Texas
+// calculator module uses (lib/data/ppdSchedules2026.ts), so the chart cannot
+// drift from the calculator when TDI-DWC publishes new limits each October 1.
+// Display arithmetic only: weeks x weekly rate. No calculator function is changed.
+const TEXAS_CHART_RATINGS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30] as const
+const TEXAS_CHART_EXAMPLE_AWW = 1000
+const TEXAS_CHART_EXAMPLE_RATE = Math.round(TEXAS_IIB_RATE_OF_AWW * TEXAS_CHART_EXAMPLE_AWW)
+// Newest period first in the source array: [fiscal year 2027, fiscal year 2026].
+const [TEXAS_FY27, TEXAS_FY26] = TEXAS_IIB_RATE_PERIODS
+const usd = (amount: number) => `$${amount.toLocaleString('en-US')}`
+const TEXAS_CHART_ROWS = TEXAS_CHART_RATINGS.map((rating) => {
+  const weeks = rating * TEXAS_IIB_WEEKS_PER_POINT
+  return {
+    rating,
+    weeks,
+    atMinimum: weeks * TEXAS_FY27.minWeekly,
+    atExample: weeks * TEXAS_CHART_EXAMPLE_RATE,
+    atPriorMaximum: weeks * TEXAS_FY26.maxWeekly,
+    atMaximum: weeks * TEXAS_FY27.maxWeekly,
+  }
+})
 
 const pageTitle = "Impairment Rating Payout: How a % Becomes Dollars"
 const metaDescription =
@@ -49,7 +79,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     type: 'article',
     publishedTime: PUBLISHED_DATE,
-    modifiedTime: PUBLISHED_DATE,
+    modifiedTime: MODIFIED_DATE,
     images: [
       {
         url: '/og-image.png',
@@ -129,7 +159,7 @@ const articleSchema = {
   description: metaDescription,
   image: 'https://www.settlebrook.com/og-image.png',
   datePublished: PUBLISHED_DATE,
-  dateModified: PUBLISHED_DATE,
+  dateModified: MODIFIED_DATE,
   author: {
     '@type': 'Organization',
     name: 'Settlebrook Editorial',
@@ -269,27 +299,40 @@ export default function ImpairmentRatingPayoutCalculatorPost() {
 
             <p style={bodyStyle}>The IIB maximum is also lower than the &quot;Texas maximum&quot; you often see quoted. The $1,314 figure ($1,271 the year before) is the cap for temporary income benefits, not impairment benefits. Our <Link href="/workers-comp-maximum-weekly-benefits-by-state/" style={linkStyle}>state-by-state maximum weekly benefits page</Link> covers those temporary-benefit caps.</p>
 
-            <h3 className="heading-display h3-editorial">Texas rating-to-weeks table</h3>
-            <p style={bodyStyle}>Because the rule is three weeks per point, the weeks column below is exact for any rating. The dollar column uses a hypothetical weekly rate of $700, which is 70 percent of a $1,000 AWW and sits under both the $890 and $920 caps.</p>
+            <h3 className="heading-display h3-editorial">Texas impairment rating payout chart</h3>
+            <p style={bodyStyle}>Because the rule is three weeks per point, the weeks column below is exact for any rating. The dollar columns multiply those weeks by four weekly rates: the {usd(TEXAS_FY27.minWeekly)} minimum and the {usd(TEXAS_FY27.maxWeekly)} maximum for injuries on or after October 1, 2026, the {usd(TEXAS_FY26.maxWeekly)} maximum for injuries from October 1, 2025 through September 30, 2026, and a hypothetical {usd(TEXAS_CHART_EXAMPLE_RATE)}, which is 70 percent of a {usd(TEXAS_CHART_EXAMPLE_AWW)} AWW. Your own total falls between the minimum and maximum columns for your date of injury.</p>
 
             <div style={tableWrapStyle}>
-              <table style={{ minWidth: 600 }}>
+              <table style={{ minWidth: 800 }}>
+                <caption style={{ captionSide: 'bottom', textAlign: 'left', color: 'var(--ink-3)', fontSize: 14, paddingTop: 8 }}>
+                  Texas impairment income benefit totals by rating: weeks × weekly rate. Limits from TDI-DWC, Maximum and Minimum Weekly Benefits.
+                </caption>
                 <thead>
                   <tr>
                     <th scope="col">Impairment rating</th>
                     <th scope="col">IIB weeks (rating × 3)</th>
-                    <th scope="col">Total at a hypothetical $700/week</th>
+                    <th scope="col">At the {usd(TEXAS_FY27.minWeekly)} minimum (injury 10/1/2026 or later)</th>
+                    <th scope="col">At {usd(TEXAS_CHART_EXAMPLE_RATE)} a week ({usd(TEXAS_CHART_EXAMPLE_AWW)} AWW)</th>
+                    <th scope="col">At the {usd(TEXAS_FY26.maxWeekly)} maximum (injury 10/1/2025 – 9/30/2026)</th>
+                    <th scope="col">At the {usd(TEXAS_FY27.maxWeekly)} maximum (injury 10/1/2026 or later)</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr><th scope="row">5%</th><td>15</td><td>$10,500</td></tr>
-                  <tr><th scope="row">10%</th><td>30</td><td>$21,000</td></tr>
-                  <tr><th scope="row">15%</th><td>45</td><td>$31,500</td></tr>
-                  <tr><th scope="row">20%</th><td>60</td><td>$42,000</td></tr>
-                  <tr><th scope="row">25%</th><td>75</td><td>$52,500</td></tr>
+                  {TEXAS_CHART_ROWS.map((row) => (
+                    <tr key={row.rating}>
+                      <th scope="row">{row.rating}%</th>
+                      <td>{row.weeks}</td>
+                      <td>{usd(row.atMinimum)}</td>
+                      <td>{usd(row.atExample)}</td>
+                      <td>{usd(row.atPriorMaximum)}</td>
+                      <td>{usd(row.atMaximum)}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
+
+            <p style={bodyStyle}>These are impairment income benefit totals from the statutory formula, not settlement offers. Your weekly rate is 70 percent of your own average weekly wage, held between the minimum and maximum for your date of injury. For a rating or wage that is not in the chart, our <Link href="/workers-comp-settlement-calculator/texas/" style={linkStyle}>Texas workers&apos; comp calculator</Link> runs the same formula.</p>
 
             <h3 className="heading-display h3-editorial">Worked example: 15% rating, AWW $1,000</h3>
             <p style={bodyStyle}>This is a hypothetical, not an estimate for a real claim. Say a worker is injured on November 2, 2026, reaches MMI, and receives a 15% rating. Their AWW is $1,000.</p>

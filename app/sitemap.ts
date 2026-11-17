@@ -83,6 +83,8 @@ const BLOG_POST_LAST_MODIFIED: Record<string, string> = {
   '/blog/diminished-value-claim/': '2026-09-24',
   '/blog/ppd-settlement-calculator-guide/': BLOG_PPD_GUIDE_LAST_MODIFIED,
   '/blog/state-farm-pain-and-suffering-calculator/': BLOG_STATE_FARM_LAST_MODIFIED,
+  // 2026-11-17: Texas impairment rating payout chart added (matches MODIFIED_DATE in the post).
+  '/blog/impairment-rating-payout-calculator/': '2026-11-17',
 }
 
 const STATIC_PATH_METADATA: Record<string, PathMeta> = {

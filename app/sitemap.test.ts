@@ -91,16 +91,22 @@ describe('app/sitemap.ts', () => {
     // Posts 3, 5, 6-9 have no BLOG_POST_LAST_MODIFIED entry, so their
     // lastModified must fall back to publishDate. (Post 4, the weekly-benefit
     // guide, has an explicit entry since its 2026-10-26 Texas-row update.)
+    // The impairment-rating post also has an explicit entry since its
+    // 2026-11-17 Texas payout chart, so it is checked separately below.
     for (const slug of [
       '/blog/settlement-exceeds-policy-limits/',
       '/blog/minor-car-accident-settlement/',
       '/blog/workers-comp-settlement-chart/',
-      '/blog/impairment-rating-payout-calculator/',
       '/blog/california-compromise-and-release/',
     ]) {
       const entry = entries.find((e) => e.url === `${BASE_URL}${slug}`)
       expect(entry, slug).toBeDefined()
       expect(entry!.lastModified).toBe(getBlogPostBySlug(slug)!.publishDate)
     }
+
+    // An edited post keeps its publishDate but reports the edit date.
+    const edited = entries.find((e) => e.url === `${BASE_URL}/blog/impairment-rating-payout-calculator/`)
+    expect(edited).toBeDefined()
+    expect(edited!.lastModified).toBe('2026-11-17')
   })
 })
