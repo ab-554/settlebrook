@@ -222,19 +222,19 @@ const FLORIDA_FAQS: FAQItem[] = [
 const NEW_YORK_FAQS: FAQItem[] = [
   {
     id: 'ny-pure-comparative',
-    question: 'How does New York\'s pure comparative fault rule affect pain and suffering claims?',
+    question: 'How does comparative fault affect pain and suffering claims in New York?',
     answer:
-      'New York follows pure comparative fault — your damages are reduced by your percentage of fault, but you can still recover even if you were mostly responsible. If you were 70% at fault and damages total $100,000, you collect $30,000. This is more plaintiff-friendly than states with a 51% bar.',
+      'It depends on the kind of claim. New York\'s general rule is pure comparative fault: your damages are reduced by your share of fault, and you can still recover when you were mostly responsible (CPLR 1411(a)). Motor vehicle injury lawsuits started on or after May 26, 2026 follow CPLR 1411(b) instead. In those cases you recover nothing if your fault is greater than the fault of the people you are suing, and at 50% or less your damages are reduced by your share.',
     schemaAnswer:
-      'New York follows pure comparative fault — damages are reduced by your fault percentage but recovery is never fully barred. 70% fault on a $100,000 claim yields $30,000.',
+      'New York\'s general rule is pure comparative fault: damages are reduced by your share of fault. Motor vehicle injury lawsuits started on or after May 26, 2026 are barred when you are more at fault than the people you are suing (CPLR 1411(b)).',
   },
   {
     id: 'ny-no-fault',
     question: 'Is New York a no-fault state for car accidents?',
     answer:
-      'Yes. New York is a no-fault state — your own insurance pays medical bills and 80% of lost wages up to $50,000 regardless of fault. To pursue a pain and suffering claim, your injury must meet New York\'s serious injury threshold under Insurance Law §5102(d): death, dismemberment, significant disfigurement, fracture, permanent loss, or a 90/180-day injury.',
+      'Yes. Your own insurer pays no-fault benefits for basic economic loss up to $50,000 per person regardless of fault. That covers medical costs and lost earnings up to $2,000 a month for up to three years, with 20% of lost earnings deducted (Insurance Law §5102). To pursue a pain and suffering claim, your injury must be a serious injury under §5102(d): death, dismemberment, significant disfigurement, a fracture, loss of a fetus, permanent loss of use, permanent consequential limitation, or significant limitation of use. The 90/180-day category was deleted for lawsuits started on or after May 26, 2026.',
     schemaAnswer:
-      'New York is a no-fault state — your own insurance covers medical bills and 80% of lost wages up to $50,000. To sue for pain and suffering, injuries must meet the serious injury threshold under Insurance Law §5102(d).',
+      'New York is a no-fault state. Your own insurer covers basic economic loss up to $50,000 per person, including lost earnings up to $2,000 a month less 20%. To sue for pain and suffering, injuries must meet the serious injury threshold under Insurance Law §5102(d).',
   },
   {
     id: 'ny-statute-of-limitations',

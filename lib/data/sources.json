@@ -99,15 +99,21 @@
         "tier": "primary"
       },
       {
-        "label": "N.Y. CPLR \u00a7 1411 \u2014 pure comparative negligence, no bar to recovery",
-        "url": "https://law.justia.com/codes/new-york/cvp/article-14-a/1411/",
-        "supports": "pure comparative fault; culpable conduct 'shall not bar recovery,' only diminishes damages proportionally \u2014 no fault-percentage bar",
-        "tier": "secondary"
+        "label": "N.Y. CPLR \u00a7 1411 \u2014 comparative fault: pure rule in (a), motor vehicle bar in (b)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/1411",
+        "supports": "(a) culpable conduct 'shall not bar recovery' and damages are diminished in proportion; (b) in personal injury actions subject to Insurance Law Article 51, recovery is barred when the claimant's culpable conduct is greater than the defendants'. Read on nysenate.gov 2026-11-17 (revision of 2026-05-29).",
+        "tier": "primary"
       },
       {
         "label": "N.Y. Insurance Law \u00a7 5102 \u2014 serious injury definition and basic economic loss (PIP) limit",
         "url": "https://www.nysenate.gov/legislation/laws/ISC/5102",
-        "supports": "$50,000 basic economic loss (PIP) coverage; statutory 'serious injury' definition",
+        "supports": "$50,000 basic economic loss; lost earnings up to $2,000 a month for up to three years, less 20%; 'serious injury' definition with eight categories (90/180-day category deleted by L.2026 ch.58 Part EE). Read on nysenate.gov 2026-11-17.",
+        "tier": "primary"
+      },
+      {
+        "label": "New York Department of Financial Services \u2014 Insurance Circular Letter No. 3 (2026): Motor Vehicle Insurance Reforms",
+        "url": "https://www.dfs.ny.gov/industry-guidance/circular-letters/c32026-01",
+        "supports": "L.2026 ch.58 Part EE, effective May 26, 2026 for actions commenced on or after that date: deletes the 90/180-day serious injury category; fault decided before serious injury (Ins. Law 5104(a)); $100,000 non-economic cap for certain at-fault claimants (Ins. Law 5104(d)); CPLR 1411(b) bar. Read 2026-11-17.",
         "tier": "primary"
       }
     ],
@@ -415,13 +421,25 @@
       {
         "label": "NY Insurance Law \u00a7 5102",
         "url": "https://www.nysenate.gov/legislation/laws/ISC/5102",
-        "supports": "$50,000 basic economic loss (PIP) benefit and the statutory 'serious injury' threshold categories",
+        "supports": "$50,000 basic economic loss benefit and the statutory 'serious injury' threshold: eight categories after L.2026 ch.58 Part EE deleted the 90/180-day category. Read on nysenate.gov 2026-11-17.",
         "tier": "primary"
       },
       {
         "label": "NY General Municipal Law \u00a7 50-e",
         "url": "https://www.nysenate.gov/legislation/laws/GMU/50-E",
         "supports": "90-day notice of claim deadline for suits against NY municipal/government entities",
+        "tier": "primary"
+      },
+      {
+        "label": "NY CPLR \u00a7 1411(b)",
+        "url": "https://www.nysenate.gov/legislation/laws/CVP/1411",
+        "supports": "Motor vehicle personal injury actions under Insurance Law Article 51: recovery barred when the claimant's culpable conduct is greater than the defendants' (51% bar); pure comparative fault remains the general rule in (a). Read 2026-11-17.",
+        "tier": "primary"
+      },
+      {
+        "label": "New York Department of Financial Services \u2014 Insurance Circular Letter No. 3 (2026): Motor Vehicle Insurance Reforms",
+        "url": "https://www.dfs.ny.gov/industry-guidance/circular-letters/c32026-01",
+        "supports": "L.2026 ch.58 Part EE, effective May 26, 2026 for actions commenced on or after that date: deletes the 90/180-day serious injury category; fault decided before serious injury (Ins. Law 5104(a)); $100,000 non-economic cap for certain at-fault claimants (Ins. Law 5104(d)); CPLR 1411(b) bar. Read 2026-11-17.",
         "tier": "primary"
       }
     ],

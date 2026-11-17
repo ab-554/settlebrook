@@ -71,12 +71,12 @@ export const CAR_ACCIDENT_STATES: CarAccidentStateData[] = [
     slug: 'new-york',
     name: 'New York',
     abbreviation: 'NY',
-    faultRule: 'pure-comparative',
-    faultRuleLabel: 'Pure Comparative Fault',
+    faultRule: 'modified-comparative-51',
+    faultRuleLabel: 'Modified Comparative Fault (51% Bar)',
     statuteOfLimitations: 3,
     isNoFaultState: true,
     stateSpecificNotes:
-      'Pure comparative fault — damages reduced by fault percentage, no recovery bar at any fault level. No-fault state: PIP up to $50,000 covers medical bills and lost wages regardless of fault. Serious injury threshold must be met before you can sue the at-fault driver for pain and suffering — qualifying categories include significant limitation of use of a body function or system, permanent consequential limitation, or 90/180-day disability. Claims against NYC or NYS government require a notice of claim within 90 days.',
+      'Modified comparative fault for motor vehicle injury lawsuits started on or after May 26, 2026 (CPLR 1411(b)): you recover nothing if your fault is greater than the fault of the people you are suing, and at 50% or less your damages are reduced by your share. Lawsuits started before that date use pure comparative fault. No-fault state: your own insurer pays basic economic loss up to $50,000 per person regardless of fault. To sue the at-fault driver for pain and suffering you need a serious injury under Insurance Law 5102(d), such as a fracture, significant disfigurement, permanent consequential limitation, or significant limitation of use. The 90/180-day category was deleted in 2026. Pain and suffering is capped at $100,000 for an at-fault injured driver who was uninsured or was convicted of impaired driving or a felony committed while driving. Claims against a city or other public corporation require a notice of claim within 90 days.',
   },
 
   // ── TIER 3 — 90 DAYS AFTER LAUNCH ────────────────────────────────────────

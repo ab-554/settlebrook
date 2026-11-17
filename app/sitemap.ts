@@ -43,7 +43,7 @@ interface PathMeta {
 // 93e2496 — and the 50-states/TTD-duration cleanup sprint that followed it).
 const HOMEPAGE_LAST_MODIFIED = '2026-09-24'
 const PAIN_SUFFERING_HUB_LAST_MODIFIED = '2026-10-27'
-const PAIN_SUFFERING_GUIDE_LAST_MODIFIED = '2026-10-27'
+const PAIN_SUFFERING_GUIDE_LAST_MODIFIED = '2026-11-17'
 const CAR_ACCIDENT_HUB_LAST_MODIFIED = '2026-09-24'
 const WORKERS_COMP_HUB_LAST_MODIFIED = '2026-10-27'
 const METHODOLOGY_LAST_MODIFIED = '2026-09-24'
@@ -66,6 +66,17 @@ const WORKERS_COMP_STATE_LAST_MODIFIED = '2026-10-27'
 // Sprint C1 (2026-09-25) rewrote these 6 states with page-specific editorial
 // content, splitting them off from the shared template date above per the
 // policy in the comment two lines up.
+// Per-state overrides for the other two tools, same idea as the workers'
+// comp map below: a state whose own content changed reports its own date.
+// 2026-11-17: New York pages updated for L.2026 ch.58 Part EE (serious injury
+// definition, CPLR 1411(b) fault bar, Ins. Law 5104(d) cap).
+const PAIN_SUFFERING_STATE_LAST_MODIFIED_OVERRIDES: Record<string, string> = {
+  'new-york': '2026-11-17',
+}
+const CAR_ACCIDENT_STATE_LAST_MODIFIED_OVERRIDES: Record<string, string> = {
+  'new-york': '2026-11-17',
+}
+
 const WORKERS_COMP_STATE_LAST_MODIFIED_OVERRIDES: Record<string, string> = {
   georgia: '2026-10-26',
   michigan: '2026-11-17',
@@ -78,7 +89,8 @@ const WORKERS_COMP_STATE_LAST_MODIFIED_OVERRIDES: Record<string, string> = {
 // Per-post lastModified — new posts default to their publish date unless
 // listed here. Add an entry when a published post is materially edited.
 const BLOG_POST_LAST_MODIFIED: Record<string, string> = {
-  '/blog/injury-claim-calculator/': '2026-09-24',
+  '/blog/injury-claim-calculator/': '2026-11-17',
+  '/blog/minor-car-accident-settlement/': '2026-11-17',
   '/blog/workers-comp-weekly-benefit-calculator/': '2026-10-26',
   '/blog/diminished-value-claim/': '2026-09-24',
   '/blog/ppd-settlement-calculator-guide/': BLOG_PPD_GUIDE_LAST_MODIFIED,
@@ -122,7 +134,7 @@ function resolvePathMeta(path: string): PathMeta {
   if (painSufferingMatch) {
     const slug = painSufferingMatch[1]
     return {
-      lastModified: PAIN_SUFFERING_STATE_LAST_MODIFIED,
+      lastModified: PAIN_SUFFERING_STATE_LAST_MODIFIED_OVERRIDES[slug] ?? PAIN_SUFFERING_STATE_LAST_MODIFIED,
       changeFrequency: 'monthly',
       priority: PRIORITY_STATE_SLUGS.has(slug) ? 0.8 : 0.7,
     }
@@ -132,7 +144,7 @@ function resolvePathMeta(path: string): PathMeta {
   if (carAccidentMatch) {
     const slug = carAccidentMatch[1]
     return {
-      lastModified: CAR_ACCIDENT_STATE_LAST_MODIFIED,
+      lastModified: CAR_ACCIDENT_STATE_LAST_MODIFIED_OVERRIDES[slug] ?? CAR_ACCIDENT_STATE_LAST_MODIFIED,
       changeFrequency: 'monthly',
       priority: CAR_ACCIDENT_TIER1_SLUGS.has(slug) ? 0.8 : 0.7,
     }

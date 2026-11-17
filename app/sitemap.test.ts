@@ -92,10 +92,10 @@ describe('app/sitemap.ts', () => {
     // lastModified must fall back to publishDate. (Post 4, the weekly-benefit
     // guide, has an explicit entry since its 2026-10-26 Texas-row update.)
     // The impairment-rating post also has an explicit entry since its
-    // 2026-11-17 Texas payout chart, so it is checked separately below.
+    // 2026-11-17 Texas payout chart, and the minor-car-accident post since its
+    // 2026-11-17 New York serious-injury update; both are checked below.
     for (const slug of [
       '/blog/settlement-exceeds-policy-limits/',
-      '/blog/minor-car-accident-settlement/',
       '/blog/workers-comp-settlement-chart/',
       '/blog/california-compromise-and-release/',
     ]) {
@@ -108,5 +108,8 @@ describe('app/sitemap.ts', () => {
     const edited = entries.find((e) => e.url === `${BASE_URL}/blog/impairment-rating-payout-calculator/`)
     expect(edited).toBeDefined()
     expect(edited!.lastModified).toBe('2026-11-17')
+    const editedNy = entries.find((e) => e.url === `${BASE_URL}/blog/minor-car-accident-settlement/`)
+    expect(editedNy).toBeDefined()
+    expect(editedNy!.lastModified).toBe('2026-11-17')
   })
 })
