@@ -40,7 +40,7 @@ export const CAR_ACCIDENT_STATES: CarAccidentStateData[] = [
     statuteOfLimitations: 2,
     isNoFaultState: false,
     stateSpecificNotes:
-      'Pure comparative fault — any fault percentage still allows recovery, with your award reduced proportionally. No statutory cap on non-economic damages for general personal injury including car accidents. MICRA cap applies only to medical malpractice. Los Angeles and San Francisco juries produce some of the highest car accident verdicts in the country.',
+      'Pure comparative fault — any fault percentage still allows recovery, with your award reduced proportionally. No statutory cap on non-economic damages for general personal injury including car accidents. MICRA cap applies only to medical malpractice.',
   },
   {
     slug: 'texas',
@@ -51,7 +51,7 @@ export const CAR_ACCIDENT_STATES: CarAccidentStateData[] = [
     statuteOfLimitations: 2,
     isNoFaultState: false,
     stateSpecificNotes:
-      '51% bar — if you are found 51% or more at fault you recover nothing. At 50% or less, your award is reduced by your fault percentage. Texas imposes no general cap on non-economic damages for car accidents. Med mal cap is $250k–$750k but does not apply to car accident claims. Insurance adjusters in Houston and Dallas aggressively dispute fault to push plaintiffs toward or past the 51% bar.',
+      '51% bar — if you are found 51% or more at fault you recover nothing. At 50% or less, your award is reduced by your fault percentage. Texas imposes no general cap on non-economic damages for car accidents. Med mal cap is $250k–$750k but does not apply to car accident claims.',
   },
 
   // ── TIER 2 — 30 DAYS AFTER LAUNCH ────────────────────────────────────────
