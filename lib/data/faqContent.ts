@@ -36,25 +36,25 @@ const MAIN_PAGE_FAQS: FAQItem[] = [
     id: 'what-multiplier-is-used',
     question: 'What multiplier is used for pain and suffering?',
     answer:
-      'Multipliers typically range from 1.5 to 5. Minor injuries with full recovery use 1.5–2x. Moderate injuries requiring several months of treatment use 2–3x. Serious injuries involving surgery or partial permanent effects use 3–4x. Severe or catastrophic injuries — including permanent disability or traumatic brain injury — use 4–5x. The multiplier is not fixed by law; it is negotiated between attorneys and insurance adjusters based on the evidence in your case.',
+      'The multiplier method uses a range of 1.5 to 5. Minor injuries with full recovery use 1.5–2x. Moderate injuries requiring several months of treatment use 2–3x. Serious injuries involving surgery or partial permanent effects use 3–4x. Severe or catastrophic injuries — including permanent disability or traumatic brain injury — use 4–5x. The multiplier is not fixed by law.',
     schemaAnswer:
-      'Multipliers range from 1.5 to 5. Minor injuries use 1.5–2x. Moderate injuries use 2–3x. Serious injuries use 3–4x. Severe or catastrophic injuries use 4–5x. The multiplier is negotiated between attorneys and insurance adjusters based on case evidence.',
+      'Multipliers range from 1.5 to 5. Minor injuries use 1.5–2x. Moderate injuries use 2–3x. Serious injuries use 3–4x. Severe or catastrophic injuries use 4–5x. The multiplier is not fixed by law.',
   },
   {
     id: 'what-is-per-diem-method',
     question: 'What is the per diem method for pain and suffering?',
     answer:
-      'The per diem method assigns a specific dollar amount to each day you suffered from your injury, then multiplies that by your total recovery days. The daily rate is ideally your actual daily wage (annual salary ÷ 365), which makes the number easier to justify. For those who are unemployed, a reasonable daily rate of $100–$300 is commonly used.',
+      'The per diem method assigns a specific dollar amount to each day you suffered from your injury, then multiplies that by your total recovery days. The daily rate is ideally your actual daily wage (annual salary ÷ 365), which makes the number easier to justify.',
     schemaAnswer:
-      'The per diem method assigns a dollar amount to each day of suffering and multiplies it by the number of recovery days. The daily rate is ideally your actual daily wage. A rate of $100–$300 per day is commonly used for those who are unemployed.',
+      'The per diem method assigns a dollar amount to each day of suffering and multiplies it by the number of recovery days. The daily rate is ideally your actual daily wage.',
   },
   {
     id: 'average-pain-and-suffering-settlement',
     question: 'What is the average pain and suffering settlement?',
     answer:
-      'There is no meaningful national average because settlements vary enormously based on injury severity, state laws, insurance policy limits, and fault percentage. Minor injury cases may settle for $5,000–$25,000. Moderate injuries commonly settle in the $25,000–$100,000 range. Serious or permanent injuries regularly exceed $100,000, and catastrophic cases can reach millions.',
+      'There is no meaningful national average because settlements vary enormously based on injury severity, state laws, insurance policy limits, and fault percentage. Settlebrook does not publish typical settlement figures because no official source reports them. Use the calculator to run the multiplier and per diem methods on your own numbers.',
     schemaAnswer:
-      'There is no meaningful national average. Minor injury cases may settle for $5,000–$25,000. Moderate injuries commonly settle in the $25,000–$100,000 range. Serious injuries regularly exceed $100,000, and catastrophic cases can reach millions.',
+      'There is no meaningful national average. Settlebrook does not publish typical settlement figures because no official source reports them.',
   },
   {
     id: 'is-calculator-result-accurate',
@@ -68,17 +68,17 @@ const MAIN_PAGE_FAQS: FAQItem[] = [
     id: 'do-i-need-a-lawyer',
     question: 'Do I need a lawyer to get pain and suffering damages?',
     answer:
-      'You are not legally required to hire an attorney. An attorney can negotiate on your behalf, identify additional insurance coverage, and take a case to trial if the insurer won\'t offer a fair number — that has to be weighed against contingency fees, which are typically a third of the settlement. Hiring an attorney is your decision, and it deserves serious thought before you negotiate alone.',
+      'You are not legally required to hire an attorney. An attorney can negotiate on your behalf, identify additional insurance coverage, and take a case to trial if the insurer won\'t offer a fair number — that has to be weighed against the attorney\'s contingency fee. Hiring an attorney is your decision, and it deserves serious thought before you negotiate alone.',
     schemaAnswer:
-      'You are not required to hire an attorney, but an attorney can negotiate for you, identify additional coverage, and take a case to trial — which you should weigh against a contingency fee, typically a third of the settlement.',
+      'You are not required to hire an attorney, but an attorney can negotiate for you, identify additional coverage, and take a case to trial — which you should weigh against the attorney\'s contingency fee.',
   },
   {
     id: 'how-long-to-settle',
     question: 'How long does a pain and suffering claim take to settle?',
     answer:
-      'Minor injury claims handled directly with an insurer can settle in 1–3 months. Cases with ongoing treatment, disputed liability, or significant damages typically take 6–18 months. Cases that go to trial can take 2–5 years. Attorneys generally advise reaching maximum medical improvement (MMI) before settling so that future medical costs are fully accounted for.',
+      'How long a claim takes depends on the injury, how long treatment lasts, whether liability is disputed and whether the case goes to trial. Settlebrook does not publish typical timelines because no official source reports them. Reaching maximum medical improvement (MMI) before settling helps make sure future medical costs are fully accounted for.',
     schemaAnswer:
-      'Minor claims can settle in 1–3 months. Cases with ongoing treatment or disputed liability typically take 6–18 months. Cases that go to trial can take 2–5 years. Attorneys recommend waiting for maximum medical improvement before settling.',
+      'How long a claim takes depends on the injury, how long treatment lasts, whether liability is disputed and whether the case goes to trial. Waiting for maximum medical improvement before settling helps account for future medical costs.',
   },
 ]
 
@@ -143,9 +143,9 @@ const CALIFORNIA_FAQS: FAQItem[] = [
     id: 'ca-average-settlement',
     question: 'What is the average personal injury settlement in California?',
     answer:
-      'California personal injury settlements vary widely. Minor soft tissue injury cases typically settle between $10,000–$50,000. Moderate injuries with surgery often settle $75,000–$250,000. Serious permanent injuries regularly exceed $500,000 to millions. California\'s lack of a damage cap and pure comparative fault rule tend to produce higher average settlements than most other states.',
+      'Settlebrook does not publish an average personal injury settlement for California because no official source reports one. California has no general cap on non-economic damages and follows pure comparative fault, so the value of a claim turns on the injury, the evidence, the insurance available and your share of fault. The calculator applies the multiplier and per diem methods to your own numbers.',
     schemaAnswer:
-      'California personal injury settlements vary widely. Minor injuries settle $10,000–$50,000. Moderate injuries with surgery settle $75,000–$250,000. Serious injuries regularly exceed $500,000. The lack of damage caps and pure comparative fault produce higher averages than most states.',
+      'Settlebrook does not publish an average personal injury settlement for California because no official source reports one. The value of a claim turns on the injury, the evidence, the insurance available and your share of fault.',
   },
 ]
 
@@ -213,9 +213,9 @@ const FLORIDA_FAQS: FAQItem[] = [
     id: 'fl-damage-cap',
     question: 'Does Florida cap pain and suffering damages?',
     answer:
-      'Florida does not currently have a general cap on non-economic damages for personal injury cases. The Florida Supreme Court struck down medical malpractice non-economic damage caps in 2017. However, the 2023 HB 837 reforms introduced other plaintiff-unfavorable changes that may effectively reduce settlement values.',
+      'Florida does not currently have a general cap on non-economic damages for personal injury cases. The Florida Supreme Court struck down medical malpractice non-economic damage caps in 2017. However, the 2023 HB 837 reforms changed other rules, including comparative fault, the statute of limitations and medical bill evidence.',
     schemaAnswer:
-      'Florida does not have a general cap on non-economic damages for personal injury. Medical malpractice caps were struck down in 2017. The 2023 HB 837 reforms introduced other changes that may reduce settlement values.',
+      'Florida does not have a general cap on non-economic damages for personal injury. Medical malpractice caps were struck down in 2017. The 2023 HB 837 reforms changed other rules, including comparative fault and the statute of limitations.',
   },
 ]
 
@@ -248,9 +248,9 @@ const NEW_YORK_FAQS: FAQItem[] = [
     id: 'ny-damage-cap',
     question: 'Does New York cap pain and suffering damages?',
     answer:
-      'New York has no statutory cap on non-economic damages for personal injury cases. Juries have broad discretion, and New York juries — particularly in NYC — have historically awarded some of the highest verdicts in the country. Courts retain authority to reduce awards that materially deviate from reasonable compensation under CPLR §5501(c).',
+      'New York has no statutory cap on non-economic damages for personal injury cases. Juries have broad discretion. Courts retain authority to reduce awards that materially deviate from reasonable compensation under CPLR §5501(c).',
     schemaAnswer:
-      'New York has no statutory cap on non-economic damages. Juries have broad discretion and historically award high verdicts. Courts can reduce awards that materially deviate from reasonable compensation under CPLR §5501(c).',
+      'New York has no statutory cap on non-economic damages. Juries have broad discretion. Courts can reduce awards that materially deviate from reasonable compensation under CPLR §5501(c).',
   },
 ]
 
