@@ -246,7 +246,7 @@ export default function CarAccidentCalculatorPage() {
               What You Need to Know Before Settling Your Car Accident Claim
             </h2>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
-              A car accident can reshape your finances overnight. Medical bills start piling up before you even know the full extent of your injuries. The other driver&apos;s insurance company calls quickly — often within days — with a recorded statement request and sometimes a preliminary offer. That offer is rarely the right number. It&apos;s designed to close the file before you fully understand what you&apos;re owed.
+              A car accident can reshape your finances overnight. Medical bills start piling up before you even know the full extent of your injuries. The other driver&apos;s insurance company may call with a recorded statement request or a preliminary offer.
             </p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
               This calculator gives you a grounded, formula-driven estimate of your total claim value before you sign anything. It uses the multiplier method, one of the two most common ways to estimate pain and suffering. The math is transparent, the inputs are yours, and the result is a starting point for negotiation — not a number pulled from a settlement mill.
@@ -266,7 +266,7 @@ export default function CarAccidentCalculatorPage() {
               <strong style={{ color: 'var(--ink)' }}>Economic damages</strong> are the concrete, documented losses: every medical bill from the ER, every follow-up visit, every physical therapy session, every prescription. Add to that any wages you lost while you were recovering, any earning capacity you&apos;ve permanently lost, and the cost to repair or replace your vehicle. These are provable with receipts and records, and they form the foundation of your claim.
             </p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
-              <strong style={{ color: 'var(--ink)' }}>Non-economic damages</strong> — pain and suffering — sit on top of that foundation. They compensate for the physical pain, the sleepless nights, the anxiety about recovery, the hobbies you can&apos;t participate in, and the ways your relationships have changed. These don&apos;t come with a receipt, but they are legally recoverable and often make up the larger portion of a settlement.
+              <strong style={{ color: 'var(--ink)' }}>Non-economic damages</strong> — pain and suffering — sit on top of that foundation. They compensate for the physical pain, the sleepless nights, the anxiety about recovery, the hobbies you can&apos;t participate in, and the ways your relationships have changed. These don&apos;t come with a receipt, but they are legally recoverable.
             </p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
               What sets car accident claims apart from other personal injury cases is the addition of <strong style={{ color: 'var(--ink)' }}>property damage</strong> — your vehicle. In most states, the at-fault driver&apos;s liability insurance covers your property damage separately from your bodily injury claim, but the total exposure to that insurer includes both. That&apos;s why understanding the relationship between your vehicle damage and the at-fault driver&apos;s policy limit matters: a $30,000 repair on a high-value car can eat significantly into a modest policy before your medical damages are even addressed.
@@ -306,7 +306,7 @@ export default function CarAccidentCalculatorPage() {
               Policy limits are one of the most important — and least understood — constraints on car accident settlements. Your calculated settlement value represents what your claim is theoretically worth. The at-fault driver&apos;s liability policy limit represents the ceiling the insurer will pay.
             </p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
-              Most states require only modest minimum liability coverage. In Texas, that&apos;s 30/60/25 — meaning $30,000 per person, $60,000 per accident, and $25,000 for property damage. In California it&apos;s 30/60/15 (since January 1, 2025 — previously 15/30/5). Even at current levels, these minimums have not kept pace with rising medical costs. A single hospitalization can exceed $30,000 easily.
+              Most states require only modest minimum liability coverage. In Texas, that&apos;s 30/60/25 — meaning $30,000 per person, $60,000 per accident, and $25,000 for property damage. In California it&apos;s 30/60/15 (since January 1, 2025 — previously 15/30/5).
             </p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
               When your calculated settlement exceeds the at-fault driver&apos;s policy limit, you have practical options. Underinsured Motorist (UIM) coverage on your own policy is specifically designed to bridge this gap — it pays the difference between the at-fault driver&apos;s limit and your actual damages, up to your UIM limit. If you have UIM coverage, your own insurer steps in and you negotiate with them instead.
@@ -332,7 +332,7 @@ export default function CarAccidentCalculatorPage() {
               <strong style={{ color: 'var(--ink)' }}>Scenario 2 — Moderate: T-bone collision, shoulder fracture.</strong> You&apos;re hit crossing an intersection. Rotator cuff tear, surgery, five months of physical therapy, near-full recovery. Medical bills: $38,000. Lost wages: $12,000. Vehicle damage: $9,500. Multiplier base: $50,000. At 3.0x: pain and suffering $150,000. Total economic damages: $59,500. Adjusted total: $209,500 before fault reduction.
             </p>
             <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '20px' }}>
-              <strong style={{ color: 'var(--ink)' }}>Scenario 3 — Severe: Head-on collision, spinal cord injury.</strong> Another driver crosses the centerline. Fractured vertebra, spinal cord damage, permanent partial paralysis. Medical bills: $185,000. Future medical costs: $250,000. Lost wages: $45,000. Future lost earnings: $320,000. Vehicle loss: $28,000. Multiplier base: $800,000. At 4.5x: pain and suffering $3,600,000. Total claim value well over $4,000,000 — and almost certainly subject to policy limits that will cap actual recovery.
+              <strong style={{ color: 'var(--ink)' }}>Scenario 3 — Severe: Head-on collision, spinal cord injury.</strong> Another driver crosses the centerline. Fractured vertebra, spinal cord damage, permanent partial paralysis. Medical bills: $185,000. Future medical costs: $250,000. Lost wages: $45,000. Future lost earnings: $320,000. Vehicle loss: $28,000. Multiplier base: $800,000. At 4.5x: pain and suffering $3,600,000. Total claim value well over $4,000,000 — and recovery may be capped by the at-fault driver&apos;s policy limits.
             </p>
 
             <hr style={{ borderColor: 'var(--line)', margin: '40px 0' }} />
