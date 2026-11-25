@@ -1122,7 +1122,7 @@ export default async function StateCarAccidentPage({ params }: { params: Promise
                 Understanding the statutory math behind an Illinois auto accident settlement is only the first phase of financial recovery. Every day you delay legal representation gives the defense more time to subpoena historical medical records and construct comparative fault defenses.
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>
-                You do not have to navigate complex statutory liens and hostile insurance negotiations alone. Contact our legal team today for a comprehensive, confidential case evaluation. We will audit your medical billing, calculate your true long-term economic special damages, and deploy aggressive litigation strategies to ensure you receive every dollar you are owed under Illinois law. Use our car accident settlement calculator to start exploring your baseline valuation right now.
+                You do not have to navigate complex statutory liens and hostile insurance negotiations alone. Settlebrook is not a law firm and cannot evaluate your case. A licensed Illinois attorney can review your medical billing, any liens and your long-term economic damages. Use our car accident settlement calculator to start exploring your baseline valuation right now.
               </p>
 
             </article>
