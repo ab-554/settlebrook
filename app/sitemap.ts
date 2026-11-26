@@ -47,7 +47,7 @@ const PAIN_SUFFERING_GUIDE_LAST_MODIFIED = '2026-11-26'
 const CAR_ACCIDENT_HUB_LAST_MODIFIED = '2026-11-26'
 const WORKERS_COMP_HUB_LAST_MODIFIED = '2026-10-27'
 const METHODOLOGY_LAST_MODIFIED = '2026-09-24'
-const BLOG_INDEX_LAST_MODIFIED = '2026-09-24'
+const BLOG_INDEX_LAST_MODIFIED = '2026-11-26'
 const BLOG_PPD_GUIDE_LAST_MODIFIED = '2026-10-27'
 const BLOG_STATE_FARM_LAST_MODIFIED = '2026-10-27'
 const ABOUT_LAST_MODIFIED = '2026-11-18'
@@ -84,7 +84,8 @@ const WORKERS_COMP_STATE_LAST_MODIFIED_OVERRIDES: Record<string, string> = {
   'new-jersey': '2026-10-26',
   virginia: '2026-10-26',
   colorado: '2026-10-26',
-  minnesota: '2026-10-27',
+  // 2026-11-26: link added to the Minnesota rates post.
+  minnesota: '2026-11-26',
 }
 
 // Per-post lastModified — new posts default to their publish date unless

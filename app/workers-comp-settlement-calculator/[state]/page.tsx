@@ -2937,6 +2937,8 @@ export default async function StateWorkersCompPage({ params }: { params: Promise
                 <a href="https://www.dli.mn.gov/business/workers-compensation/work-comp-rate-information-statewide-average-weekly-wage-saww" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>DLI SAWW/rate information page</a>
                 {' '}and{' '}
                 <a href="https://www.dli.mn.gov/sites/default/files/pdf/annladj.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>DLI annual adjustment chart</a>
+                . The maximum and minimum for every injury year back to 2013 are in our{' '}
+                <Link href="/blog/minnesota-workers-compensation-rates/" style={{ color: 'var(--primary)' }}>Minnesota workers&apos; compensation rates table</Link>
                 .
               </p>
               <p style={{ color: 'var(--ink-2)', lineHeight: '1.8', marginBottom: '18px' }}>

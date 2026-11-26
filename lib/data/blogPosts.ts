@@ -90,6 +90,13 @@ export const BLOG_POSTS: BlogPost[] = [
     publishDate: '2026-11-02',
   },
   {
+    slug: '/blog/minnesota-workers-compensation-rates/',
+    title: "Minnesota Workers' Compensation Rates for 2026",
+    description:
+      "Minnesota work comp rates for injuries on or after Oct. 1, 2026: $1,594.08 maximum, $318.82 minimum, the rate history since 2013, and worked examples.",
+    publishDate: '2026-11-26',
+  },
+  {
     slug: '/blog/ppd-settlement-calculator-guide/',
     title: 'PPD Settlement Calculator & Payout Guide',
     description:
